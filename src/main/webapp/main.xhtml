@@ -82,6 +82,7 @@
                                      disabled="#{empty generatorDataBean.mpVersion}">
                         <f:selectItem/>
                         <f:selectItems value="${generatorDataBean.supportedServerItems}"/>
+                        <p:ajax listener="#{generatorDataBean.onMPServerSelected}" update="options" />
                     </p:selectOneMenu>
 
                     <p:outputLabel value="Examples for specifications" for="microprofileSpecs"/>

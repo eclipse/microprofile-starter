@@ -34,7 +34,8 @@ public enum SupportedServer {
     , THORNTAIL_V2("thorntail-v2", Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13))
     , LIBERTY("liberty", Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14, MicroProfileVersion.MP20))
     , KUMULUZEE("kumuluzEE", Collections.singletonList(MicroProfileVersion.MP12))
-    , PAYARA_MICRO("payara-micro", Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14, MicroProfileVersion.MP20));
+    , PAYARA_MICRO("payara-micro", Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14, MicroProfileVersion.MP20))
+    , HELIDON("helidon", Collections.singletonList(MicroProfileVersion.MP12));
     // @formatter:on
 
     private String name;

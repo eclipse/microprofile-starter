@@ -80,6 +80,7 @@ public class GeneratorDataBean implements Serializable {
 
     private void defineExampleSpecs(MicroProfileVersion version) {
         specs = new ArrayList<>();
+        selectedSpecs.clear();
 
         for (MicroprofileSpec microprofileSpec : MicroprofileSpec.values()) {
             if (microprofileSpec.getMpVersions().contains(version)) {
@@ -87,6 +88,16 @@ public class GeneratorDataBean implements Serializable {
                 selectedSpecs.add(microprofileSpec.getCode());
             }
         }
+
+    }
+
+    public void onMPServerSelected() {
+
+        // TODO As long as Helidon doesn't support JWT_Auth
+        if (SupportedServer.HELIDON.getName().equals(supportedServer)) {
+            selectedSpecs.remove(MicroprofileSpec.JWT_AUTH.getCode());
+        }
+
     }
 
     private void defineSupportedServerItems(MicroProfileVersion version) {
