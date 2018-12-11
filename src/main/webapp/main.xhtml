@@ -44,40 +44,44 @@
             Generate MicroProfile Maven Project with examples
         </ui:define>
         <ui:define name="content">
-            <h:panelGrid columns="2">
+            <p:panelGrid columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
                 <p:outputLabel value="groupId" for="groupId"/>
+                <p:outputLabel value="artifactId" for="artifactId"/>
+
                 <p:inputText id="groupId" value="#{generatorDataBean.mavenData.groupId}" required="true"
                              title="Used as part of the package name so it must comply with the Java rules">
                     <f:validator validatorId="packageNameValidator" />
                 </p:inputText>
 
-                <p:outputLabel value="artifactId" for="artifactId"/>
                 <p:inputText id="artifactId" value="#{generatorDataBean.mavenData.artifactId}" required="true"
                              title="Used as part of the package name so it must comply with the Java rules">
                     <f:validator validatorId="packageNameValidator" />
                 </p:inputText>
 
                 <p:outputLabel value="MicroProfile Version" for="mpVersion"/>
+                <p:outputLabel value="Java SE Version" for="javaSEVersion"/>
+
                 <p:selectOneMenu id="mpVersion" value="#{generatorDataBean.mpVersion}"
                                  required="true">
                     <f:selectItems value="${dataBean.mpItems}"/>
                     <p:ajax listener="#{generatorDataBean.onMPVersionSelected}" update="options"/>
                 </p:selectOneMenu>
 
-                <p:outputLabel value="Java SE Version" for="javaSEVersion"/>
                 <p:selectOneMenu id="javaSEVersion" value="#{generatorDataBean.javaSEVersion}"
                                  disabled="true">
                     <f:selectItems value="${dataBean.javaSEItems}"/>
                 </p:selectOneMenu>
-            </h:panelGrid>
+            </p:panelGrid>
             <p:tooltip id="groupIdToolTipFocus" for="groupId" showEvent="focus" hideEvent="blur" />
             <p:tooltip id="artifactIdToolTipFocus" for="artifactId" showEvent="focus" hideEvent="blur" />
 
             <h:panelGroup id="options">
                 <h3>Project Options</h3>
 
-                <h:panelGrid columns="2">
+                <p:panelGrid columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
                     <p:outputLabel value="MicroProfile Server" for="supportedServer"/>
+                    <p:outputLabel value="Examples for specifications" for="microprofileSpecs"/>
+
                     <p:selectOneMenu id="supportedServer" value="#{generatorDataBean.supportedServer}" required="true"
                                      disabled="#{empty generatorDataBean.mpVersion}">
                         <f:selectItem/>
@@ -85,27 +89,28 @@
                         <p:ajax listener="#{generatorDataBean.onMPServerSelected}" update="options" />
                     </p:selectOneMenu>
 
-                    <p:outputLabel value="Examples for specifications" for="microprofileSpecs"/>
-                    <p:selectManyCheckbox id="microprofileSpecs" value="#{generatorDataBean.selectedSpecs}" layout="grid"
+                    <p:selectManyCheckbox id="microprofileSpecs" value="#{generatorDataBean.selectedSpecs}" layout="responsive"
                                           columns="3" disabled="#{empty generatorDataBean.mpVersion}">
                         <f:selectItems value="#{generatorDataBean.specs}" var="spec" itemLabel="#{spec}"
                                        itemValue="#{spec}"/>
                     </p:selectManyCheckbox>
 
                     <p:outputLabel value="beans.xml" for="beansxmlFile"/>
+                    <h:panelGroup/>
+
                     <p:selectOneMenu id="beansxmlFile" value="#{generatorDataBean.beansxmlMode}" required="true">
                         <f:selectItems value="${dataBean.beansxmlItems}"/>
                     </p:selectOneMenu>
-
                     <h:panelGroup/>
+
+                    <p:commandButton value="Download" icon="fa fa-download"
+                                     actionListener="#{generatorDataBean.generateProject}" ajax="false"/>
                     <h:panelGroup>
                         <i class="fa fa-info-circle"/>
                         "implicit" -> no beans.xml, "annotated" and "all" are the values for "bean-discovery-mode"
                     </h:panelGroup>
-                </h:panelGrid>
+                </p:panelGrid>
             </h:panelGroup>
-            <p:commandButton value="Download" icon="fa fa-download"
-                             actionListener="#{generatorDataBean.generateProject}" ajax="false"/>
 
         </ui:define>
     </ui:composition>
