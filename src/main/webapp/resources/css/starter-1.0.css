@@ -20,58 +20,287 @@
  *   2018-09-29 - Rudy De Busscher
  *      Initially authored in Atbash Jessie
  */
-html {
-    height: 100%;
-    background-color: #edf0f5;
+
+body {
+    font-size: 18px;
+    line-height: 32px;
+    font-weight: 400
 }
+
+.form-wrapper h3 {
+    margin-left: 10px;
+    font-size: 20px;
+    color: #777;
+}
+
+/* content area */
 
 .page-wrapper {
-    margin: 0;
-    min-height: 100%;
-    display: flex;
-    flex-flow: row;
+    margin: 0 auto 30px auto;
+    position: relative;
+    z-index: 1;
+    border-radius: 20px;
+    box-shadow: 0 0 25px -5px #000;
+    max-width: 1000px
 }
 
-.page-wrapper > * {
-    box-sizing: border-box;
-    padding: 10px;
-}
-
-.mainArea {
-    display: flex;
-    flex-flow: column;
-    width: calc(100% - 150px);
-    min-height: 100%;
-    max-height: 100%;
-    margin: auto;
-}
-
-.header {
-    background-color: #0388e5;
-    color: #ffffff;
-    min-height: 100px;
-    padding: 10px
+.page-wrapper .content {
+    margin-top: 0;
+    padding: 40px;
+    border-radius: 20px;
+    font-size: 14px;
 }
 
 .content {
     text-align: left;
     flex: 1;
-    background-color: #ffffff;
+    background-color: #fff;
     padding: 1em;
-    margin-top: 16px;
-}
-
-h2 {
-    margin-left: 50px;
-    margin-top: -20px;
+    margin-top: 16px
 }
 
 
-a:link {
-    color: black;
+/* Button */
+button.ui-button.ui-state-default {
+    border-color: rgba(253, 183, 28, 0.75);
+    color: rgb(253, 183, 28);
+    visibility: visible;
+    background-color: transparent;
+    border-radius: 30px;
+    border-width: 2px;
+    padding: 5px 7px;
+    width: auto;
+    margin-top: 30px;
+    font-size: 16px;
+    text-transform: uppercase;
 }
 
-/* visited link */
-a:visited {
-    color: black;
+
+button.ui-button.ui-state-default:hover {
+    color: #FFF;
+    background-color: rgb(253, 183, 28);
+    box-shadow: 0 20px 38px rgba(0, 0, 0, .16);
+    transform: translateY(-3px);
+}
+
+button.ui-button.ui-state-default span {
+    font-weight: 100;
+}
+
+.ui-button-text-icon-left .ui-button-text {
+    padding: 5px 30px
+}
+
+.ui-button-text-icon-left span.ui-button-icon-left.ui-icon.ui-c.fa.fa-download {
+    display: none;
+}
+
+/* Input fields */
+
+input[type=text] {
+    padding: 10px;
+    width: 100%;
+    font-size: 14px;
+    font-family: inherit;
+    line-height: 24px;
+    color: #555;
+    background-color: #f1f1f1;
+    border: none;
+    transition: all .2s ease;
+    -webkit-transition: all .2s ease
+}
+
+.ui-inputfield.ui-state-focus {
+    box-shadow: none;
+}
+
+/* Dropdown */
+.ui-selectonemenu-panel .ui-selectonemenu-list-item.ui-state-highlight,
+.ui-selectonemenu-panel .ui-selectonemenu-list-item.ui-state-highlight:hover {
+    background-color: rgba(253, 183, 28, 0.75);
+    border-color: transparent;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-list-item:hover {
+    border-color: rgba(253, 183, 28, 0.75);
+}
+
+/*
+.ui-grid-responsive .ui-grid-row:nth-child(3n) {
+    margin-top: 25px;
+}
+*/
+
+.ui-selectonemenu.ui-state-hover,
+.ui-selectonemenu.ui-state-focus,
+.ui-selectonemenu-trigger.ui-state-hover,
+.ui-selectonemenu-trigger.ui-state-focus
+{
+    background-color: #ffffff;
+}
+
+.ui-selectonemenu label.ui-selectonemenu-label {
+    padding: 3px;
+}
+
+.ui-selectonemenu.ui-widget.ui-state-default.ui-corner-all {
+    padding-left: 10px;
+}
+
+
+.ui-selectonemenu {
+    display: inline-block;
+    position: relative;
+    width: auto;
+    zoom: 1;
+    cursor: pointer;
+    padding-right: 2em
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger {
+    border-right: 0;
+    border-top: 0;
+    border-bottom: 0;
+    cursor: pointer;
+    width: 16px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 0 3px
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger .ui-icon {
+    margin-top: 3px
+}
+
+.ui-selectonemenu .ui-selectonemenu-label {
+    display: block;
+    border: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    font-weight: 400;
+    width: 100%;
+    text-align: left;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger .ui-icon {
+    margin-top: 3px;
+    margin-left: 8px;
+    text-indent: initial;
+    overflow: visible;
+    background: none;
+}
+
+.ui-selectonemenu-trigger.ui-state-default.ui-corner-right {
+    border-left: 1px solid #d6d6d6;
+    min-width: 40px;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger {
+    border-right: 0;
+    border-top: 0;
+    border-bottom: 0;
+    cursor: pointer;
+    width: 16px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 0 3px
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger .ui-icon {
+    margin-top: 3px
+}
+
+.ui-fluid .ui-selectonemenu .ui-selectonemenu-trigger {
+    width: 32px;
+    padding: 0 6px;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box
+}
+
+span.ui-icon.ui-icon-triangle-1-s.ui-c::before {
+    font-family: FontAwesome;
+    content: "\f078";
+    font-size: 11px;
+}
+
+.ui-selectonemenu.ui-state-disabled .ui-selectonemenu-trigger,
+.ui-selectonemenu.ui-state-disabled .ui-selectonemenu-label {
+    cursor: default
+}
+
+.ui-selectonemenu label.ui-selectonemenu-label {
+    cursor: pointer
+}
+
+.ui-selectonemenu-panel {
+    position: absolute;
+    height: auto
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-items-wrapper {
+    overflow: auto
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-item {
+    font-weight: 400;
+    cursor: pointer
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-list {
+    padding: .4em;
+    border: 0 none
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-list-item {
+    border: 0 none;
+    margin: 1px 0;
+    padding: 3px 5px;
+    text-align: left;
+    white-space: nowrap
+}
+
+/* checkbox */
+
+.ui-chkbox-box.ui-state-active {
+    background-color: rgb(253, 183, 28);
+}
+
+.ui-selectmanycheckbox.specifications label {
+    margin: 0 0 0 8px;
+}
+
+/* tooltip */
+
+.ui-tooltip-text.ui-shadow.ui-corner-all {
+    background-color: #5f8eb3;
+    border-radius: 3px;
+    padding: 2px 18px;
+    width: auto;
+    color: #EEE;
+    overflow: hidden;
+    opacity: 0.8;
+    font-size: 14px;
+    max-width: 100%;
+}
+
+.ui-tooltip.ui-widget {
+    margin: 0 auto;
+    position: fixed;
+    display: none;
+    z-index: 1005;
+}
+
+/* info */
+i.fa.fa-exclamation-triangle {
+    color: rgb(253, 183, 28);
+}
+
+.download-info {
+    font-size: 12px;
+    color: #888;
 }
