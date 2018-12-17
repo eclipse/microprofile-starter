@@ -34,23 +34,26 @@
 >
 
 <h:head>
-    <title>MicroProfile Starter</title>
+    <title>Starter | Microprofile</title>
     <h:outputStylesheet library="css" name="starter-1.0.css"/>
 </h:head>
 
 <h:body>
-    <h:form id="frm">
-        <div class="page-wrapper">
+    <div class="page-wrapper">
+        <h:form id="frm">
 
             <div class="mainArea">
 
                 <div class="content">
                     <p:messages showSummary="true" showDetail="false"/>
-                    <p:panelGrid columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
+                    <p:panelGrid columns="2" columnClasses="ui-grid-col-6 label-row, ui-grid-col-6 label-row" layout="grid"
                                  styleClass="ui-panelgrid-blank ui-fluid">
                         <p:outputLabel value="groupId" for="groupId"/>
                         <p:outputLabel value="artifactId" for="artifactId"/>
+                    </p:panelGrid>
 
+                    <p:panelGrid columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
+                                 styleClass="ui-panelgrid-blank ui-fluid">
                         <p:inputText id="groupId" value="#{generatorDataBean.mavenData.groupId}" required="true"
                                      title="Used as part of the package name so it must comply with the Java rules">
                             <f:validator validatorId="packageNameValidator"/>
@@ -59,11 +62,16 @@
                         <p:inputText id="artifactId" value="#{generatorDataBean.mavenData.artifactId}" required="true"
                                      title="Used as part of the package name so it must comply with the Java rules">
                             <f:validator validatorId="packageNameValidator"/>
-                        </p:inputText>
+                        </p:inputText></p:panelGrid>
 
+                    <p:panelGrid columns="2" columnClasses="ui-grid-col-6 label-row, ui-grid-col-6 label-row" layout="grid"
+                                 styleClass="ui-panelgrid-blank ui-fluid">
                         <p:outputLabel value="MicroProfile Version" for="mpVersion"/>
                         <p:outputLabel value="Java SE Version" for="javaSEVersion"/>
+                    </p:panelGrid>
 
+                    <p:panelGrid columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
+                                 styleClass="ui-panelgrid-blank ui-fluid">
                         <p:selectOneMenu id="mpVersion" value="#{generatorDataBean.mpVersion}"
                                          required="true">
                             <f:selectItems value="${dataBean.mpItems}"/>
@@ -83,36 +91,37 @@
 
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
                                      styleClass="ui-panelgrid-blank ui-fluid">
-                            <p:outputLabel value="MicroProfile Server" for="supportedServer"/>
-                            <p:outputLabel value="Examples for specifications" for="microprofileSpecs"/>
+                            <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid"
+                                         styleClass="ui-panelgrid-blank ui-fluid">
+                                <p:outputLabel value="MicroProfile Server" for="supportedServer"/>
 
-                            <p:selectOneMenu id="supportedServer" value="#{generatorDataBean.supportedServer}"
-                                             required="true"
-                                             disabled="#{empty generatorDataBean.mpVersion}">
-                                <f:selectItem/>
-                                <f:selectItems value="${generatorDataBean.supportedServerItems}"/>
-                                <p:ajax listener="#{generatorDataBean.onMPServerSelected}" update="options"/>
-                            </p:selectOneMenu>
+                                <p:selectOneMenu id="supportedServer" value="#{generatorDataBean.supportedServer}"
+                                                 required="true"
+                                                 disabled="#{empty generatorDataBean.mpVersion}">
+                                    <f:selectItem/>
+                                    <f:selectItems value="${generatorDataBean.supportedServerItems}"/>
+                                    <p:ajax listener="#{generatorDataBean.onMPServerSelected}" update="options"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="beans.xml" for="beansxmlFile"/>
+                                <p:selectOneMenu id="beansxmlFile" value="#{generatorDataBean.beansxmlMode}"
+                                                 required="true">
+                                    <f:selectItems value="${dataBean.beansxmlItems}"/>
+                                </p:selectOneMenu>
+                            </p:panelGrid>
+                            <h:panelGroup>
+                                <p:outputLabel value="Examples for specifications" for="microprofileSpecs"/>
+                                <p:selectManyCheckbox id="microprofileSpecs" value="#{generatorDataBean.selectedSpecs}"
+                                                      layout="responsive" styleClass="specifications"
+                                                      columns="2" disabled="#{empty generatorDataBean.mpVersion}">
+                                    <f:selectItems value="#{generatorDataBean.specs}" var="spec" itemLabel="#{spec}"
+                                                   itemValue="#{spec}"/>
+                                </p:selectManyCheckbox>
+                            </h:panelGroup>
 
-                            <p:selectManyCheckbox id="microprofileSpecs" value="#{generatorDataBean.selectedSpecs}"
-                                                  layout="responsive" styleClass="specifications"
-                                                  columns="3" disabled="#{empty generatorDataBean.mpVersion}">
-                                <f:selectItems value="#{generatorDataBean.specs}" var="spec" itemLabel="#{spec}"
-                                               itemValue="#{spec}"/>
-                            </p:selectManyCheckbox>
-
-                            <p:outputLabel value="beans.xml" for="beansxmlFile"/>
-                            <h:panelGroup/>
-
-                            <p:selectOneMenu id="beansxmlFile" value="#{generatorDataBean.beansxmlMode}"
-                                             required="true">
-                                <f:selectItems value="${dataBean.beansxmlItems}"/>
-                            </p:selectOneMenu>
-                            <h:panelGroup/>
 
                         </p:panelGrid>
                         <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid"
-                                     styleClass="ui-panelgrid-blank ui-fluid">
+                                     styleClass="ui-panelgrid-blank ui-fluid download-cell">
 
                             <h:panelGroup>
                                 <p:commandButton value="Download"
@@ -128,8 +137,8 @@
                 </div>
 
             </div>
-        </div>
-    </h:form>
+        </h:form>
+    </div>
 
 </h:body>
 
