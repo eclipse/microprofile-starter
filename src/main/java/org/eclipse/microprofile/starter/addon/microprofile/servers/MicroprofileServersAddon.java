@@ -134,9 +134,8 @@ public class MicroprofileServersAddon extends AbstractAddon {
         }
 
         SupportedServer supportedServer = SupportedServer.valueFor(serverName);
-        if (supportedServer == SupportedServer.KUMULUZEE
-                || supportedServer == SupportedServer.HELIDON) {
-            // KumuluzEE and Helidon needs jar packaging
+        if (supportedServer == SupportedServer.KUMULUZEE) {
+            // KumuluzEE needs jar packaging
             pomFile.setPackaging("jar");
         }
 
@@ -146,12 +145,6 @@ public class MicroprofileServersAddon extends AbstractAddon {
 
             mavenHelper.addDependency(pomFile, "org.bouncycastle", "bcpkix-jdk15on", "1.53", "test");
 
-        }
-
-        if (supportedServer == SupportedServer.HELIDON) {
-
-            String packageName = model.getMaven().getGroupId() + '.' + model.getMaven().getArtifactId();
-            pomFile.addProperty("package", packageName);
         }
 
     }
@@ -255,29 +248,6 @@ public class MicroprofileServersAddon extends AbstractAddon {
             String metaInfDirectory = getResourceDirectory(model) + "/META-INF";
 
             directoryCreator.createDirectory(metaInfDirectory);
-        }
-
-        if (supportedServer == SupportedServer.HELIDON) {
-
-            cdiCreator.createCDIFilesForJar(model);
-
-            String webDirectory = model.getDirectory() + "/" + MavenCreator.SRC_MAIN_WEBAPP;
-            directoryCreator.removeDirectory(webDirectory);
-            // TODO But further on the directory is created again (for index.html) so it it then only to get rid of beans.xml in WEB-INF?
-
-
-            String rootJava = MavenCreator.SRC_MAIN_JAVA + "/" + directoryCreator.createPathForGroupAndArtifact(model.getMaven());
-            String viewDirectory = model.getDirectory() + "/" + rootJava;
-
-            String javaFile = thymeleafEngine.processFile("Main.java", alternatives, variables);
-            fileCreator.writeContents(viewDirectory, "Main.java", javaFile);
-
-            String resourcesDirectory = model.getDirectory() + "/" + MavenCreator.SRC_MAIN_RESOURCES;
-            directoryCreator.createDirectory(resourcesDirectory);
-
-            String loggingContents = thymeleafEngine.processFile("logging.properties", alternatives, variables);
-            fileCreator.writeContents(resourcesDirectory, "logging.properties", loggingContents);
-
         }
 
         String rootJava = getJavaApplicationRootPackage(model);
