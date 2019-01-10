@@ -22,11 +22,11 @@
  */
 package org.eclipse.microprofile.starter.spi;
 
-import be.atbash.util.exception.AtbashUnexpectedException;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+import org.eclipse.microprofile.starter.StarterUnexpectedException;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.io.BufferedReader;
@@ -82,7 +82,7 @@ public class MavenHelper {
 
                 }
             }
-            throw new AtbashUnexpectedException(e);
+            throw new StarterUnexpectedException(e);
         }
 
         return model;
