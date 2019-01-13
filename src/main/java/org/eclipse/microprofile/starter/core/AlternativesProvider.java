@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -35,21 +35,8 @@ import java.util.Set;
 public class AlternativesProvider {
 
     public Set<String> determineAlternatives(JessieModel model) {
-        Set<String> result = new HashSet<>();
 
-        switch (model.getTechnologyStack()) {
-
-            case JAVA_EE:
-                result.addAll(model.getSpecification().getJavaEEVersion().getAlternatives());
-                break;
-            case MP:
-                result.addAll(model.getSpecification().getMicroProfileVersion().getAlternatives());
-                break;
-            default:
-                throw new IllegalArgumentException(String.format("TechnologyStack unknown %s", model.getTechnologyStack()));
-
-        }
-        return result;
+        return new HashSet<>(model.getSpecification().getMicroProfileVersion().getAlternatives());
 
     }
 

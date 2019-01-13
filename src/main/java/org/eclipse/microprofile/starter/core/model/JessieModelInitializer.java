@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -33,13 +33,6 @@ import java.io.IOException;
  */
 @ApplicationScoped
 public class JessieModelInitializer {
-    public void defineTechnologyStack(JessieModel model) {
-        if (model.getSpecification() != null && model.getSpecification().getMicroProfileVersion() != null) {
-            model.setTechnologyStack(TechnologyStack.MP);
-        } else {
-            model.setTechnologyStack(TechnologyStack.JAVA_EE);
-        }
-    }
 
     public void defineDefaults(JessieModel model, boolean localExecution) {
         checkDirectory(model, localExecution);
@@ -77,20 +70,7 @@ public class JessieModelInitializer {
     }
 
     private void defineTemplate(JessieModel model) {
-        // FIXME use Atbash String Utils
-        if (model.getTemplate() == null) {
 
-            switch (model.getTechnologyStack()) {
-
-                case JAVA_EE:
-                    model.setTemplate("default");
-                    break;
-                case MP:
-                    model.setTemplate("defaultMP");
-                    break;
-                default:
-                    throw new IllegalArgumentException(String.format("TechnologyStack unknown %s", model.getTechnologyStack()));
-            }
-        }
+        model.setTemplate("defaultMP");
     }
 }

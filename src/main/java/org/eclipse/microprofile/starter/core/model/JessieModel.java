@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -49,9 +49,6 @@ public class JessieModel {
 
     @JsonDeserialize(using = OptionsDeserializer.class)
     private Map<String, OptionValue> options = new HashMap<>();
-
-    @JsonIgnore
-    private TechnologyStack technologyStack;
 
     @JsonIgnore
     private Map<String, Object> parameters = new HashMap<>();
@@ -107,14 +104,6 @@ public class JessieModel {
 
     public Map<String, OptionValue> getOptions() {
         return options;
-    }
-
-    public TechnologyStack getTechnologyStack() {
-        return technologyStack;
-    }
-
-    public void setTechnologyStack(TechnologyStack technologyStack) {
-        this.technologyStack = technologyStack;
     }
 
     public void addVariable(String name, String value) {

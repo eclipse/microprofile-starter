@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -64,7 +64,6 @@ public class ModelManager {
      * @param localExecution Is the generation run on local machine and thus need real directories.
      */
     public void prepareModel(JessieModel model, boolean localExecution) {
-        modelInitializer.defineTechnologyStack(model);
         modelInitializer.defineDefaults(model, localExecution);
 
         modelValidation.validate(model);

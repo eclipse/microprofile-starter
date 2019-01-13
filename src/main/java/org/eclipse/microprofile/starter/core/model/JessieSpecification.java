@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -33,10 +33,6 @@ import java.util.List;
  */
 public class JessieSpecification {
 
-    @JsonProperty(value = "javaEE")
-    @JsonDeserialize(using = JavaEEVersionDeserializer.class)
-    private JavaEEVersion javaEEVersion;
-
     @JsonProperty(value = "MP")
     @JsonDeserialize(using = MicroProfileVersionDeserializer.class)
     private MicroProfileVersion microProfileVersion;
@@ -51,14 +47,6 @@ public class JessieSpecification {
 
     @JsonDeserialize(using = ViewTypeDeserializer.class)
     private List<ViewType> views;
-
-    public JavaEEVersion getJavaEEVersion() {
-        return javaEEVersion;
-    }
-
-    public void setJavaEEVersion(JavaEEVersion javaEEVersion) {
-        this.javaEEVersion = javaEEVersion;
-    }
 
     public MicroProfileVersion getMicroProfileVersion() {
         return microProfileVersion;
