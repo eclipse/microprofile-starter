@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+    Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
 
     See the NOTICE file(s) distributed with this work for additional
     information regarding copyright ownership.
@@ -34,11 +34,22 @@
 >
 
 <h:head>
-    <title>Starter | Microprofile</title>
+    <title>Starter | MicroProfile</title>
     <h:outputStylesheet library="css" name="starter-1.0.css"/>
 </h:head>
 
 <h:body>
+    <div class="header">
+        <div class="header-title header-text-1 ">Welcome to</div>
+        <div class="header-title header-text-2">Microprofile Starter <span
+                class="header-yellow">Beta</span></div>
+        <div class="header-title header-text-1 header-yellow">Generate MicroProfile Maven Project with Examples</div>
+
+        <a href="https://microprofile.io" class="logo">
+            <img src="resources/img/MP-logo-w-tagline.png" alt="MicroProfile" height="50"/>
+        </a>
+    </div>
+
     <div class="page-wrapper">
         <h:form id="frm">
 
@@ -139,6 +150,60 @@
             </div>
         </h:form>
     </div>
+
+    <div class="footer-outer">
+        <div class="footer-widgets">
+            <p:panelGrid columns="4" columnClasses="ui-grid-col-3" layout="grid"
+                         styleClass="ui-panelgrid-blank ui-fluid">
+                <h:panelGroup>
+                    <a href="http://microprofile.io/"><img
+                            width="150" height="35"
+                            src="https://microprofile.io/wp-content/uploads/2018/06/eclipse_logo_white-300x70.png"
+                            alt="" style="max-width: 100%; height: auto;"/></a>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <a href="http://www.eclipse.org/">Eclipse Foundation</a>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <a href="https://www.eclipse.org/legal/privacy.php">Privacy Policy</a>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <a  href="https://www.eclipse.org/legal/copyright.php">Copyright Agent</a>
+                </h:panelGroup>
+                <h:panelGroup/>
+                <h:panelGroup/>
+                <h:panelGroup>
+                    <a href="https://eclipse.org/legal/termsofuse.php">Terms of Use</a>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <a href="http://www.eclipse.org/legal/">Legal</a>
+                </h:panelGroup>
+            </p:panelGrid>
+        </div>
+    </div>
+    <div class="copyright">
+        <p:panelGrid columns="4" columnClasses="ui-grid-col-5, ui-grid-col-7 " layout="grid"
+                     styleClass="ui-panelgrid-blank ui-fluid">
+
+            <h:panelGroup>
+
+                <p>&copy; 2019 Microprofile.
+                    Eclipse MicroProfile is an open source project under the Apache License 2.0. </p>
+            </h:panelGroup>
+            <h:panelGroup>
+
+                <ul class="social">
+                    <li><a target="_blank" href="https://twitter.com/microprofileio"><i class="fa fa-twitter"></i>
+                    </a></li>
+                    <li><a target="_blank" href="https://www.facebook.com/microprofile.io/"><i
+                            class="fa fa-facebook"></i> </a></li>
+                    <li><a target="_blank" href="https://www.linkedin.com/company/microprofileio/"><i
+                            class="fa fa-linkedin"></i> </a></li>
+                </ul>
+            </h:panelGroup>
+        </p:panelGrid>
+    </div>
+
 
 </h:body>
 

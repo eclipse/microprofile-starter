@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -24,18 +24,53 @@
 body {
     font-size: 18px;
     line-height: 32px;
-    color:#333
+    color:#333;
+    margin: 0;
 }
+
+/* Header */
+
+.header {
+    height: 400px;
+    background-color: #1d2f42;
+    color: #ffffff;
+}
+
+.header-title {
+    text-align: center;
+    padding-top: 20px;
+}
+
+.header-text-1 {
+    font-size: 24px;
+}
+
+.header-text-2 {
+    font-size: 48px;
+}
+
+.header-yellow {
+    color: rgb(253, 183, 28);
+}
+
+.header .logo {
+    position: absolute;
+
+    top: 20px;
+    left: 20px;
+}
+
 
 /* content area */
 
 .page-wrapper {
-    margin: 0 auto 30px auto;
     position: relative;
     z-index: 1;
     border-radius: 20px;
     box-shadow: 0 0 25px -5px #000;
-    max-width: 880px
+    max-width: 880px;
+    margin: -200px auto 30px;
+    background-color: #ffffff;
 }
 
 .page-wrapper .content {
@@ -294,7 +329,7 @@ input[type=text]{
 }
 
 .ui-selectmanycheckbox .ui-chkbox .ui-chkbox-box .ui-icon.ui-icon-check::before, .ui-selectmanycheckbox .ui-chkbox .ui-chkbox-box .ui-icon.ui-icon-check::before {
-    color: rgb(253, 183, 28)
+    color: rgb(253, 183, 28);
 }
 
 span.ui-chkbox-icon.ui-icon.ui-c.ui-icon-check {
@@ -328,3 +363,50 @@ span.ui-chkbox-icon.ui-icon.ui-c.ui-icon-check {
 .container.main-content > .row > .wpb_row.top-level {
     padding-top: 65px;
 }
+
+/* Footer */
+
+.footer-outer {
+    background-color: #1d2f42;
+    font-size: 14px;
+}
+
+.footer-outer a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.footer-widgets {
+    padding: 30px 90px;
+}
+
+.copyright {
+    background-color: #0e1421;
+    color: #ffffff;
+}
+
+.copyright ul {
+    list-style: none;
+    float: right;
+}
+
+.copyright li {
+    list-style: none;
+    float: left;
+    margin-left: 20px;
+}
+
+.copyright .ui-widget-content {
+    color: #ffffff;
+    font-size: 12px;
+    padding: 0 90px;
+}
+
+.social i.fa {
+    color: #ffffff;
+    font-size: 20px;
+}
+
+.social i.fa:hover {
+     color: rgb(253, 183, 28);
+ }
