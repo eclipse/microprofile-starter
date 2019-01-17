@@ -56,18 +56,6 @@
         </dependency>
 
         <dependency>
-            <groupId>be.atbash.utils</groupId>
-            <artifactId>utils-se</artifactId>
-            <version>${atbash-utils.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>be.atbash.utils</groupId>
-            <artifactId>utils-cdi</artifactId>
-            <version>${atbash-utils.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
             <version>${primefaces.version}</version>

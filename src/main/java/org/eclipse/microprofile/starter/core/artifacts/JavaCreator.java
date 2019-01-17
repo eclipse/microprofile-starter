@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -23,8 +23,6 @@
 package org.eclipse.microprofile.starter.core.artifacts;
 
 import org.eclipse.microprofile.starter.core.model.JessieModel;
-import org.eclipse.microprofile.starter.core.model.TechnologyStack;
-import org.eclipse.microprofile.starter.core.model.ViewType;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.Map;
@@ -40,30 +38,16 @@ public class JavaCreator extends AbstractCreator {
         Set<String> alternatives = model.getParameter(JessieModel.Parameter.ALTERNATIVES);
         Map<String, String> variables = model.getVariables();
 
-        if (model.getTechnologyStack() == TechnologyStack.JAVA_EE) {
-            if (model.getSpecification().getViews().contains(ViewType.JSF)) {
-                String rootJava = MavenCreator.SRC_MAIN_JAVA + "/" + directoryCreator.createPathForGroupAndArtifact(model.getMaven());
-                String viewDirectory = model.getDirectory() + "/" + rootJava + "/view";
-                directoryCreator.createDirectory(viewDirectory);
+        String rootJava = MavenCreator.SRC_MAIN_JAVA + "/" + directoryCreator.createPathForGroupAndArtifact(model.getMaven());
+        String viewDirectory = model.getDirectory() + "/" + rootJava;
+        directoryCreator.createDirectory(viewDirectory);
 
-                String javaFile = thymeleafEngine.processFile("HelloBean.java", alternatives, variables);
-                fileCreator.writeContents(viewDirectory, "HelloBean.java", javaFile);
+        String artifactId = variables.get("artifact");
+        String javaFile = thymeleafEngine.processFile("RestApplication.java", alternatives, variables);
+        fileCreator.writeContents(viewDirectory, artifactId + "RestApplication.java", javaFile);
 
-            }
-        }
+        javaFile = thymeleafEngine.processFile("HelloController.java", alternatives, variables);
+        fileCreator.writeContents(viewDirectory, "HelloController.java", javaFile);
 
-        if (model.getTechnologyStack() == TechnologyStack.MP) {
-            String rootJava = MavenCreator.SRC_MAIN_JAVA + "/" + directoryCreator.createPathForGroupAndArtifact(model.getMaven());
-            String viewDirectory = model.getDirectory() + "/" + rootJava;
-            directoryCreator.createDirectory(viewDirectory);
-
-            String artifactId = variables.get("artifact");
-            String javaFile = thymeleafEngine.processFile("RestApplication.java", alternatives, variables);
-            fileCreator.writeContents(viewDirectory, artifactId + "RestApplication.java", javaFile);
-
-            javaFile = thymeleafEngine.processFile("HelloController.java", alternatives, variables);
-            fileCreator.writeContents(viewDirectory, "HelloController.java", javaFile);
-
-        }
     }
 }

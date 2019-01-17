@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -29,7 +29,6 @@ import org.eclipse.microprofile.starter.core.addon.AddonManager;
 import org.eclipse.microprofile.starter.core.exception.TechnicalException;
 import org.eclipse.microprofile.starter.core.model.JavaSEVersion;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
-import org.eclipse.microprofile.starter.core.model.TechnologyStack;
 import org.eclipse.microprofile.starter.spi.JessieAddon;
 import org.eclipse.microprofile.starter.spi.JessieMavenAdapter;
 import org.eclipse.microprofile.starter.spi.MavenHelper;
@@ -143,9 +142,7 @@ public class MavenCreator {
 
         addJavaSEVersionProperties(pomFile, model);
 
-        if (model.getTechnologyStack() == TechnologyStack.MP) {
-            pomFile.addProperty("failOnMissingWebXml", "false");
-        }
+        pomFile.addProperty("failOnMissingWebXml", "false");
 
         Build build = new Build();
         build.setFinalName(model.getMaven().getArtifactId());
@@ -155,38 +152,13 @@ public class MavenCreator {
     }
 
     private void addDependencies(Model pomFile, JessieModel model) {
-        switch (model.getTechnologyStack()) {
-
-            case JAVA_EE:
-                addJavaEEDependency(pomFile, model);
-                break;
-            case MP:
-                addJavaMPDependencies(pomFile, model);
-                break;
-            default:
-                throw new IllegalArgumentException(String.format("TechnologyStack unknown %s", model.getTechnologyStack()));
-        }
+        addJavaMPDependencies(pomFile, model);
 
     }
 
     private void addJavaMPDependencies(Model pomFile, JessieModel model) {
         mavenHelper.addDependency(pomFile, "org.eclipse.microprofile", "microprofile",
                 model.getSpecification().getMicroProfileVersion().getMavenVersion(), "provided", "pom");
-    }
-
-    private void addJavaEEDependency(Model pomFile, JessieModel model) {
-        switch (model.getSpecification().getJavaEEVersion()) {
-
-            case EE6:
-                mavenHelper.addDependency(pomFile, "javax", "javaee-api", "6.0", "provided");
-                break;
-            case EE7:
-                mavenHelper.addDependency(pomFile, "javax", "javaee-api", "7.0", "provided");
-                break;
-            case EE8:
-                mavenHelper.addDependency(pomFile, "javax", "javaee-api", "8.0", "provided");
-                break;
-        }
     }
 
     private void addJavaSEVersionProperties(Model pomFile, JessieModel model) {
