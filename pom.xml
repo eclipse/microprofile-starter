@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+    Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
 
     See the NOTICE file(s) distributed with this work for additional
     information regarding copyright ownership.
@@ -45,7 +45,7 @@
         <deltaspike.version>1.8.1</deltaspike.version>
 
         <primefaces.version>6.1</primefaces.version>
-        <atbash-utils.version>0.9.1</atbash-utils.version>
+
     </properties>
     <dependencies>
         <dependency>
@@ -99,13 +99,6 @@
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf</artifactId>
             <version>3.0.2.RELEASE</version>
-        </dependency>
-
-        <!-- looking up all resource files -->
-        <dependency>
-            <groupId>org.reflections</groupId>
-            <artifactId>reflections</artifactId>
-            <version>0.9.11</version>
         </dependency>
 
     </dependencies>
