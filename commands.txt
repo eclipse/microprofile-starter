@@ -1,0 +1,1 @@
+find src/main/resources/files -type f -name "*.tpl" > src/main/resources/files.lst

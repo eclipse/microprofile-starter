@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -23,7 +23,6 @@
 package org.eclipse.microprofile.starter.core.artifacts;
 
 import org.eclipse.microprofile.starter.core.model.JessieModel;
-import org.eclipse.microprofile.starter.core.model.TechnologyStack;
 import org.eclipse.microprofile.starter.spi.JessieAddon;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -43,18 +42,12 @@ public class Creator {
     private CDICreator cdiCreator;
 
     @Inject
-    private JSFCreator jsfCreator;
-
-    @Inject
     private JavaCreator javaCreator;
 
     public void createArtifacts(JessieModel model) {
 
         mavenCreator.createMavenFiles(model);
 
-        if (model.getTechnologyStack() == TechnologyStack.JAVA_EE) {
-            jsfCreator.createJSFFiles(model);
-        }
         cdiCreator.createCDIFilesForWeb(model);
 
         javaCreator.createJavaFiles(model);

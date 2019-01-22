@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -69,9 +69,6 @@ public class TemplateModelValues {
         }
         if (modelSpecification.getJavaSEVersion() == null) {
             modelSpecification.setJavaSEVersion(templateSpecification.getJavaSEVersion());
-        }
-        if (modelSpecification.getJavaEEVersion() == null) {
-            modelSpecification.setJavaEEVersion(templateSpecification.getJavaEEVersion());
         }
         if (modelSpecification.getViews() == null || modelSpecification.getViews().isEmpty()) {
             modelSpecification.setViews(templateSpecification.getViews());

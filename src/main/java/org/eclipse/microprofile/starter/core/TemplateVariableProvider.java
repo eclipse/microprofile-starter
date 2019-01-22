@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -24,7 +24,6 @@ package org.eclipse.microprofile.starter.core;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
-import org.eclipse.microprofile.starter.core.model.TechnologyStack;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.HashMap;
@@ -45,9 +44,8 @@ public class TemplateVariableProvider {
         String artifactId = model.getMaven().getArtifactId().replaceAll("\\.", "");
         result.put("artifact", StringUtils.capitalize(artifactId));
 
-        if (model.getTechnologyStack() == TechnologyStack.MP) {
-            result.put("mp_version", model.getSpecification().getMicroProfileVersion().getCode());
-        }
+        result.put("mp_version", model.getSpecification().getMicroProfileVersion().getCode());
+
         return result;
 
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -22,18 +22,12 @@
  */
 package org.eclipse.microprofile.starter.core.files;
 
-import org.reflections.Reflections;
-import org.reflections.scanners.ResourcesScanner;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
-import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 /**
  *
@@ -159,28 +153,19 @@ public class FilesLocator {
     }
 
     private void defineResources(Pattern pattern) {
-        Reflections reflections = new Reflections("files", new ResourcesScanner());
-        Set<String> resources = reflections.getResources(Pattern.compile(".*\\.tpl"));
+        String path = "src/main/resources/";
+        Set<String> resources = new HashSet<>();
 
+        try (Scanner scanner = new Scanner(FilesLocator.class.getClassLoader().getResourceAsStream("/files.lst"))) {
 
-
-        /*
-
-        String classPath = System.getProperty("java.class.path", ".");
-
-        String[] classPathElements = classPath.split(System.getProperty("path.separator"));
-
-        List<String> resources = new ArrayList<>();
-        try {
-            for (String element : classPathElements) {
-                resources.addAll(getResources(element, pattern));
+            while (scanner.hasNext()) {
+                String line = scanner.nextLine();
+                if (pattern.matcher(line).matches()) {
+                    resources.add(line.substring(path.length()));
+                }
             }
-        } catch (IOException e) {
-            throw new TechnicalException(e);
         }
-        */
 
-        // TODO Create a system where we can 'override' the files from external.
         fileIdentifications = new ArrayList<>();
         fileNames = new ArrayList<>();
         for (String resource : resources) {
@@ -191,54 +176,6 @@ public class FilesLocator {
             fileNames.add(resource);
         }
 
-    }
-
-    private List<String> getResources(String element, Pattern pattern) throws IOException {
-        List<String> result = new ArrayList<>();
-        File file = new File(element);
-        if (file.isDirectory()) {
-            result.addAll(getResourcesFromDirectory(file, pattern));
-        } else {
-            result.addAll(getResourcesFromJarFile(file, pattern));
-        }
-        return result;
-    }
-
-    private Collection<String> getResourcesFromJarFile(File file, Pattern pattern) throws IOException {
-        List<String> result = new ArrayList<>();
-        ZipFile zf;
-        zf = new ZipFile(file);
-
-        Enumeration e = zf.entries();
-        while (e.hasMoreElements()) {
-            ZipEntry ze = (ZipEntry) e.nextElement();
-            String fileName = ze.getName();
-            boolean accept = pattern.matcher(fileName).matches();
-            if (accept) {
-                result.add(fileName);
-            }
-        }
-        zf.close();
-        return result;
-    }
-
-    private List<String> getResourcesFromDirectory(File directory, Pattern pattern) throws IOException {
-        List<String> result = new ArrayList<>();
-        File[] fileList = directory.listFiles();
-        if (fileList != null) {
-            for (File file : fileList) {
-                if (file.isDirectory()) {
-                    result.addAll(getResourcesFromDirectory(file, pattern));
-                } else {
-                    String fileName = file.getCanonicalPath();
-                    boolean accept = pattern.matcher(fileName).matches();
-                    if (accept) {
-                        result.add(fileName);
-                    }
-                }
-            }
-        }
-        return result;
     }
 
     private static class FileIdentification {

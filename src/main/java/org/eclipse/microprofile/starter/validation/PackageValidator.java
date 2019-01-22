@@ -22,9 +22,11 @@
  */
 package org.eclipse.microprofile.starter.validation;
 
-import be.atbash.util.CDIUtils;
 import org.eclipse.microprofile.starter.core.validation.PackageNameValidator;
 
+import javax.enterprise.inject.Instance;
+import javax.enterprise.inject.UnsatisfiedResolutionException;
+import javax.enterprise.inject.spi.CDI;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -37,7 +39,8 @@ public class PackageValidator implements Validator {
 
     @Override
     public void validate(FacesContext facesContext, UIComponent uiComponent, Object value) throws ValidatorException {
-        PackageNameValidator validator = CDIUtils.retrieveInstance(PackageNameValidator.class);
+
+        PackageNameValidator validator = retrieveInstance(PackageNameValidator.class);
         if (!validator.isValidPackageName(value.toString())) {
             FacesMessage msg =
                     new FacesMessage("Field validation failed.",
@@ -46,5 +49,23 @@ public class PackageValidator implements Validator {
 
             throw new ValidatorException(msg);
         }
+    }
+
+    /**
+     * Retrieve the single CDI instance which has the classType in the bean definition. It throws the standard CDI exceptions
+     * in case when there are no or multiple beans which are a candidate for the type.
+     *
+     * @param classType a {@link java.lang.Class} representing the required type
+     * @param <T>       Generic Type argument
+     * @return CDI instance matching the class type and qualifiers (if specified).
+     * @throws javax.enterprise.inject.AmbiguousResolutionException When more then 1 bean is found in the match
+     * @throws UnsatisfiedResolutionException                       When no bean is found in the match.
+     */
+    public static <T> T retrieveInstance(Class<T> classType) {
+        Instance<T> instance = CDI.current().select(classType);
+        if (instance.isUnsatisfied()) {
+            throw new UnsatisfiedResolutionException(String.format("No bean found for class %s", classType.getName()));
+        }
+        return instance.get();
     }
 }

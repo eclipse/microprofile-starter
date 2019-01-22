@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2019 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,19 +16,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Contributors:
- *   2018-09-29 - Rudy De Busscher
- *      Initially authored in Atbash Jessie
  */
-package org.eclipse.microprofile.starter.core.exception;
+package org.eclipse.microprofile.starter;
 
+public class StarterUnexpectedException extends RuntimeException {
 
-/**
- *
- */
-public class JessieException extends RuntimeException {
-
-    public JessieException(String message) {
-        super(message);
+    public StarterUnexpectedException(Throwable cause) {
+        super(cause);
     }
 }

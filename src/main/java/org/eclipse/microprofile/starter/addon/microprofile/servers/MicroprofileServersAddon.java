@@ -109,7 +109,7 @@ public class MicroprofileServersAddon extends AbstractAddon {
             throw new JessieConfigurationException(invalidMPServerValue(serverName));
         }
 
-        model.addVariable("mp_servername", supportedServer.getName());
+        model.addVariable("mp_servername", supportedServer.getCode());
     }
 
     private String invalidMPServerValue(String serverName) {
@@ -128,8 +128,9 @@ public class MicroprofileServersAddon extends AbstractAddon {
         String profileName = serverName + "-" + model.getSpecification().getMicroProfileVersion().getCode();
         for (Profile profile : serverPomModel.getProfiles()) {
             if (profile.getId().equals(profileName)) {
-                pomFile.getProfiles().add(profile);
-                profile.setId(serverName);
+                Profile selectedProfile = profile.clone();
+                selectedProfile.setId(serverName);
+                pomFile.getProfiles().add(selectedProfile);
             }
         }
 
@@ -155,7 +156,7 @@ public class MicroprofileServersAddon extends AbstractAddon {
         SupportedServer supportedServer = SupportedServer.valueFor(serverName);
 
         Set<String> alternatives = new HashSet<>();
-        alternatives.add(supportedServer.getName());
+        alternatives.add(supportedServer.getCode());
         return alternatives;
     }
 
