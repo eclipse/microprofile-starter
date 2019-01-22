@@ -94,7 +94,7 @@ public class GeneratorDataBean implements Serializable {
         supportedServerItems = new ArrayList<>();
         for (SupportedServer supportedServer : SupportedServer.values()) {
             if (supportedServer.getMpVersions().contains(version)) {
-                supportedServerItems.add(new SelectItem(supportedServer.getName(), supportedServer.getName()));
+                supportedServerItems.add(new SelectItem(supportedServer.getCode(), supportedServer.getDisplayName()));
             }
         }
         randomizeSupportedServers();

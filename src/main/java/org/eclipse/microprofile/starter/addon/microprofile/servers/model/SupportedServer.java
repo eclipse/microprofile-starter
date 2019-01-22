@@ -30,23 +30,29 @@ import java.util.List;
 
 public enum SupportedServer {
     // @formatter:off
-    WILDFLY_SWARM("wildfly-swarm", Collections.singletonList(MicroProfileVersion.MP12))
-    , THORNTAIL_V2("thorntail-v2", Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13))
-    , LIBERTY("liberty", Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14, MicroProfileVersion.MP20))
-    , KUMULUZEE("kumuluzEE", Collections.singletonList(MicroProfileVersion.MP12))
-    , PAYARA_MICRO("payara-micro", Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14, MicroProfileVersion.MP20));
+    WILDFLY_SWARM("wildfly-swarm", "WildFly Swarm", Collections.singletonList(MicroProfileVersion.MP12))
+    , THORNTAIL_V2("thorntail-v2", "Thorntail V2", Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13))
+    , LIBERTY("liberty", "Open Liberty", Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14, MicroProfileVersion.MP20))
+    , KUMULUZEE("kumuluzEE", "KumuluzEE", Collections.singletonList(MicroProfileVersion.MP12))
+    , PAYARA_MICRO("payara-micro", "Payara Micro", Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14, MicroProfileVersion.MP20));
     // @formatter:on
 
-    private String name;
+    private String code;
+    private String displayName;
     private List<MicroProfileVersion> mpVersions;
 
-    SupportedServer(String name, List<MicroProfileVersion> mpVersions) {
-        this.name = name;
+    SupportedServer(String code, String displayName, List<MicroProfileVersion> mpVersions) {
+        this.code = code;
+        this.displayName = displayName;
         this.mpVersions = mpVersions;
     }
 
-    public String getName() {
-        return name;
+    public String getCode() {
+        return code;
+    }
+
+    public String getDisplayName() {
+        return displayName;
     }
 
     public List<MicroProfileVersion> getMpVersions() {
@@ -56,7 +62,7 @@ public enum SupportedServer {
     public static SupportedServer valueFor(String data) {
         SupportedServer result = null;
         for (SupportedServer supportedServer : SupportedServer.values()) {
-            if (supportedServer.name.equals(data)) {
+            if (supportedServer.code.equals(data)) {
                 result = supportedServer;
             }
         }
