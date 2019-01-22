@@ -1,0 +1,12 @@
+<settings>
+    <!-- Set to US/LATAM/APAC if it suits you better. EU is the default. -->
+    <mirrors>
+        <!-- Mirror for the Central -->
+        <mirror>
+            <id>google-maven-central</id>
+            <name>GCS Maven Central mirror EU</name>
+            <url>https://maven-central-eu.storage-download.googleapis.com/repos/central/data/</url>
+            <mirrorOf>central</mirrorOf>
+        </mirror>
+    </mirrors>
+</settings>
