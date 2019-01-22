@@ -109,7 +109,7 @@ public class MicroprofileServersAddon extends AbstractAddon {
             throw new JessieConfigurationException(invalidMPServerValue(serverName));
         }
 
-        model.addVariable("mp_servername", supportedServer.getName());
+        model.addVariable("mp_servername", supportedServer.getCode());
     }
 
     private String invalidMPServerValue(String serverName) {
@@ -155,7 +155,7 @@ public class MicroprofileServersAddon extends AbstractAddon {
         SupportedServer supportedServer = SupportedServer.valueFor(serverName);
 
         Set<String> alternatives = new HashSet<>();
-        alternatives.add(supportedServer.getName());
+        alternatives.add(supportedServer.getCode());
         return alternatives;
     }
 
