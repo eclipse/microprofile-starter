@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+    Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
 
     See the NOTICE file(s) distributed with this work for additional
     information regarding copyright ownership.
@@ -40,18 +40,17 @@
         <version.thorntail>2.2.1.Final</version.thorntail>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <maven.model.builder.version>3.3.9</maven.model.builder.version>
-        <deltaspike.version>1.8.1</deltaspike.version>
         <jackson.dataformat.yaml.version>2.8.5</jackson.dataformat.yaml.version>
         <jackson.databind.version>2.8.5</jackson.databind.version>
         <primefaces.version>6.1</primefaces.version>
-        <atbash-utils.version>0.9.1</atbash-utils.version>
         <thymeleaf.version>3.0.2.RELEASE</thymeleaf.version>
-        <reflections.version>0.9.11</reflections.version>
     </properties>
-    
+
     <dependencies>
         <dependency>
             <groupId>javax</groupId>
@@ -64,20 +63,6 @@
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
             <version>${primefaces.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.deltaspike.modules</groupId>
-            <artifactId>deltaspike-jsf-module-api</artifactId>
-            <version>${deltaspike.version}</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.deltaspike.modules</groupId>
-            <artifactId>deltaspike-jsf-module-impl</artifactId>
-            <version>${deltaspike.version}</version>
-            <scope>runtime</scope>
         </dependency>
 
         <dependency>
@@ -105,18 +90,12 @@
             <version>${thymeleaf.version}</version>
         </dependency>
 
-        <!-- looking up all resource files -->
-        <dependency>
-            <groupId>org.reflections</groupId>
-            <artifactId>reflections</artifactId>
-            <version>${reflections.version}</version>
-        </dependency>
     </dependencies>
 
     <build>
         <finalName>mp-starter</finalName>
     </build>
-    
+
     <profiles>
         <profile>
             <id>thorntail</id>

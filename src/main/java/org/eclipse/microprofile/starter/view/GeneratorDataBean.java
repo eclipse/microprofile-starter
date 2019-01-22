@@ -22,7 +22,6 @@
  */
 package org.eclipse.microprofile.starter.view;
 
-import org.apache.deltaspike.core.api.scope.ViewAccessScoped;
 import org.eclipse.microprofile.starter.ZipFileCreator;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
@@ -33,6 +32,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
@@ -42,7 +42,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@ViewAccessScoped
+@ViewScoped
 @Named
 public class GeneratorDataBean implements Serializable {
 
