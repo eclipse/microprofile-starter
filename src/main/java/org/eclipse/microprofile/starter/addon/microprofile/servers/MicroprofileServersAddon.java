@@ -128,8 +128,9 @@ public class MicroprofileServersAddon extends AbstractAddon {
         String profileName = serverName + "-" + model.getSpecification().getMicroProfileVersion().getCode();
         for (Profile profile : serverPomModel.getProfiles()) {
             if (profile.getId().equals(profileName)) {
-                pomFile.getProfiles().add(profile);
-                profile.setId(serverName);
+                Profile selectedProfile = profile.clone();
+                selectedProfile.setId(serverName);
+                pomFile.getProfiles().add(selectedProfile);
             }
         }
 
