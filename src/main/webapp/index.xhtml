@@ -36,17 +36,20 @@
 <h:head>
     <title>Starter | MicroProfile</title>
     <h:outputStylesheet library="css" name="starter-1.0.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"/>
 </h:head>
 
 <h:body>
     <div class="header">
-        <div class="header-title header-text-1 ">Welcome to</div>
         <div class="header-title header-text-2">Microprofile Starter <span
-                class="header-yellow">Beta</span></div>
+                class="header-yellow">"Beta"</span></div>
         <div class="header-title header-text-1 header-yellow">Generate MicroProfile Maven Project with Examples</div>
-
+        <a href="" class="feedback">
+            <span class="ui-button-text ui-c">Give Feedback</span>
+        </a>
         <a href="https://microprofile.io" class="logo">
-            <img src="resources/img/MP-logo-w-tagline.png" alt="MicroProfile" height="50"/>
+            <img src="resources/img/MP-logo-w-tagline-1.png" alt="MicroProfile" height="50"/>
         </a>
     </div>
 
@@ -97,13 +100,13 @@
                     <p:tooltip id="groupIdToolTipFocus" for="groupId" showEvent="focus" hideEvent="blur" position="bottom"/>
                     <p:tooltip id="artifactIdToolTipFocus" for="artifactId" showEvent="focus" hideEvent="blur" position="bottom"/>
 
-                    <h:panelGroup id="options">
+
                         <h3>Project Options</h3>
 
                         <p:panelGrid columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
-                                     styleClass="ui-panelgrid-blank ui-fluid">
+                                     styleClass="ui-panelgrid-blank ui-fluid" id="options">
                             <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid"
-                                         styleClass="ui-panelgrid-blank ui-fluid">
+                                         styleClass="ui-panelgrid-blank ui-fluid nested">
                                 <p:outputLabel value="MicroProfile Server" for="supportedServer"/>
 
                                 <p:selectOneMenu id="supportedServer" value="#{generatorDataBean.supportedServer}"
@@ -143,7 +146,7 @@
 
                             </h:panelGroup>
                         </p:panelGrid>
-                    </h:panelGroup>
+
 
                 </div>
 
