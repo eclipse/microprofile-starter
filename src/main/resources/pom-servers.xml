@@ -392,8 +392,8 @@
             <id>liberty-2.0</id>
 
             <properties>
-                <openliberty.maven.version>2.0</openliberty.maven.version>
-                <openliberty.version>18.0.0.3</openliberty.version>
+                <openliberty.maven.version>2.2</openliberty.maven.version>
+                <openliberty.version>RELEASE</openliberty.version>
 
                 <httpPort>8181</httpPort>
                 <httpsPort>8543</httpsPort>
