@@ -35,7 +35,7 @@ public enum SupportedServer {
     , LIBERTY("liberty", "Open Liberty", Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14, MicroProfileVersion.MP20))
     , KUMULUZEE("kumuluzEE", "KumuluzEE", Collections.singletonList(MicroProfileVersion.MP12))
     , PAYARA_MICRO("payara-micro", "Payara Micro", Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14, MicroProfileVersion.MP20))
-    , TOMEE("tomee", "Apache TomEE", Arrays.asList(MicroProfileVersion.MP13, MicroProfileVersion.MP20));
+    , TOMEE("tomee", "Apache TomEE", Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14, MicroProfileVersion.MP20));
     // @formatter:on
 
     private String code;
