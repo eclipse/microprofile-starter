@@ -30,6 +30,5 @@ src/main/resources/files/test-client/liberty/JWTClient.java.tpl
 src/main/resources/files/test-client/MPJWTToken.java.tpl
 src/main/resources/files/test-client/privateKey.pem.tpl
 src/main/resources/files/thorntail-v2/web.xml.tpl
-src/main/resources/files/tomee/microprofile-config.properties.tpl
 src/main/resources/files/web.xml.tpl
 src/main/resources/files/wildfly-swarm/web.xml.tpl
