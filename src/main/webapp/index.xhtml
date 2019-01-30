@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
+
+    See the NOTICE file(s) distributed with this work for additional
+    information regarding copyright ownership.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    You may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+    Contributors:
+      2018-09-29 - Rudy De Busscher
+         Initially authored in Atbash Jessie
+
+-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+>
+
+<h:head>
+    <title>Starter | MicroProfile</title>
+    <h:outputStylesheet library="css" name="starter-1.0.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"/>
+</h:head>
+
+<h:body>
+    <div class="header">
+        <div class="header-title header-text-2">Microprofile Starter <span
+                class="header-yellow">"Beta"</span></div>
+        <div class="header-title header-text-1 header-yellow">Generate MicroProfile Maven Project with Examples</div>
+        <a href="" class="feedback">
+            <span class="ui-button-text ui-c">Give Feedback</span>
+        </a>
+        <a href="https://microprofile.io" class="logo">
+            <img src="resources/img/MP-logo-w-tagline-1.png" alt="MicroProfile" height="50"/>
+        </a>
+    </div>
+
+    <div class="page-wrapper">
+        <h:form id="frm">
+
+            <div class="mainArea">
+
+                <div class="content">
+                    <p:messages showSummary="true" showDetail="false"/>
+                    <p:panelGrid columns="2" columnClasses="ui-grid-col-6 label-row, ui-grid-col-6 label-row" layout="grid"
+                                 styleClass="ui-panelgrid-blank ui-fluid">
+                        <p:outputLabel value="groupId" for="groupId"/>
+                        <p:outputLabel value="artifactId" for="artifactId"/>
+                    </p:panelGrid>
+
+                    <p:panelGrid columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
+                                 styleClass="ui-panelgrid-blank ui-fluid">
+                        <p:inputText id="groupId" value="#{generatorDataBean.mavenData.groupId}" required="true"
+                                     title="Used as part of the package name so it must comply with the Java rules">
+                            <f:validator validatorId="packageNameValidator"/>
+                        </p:inputText>
+
+                        <p:inputText id="artifactId" value="#{generatorDataBean.mavenData.artifactId}" required="true"
+                                     title="Used as part of the package name so it must comply with the Java rules">
+                            <f:validator validatorId="packageNameValidator"/>
+                        </p:inputText></p:panelGrid>
+
+                    <p:panelGrid columns="2" columnClasses="ui-grid-col-6 label-row, ui-grid-col-6 label-row" layout="grid"
+                                 styleClass="ui-panelgrid-blank ui-fluid">
+                        <p:outputLabel value="MicroProfile Version" for="mpVersion"/>
+                        <p:outputLabel value="Java SE Version" for="javaSEVersion"/>
+                    </p:panelGrid>
+
+                    <p:panelGrid columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
+                                 styleClass="ui-panelgrid-blank ui-fluid">
+                        <p:selectOneMenu id="mpVersion" value="#{generatorDataBean.mpVersion}"
+                                         required="true">
+                            <f:selectItems value="${dataBean.mpItems}"/>
+                            <p:ajax listener="#{generatorDataBean.onMPVersionSelected}" update="options"/>
+                        </p:selectOneMenu>
+
+                        <p:selectOneMenu id="javaSEVersion" value="#{generatorDataBean.javaSEVersion}"
+                                         disabled="true">
+                            <f:selectItems value="${dataBean.javaSEItems}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:tooltip id="groupIdToolTipFocus" for="groupId" showEvent="focus" hideEvent="blur" position="bottom"/>
+                    <p:tooltip id="artifactIdToolTipFocus" for="artifactId" showEvent="focus" hideEvent="blur" position="bottom"/>
+
+
+                        <h3>Project Options</h3>
+
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
+                                     styleClass="ui-panelgrid-blank ui-fluid" id="options">
+                            <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid"
+                                         styleClass="ui-panelgrid-blank ui-fluid nested">
+                                <p:outputLabel value="MicroProfile Server" for="supportedServer"/>
+
+                                <p:selectOneMenu id="supportedServer" value="#{generatorDataBean.supportedServer}"
+                                                 required="true"
+                                                 disabled="#{empty generatorDataBean.mpVersion}">
+                                    <f:selectItem/>
+                                    <f:selectItems value="${generatorDataBean.supportedServerItems}"/>
+                                    <p:ajax listener="#{generatorDataBean.onMPServerSelected}" update="options"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="beans.xml" for="beansxmlFile"/>
+                                <p:selectOneMenu id="beansxmlFile" value="#{generatorDataBean.beansxmlMode}"
+                                                 required="true">
+                                    <f:selectItems value="${dataBean.beansxmlItems}"/>
+                                </p:selectOneMenu>
+                            </p:panelGrid>
+                            <h:panelGroup>
+                                <p:outputLabel value="Examples for specifications" for="microprofileSpecs"/>
+                                <p:selectManyCheckbox id="microprofileSpecs" value="#{generatorDataBean.selectedSpecs}"
+                                                      layout="responsive" styleClass="specifications"
+                                                      columns="2" disabled="#{empty generatorDataBean.mpVersion}">
+                                    <f:selectItems value="#{generatorDataBean.specs}" var="spec" itemLabel="#{spec}"
+                                                   itemValue="#{spec}"/>
+                                </p:selectManyCheckbox>
+                            </h:panelGroup>
+
+
+                        </p:panelGrid>
+                        <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid"
+                                     styleClass="ui-panelgrid-blank ui-fluid download-cell">
+
+                            <h:panelGroup>
+                                <p:commandButton value="Download"
+                                                 actionListener="#{generatorDataBean.generateProject}" ajax="false"/>
+
+                                &nbsp;<i class="fa fa-exclamation-triangle"/>
+                                &nbsp;<h:outputText styleClass="download-info" value='"implicit" -> no beans.xml, "annotated" and "all" are the values for "bean-discovery-mode"' />
+
+                            </h:panelGroup>
+                        </p:panelGrid>
+
+
+                </div>
+
+            </div>
+        </h:form>
+    </div>
+
+    <div class="footer-outer">
+        <div class="footer-widgets">
+            <p:panelGrid columns="4" columnClasses="ui-grid-col-3" layout="grid"
+                         styleClass="ui-panelgrid-blank ui-fluid">
+                <h:panelGroup>
+                    <a href="http://microprofile.io/"><img
+                            width="150" height="35"
+                            src="https://microprofile.io/wp-content/uploads/2018/06/eclipse_logo_white-300x70.png"
+                            alt="" style="max-width: 100%; height: auto;"/></a>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <a href="http://www.eclipse.org/">Eclipse Foundation</a>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <a href="https://www.eclipse.org/legal/privacy.php">Privacy Policy</a>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <a  href="https://www.eclipse.org/legal/copyright.php">Copyright Agent</a>
+                </h:panelGroup>
+                <h:panelGroup/>
+                <h:panelGroup/>
+                <h:panelGroup>
+                    <a href="https://eclipse.org/legal/termsofuse.php">Terms of Use</a>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <a href="http://www.eclipse.org/legal/">Legal</a>
+                </h:panelGroup>
+            </p:panelGrid>
+        </div>
+    </div>
+    <div class="copyright">
+        <p:panelGrid columns="4" columnClasses="ui-grid-col-5, ui-grid-col-7 " layout="grid"
+                     styleClass="ui-panelgrid-blank ui-fluid">
+
+            <h:panelGroup>
+
+                <p>&copy; 2019 Microprofile.
+                    Eclipse MicroProfile is an open source project under the Apache License 2.0. </p>
+            </h:panelGroup>
+            <h:panelGroup>
+
+                <ul class="social">
+                    <li><a target="_blank" href="https://twitter.com/microprofileio"><i class="fa fa-twitter"></i>
+                    </a></li>
+                    <li><a target="_blank" href="https://www.facebook.com/microprofile.io/"><i
+                            class="fa fa-facebook"></i> </a></li>
+                    <li><a target="_blank" href="https://www.linkedin.com/company/microprofileio/"><i
+                            class="fa fa-linkedin"></i> </a></li>
+                </ul>
+            </h:panelGroup>
+        </p:panelGrid>
+    </div>
+
+
+</h:body>
+
+</html>

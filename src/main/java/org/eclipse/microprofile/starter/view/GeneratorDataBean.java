@@ -70,6 +70,8 @@ public class GeneratorDataBean implements Serializable {
     @PostConstruct
     public void init() {
         mavenData = new JessieMaven();
+        mavenData.setGroupId("com.example");
+        mavenData.setArtifactId("demo");
     }
 
     public void onMPVersionSelected() {

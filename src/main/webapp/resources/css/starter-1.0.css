@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -20,58 +20,417 @@
  *   2018-09-29 - Rudy De Busscher
  *      Initially authored in Atbash Jessie
  */
-html {
-    height: 100%;
-    background-color: #edf0f5;
-}
 
-.page-wrapper {
+body {
+    font-family: 'Lato', sans-serif;
+    font-size: 18px;
+    line-height: 32px;
+    color:#333;
     margin: 0;
-    min-height: 100%;
-    display: flex;
-    flex-flow: row;
 }
 
-.page-wrapper > * {
-    box-sizing: border-box;
-    padding: 10px;
-}
-
-.mainArea {
-    display: flex;
-    flex-flow: column;
-    width: calc(100% - 150px);
-    min-height: 100%;
-    max-height: 100%;
-    margin: auto;
-}
+/* Header */
 
 .header {
-    background-color: #0388e5;
+    height: 400px;
+    background-color: #1d2f42;
     color: #ffffff;
-    min-height: 100px;
-    padding: 10px
 }
 
-.content {
-    text-align: left;
-    flex: 1;
+.header-title {
+    font-family: 'Nunito', sans-serif;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.header-text-1 {
+    font-size: 24px;
+}
+
+.header-text-2 {
+    font-size: 48px;
+    padding-top: 80px;
+}
+
+.header-yellow {
+    color: rgb(253, 183, 28);
+}
+
+.header .logo {
+    position: absolute;
+
+    top: 20px;
+    left: 20px;
+}
+
+.header .feedback {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #FFF;
+    background-color: rgb(253, 183, 28);
+    visibility: visible;
+    border-radius: 30px;
+    border: 2px solid rgba(253, 183, 28, 0.75);
+    padding: 2px 12px;
+    font-size: 14px;
+}
+
+.header a {
+    text-decoration: none;
+}
+
+/* content area */
+
+.page-wrapper {
+    position: relative;
+    z-index: 1;
+    border-radius: 20px;
+    box-shadow: 0 0 25px -5px #000;
+    max-width: 880px;
+    margin: -210px auto 30px;
     background-color: #ffffff;
-    padding: 1em;
-    margin-top: 16px;
 }
 
-h2 {
-    margin-left: 50px;
-    margin-top: -20px;
+.page-wrapper .content {
+    margin-top: 0;
+    padding: 20px 40px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.nested .ui-panelgrid-cell.ui-grid-col-12 {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* Titles, Labels */
+.ui-outputlabel.ui-widget {
+    line-height: 1.5em;
+    font-weight: 900;
+}
+
+.ui-outputlabel .ui-outputlabel-rfi {
+    margin-left: 0.1em;
+}
+
+.page-wrapper h3 {
+    font-family: 'Nunito', sans-serif;
+    margin-left: 30px;
+    font-weight: 400;
+    font-size: 22px;
+    margin-bottom: 0;
+}
+
+/* Button */
+button.ui-button.ui-state-default {
+    color: rgb(253, 183, 28);
+    visibility: visible;
+    background-color: transparent;
+    border-radius: 30px;
+    border: 2px solid rgba(253, 183, 28, 0.75);
+    padding: 5px 7px;
+    width: auto;
+    margin-top: 10px;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+button.ui-button.ui-state-default.ui-state-hover {
+    color: #FFF;
+    background-color: rgb(253, 183, 28);
+    box-shadow: 0 20px 38px rgba(0, 0, 0, .16);
+    transform: translateY(-3px);
+}
+
+button.ui-button.ui-state-default span {
+    font-weight: 400;
+    font-family: open sans, sans-serif;
+}
+
+.ui-button-text-icon-left .ui-button-text {
+    padding: 3px 30px
+}
+
+/* info */
+i.fa.fa-exclamation-triangle {
+    color: rgb(253, 183, 28);
+}
+
+span.ui-icon.ui-icon-triangle-1-s.ui-c::before {
+    font-family: FontAwesome;
+    content: "\f078";
+    font-size: 11px;
+}
+
+.download-info {
+    font-size: 12px;
+    font-style: italic;
+    color: #b8b7ba;
+    line-height: 1em;
+    display: inline-block;
+}
+
+.download-cell {
+    margin: 0 40px;
+}
+
+/* tooltip */
+
+.ui-tooltip-text.ui-shadow.ui-corner-all {
+    background-color: #5f8eb3;
+    border-radius: 5px;
+    padding: 4px 12px;
+    width: auto;
+    margin: 5px;
+    color: #eee;
+    overflow: hidden;
+    opacity: .9;
+    font-size: 14px;
+    max-width: 100%;
+}
+
+.ui-tooltip.ui-widget {
+    margin: 0 auto;
+    position: fixed;
+    display: none;
+    z-index: 1005;
+}
+
+/* Dropdown */
+.ui-selectonemenu-trigger.ui-state-default.ui-corner-right {
+    border-left: 1px solid #d6d6d6;
+    background-color: transparent;
+}
+
+.ui-selectonemenu.ui-widget.ui-state-default.ui-corner-all {
+    padding-left: 10px;
 }
 
 
-a:link {
-    color: black;
+.ui-selectonemenu .ui-selectonemenu-trigger .ui-icon {
+    margin-top: 7px;
+    margin-left: 10px;
+    text-indent: initial;
+    overflow: visible;
+    background: none;
 }
 
-/* visited link */
-a:visited {
-    color: black;
+.ui-selectonemenu-trigger.ui-state-default.ui-corner-right {
+    border-left: 1px solid #d6d6d6;
+    min-width: 44px;
 }
+
+
+.ui-selectonemenu label.ui-selectonemenu-label {
+    padding: 6px 3px;
+    background-color: transparent;
+}
+
+.ui-selectonemenu-items-wrapper {
+    border-radius: 0 !important;
+}
+
+.ui-selectonemenu-panel.ui-widget.ui-widget-content.ui-corner-all.ui-helper-hidden.ui-shadow {
+    box-shadow: 0 0 0 black !important;
+    margin-right: unset;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-list {
+    padding: 0.2em 0.2em;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-list-item {
+    border: 2px solid #FFF !important;
+    padding: 4px 8px;
+    margin: 3px 0 0 0 !important;
+    font-size: 14px;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-list-item:first-child {
+    margin: 0 !important;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-list-item.ui-state-highlight,
+.ui-selectonemenu-panel .ui-selectonemenu-list-item.ui-state-highlight.ui-state-hover {
+    background-color: rgba(253, 183, 28, 0.75);
+    border: 2px solid rgba(253, 183, 28, 0.75);
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-list-item.ui-state-hover {
+    border: 2px solid rgba(253, 183, 28, 0.75) !important;
+    background-color: #ffffff !important;
+}
+
+.ui-selectonemenu.ui-state-hover,
+.ui-selectonemenu.ui-state-focus,
+.ui-selectonemenu-trigger.ui-state-hover
+{
+    background-color: #ffffff;
+}
+
+/* Input */
+.ui-fluid .ui-inputfield {
+    margin: 0;
+    padding: 9px 15px;
+}
+
+
+.ui-inputfield, .ui-selectonemenu.ui-widget.ui-state-default.ui-corner-all {
+    border-radius: 5px;
+    /* max-width: 280px; */
+    font-weight: 600 !important;
+}
+
+input[type=text]{
+    line-height:24px;
+    transition:all .2s ease;
+    -webkit-transition:all .2s ease
+}
+
+.ui-inputfield.ui-inputtext.ui-state-focus {
+    box-shadow: none;
+}
+
+
+/* Small Sizes */
+@media (max-width: 640px) {
+    .ui-panelgrid .ui-grid-responsive .ui-grid-row {
+        border: none;
+    }
+
+    .ui-fluid .ui-inputfield, .ui-selectonemenu.ui-widget.ui-state-default.ui-corner-all {
+        max-width: 100%;
+    }
+
+    .form-wrapper .content {
+        padding: 60px 50px;
+    }
+
+    .container.main-content > .row > .wpb_row.top-level {
+        padding-top: 0;
+        padding-bottom: 40px;
+    }
+
+    .content > .ui-panelgrid > .ui-panelgrid-content > .ui-grid-row > .ui-grid-col-6,
+    .content > span > .ui-panelgrid > .ui-panelgrid-content > .ui-grid-row > .ui-grid-col-6 {
+        margin: 10px 0;
+    }
+
+    .label-row {
+        margin-top: 10px;
+    }
+
+    .form-wrapper h3 {
+        margin-bottom: 10px;
+        margin-left: 10px;
+    }
+
+    .download-cell {
+        margin: 0;
+    }
+}
+
+/* checkbox */
+
+.ui-chkbox-box .ui-icon, .ui-radiobutton-box .ui-icon {
+    background: none;
+    text-indent: 0;
+}
+
+.ui-chkbox-box .ui-icon::before {
+    content: '\f00c';
+    font-family: FontAwesome;
+    font-weight: 400;
+    font-style: normal;
+    color: #FFF;
+    text-decoration: inherit;
+    line-height: 1em;
+    font-size: 13px;
+    position: absolute;
+    left: 2px;
+    top: 2px;
+}
+
+.ui-selectmanycheckbox .ui-chkbox .ui-chkbox-box .ui-icon.ui-icon-check::before, .ui-selectmanycheckbox .ui-chkbox .ui-chkbox-box .ui-icon.ui-icon-check::before {
+    color: rgb(253, 183, 28);
+}
+
+span.ui-chkbox-icon.ui-icon.ui-c.ui-icon-check {
+    position: relative;
+}
+
+.ui-chkbox-box.ui-widget.ui-corner-all.ui-state-default {
+    width: 19px;
+    height: 19px;
+    border-radius: 4px;
+}
+
+.ui-chkbox-box.ui-state-active {
+    background-color: #FFFFFF;
+}
+
+.ui-selectmanycheckbox.specifications label {
+    margin: 0 0 0 8px;
+}
+
+.content > .ui-panelgrid > .ui-panelgrid-content > .ui-grid-row > .ui-grid-col-6,
+.content > span > .ui-panelgrid > .ui-panelgrid-content > .ui-grid-row > .ui-grid-col-6 {
+    margin: 5px 20px 10px 20px;
+}
+
+.content > .ui-panelgrid > .ui-panelgrid-content > .ui-grid-row > .ui-grid-col-6.label-row,
+.content > span > .ui-panelgrid > .ui-panelgrid-content > .ui-grid-row > .ui-grid-col-6.label-row {
+    margin: 10px 20px 0 20px;
+}
+
+.container.main-content > .row > .wpb_row.top-level {
+    padding-top: 65px;
+}
+
+/* Footer */
+
+.footer-outer {
+    background-color: #1d2f42;
+    font-size: 14px;
+}
+
+.footer-outer a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.footer-widgets {
+    padding: 30px 90px;
+}
+
+.copyright {
+    background-color: #0e1421;
+    color: #ffffff;
+}
+
+.copyright ul {
+    list-style: none;
+    float: right;
+}
+
+.copyright li {
+    list-style: none;
+    float: left;
+    margin-left: 20px;
+}
+
+.copyright .ui-widget-content {
+    color: #ffffff;
+    font-size: 12px;
+    padding: 0 90px;
+}
+
+.social i.fa {
+    color: #ffffff;
+    font-size: 20px;
+}
+
+.social i.fa:hover {
+     color: rgb(253, 183, 28);
+ }
