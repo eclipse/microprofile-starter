@@ -42,7 +42,7 @@
 
 <h:body>
     <div class="header">
-        <div class="header-title header-text-2">Microprofile Starter <span
+        <div class="header-title header-text-2">MicroProfile Starter <span
                 class="header-yellow">"Beta"</span></div>
         <div class="header-title header-text-1 header-yellow">Generate MicroProfile Maven Project with Examples</div>
         <a href="" class="feedback">
@@ -114,7 +114,6 @@
                                                  disabled="#{empty generatorDataBean.mpVersion}">
                                     <f:selectItem/>
                                     <f:selectItems value="${generatorDataBean.supportedServerItems}"/>
-                                    <p:ajax listener="#{generatorDataBean.onMPServerSelected}" update="options"/>
                                 </p:selectOneMenu>
                                 <p:outputLabel value="beans.xml" for="beansxmlFile"/>
                                 <p:selectOneMenu id="beansxmlFile" value="#{generatorDataBean.beansxmlMode}"

@@ -2,11 +2,19 @@
 
 ## Introduction
 
-Jessie has generated this MicroProfile application for you.
+MicroProfile Starter has generated this MicroProfile application for you.
 
 The generation of the executable jar file can be performed by issuing the following command
 
-    mvn clean package -P[# th:text="${mp_servername}"/]
+    mvn clean package
+
+This will create an executable jar file **[# th:text="${jar_file}"/]** within the _target_ maven folder. This can be started by executing the following command
+
+    java -jar target/[# th:text="${jar_file}"/]
+
+To launch the test page, open your browser at the following URL
+
+    [# th:text="${test_url}"/]
 
 ## Specification examples
 

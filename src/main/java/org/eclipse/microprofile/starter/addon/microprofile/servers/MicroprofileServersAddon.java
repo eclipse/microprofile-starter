@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -22,6 +22,7 @@
  */
 package org.eclipse.microprofile.starter.addon.microprofile.servers;
 
+import org.apache.maven.model.Activation;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Profile;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
@@ -130,6 +131,9 @@ public class MicroprofileServersAddon extends AbstractAddon {
             if (profile.getId().equals(profileName)) {
                 Profile selectedProfile = profile.clone();
                 selectedProfile.setId(serverName);
+                Activation activeByDefault = new Activation();
+                activeByDefault.setActiveByDefault(true);
+                selectedProfile.setActivation(activeByDefault);
                 pomFile.getProfiles().add(selectedProfile);
             }
         }
@@ -307,7 +311,60 @@ public class MicroprofileServersAddon extends AbstractAddon {
             addTestClient(model, alternatives, variables);
         }
 
+        variables.put("jar_file", defineJarFileName(supportedServer, model.getMaven().getArtifactId()));
+        variables.put("test_url", defineTestURL(supportedServer, model.getMaven().getArtifactId()));
+
         processTemplateFile(model.getDirectory(), "readme.md", alternatives, variables);
+    }
+
+    private String defineJarFileName(SupportedServer supportedServer, String artifactId) {
+        String result;
+        switch (supportedServer) {
+
+            case WILDFLY_SWARM:
+                result = String.format("%s-swarm.jar", artifactId);
+                break;
+            case THORNTAIL_V2:
+                result = String.format("%s-thorntail.jar", artifactId);
+                break;
+            case LIBERTY:
+                result = String.format("%s.jar", artifactId);
+                break;
+            case KUMULUZEE:
+                result = String.format("%s.jar", artifactId);
+                break;
+            case PAYARA_MICRO:
+                result = String.format("%s-microbundle.jar", artifactId);
+                break;
+            default:
+                throw new IllegalArgumentException(String.format("Value of supportedServer '%s' is not supported", supportedServer.getCode()));
+        }
+        return result;
+    }
+
+    private String defineTestURL(SupportedServer supportedServer, String artifactId) {
+        String result;
+        switch (supportedServer) {
+
+            case WILDFLY_SWARM:
+                result = "http://localhost:8080/index.html";
+                break;
+            case THORNTAIL_V2:
+                result = "http://localhost:8080/index.html";
+                break;
+            case LIBERTY:
+                result = String.format("http://localhost:8181/%s/index.html", artifactId);
+                break;
+            case KUMULUZEE:
+                result = "http://localhost:8080/index.html";
+                break;
+            case PAYARA_MICRO:
+                result = "http://localhost:8080/index.html";
+                break;
+            default:
+                throw new IllegalArgumentException(String.format("Value of supportedServer '%s' is not supported", supportedServer.getCode()));
+        }
+        return result;
     }
 
     private void addTestClient(JessieModel model, Set<String> alternatives, Map<String, String> variables) {
