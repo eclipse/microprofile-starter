@@ -29,6 +29,6 @@ public class DynamoDBLoggerTest {
         engineData.setSelectedSpecs(Stream.of("HEALTH_METRICS", "HEALTH_CHECKS", "REST_CLIENT").collect(Collectors.toList()));
         engineData.setMavenData(jessieMaven);
 
-        System.out.println(dynamoDBLogger.log(engineData));
+        dynamoDBLogger.log(engineData);
     }
 }
