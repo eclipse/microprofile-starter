@@ -138,7 +138,6 @@ public class GeneratorDataBean implements Serializable {
         JessieSpecification specifications = new JessieSpecification();
 
         specifications.setJavaSEVersion(JavaSEVersion.valueFor(engineData.getJavaSEVersion()));
-        specifications.setModuleStructure(ModuleStructure.SINGLE);
 
         specifications.setMicroProfileVersion(MicroProfileVersion.valueFor(engineData.getMpVersion()));
 
