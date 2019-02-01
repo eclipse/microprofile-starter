@@ -65,16 +65,7 @@ public class MavenCreator {
     private MavenHelper mavenHelper;
 
     public void createMavenFiles(JessieModel model) {
-        Model pomFile = null;
-        switch (model.getSpecification().getModuleStructure()) {
-
-            case SINGLE:
-                pomFile = createSingleModule(model);
-                break;
-            case MULTI:
-                throw new IllegalArgumentException("Maven multi module needs to be supported");
-                //break;
-        }
+        Model pomFile = createSingleModule(model);
 
         applyMavenAdapters(model, pomFile);
 

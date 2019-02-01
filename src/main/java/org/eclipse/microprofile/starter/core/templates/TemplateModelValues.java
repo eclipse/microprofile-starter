@@ -64,9 +64,6 @@ public class TemplateModelValues {
         JessieSpecification modelSpecification = model.getSpecification();
         JessieSpecification templateSpecification = templateModel.getSpecification();
 
-        if (modelSpecification.getModuleStructure() == null) {
-            modelSpecification.setModuleStructure(templateSpecification.getModuleStructure());
-        }
         if (modelSpecification.getJavaSEVersion() == null) {
             modelSpecification.setJavaSEVersion(templateSpecification.getJavaSEVersion());
         }

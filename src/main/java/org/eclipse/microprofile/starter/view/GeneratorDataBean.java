@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -128,7 +128,6 @@ public class GeneratorDataBean implements Serializable {
         JessieSpecification specifications = new JessieSpecification();
 
         specifications.setJavaSEVersion(JavaSEVersion.valueFor(javaSEVersion));
-        specifications.setModuleStructure(ModuleStructure.SINGLE);
 
         specifications.setMicroProfileVersion(MicroProfileVersion.valueFor(mpVersion));
 
