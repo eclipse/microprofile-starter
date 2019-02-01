@@ -33,7 +33,6 @@ import org.eclipse.microprofile.starter.core.model.JessieModel;
 import org.eclipse.microprofile.starter.core.model.JessieSpecification;
 import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
 import org.eclipse.microprofile.starter.core.model.ModelManager;
-import org.eclipse.microprofile.starter.core.model.ModuleStructure;
 import org.eclipse.microprofile.starter.core.model.OptionValue;
 import org.eclipse.microprofile.starter.log.LoggingTask;
 
