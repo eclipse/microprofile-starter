@@ -114,7 +114,6 @@
                                              disabled="#{empty generatorDataBean.engineData.mpVersion}">
                                 <f:selectItem/>
                                 <f:selectItems value="${generatorDataBean.supportedServerItems}"/>
-                                <p:ajax listener="#{generatorDataBean.onMPServerSelected}" update="options"/>
                             </p:selectOneMenu>
                             <p:outputLabel value="beans.xml" for="beansxmlFile"/>
                             <p:selectOneMenu id="beansxmlFile" value="#{generatorDataBean.engineData.beansxmlMode}"
@@ -124,7 +123,7 @@
                         </p:panelGrid>
                         <h:panelGroup>
                             <p:outputLabel value="Examples for specifications" for="microprofileSpecs"/>
-                            <p:selectManyCheckbox id="microprofileSpecs" value="#{generatorDataBean.engineData.selectedSpecs}"
+                            <p:selectManyCheckbox id="microprofileSpecs" value="#{generatorDataBean.selectedSpecs}"
                                                   layout="responsive" styleClass="specifications"
                                                   columns="2" disabled="#{empty generatorDataBean.engineData.mpVersion}">
                                 <f:selectItems value="#{generatorDataBean.specs}" var="spec" itemLabel="#{spec}"
