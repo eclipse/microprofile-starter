@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -27,7 +27,14 @@ import java.util.Set;
 
 public enum MicroProfileVersion {
 
-    NONE(null, ""), MP12("1.2", "MP 1.2"), MP13("1.3", "MP 1.3"), MP14("1.4", "MP 1.4"), MP20("2.0", "MP 2.0", "2.0.1");
+    // @formatter:off
+    NONE(null, "")
+    , MP12("1.2", "MP 1.2")
+    , MP13("1.3", "MP 1.3")
+    , MP14("1.4", "MP 1.4")
+    , MP20("2.0", "MP 2.0", "2.0.1")
+    , MP21("2.1", "MP 2.1");
+    // @formatter:on
 
     private String code;
     private String mavenVersion;
