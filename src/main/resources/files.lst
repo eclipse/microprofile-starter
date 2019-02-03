@@ -32,3 +32,4 @@ src/main/resources/files/test-client/privateKey.pem.tpl
 src/main/resources/files/thorntail-v2/web.xml.tpl
 src/main/resources/files/web.xml.tpl
 src/main/resources/files/wildfly-swarm/web.xml.tpl
+src/main/resources/files/tomee/index.html.tpl
