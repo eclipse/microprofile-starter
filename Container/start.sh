@@ -23,4 +23,9 @@ java -server \
  -Dswarm.http.port=${MY_HTTP_PORT:-8080} \
  -Dswarm.https.port=${MY_HTTPS_PORT:-8443} \
  -Dswarm.undertow.servers.default-server.hosts.default-host.alias="${HOSTNAME}" \
- -Dswarm.bind.address="${HOSTNAME}"
+ -Dswarm.bind.address="${HOSTNAME}" \
+ -DAWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
+ -DAWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
+ -DMP_STARTER_APP_ID="${MP_STARTER_APP_ID:-test-instance}" \
+ -DAWS_REGION="${AWS_REGION:-eu-west-1}" \
+ -DAWS_DYNAMODB_TABLE_NAME="${AWS_DYNAMODB_TABLE_NAME:-microprofile_starter_log}"

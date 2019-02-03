@@ -41,10 +41,6 @@ public class JessieSpecification {
     @JsonDeserialize(using = JavaSEVersionDeserializer.class)
     private JavaSEVersion javaSEVersion;
 
-    @JsonProperty(value = "structure")
-    @JsonDeserialize(using = ModuleDeserializer.class)
-    private ModuleStructure moduleStructure;
-
     @JsonDeserialize(using = ViewTypeDeserializer.class)
     private List<ViewType> views;
 
@@ -62,14 +58,6 @@ public class JessieSpecification {
 
     public void setJavaSEVersion(JavaSEVersion javaSEVersion) {
         this.javaSEVersion = javaSEVersion;
-    }
-
-    public ModuleStructure getModuleStructure() {
-        return moduleStructure;
-    }
-
-    public void setModuleStructure(ModuleStructure moduleStructure) {
-        this.moduleStructure = moduleStructure;
     }
 
     public List<ViewType> getViews() {
