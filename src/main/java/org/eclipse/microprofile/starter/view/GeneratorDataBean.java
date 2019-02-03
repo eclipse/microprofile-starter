@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -26,9 +26,19 @@ import org.eclipse.microprofile.starter.ZipFileCreator;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
 import org.eclipse.microprofile.starter.core.artifacts.Creator;
-import org.eclipse.microprofile.starter.core.model.*;
+import org.eclipse.microprofile.starter.core.model.BeansXMLMode;
+import org.eclipse.microprofile.starter.core.model.JavaSEVersion;
+import org.eclipse.microprofile.starter.core.model.JessieMaven;
+import org.eclipse.microprofile.starter.core.model.JessieModel;
+import org.eclipse.microprofile.starter.core.model.JessieSpecification;
+import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
+import org.eclipse.microprofile.starter.core.model.ModelManager;
+import org.eclipse.microprofile.starter.core.model.OptionValue;
+import org.eclipse.microprofile.starter.log.LoggingTask;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.enterprise.concurrent.ManagedExecutorService;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -38,7 +48,11 @@ import javax.inject.Named;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -55,27 +69,22 @@ public class GeneratorDataBean implements Serializable {
     @Inject
     private ZipFileCreator zipFileCreator;
 
-    private JessieMaven mavenData;
-    private String javaSEVersion = "1.8";
+    @Resource
+    private ManagedExecutorService managedExecutorService;
 
-    private String mpVersion;
-    private String supportedServer;
-    private String beansxmlMode;
+    private EngineData engineData;
 
     private List<SelectItem> supportedServerItems;
     private List<String> selectedSpecs = new ArrayList<>();
     private List<SelectItem> specs;
-    private String selectedSpecDescription;
 
     @PostConstruct
     public void init() {
-        mavenData = new JessieMaven();
-        mavenData.setGroupId("com.example");
-        mavenData.setArtifactId("demo");
+        engineData = new EngineData();
     }
 
     public void onMPVersionSelected() {
-        MicroProfileVersion version = MicroProfileVersion.valueFor(mpVersion);
+        MicroProfileVersion version = MicroProfileVersion.valueFor(engineData.getMpVersion());
         defineExampleSpecs(version);
         defineSupportedServerItems(version);
     }
@@ -119,36 +128,38 @@ public class GeneratorDataBean implements Serializable {
     public void generateProject() {
 
         JessieModel model = new JessieModel();
-        model.setDirectory(mavenData.getArtifactId());
+        model.setDirectory(engineData.getMavenData().getArtifactId());
         JessieMaven mavenModel = new JessieMaven();
-        mavenModel.setGroupId(mavenData.getGroupId());
-        mavenModel.setArtifactId(mavenData.getArtifactId());
+        mavenModel.setGroupId(engineData.getMavenData().getGroupId());
+        mavenModel.setArtifactId(engineData.getMavenData().getArtifactId());
         model.setMaven(mavenModel);
 
         JessieSpecification specifications = new JessieSpecification();
 
-        specifications.setJavaSEVersion(JavaSEVersion.valueFor(javaSEVersion));
-        specifications.setModuleStructure(ModuleStructure.SINGLE);
+        specifications.setJavaSEVersion(JavaSEVersion.valueFor(engineData.getJavaSEVersion()));
 
-        specifications.setMicroProfileVersion(MicroProfileVersion.valueFor(mpVersion));
+        specifications.setMicroProfileVersion(MicroProfileVersion.valueFor(engineData.getMpVersion()));
 
-        model.getOptions().put("mp.server", new OptionValue(supportedServer));
+        model.getOptions().put("mp.server", new OptionValue(engineData.getSupportedServer()));
         model.getOptions().put("mp.specs", new OptionValue(selectedSpecs));
 
+        engineData.setSelectedSpecs(selectedSpecs);
 
         model.setSpecification(specifications);
 
-        model.getOptions().put(BeansXMLMode.OptionName.name, new OptionValue(BeansXMLMode.getValue(beansxmlMode).getMode()));
+        model.getOptions().put(BeansXMLMode.OptionName.name, new OptionValue(BeansXMLMode.getValue(engineData.getBeansxmlMode()).getMode()));
 
         modelManager.prepareModel(model, false);
         creator.createArtifacts(model);
+
+        managedExecutorService.submit(new LoggingTask(engineData));
 
         download(zipFileCreator.createArchive());
 
     }
 
     private void download(byte[] archive) {
-        String fileName = mavenData.getArtifactId() + ".zip";
+        String fileName = engineData.getMavenData().getArtifactId() + ".zip";
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext ec = fc.getExternalContext();
 
@@ -166,27 +177,13 @@ public class GeneratorDataBean implements Serializable {
             e.printStackTrace(); // FIXME
         }
 
-        fc.responseComplete(); // Important! Otherwise JSF will attempt to render the response which obviously will fail since it's already written with a file and closed.
+        // Important! Otherwise JSF will attempt to render the response which obviously will fail
+        // since it's already written with a file and closed.
+        fc.responseComplete();
     }
 
-    public JessieMaven getMavenData() {
-        return mavenData;
-    }
-
-    public String getJavaSEVersion() {
-        return javaSEVersion;
-    }
-
-    public void setJavaSEVersion(String javaSEVersion) {
-        this.javaSEVersion = javaSEVersion;
-    }
-
-    public String getMpVersion() {
-        return mpVersion;
-    }
-
-    public void setMpVersion(String mpVersion) {
-        this.mpVersion = mpVersion;
+    public EngineData getEngineData() {
+        return engineData;
     }
 
     public List<SelectItem> getSupportedServerItems() {
@@ -203,49 +200,6 @@ public class GeneratorDataBean implements Serializable {
 
     public void setSelectedSpecs(List<String> selectedSpecs) {
         this.selectedSpecs = selectedSpecs;
-
-        selectedSpecDescription = selectedSpecs.stream()
-                .map(s -> MicroprofileSpec.valueFor(s).getLabel())
-                .collect(Collectors.joining(", "));
-
     }
 
-    public String getSelectedSpecDescription() {
-        return selectedSpecDescription;
-    }
-
-    public String getSupportedServer() {
-        return supportedServer;
-    }
-
-    public void setSupportedServer(String supportedServer) {
-        this.supportedServer = supportedServer;
-    }
-
-    public String getBeansxmlMode() {
-        return beansxmlMode;
-    }
-
-    public void setBeansxmlMode(String beansxmlMode) {
-        this.beansxmlMode = beansxmlMode;
-    }
-
-    public String getBeansxmlModelDescription() {
-        String result;
-        switch (BeansXMLMode.getValue(beansxmlMode)) {
-
-            case IMPLICIT:
-                result = "No beans.xml file generated (implicit)";
-                break;
-            case ANNOTATED:
-                result = "beans.xml file generated with discovery mode 'annotated'";
-                break;
-            case ALL:
-                result = "beans.xml file generated with discovery mode 'all'";
-                break;
-            default:
-                throw new IllegalArgumentException(String.format("BeansXMLMode '%s' not supported", beansxmlMode));
-        }
-        return result;
-    }
 }
