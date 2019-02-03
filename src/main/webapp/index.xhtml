@@ -31,6 +31,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 >
 
 <h:head>
@@ -54,7 +55,7 @@
     </div>
 
     <div class="page-wrapper">
-        <h:form id="frm">
+        <h:form id="frm" pt:autocomplete="off">
 
             <div class="mainArea">
 
@@ -69,12 +70,14 @@
                     <p:panelGrid columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
                                  styleClass="ui-panelgrid-blank ui-fluid">
                         <p:inputText id="groupId" value="#{generatorDataBean.mavenData.groupId}" required="true"
-                                     title="Used as part of the package name so it must comply with the Java rules">
+                                     title="Used as part of the package name so it must comply with the Java rules"
+                                     pt:autocomplete="off">
                             <f:validator validatorId="packageNameValidator"/>
                         </p:inputText>
 
                         <p:inputText id="artifactId" value="#{generatorDataBean.mavenData.artifactId}" required="true"
-                                     title="Used as part of the package name so it must comply with the Java rules">
+                                     title="Used as part of the package name so it must comply with the Java rules"
+                                     pt:autocomplete="off">
                             <f:validator validatorId="packageNameValidator"/>
                         </p:inputText></p:panelGrid>
 
