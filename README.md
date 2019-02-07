@@ -1,6 +1,7 @@
 # microprofile-starter
 
 [![Gitter](https://badges.gitter.im/eclipse/microprofile-starter.svg)](https://gitter.im/eclipse/microprofile-starter?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Uptime Robot status](https://img.shields.io/uptimerobot/ratio/7/m781918689-6f2e0769420600bd3138f478.svg?style=flat-square)](https://stats.karms.biz/781918689)[![Uptime Robot status](https://img.shields.io/uptimerobot/status/m781918689-6f2e0769420600bd3138f478.svg?style=flat-square)](https://stats.karms.biz/781918689)
 
 Live tool at [MicroProfile starter - Generate MicroProfile Maven Project](https://start.microprofile.io/index.xhtml)
 
