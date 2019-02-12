@@ -255,6 +255,12 @@ public class MicroprofileServersAddon extends AbstractAddon {
             directoryCreator.createDirectory(metaInfDirectory);
         }
 
+        if (supportedServer == SupportedServer.TOMEE) {
+            String resourceDirectory = getResourceDirectory(model);
+            directoryCreator.createDirectory(resourceDirectory);
+            processTemplateFile(resourceDirectory, "publicKey.pem", alternatives, variables);
+        }
+
         String rootJava = getJavaApplicationRootPackage(model);
 
         if (microprofileSpecs.contains(MicroprofileSpec.HEALTH_CHECKS)) {
@@ -336,6 +342,9 @@ public class MicroprofileServersAddon extends AbstractAddon {
             case PAYARA_MICRO:
                 result = String.format("%s-microbundle.jar", artifactId);
                 break;
+            case TOMEE:
+                result = String.format("%s-exec.jar", artifactId);
+                break;
             default:
                 throw new IllegalArgumentException(String.format("Value of supportedServer '%s' is not supported", supportedServer.getCode()));
         }
@@ -359,6 +368,9 @@ public class MicroprofileServersAddon extends AbstractAddon {
                 result = "http://localhost:8080/index.html";
                 break;
             case PAYARA_MICRO:
+                result = "http://localhost:8080/index.html";
+                break;
+            case TOMEE:
                 result = "http://localhost:8080/index.html";
                 break;
             default:
