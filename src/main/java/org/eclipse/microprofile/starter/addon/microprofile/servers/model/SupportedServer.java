@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -31,8 +31,8 @@ import java.util.List;
 public enum SupportedServer {
     // @formatter:off
     WILDFLY_SWARM("wildfly-swarm", "WildFly Swarm", Collections.singletonList(MicroProfileVersion.MP12))
-    , THORNTAIL_V2("thorntail-v2", "Thorntail V2", Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13))
-    , LIBERTY("liberty", "Open Liberty", Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14, MicroProfileVersion.MP20))
+    , THORNTAIL_V2("thorntail-v2", "Thorntail V2", Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP21))
+    , LIBERTY("liberty", "Open Liberty", Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14, MicroProfileVersion.MP20, MicroProfileVersion.MP21))
     , KUMULUZEE("kumuluzEE", "KumuluzEE", Collections.singletonList(MicroProfileVersion.MP12))
     , PAYARA_MICRO("payara-micro", "Payara Micro", Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14, MicroProfileVersion.MP20))
     , TOMEE("tomee", "Apache TomEE 8.0.0-M2", Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14, MicroProfileVersion.MP20));
