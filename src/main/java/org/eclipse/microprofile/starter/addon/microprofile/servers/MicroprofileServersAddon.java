@@ -251,6 +251,12 @@ public class MicroprofileServersAddon extends AbstractAddon {
             directoryCreator.createDirectory(metaInfDirectory);
         }
 
+        if (supportedServer == SupportedServer.TOMEE) {
+            String resourceDirectory = getResourceDirectory(model);
+            directoryCreator.createDirectory(resourceDirectory);
+            processTemplateFile(resourceDirectory, "publicKey.pem", alternatives, variables);
+        }
+
         String rootJava = getJavaApplicationRootPackage(model);
 
         if (microprofileSpecs.contains(MicroprofileSpec.HEALTH_CHECKS)) {
