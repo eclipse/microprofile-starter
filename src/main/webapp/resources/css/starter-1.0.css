@@ -117,6 +117,7 @@ body {
 .page-wrapper h3 {
     font-family: 'Nunito', sans-serif;
     margin-left: 30px;
+    margin-top: 14px;
     font-weight: 400;
     font-size: 22px;
     margin-bottom: 0;
@@ -132,6 +133,7 @@ button.ui-button.ui-state-default {
     padding: 5px 7px;
     width: auto;
     margin-top: 10px;
+    margin-right: 25px;
     font-size: 16px;
     text-transform: uppercase;
 }
