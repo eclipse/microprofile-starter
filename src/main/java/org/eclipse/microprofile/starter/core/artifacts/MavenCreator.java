@@ -136,7 +136,7 @@ public class MavenCreator {
         pomFile.addProperty("failOnMissingWebXml", "false");
 
         Build build = new Build();
-        build.setFinalName(model.getMaven().getArtifactId());
+        build.setFinalName("${project.artifactId}");
         pomFile.setBuild(build);
 
         return pomFile;
