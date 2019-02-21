@@ -30,7 +30,7 @@
 
     <groupId>org.eclipse.microprofile</groupId>
     <artifactId>starter</artifactId>
-    <version>0.8</version>
+    <version>0.9-SNAPSHOT</version>
 
     <packaging>war</packaging>
 
