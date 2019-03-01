@@ -146,7 +146,8 @@ public class MicroprofileServersAddon extends AbstractAddon {
 
         if (microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH)) {
             mavenHelper.addDependency(pomFile, "com.nimbusds", "nimbus-jose-jwt", "5.7", "test");
-            mavenHelper.addDependency(pomFile, "org.glassfish.jersey.core", "jersey-client", "2.25.1", "test");
+            TestDependenciesRestClient.JessieMavenWithVersion data = TestDependenciesRestClient.getInstance().getServerSpecificData(supportedServer);
+            mavenHelper.addDependency(pomFile, data.getGroupId(), data.getArtifactId(), data.getVersion(), "test");
 
             mavenHelper.addDependency(pomFile, "org.bouncycastle", "bcpkix-jdk15on", "1.53", "test");
 
