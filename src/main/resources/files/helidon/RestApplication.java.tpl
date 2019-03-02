@@ -12,8 +12,9 @@ import [# th:text="${java_package}"/].metric.MetricController;
 [# th:if="${mp_JWT_auth}"]
 import [# th:text="${java_package}"/].secure.ProtectedController;
 import org.eclipse.microprofile.auth.LoginConfig;
-
 import javax.annotation.security.DeclareRoles;
+[/]
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

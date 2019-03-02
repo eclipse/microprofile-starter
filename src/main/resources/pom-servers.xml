@@ -837,115 +837,11 @@
             <id>helidon-1.2</id>
             <properties>
                 <helidon.version>1.0.0</helidon.version>
+                <jersey.version>2.26</jersey.version>
                 <mainClass>io.helidon.microprofile.server.Main</mainClass>
                 <libs.classpath.prefix>libs</libs.classpath.prefix>
                 <copied.libs.dir>${project.build.directory}/${libs.classpath.prefix}</copied.libs.dir>
             </properties>
-<!--            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-compiler-plugin</artifactId>
-                            <version>3.1</version>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-dependency-plugin</artifactId>
-                            <version>2.9</version>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-resources-plugin</artifactId>
-                            <version>3.0.2</version>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-jar-plugin</artifactId>
-                            <version>2.5</version>
-                            <configuration>
-                                <archive>
-                                    <manifest>
-                                        <addClasspath>true</addClasspath>
-                                        <classpathPrefix>${libs.classpath.prefix}</classpathPrefix>
-                                        <mainClass>${mainClass}</mainClass>
-                                    </manifest>
-                                </archive>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-                
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>copy-dependencies</id>
-                                <phase>prepare-package</phase>
-                                <goals>
-                                    <goal>copy-dependencies</goal>
-                                </goals>
-                                <configuration>
-                                    <outputDirectory>${copied.libs.dir}</outputDirectory>
-                                    <overWriteReleases>false</overWriteReleases>
-                                    <overWriteSnapshots>false</overWriteSnapshots>
-                                    <overWriteIfNewer>true</overWriteIfNewer>
-                                    <overWriteIfNewer>true</overWriteIfNewer>
-                                    <includeScope>runtime</includeScope>
-                                    <excludeScope>test</excludeScope>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-resources-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>copy-dockerfile</id>
-                                <phase>process-resources</phase>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals>
-                                <configuration>
-                                    <outputDirectory>${project.build.directory}</outputDirectory>
-                                    <resources>
-                                        <resource>
-                                            <directory>src/main/docker</directory>
-                                            <filtering>true</filtering>
-                                            <includes>
-                                                <include>Dockerfile</include>
-                                            </includes>
-                                        </resource>
-                                        <resource>
-                                            <filtering>true</filtering>
-                                            <directory>src/main/k8s</directory>
-                                            <includes>
-                                                <include>app.yaml</include>
-                                            </includes>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-jar-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>build-jar</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>-->
             <dependencyManagement>
                 <dependencies>
                     <dependency>
@@ -968,12 +864,12 @@
                     <dependency>
                         <groupId>org.glassfish.jersey.media</groupId>
                         <artifactId>jersey-media-json-binding</artifactId>
-                        <version>2.26</version>
+                        <version>${jersey.version}</version>
                     </dependency>
                     <dependency>
                         <groupId>org.glassfish.jersey.core</groupId>
                         <artifactId>jersey-client</artifactId>
-                        <version>2.25.1</version>
+                        <version>${jersey.version}</version>
                      </dependency>
                 </dependencies>
             </dependencyManagement>
