@@ -139,7 +139,8 @@ public class MicroprofileServersAddon extends AbstractAddon {
         }
 
         SupportedServer supportedServer = SupportedServer.valueFor(serverName);
-        if (supportedServer == SupportedServer.KUMULUZEE) {
+        if (supportedServer == SupportedServer.KUMULUZEE
+                || supportedServer == SupportedServer.HELIDON) {
             // KumuluzEE needs jar packaging
             pomFile.setPackaging("jar");
         }
@@ -261,6 +262,30 @@ public class MicroprofileServersAddon extends AbstractAddon {
             processTemplateFile(resourceDirectory, "publicKey.pem", alternatives, variables);
         }
 
+        if (supportedServer == SupportedServer.HELIDON) {
+            cdiCreator.createCDIFilesForJar(model);
+
+            String webDirectory = model.getDirectory() + "/" + MavenCreator.SRC_MAIN_WEBAPP;
+            directoryCreator.removeDirectory(webDirectory);
+            // TODO But further on the directory is created again (for index.html) so it it then only to get rid of beans.xml in WEB-INF?
+
+
+            String rootJava = MavenCreator.SRC_MAIN_JAVA + "/" + directoryCreator.createPathForGroupAndArtifact(model.getMaven());
+            String viewDirectory = model.getDirectory() + "/" + rootJava;
+
+            String resourcesDirectory = model.getDirectory() + "/" + MavenCreator.SRC_MAIN_RESOURCES;
+            directoryCreator.createDirectory(resourcesDirectory);
+
+            processTemplateFile(resourcesDirectory, "application.yaml", alternatives, variables);
+            processTemplateFile(resourcesDirectory, "logging.properties", alternatives, variables);
+            processTemplateFile(resourcesDirectory, "publicKey.pem", alternatives, variables);
+
+            String artifactId = variables.get("artifact");
+
+            String restAppFile = thymeleafEngine.processFile("RestApplication.java", alternatives, variables);
+            fileCreator.writeContents(viewDirectory, artifactId + "RestApplication.java", restAppFile);
+        }
+
         String rootJava = getJavaApplicationRootPackage(model);
 
         if (microprofileSpecs.contains(MicroprofileSpec.HEALTH_CHECKS)) {
@@ -345,6 +370,9 @@ public class MicroprofileServersAddon extends AbstractAddon {
             case TOMEE:
                 result = String.format("%s-exec.jar", artifactId);
                 break;
+            case HELIDON:
+                result = String.format("%s.jar", artifactId);
+                break;
             default:
                 throw new IllegalArgumentException(String.format("Value of supportedServer '%s' is not supported", supportedServer.getCode()));
         }
@@ -371,6 +399,9 @@ public class MicroprofileServersAddon extends AbstractAddon {
                 result = "http://localhost:8080/index.html";
                 break;
             case TOMEE:
+                result = "http://localhost:8080/index.html";
+                break;
+            case HELIDON:
                 result = "http://localhost:8080/index.html";
                 break;
             default:
