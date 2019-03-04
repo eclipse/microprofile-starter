@@ -41,7 +41,10 @@ public class JessieFileTemplateResolver extends AbstractConfigurableTemplateReso
     }
 
     @Override
-    protected ITemplateResource computeTemplateResource(IEngineConfiguration configuration, String ownerTemplate, String template, String resourceName, String characterEncoding, Map<String, Object> templateResolutionAttributes) {
-        return new ClassLoaderTemplateResource(JessieFileTemplateResolver.class.getClassLoader(), filesLocator.getTemplateFile(resourceName), characterEncoding);
+    protected ITemplateResource computeTemplateResource(IEngineConfiguration configuration, String ownerTemplate,
+                                                        String template, String resourceName, String characterEncoding,
+                                                        Map<String, Object> templateResolutionAttributes) {
+        return new ClassLoaderTemplateResource(JessieFileTemplateResolver.class.getClassLoader(),
+                filesLocator.getTemplateFile(resourceName), characterEncoding);
     }
 }

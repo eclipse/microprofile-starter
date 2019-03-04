@@ -67,8 +67,9 @@ public class DynamoDBLogger {
     }
 
     private static byte[] signatureKey(
-            final String key, final String date_stamp, final String regionName, final String serviceName) throws NoSuchAlgorithmException, InvalidKeyException {
-        final byte[] kDate = sign(StandardCharsets.UTF_8.encode("AWS4" + key).array(), StandardCharsets.UTF_8.encode(date_stamp).array());
+            final String key, final String dateStamp, final String regionName, final String serviceName) 
+            throws NoSuchAlgorithmException, InvalidKeyException {
+        final byte[] kDate = sign(StandardCharsets.UTF_8.encode("AWS4" + key).array(), StandardCharsets.UTF_8.encode(dateStamp).array());
         final byte[] kRegion = sign(kDate, StandardCharsets.US_ASCII.encode(regionName).array());
         final byte[] kService = sign(kRegion, StandardCharsets.US_ASCII.encode(serviceName).array());
         return sign(kService, StandardCharsets.US_ASCII.encode("aws4_request").array());
