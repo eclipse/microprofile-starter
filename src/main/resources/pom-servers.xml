@@ -836,7 +836,7 @@
         <profile>
             <id>helidon-1.2</id>
             <properties>
-                <helidon.version>1.0.0</helidon.version>
+                <helidon.version>1.0.1</helidon.version>
                 <jersey.version>2.26</jersey.version>
                 <mainClass>io.helidon.microprofile.server.Main</mainClass>
                 <libs.classpath.prefix>libs</libs.classpath.prefix>
