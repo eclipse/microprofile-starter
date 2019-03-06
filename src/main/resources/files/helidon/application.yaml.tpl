@@ -4,6 +4,10 @@ mp:
       issuer: "https://server.example.com"
 
 security:
+  jersey:
+    analyzers:
+      jwt:
+        secure-by-default: "false"
   providers:
     - mp-jwt-auth:
         atn-token:
