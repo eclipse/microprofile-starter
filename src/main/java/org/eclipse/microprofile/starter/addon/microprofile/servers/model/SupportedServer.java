@@ -36,7 +36,7 @@ public enum SupportedServer {
     , KUMULUZEE("kumuluzEE", "KumuluzEE", Collections.singletonList(MicroProfileVersion.MP12))
     , PAYARA_MICRO("payara-micro", "Payara Micro", Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14, MicroProfileVersion.MP20))
     , TOMEE("tomee", "Apache TomEE 8.0.0-M2", Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14, MicroProfileVersion.MP20))
-    , HELIDON("helidon", "Helidon 1.0.0", Collections.singletonList(MicroProfileVersion.MP12));
+    , HELIDON("helidon", "Helidon", Collections.singletonList(MicroProfileVersion.MP12));
     // @formatter:on
 
     private String code;

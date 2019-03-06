@@ -8,11 +8,7 @@ src/main/resources/files/index.html.tpl
 src/main/resources/files/index.xhtml.tpl
 src/main/resources/files/jwt-roles.properties.tpl
 src/main/resources/files/kumuluzEE/RestApplication.java.tpl
-src/main/resources/files/helidon/ConfigTestController.java.tpl
-src/main/resources/files/helidon/HelloController.java.tpl
-src/main/resources/files/helidon/MetricController.java.tpl
 src/main/resources/files/helidon/ProtectedController.java.tpl
-src/main/resources/files/helidon/ResilienceController.java.tpl
 src/main/resources/files/helidon/RestApplication.java.tpl
 src/main/resources/files/helidon/application.yaml.tpl
 src/main/resources/files/helidon/logging.properties.tpl
