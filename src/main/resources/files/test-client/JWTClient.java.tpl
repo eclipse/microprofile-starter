@@ -75,15 +75,16 @@ public class JWTClient {
         return jwsObject.serialize();
     }
 
-    public static PrivateKey readPrivateKey() throws IOException {
+	public static PrivateKey readPrivateKey() throws IOException {
 
-        InputStream inputStream = JWTClient.class.getResourceAsStream("/privateKey.pem");
+	InputStream inputStream = JWTClient.class.getResourceAsStream("/privateKey.pem");
 
-        PEMParser pemParser = new PEMParser(new InputStreamReader(inputStream));
-        JcaPEMKeyConverter converter = new JcaPEMKeyConverter().setProvider(new BouncyCastleProvider());
-        Object object = pemParser.readObject();
-        KeyPair kp = converter.getKeyPair((PEMKeyPair) object);
-        return kp.getPrivate();
-    }
+	try (PEMParser pemParser = new PEMParser(new InputStreamReader(inputStream))) {
+			JcaPEMKeyConverter converter = new JcaPEMKeyConverter().setProvider(new BouncyCastleProvider());
+			Object object = pemParser.readObject();
+			KeyPair kp = converter.getKeyPair((PEMKeyPair) object);
+			return kp.getPrivate();
+		}
+	}
 
 }
