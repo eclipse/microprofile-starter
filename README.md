@@ -4,6 +4,15 @@
 
 Live tool at [MicroProfile starter - Generate MicroProfile Maven Project](https://start.microprofile.io/index.xhtml)
 
+## When can an implementation be added to the MicroProfile Tool
+
+Pre-requisites to be added as an implementation:
+
+- Ensure that your implementation has passed the MicroProfile TCKs for an umbrella release.
+- Add your implementation under the right MicroProfile version at page [MicroProfile implementation](https://wiki.eclipse.org/MicroProfile/Implementation)
+- Create a GitHub issue for adding your implementation to the MicroProfile Starter project at [Issues page](https://github.com/eclipse/microprofile-starter/issues)
+- Do a Pull Request on the MicroProfile Starter project (this project) to add your new integration.
+
 ## Technical documentation
 
 Information about adding
