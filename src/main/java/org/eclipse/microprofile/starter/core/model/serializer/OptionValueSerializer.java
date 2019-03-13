@@ -32,7 +32,8 @@ import java.io.IOException;
 
 public class OptionValueSerializer extends JsonSerializer<OptionValue> {
     @Override
-    public void serialize(OptionValue optionValue, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException, JsonProcessingException {
+    public void serialize(OptionValue optionValue, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
+            throws IOException, JsonProcessingException {
         if (optionValue.isMultipleValues()) {
             serializerProvider.defaultSerializeValue(optionValue.getValues(), jsonGenerator);
         } else {

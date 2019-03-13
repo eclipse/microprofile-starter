@@ -47,6 +47,6 @@ public enum BeansXMLMode {
     }
 
     public static class OptionName {
-        public static String name = BeansXMLMode.class.getSimpleName();
+        public static final String NAME = BeansXMLMode.class.getSimpleName();
     }
 }
