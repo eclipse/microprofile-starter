@@ -60,6 +60,7 @@ public class TemplateModelLoader {
         }
 
         InputStream resource = this.getClass().getClassLoader().getResourceAsStream("templates/templates.yaml");
+        @SuppressWarnings("unchecked")
         List<String> templateFiles = yamlReader.readYAML(resource, List.class);
         // FIXME mechanism to define custom templates.
         try {

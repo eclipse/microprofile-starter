@@ -122,6 +122,7 @@ public class JessieModel {
         parameters.put(parameter.name(), value);
     }
 
+    @SuppressWarnings("unchecked")
     public <T extends Serializable> T getParameter(Parameter parameter) {
         return (T) parameters.get(parameter.name());
     }
