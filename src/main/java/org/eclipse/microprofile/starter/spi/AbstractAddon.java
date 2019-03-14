@@ -89,7 +89,8 @@ public abstract class AbstractAddon implements JessieAddon {
         return model.getDirectory() + "/" + MavenCreator.SRC_TEST_RESOURCES;
     }
 
-    protected final void processTemplateFile(String directory, String templateFileName, String fileName, Set<String> alternatives, Map<String, String> variables) {
+    protected final void processTemplateFile(String directory, String templateFileName, String fileName,
+                                             Set<String> alternatives, Map<String, String> variables) {
         String javaFile = thymeleafEngine.processFile(templateFileName, alternatives, variables);
         fileCreator.writeContents(directory, fileName, javaFile);
     }
