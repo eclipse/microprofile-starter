@@ -119,11 +119,6 @@
                                 <f:selectItem/>
                                 <f:selectItems value="${generatorDataBean.supportedServerItems}"/>
                             </p:selectOneMenu>
-                            <p:outputLabel value="beans.xml" for="beansxmlFile"/>
-                            <p:selectOneMenu id="beansxmlFile" value="#{generatorDataBean.engineData.beansxmlMode}"
-                                             required="true">
-                                <f:selectItems value="${dataBean.beansxmlItems}"/>
-                            </p:selectOneMenu>
                         </p:panelGrid>
                         <h:panelGroup>
                             <p:outputLabel value="Examples for specifications" for="microprofileSpecs"/>

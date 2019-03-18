@@ -30,7 +30,7 @@ public class EngineData {
 
     private String mpVersion;
     private String supportedServer;
-    private String beansxmlMode;
+    private String beansxmlMode = "all";
     private List<String> selectedSpecs;
 
     public EngineData() {
