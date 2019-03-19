@@ -147,17 +147,11 @@ public class MicroprofileServersAddon extends AbstractAddon {
 
         if (microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH)) {
             mavenHelper.addDependency(pomFile, "com.nimbusds", "nimbus-jose-jwt", "5.7", "test");
-            if (supportedServer != SupportedServer.KUMULUZEE) {
+            if (supportedServer != SupportedServer.KUMULUZEE && supportedServer != SupportedServer.HELIDON) {
                 mavenHelper.addDependency(pomFile, "org.glassfish.jersey.core", "jersey-client", "2.25.1", "test");
             }
 
             mavenHelper.addDependency(pomFile, "org.bouncycastle", "bcpkix-jdk15on", "1.53", "test");
-
-            if (supportedServer != SupportedServer.HELIDON) {
-                // Helidon uses jersey-client itself and needs to be copied to target/lib in order to function properly
-                // When we add this dependency as test the maven-dependency-plugin doesn't copied it ,and results in ClassNotFound exception
-                mavenHelper.addDependency(pomFile, "org.glassfish.jersey.core", "jersey-client", "2.25.1", "test");
-            }
 
         }
 
@@ -277,7 +271,6 @@ public class MicroprofileServersAddon extends AbstractAddon {
         }
 
         if (supportedServer == SupportedServer.HELIDON) {
-
             cdiCreator.createCDIFilesForJar(model);
 
             String webDirectory = model.getDirectory() + "/" + MavenCreator.SRC_MAIN_WEBAPP;
@@ -288,15 +281,17 @@ public class MicroprofileServersAddon extends AbstractAddon {
             String rootJava = MavenCreator.SRC_MAIN_JAVA + "/" + directoryCreator.createPathForGroupAndArtifact(model.getMaven());
             String viewDirectory = model.getDirectory() + "/" + rootJava;
 
-            String javaFile = thymeleafEngine.processFile("Main.java", alternatives, variables);
-            fileCreator.writeContents(viewDirectory, "Main.java", javaFile);
-
             String resourcesDirectory = model.getDirectory() + "/" + MavenCreator.SRC_MAIN_RESOURCES;
             directoryCreator.createDirectory(resourcesDirectory);
 
-            String loggingContents = thymeleafEngine.processFile("logging.properties", alternatives, variables);
-            fileCreator.writeContents(resourcesDirectory, "logging.properties", loggingContents);
+            processTemplateFile(resourcesDirectory, "application.yaml", alternatives, variables);
+            processTemplateFile(resourcesDirectory, "logging.properties", alternatives, variables);
+            processTemplateFile(resourcesDirectory, "publicKey.pem", alternatives, variables);
 
+            String artifactId = variables.get("artifact");
+
+            String restAppFile = thymeleafEngine.processFile("RestApplication.java", alternatives, variables);
+            fileCreator.writeContents(viewDirectory, artifactId + "RestApplication.java", restAppFile);
         }
 
         String rootJava = getJavaApplicationRootPackage(model);

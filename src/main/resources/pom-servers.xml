@@ -1027,11 +1027,11 @@
         <profile>
             <id>helidon-1.2</id>
             <properties>
-                <helidon.version>1.0.0</helidon.version>
-                <mainClass>${package}.Main</mainClass>
+                <helidon.version>1.0.1</helidon.version>
+                <jersey.version>2.26</jersey.version>
+                <mainClass>io.helidon.microprofile.server.Main</mainClass>
                 <libs.classpath.prefix>libs</libs.classpath.prefix>
                 <copied.libs.dir>${project.build.directory}/${libs.classpath.prefix}</copied.libs.dir>
-
             </properties>
             <dependencyManagement>
                 <dependencies>
@@ -1041,6 +1041,26 @@
                         <version>${helidon.version}</version>
                         <type>pom</type>
                         <scope>import</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.jboss</groupId>
+                        <artifactId>jandex</artifactId>
+                        <version>2.0.4.Final</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>javax.activation</groupId>
+                        <artifactId>javax.activation-api</artifactId>
+                        <version>1.2.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.glassfish.jersey.media</groupId>
+                        <artifactId>jersey-media-json-binding</artifactId>
+                        <version>${jersey.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.glassfish.jersey.core</groupId>
+                        <artifactId>jersey-client</artifactId>
+                        <version>${jersey.version}</version>
                     </dependency>
                 </dependencies>
             </dependencyManagement>
@@ -1053,8 +1073,23 @@
                     <groupId>org.glassfish.jersey.media</groupId>
                     <artifactId>jersey-media-json-binding</artifactId>
                 </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.core</groupId>
+                    <artifactId>jersey-client</artifactId>
+                    <scope>compile</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss</groupId>
+                    <artifactId>jandex</artifactId>
+                    <scope>runtime</scope>
+                    <optional>true</optional>
+                </dependency>
+                <dependency>
+                    <groupId>javax.activation</groupId>
+                    <artifactId>javax.activation-api</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
             </dependencies>
-
 
             <build>
                 <plugins>
