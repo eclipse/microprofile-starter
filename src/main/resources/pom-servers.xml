@@ -624,6 +624,198 @@
         </profile>
 
         <profile>
+            <id>kumuluzEE-1.3</id>
+
+            <properties>
+                <kumuluz.version>2.6.0</kumuluz.version>
+                <kumuluzee-config-mp.version>1.3.0</kumuluzee-config-mp.version>
+            </properties>
+
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.kumuluz.ee</groupId>
+                        <artifactId>kumuluzee-bom</artifactId>
+                        <version>${kumuluz.version}</version>
+                        <type>pom</type>
+                        <scope>import</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+
+            <dependencies>
+                <dependency>
+                    <groupId>com.kumuluz.ee</groupId>
+                    <artifactId>kumuluzee-microProfile-1.3</artifactId>
+                </dependency>
+
+            </dependencies>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.kumuluz.ee</groupId>
+                        <artifactId>kumuluzee-maven-plugin</artifactId>
+                        <version>${kumuluz.version}</version>
+                        <executions>
+                            <execution>
+                                <id>package</id>
+                                <goals>
+                                    <goal>repackage</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+
+        </profile>
+
+        <profile>
+            <id>kumuluzEE-1.4</id>
+
+            <properties>
+                <kumuluz.version>2.6.0</kumuluz.version>
+                <kumuluzee-config-mp.version>1.3.0</kumuluzee-config-mp.version>
+            </properties>
+
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.kumuluz.ee</groupId>
+                        <artifactId>kumuluzee-bom</artifactId>
+                        <version>${kumuluz.version}</version>
+                        <type>pom</type>
+                        <scope>import</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+
+            <dependencies>
+                <dependency>
+                    <groupId>com.kumuluz.ee</groupId>
+                    <artifactId>kumuluzee-microProfile-1.4</artifactId>
+                </dependency>
+
+            </dependencies>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.kumuluz.ee</groupId>
+                        <artifactId>kumuluzee-maven-plugin</artifactId>
+                        <version>${kumuluz.version}</version>
+                        <executions>
+                            <execution>
+                                <id>package</id>
+                                <goals>
+                                    <goal>repackage</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+
+        </profile>
+
+        <profile>
+            <id>kumuluzEE-2.0</id>
+
+            <properties>
+                <kumuluz.version>3.2.0</kumuluz.version>
+                <kumuluzee-config-mp.version>1.3.0</kumuluzee-config-mp.version>
+            </properties>
+
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.kumuluz.ee</groupId>
+                        <artifactId>kumuluzee-bom</artifactId>
+                        <version>${kumuluz.version}</version>
+                        <type>pom</type>
+                        <scope>import</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+
+            <dependencies>
+                <dependency>
+                    <groupId>com.kumuluz.ee</groupId>
+                    <artifactId>kumuluzee-microProfile-2.0</artifactId>
+                </dependency>
+
+            </dependencies>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.kumuluz.ee</groupId>
+                        <artifactId>kumuluzee-maven-plugin</artifactId>
+                        <version>${kumuluz.version}</version>
+                        <executions>
+                            <execution>
+                                <id>package</id>
+                                <goals>
+                                    <goal>repackage</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+
+        </profile>
+
+        <profile>
+            <id>kumuluzEE-2.1</id>
+
+            <properties>
+                <kumuluz.version>3.2.0</kumuluz.version>
+                <kumuluzee-config-mp.version>1.3.0</kumuluzee-config-mp.version>
+            </properties>
+
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.kumuluz.ee</groupId>
+                        <artifactId>kumuluzee-bom</artifactId>
+                        <version>${kumuluz.version}</version>
+                        <type>pom</type>
+                        <scope>import</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+
+            <dependencies>
+                <dependency>
+                    <groupId>com.kumuluz.ee</groupId>
+                    <artifactId>kumuluzee-microProfile-2.1</artifactId>
+                </dependency>
+
+            </dependencies>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.kumuluz.ee</groupId>
+                        <artifactId>kumuluzee-maven-plugin</artifactId>
+                        <version>${kumuluz.version}</version>
+                        <executions>
+                            <execution>
+                                <id>package</id>
+                                <goals>
+                                    <goal>repackage</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+
+        </profile>
+
+        <profile>
             <id>payara-micro-1.2</id>
             <build>
                 <plugins>

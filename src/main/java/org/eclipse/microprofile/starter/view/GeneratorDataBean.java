@@ -149,7 +149,7 @@ public class GeneratorDataBean implements Serializable {
 
         model.setSpecification(specifications);
 
-        model.getOptions().put(BeansXMLMode.OptionName.name, new OptionValue(BeansXMLMode.getValue(engineData.getBeansxmlMode()).getMode()));
+        model.getOptions().put(BeansXMLMode.OptionName.NAME, new OptionValue(BeansXMLMode.getValue(engineData.getBeansxmlMode()).getMode()));
 
         modelManager.prepareModel(model, false);
         creator.createArtifacts(model);
