@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -22,7 +22,6 @@
  */
 package org.eclipse.microprofile.starter;
 
-import org.eclipse.microprofile.starter.core.model.BeansXMLMode;
 import org.eclipse.microprofile.starter.core.model.JavaSEVersion;
 import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
 
@@ -39,21 +38,12 @@ public class DataBean {
 
     private List<SelectItem> javaSEItems;
     private List<SelectItem> mpItems;
-    private List<SelectItem> beansxmlItems;
 
     @PostConstruct
     public void init() {
         defineJavaSEItems();
 
         defineMPVersions();
-        defineBeanxmlItems();
-    }
-
-    private void defineBeanxmlItems() {
-        beansxmlItems = new ArrayList<>();
-        for (BeansXMLMode beansXMLMode : BeansXMLMode.values()) {
-            beansxmlItems.add(new SelectItem(beansXMLMode.getMode(), beansXMLMode.getMode()));
-        }
     }
 
     private void defineMPVersions() {
@@ -76,10 +66,6 @@ public class DataBean {
 
     public List<SelectItem> getMpItems() {
         return mpItems;
-    }
-
-    public List<SelectItem> getBeansxmlItems() {
-        return beansxmlItems;
     }
 
 }
