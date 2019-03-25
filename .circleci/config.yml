@@ -1,0 +1,106 @@
+version: 2.1
+executors:
+  maven-builder:
+    docker:
+    - image: circleci/openjdk:8u171-jdk
+  docker-publisher:
+    environment:
+      IMAGE_NAME: microprofile/start.microprofile.io
+    docker:
+    - image: circleci/buildpack-deps:stretch
+jobs:
+  build:
+    executor: maven-builder
+    steps:
+    - checkout
+    - restore_cache:
+        keys:
+        - v1-dependencies-{{ checksum "pom.xml" }}
+        - v1-dependencies-
+    - run: mvn dependency:go-offline -Pthorntail -Djdk.net.URLClassPath.disableClassPathURLCheck=true
+    - save_cache:
+        paths:
+        - ~/.m2
+        key: v1-dependencies-{{ checksum "pom.xml" }}
+    - run: mvn clean package -Pthorntail -Djdk.net.URLClassPath.disableClassPathURLCheck=true
+    - persist_to_workspace:
+        root: .
+        paths:
+        - ./target/mp-starter-hollow-thorntail.jar
+        - ./target/mp-starter.war
+        - ./Container
+
+  docker-build:
+    executor: docker-publisher
+    steps:
+    - attach_workspace:
+        at: /tmp/workspace
+    - setup_remote_docker
+    - run:
+        name: Prepare files for Docker build
+        command: |
+          cp /tmp/workspace/Container . -R && cp /tmp/workspace/target . -R && unzip target/mp-starter-hollow-thorntail.jar -d target/mp-starter-hollow-thorntail
+    - run:
+        name: Build Docker image
+        command: |
+          docker build -f Container/Dockerfile -t $IMAGE_NAME:master .
+    - run:
+        name: Archive built Docker image
+        command: docker save -o image.tar $IMAGE_NAME
+    - persist_to_workspace:
+        root: .
+        paths:
+        - ./image.tar
+
+  publish-master:
+    executor: docker-publisher
+    steps:
+    - attach_workspace:
+        at: /tmp/workspace
+    - setup_remote_docker
+    - run:
+        name: Load archived Docker image
+        command: docker load -i /tmp/workspace/image.tar
+    - run:
+        name: Publish Docker Image to Docker Hub
+        command: |
+          echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+          docker push $IMAGE_NAME:master
+
+  deploy:
+    machine:
+      enabled: true
+    steps:
+    - add_ssh_keys:
+        fingerprints:
+        - "75:12:72:e1:19:f8:2d:8f:eb:ed:88:87:6c:c2:66:28"
+    - run:
+        name: Deploy Over SSH
+        command: |
+          ssh $SSH_USER@$SSH_HOST "sudo systemctl restart docker-compose@test-start.microprofile.io"
+
+workflows:
+  build-master:
+    jobs:
+    - build:
+        filters:
+          branches:
+            only: master
+    - docker-build:
+        requires:
+        - build
+        filters:
+          branches:
+            only: master
+    - publish-master:
+        requires:
+        - docker-build
+        filters:
+          branches:
+            only: master
+    - deploy:
+        requires:
+        - publish-master
+        filters:
+          branches:
+            only: master
