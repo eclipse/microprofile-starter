@@ -211,8 +211,7 @@ span.ui-icon.ui-icon-triangle-1-s.ui-c::before {
 
 
 .ui-selectonemenu .ui-selectonemenu-trigger .ui-icon {
-    margin-top: 7px;
-    margin-left: 10px;
+    margin-top: 7px !important;
     text-indent: initial;
     overflow: visible;
     background: none;
