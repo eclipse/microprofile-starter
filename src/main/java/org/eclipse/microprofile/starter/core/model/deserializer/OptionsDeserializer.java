@@ -35,7 +35,8 @@ import java.util.*;
 
 public class OptionsDeserializer extends JsonDeserializer<Map<String, OptionValue>> {
     @Override
-    public Map<String, OptionValue> deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
+    public Map<String, OptionValue> deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
+            throws IOException, JsonProcessingException {
         Map<String, OptionValue> result = new HashMap<>();
         ObjectNode node = jsonParser.readValueAsTree();
         Iterator<Map.Entry<String, JsonNode>> fields = node.fields();

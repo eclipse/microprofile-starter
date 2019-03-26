@@ -39,8 +39,8 @@ public class JessieModelInitializer {
 
         defineTemplate(model);
 
-        if (!model.getOptions().containsKey(BeansXMLMode.OptionName.name)) {
-            model.getOptions().put(BeansXMLMode.OptionName.name, new OptionValue(BeansXMLMode.ANNOTATED.getMode()));
+        if (!model.getOptions().containsKey(BeansXMLMode.OptionName.NAME)) {
+            model.getOptions().put(BeansXMLMode.OptionName.NAME, new OptionValue(BeansXMLMode.ANNOTATED.getMode()));
         }
     }
 
