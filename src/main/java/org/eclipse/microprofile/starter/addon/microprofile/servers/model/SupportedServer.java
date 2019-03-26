@@ -45,7 +45,9 @@ public enum SupportedServer {
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21))
     , TOMEE("tomee", "Apache TomEE 8.0.0-M2",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
-                    MicroProfileVersion.MP20));
+                    MicroProfileVersion.MP20))
+    , HELIDON("helidon", "Helidon",
+            Collections.singletonList(MicroProfileVersion.MP12));
     // @formatter:on
 
     private String code;

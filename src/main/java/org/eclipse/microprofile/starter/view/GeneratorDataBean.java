@@ -91,6 +91,7 @@ public class GeneratorDataBean implements Serializable {
 
     private void defineExampleSpecs(MicroProfileVersion version) {
         specs = new ArrayList<>();
+        selectedSpecs.clear();
 
         for (MicroprofileSpec microprofileSpec : MicroprofileSpec.values()) {
             if (microprofileSpec.getMpVersions().contains(version)) {
@@ -98,6 +99,7 @@ public class GeneratorDataBean implements Serializable {
                 selectedSpecs.add(microprofileSpec.getCode());
             }
         }
+
     }
 
     private void defineSupportedServerItems(MicroProfileVersion version) {
