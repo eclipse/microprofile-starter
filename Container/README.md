@@ -21,14 +21,14 @@ Please note that the first build takes time, but subsequent runs add merely ```~
 
 ```
 mvn package -Pthorntail && unzip target/mp-starter-hollow-thorntail.jar -d target/mp-starter-hollow-thorntail
-docker build -f Container/Dockerfile -t microprofile/start.microprofile.io:0.9 .
+docker build -f Container/Dockerfile -t microprofile/start.microprofile.io:1.0 .
 ```
 
 Run locally
 -----------
 
 ```
-docker run -p 127.0.0.1:8080:8080/tcp -d -i --name mp-starter microprofile/start.microprofile.io:0.9
+docker run -p 127.0.0.1:8080:8080/tcp -d -i --name mp-starter microprofile/start.microprofile.io:1.0
 docker stop -t 2 mp-starter && docker rm mp-starter
 ```
 
@@ -36,7 +36,7 @@ Push image to registry and restart service
 ------------------------------------------
 
 ```
-docker push microprofile/start.microprofile.io:0.9
+docker push microprofile/start.microprofile.io:1.0
 ssh ec2-user@aws-microstarter "sudo systemctl restart docker-compose@start.microprofile.io"
 ```
 
@@ -47,8 +47,8 @@ Example flow
 
 ```
 mvn package -Pthorntail && unzip target/mp-starter-hollow-thorntail.jar -d target/mp-starter-hollow-thorntail
-docker build -f Container/Dockerfile -t microprofile/start.microprofile.io:0.9 .
-docker push microprofile/start.microprofile.io:0.9
+docker build -f Container/Dockerfile -t microprofile/start.microprofile.io:1.0 .
+docker push microprofile/start.microprofile.io:1.0
 ssh ec2-user@aws-microstarter "sudo systemctl restart docker-compose@start.microprofile.io"
 ```
 
@@ -70,16 +70,16 @@ Refactoring the app so as it runs just with a plain servlet container is a possi
 
 Building an image
 -----------------
-Note the tag ```microprofile/start.microprofile.io:0.9``` is an example and you should use your own namespace.
+Note the tag ```microprofile/start.microprofile.io:1.0``` is an example and you should use your own namespace.
 
 ```
-docker build -f Container/Dockerfile.CI -t microprofile/start.microprofile.io:0.9 .
+docker build -f Container/Dockerfile.CI -t microprofile/start.microprofile.io:1.0 .
 ```
 
 One can push the built image to a public DockerHub (one needs an account though):
 
 ```
-docker push microprofile/start.microprofile.io:0.9
+docker push microprofile/start.microprofile.io:1.0
 ```
 
 Running a container locally
@@ -96,7 +96,7 @@ docker run -e MY_LOGLEVEL=INFO \
               -e MY_MX_HEAP="512m" \
               -e MY_META_SPACE="96M" \
               -e MY_MAX_META_SPACE="256m" \
-   -p 127.0.0.1:8080:8080/tcp -d -i --name mp-starter microprofile/start.microprofile.io:0.9
+   -p 127.0.0.1:8080:8080/tcp -d -i --name mp-starter microprofile/start.microprofile.io:1.0
 ```
 
 One can watch the logs:
@@ -116,13 +116,13 @@ Debugging the image build
 One can skip the final stage of the multistage build and just do the first stage:
 
 ```
-docker build --target build-env -f Container/Dockerfile.CI -t microprofile/start.microprofile.io:0.9 .
+docker build --target build-env -f Container/Dockerfile.CI -t microprofile/start.microprofile.io:1.0 .
 ```
 
 You can start bash and look around without starting the application:
 
 ```
-docker run -i --entrypoint=/bin/bash --name mp-starter microprofile/start.microprofile.io:0.9
+docker run -i --entrypoint=/bin/bash --name mp-starter microprofile/start.microprofile.io:1.0
 ```
 
 If you have the container running already and you want to examine it, you can:
@@ -159,7 +159,7 @@ cat /etc/docker/compose/mp-starter/docker-compose.yml
 version: '3'
 services:
   mp-starter:
-    image: "microprofile/start.microprofile.io:0.9"
+    image: "microprofile/start.microprofile.io:1.0"
     user: wildfly
     ports:
       - 443:8443
