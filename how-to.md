@@ -49,6 +49,13 @@
 * Add an `if-structure` to the method **createFiles()** of **org.eclipse.microprofile.starter.addon.microprofile.servers.MicroprofileServersAddon** so that files are included in the demo application when the specification is selected.
 * Update the **readme.md.tpl** to include some basic information about this new specification. Make this addition conditional (see other specification on how to do this)
 
+## Add new MicroProfile Version
+
+* Add the version to the enum **org.eclipse.microprofile.starter.core.model.MicroProfileVersion**. The third parameter is only required when the maven MicroProfile version is not the same as _version value_ (as for example with version 2.0)
+* Add to each MicroProfile specification this new version number in the class **org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec**
+
+As long as there are no MicroProfile implementations assigned to this new MicroProfile version, the version isn't shown in the dropdown.
+
 ## Add new template file
 
 The template files contains the file contents (java source, resources, ...) which will be placed in the generated project. For the following cases you need to add new template files
