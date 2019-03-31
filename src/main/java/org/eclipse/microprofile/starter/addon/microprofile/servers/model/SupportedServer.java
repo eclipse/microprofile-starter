@@ -36,7 +36,7 @@ public enum SupportedServer {
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP21))
     , LIBERTY("liberty", "Open Liberty",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
-                    MicroProfileVersion.MP20, MicroProfileVersion.MP21))
+                    MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22))
     , KUMULUZEE("kumuluzEE", "KumuluzEE",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21))
