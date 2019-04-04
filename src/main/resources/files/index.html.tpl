@@ -48,6 +48,7 @@ Look at readme.md on how to test protected endpoint.
 
 [# th:if="${mp_rest_client}"]
 <h3>Rest Client</h3>
+<a href="data/client/test/parameterValue" target="_blank" >Call REST endpoint using generated client based on interface</a> <br/>
 [/]
 
 </body>

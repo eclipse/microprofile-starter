@@ -15,6 +15,10 @@ import com.kumuluz.ee.jwt.auth.feature.JWTRolesAllowedDynamicFeature;
 import com.kumuluz.ee.jwt.auth.filter.JWTAuthorizationFilter;
 import org.eclipse.microprofile.auth.LoginConfig;
 [/]
+[# th:if="${mp_rest_client}"]
+import [# th:text="${java_package}"/].client.ClientController;
+import [# th:text="${java_package}"/].client.ServiceController;
+[/]
 
 import javax.annotation.security.DeclareRoles;
 import javax.ws.rs.ApplicationPath;
@@ -57,6 +61,10 @@ public class [# th:text="${artifact}"/]RestApplication extends Application {
         [/]
         [# th:if="${mp_JWT_auth}"]
         classes.add(ProtectedController.class);
+        [/]
+        [# th:if="${mp_rest_client}"]
+        classes.add(ClientController.class);
+        classes.add(ServiceController.class);
         [/]
 
         return classes;

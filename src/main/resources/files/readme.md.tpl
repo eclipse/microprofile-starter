@@ -14,7 +14,7 @@ This will create an executable jar file **[# th:text="${jar_file}"/]** within th
 
 To launch the test page, open your browser at the following URL
 
-    [# th:text="${test_url}"/]
+    [# th:text="${test_url}"/]/index.html
 
 ## Specification examples
 
@@ -89,6 +89,6 @@ Example needs to be created.
 
 A type safe invocation of HTTP rest endpoints. Specification [here](https://microprofile.io/project/eclipse/microprofile-rest-client)
 
-Example needs to be created.
+The example calls one endpoint from another JAX-RS resource where generated Rest Client is injected as CDI bean.
 
 [/]

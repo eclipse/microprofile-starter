@@ -1,5 +1,6 @@
 src/main/resources/files/tomee/index.html.tpl
 src/main/resources/files/securedURLs.ini.tpl
+src/main/resources/files/ClientController.java.tpl
 src/main/resources/files/RestApplication.java.tpl
 src/main/resources/files/test-client/MPJWTToken.java.tpl
 src/main/resources/files/test-client/liberty/JWTClient.java.tpl
@@ -7,6 +8,7 @@ src/main/resources/files/test-client/JWTClient.java.tpl
 src/main/resources/files/test-client/privateKey.pem.tpl
 src/main/resources/files/config.yaml.tpl
 src/main/resources/files/kumuluzEE/RestApplication.java.tpl
+src/main/resources/files/Service.java.tpl
 src/main/resources/files/MetricController.java.tpl
 src/main/resources/files/ApplicationSecurityData.java.tpl
 src/main/resources/files/thorntail-v2/web.xml.tpl
@@ -24,6 +26,7 @@ src/main/resources/files/liberty/index.html.tpl
 src/main/resources/files/index.html.tpl
 src/main/resources/files/readme.md.tpl
 src/main/resources/files/octopus_index.xhtml.tpl
+src/main/resources/files/ServiceController.java.tpl
 src/main/resources/files/ProtectedController.java.tpl
 src/main/resources/files/ResilienceController.java.tpl
 src/main/resources/files/web.xml.tpl

@@ -193,6 +193,9 @@ public class MicroprofileServersAddon extends AbstractAddon {
         String serverName = model.getOptions().get("mp.server").getSingleValue();
         SupportedServer supportedServer = SupportedServer.valueFor(serverName);
 
+        variables.put("test_url", defineTestURL(supportedServer, model.getMaven().getArtifactId()));
+        variables.put("jar_file", defineJarFileName(supportedServer, model.getMaven().getArtifactId()));
+
         if (supportedServer == SupportedServer.LIBERTY) {
             String resourceDirectory = model.getDirectory() + "/src/main/liberty/config";
 
@@ -331,6 +334,15 @@ public class MicroprofileServersAddon extends AbstractAddon {
             processTemplateFile(secureDirectory, "ProtectedController.java", alternatives, variables);
         }
 
+        if (microprofileSpecs.contains(MicroprofileSpec.REST_CLIENT)) {
+            String clientDirectory = model.getDirectory() + "/" + rootJava + "/client";
+            directoryCreator.createDirectory(clientDirectory);
+
+            processTemplateFile(clientDirectory, "ServiceController.java", alternatives, variables);
+            processTemplateFile(clientDirectory, "Service.java", alternatives, variables);
+            processTemplateFile(clientDirectory, "ClientController.java", alternatives, variables);
+        }
+
         // TODO : Verify : This is for all specs?
         if (supportedServer != SupportedServer.KUMULUZEE) {
             // With kumuluzEE, it properties are integrated within config.yaml
@@ -349,9 +361,6 @@ public class MicroprofileServersAddon extends AbstractAddon {
         if (microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH)) {
             addTestClient(model, alternatives, variables);
         }
-
-        variables.put("jar_file", defineJarFileName(supportedServer, model.getMaven().getArtifactId()));
-        variables.put("test_url", defineTestURL(supportedServer, model.getMaven().getArtifactId()));
 
         processTemplateFile(model.getDirectory(), "readme.md", alternatives, variables);
     }
@@ -392,25 +401,25 @@ public class MicroprofileServersAddon extends AbstractAddon {
         switch (supportedServer) {
 
             case WILDFLY_SWARM:
-                result = "http://localhost:8080/index.html";
+                result = "http://localhost:8080";
                 break;
             case THORNTAIL_V2:
-                result = "http://localhost:8080/index.html";
+                result = "http://localhost:8080";
                 break;
             case LIBERTY:
-                result = String.format("http://localhost:8181/%s/index.html", artifactId);
+                result = String.format("http://localhost:8181/%s", artifactId);
                 break;
             case KUMULUZEE:
-                result = "http://localhost:8080/index.html";
+                result = "http://localhost:8080";
                 break;
             case PAYARA_MICRO:
-                result = "http://localhost:8080/index.html";
+                result = "http://localhost:8080";
                 break;
             case TOMEE:
-                result = "http://localhost:8080/index.html";
+                result = "http://localhost:8080";
                 break;
             case HELIDON:
-                result = "http://localhost:8080/index.html";
+                result = "http://localhost:8080";
                 break;
             default:
                 throw new IllegalArgumentException(String.format("Value of supportedServer '%s' is not supported", supportedServer.getCode()));
