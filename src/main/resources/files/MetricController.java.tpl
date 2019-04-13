@@ -6,7 +6,7 @@ import org.eclipse.microprofile.metrics.annotation.Gauge;
 import org.eclipse.microprofile.metrics.annotation.Metric;
 import org.eclipse.microprofile.metrics.annotation.Timed;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 import java.util.Random;
 
 @Path("/metric")
-@RequestScoped
+@ApplicationScoped //Required for @Gauge
 public class MetricController {
 
     @Inject
