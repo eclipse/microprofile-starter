@@ -18,5 +18,5 @@ import javax.ws.rs.core.Application;
 @LoginConfig(authMethod = "MP-JWT")
 @DeclareRoles({"protected"})
 [/]
-public class [# th:text="${artifact}"/]RestApplication extends Application {
+public class [# th:text="${application}"/]RestApplication extends Application {
 }

@@ -31,7 +31,7 @@ import java.util.Set;
 @LoginConfig(authMethod = "MP-JWT")
 @DeclareRoles({"protected"})
 [/]
-public class [# th:text="${artifact}"/]RestApplication extends Application {
+public class [# th:text="${application}"/]RestApplication extends Application {
 
     @Override
     public Set<Class<?>> getClasses() {
