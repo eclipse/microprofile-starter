@@ -224,10 +224,10 @@ public class MicroprofileServersAddon extends AbstractAddon {
             String rootJava = MavenCreator.SRC_MAIN_JAVA + "/" + directoryCreator.createPathForGroupAndArtifact(model.getMaven());
             String viewDirectory = model.getDirectory() + "/" + rootJava;
 
-            String artifactId = variables.get("artifact");
+            String application = variables.get("application");
 
             String javaFile = thymeleafEngine.processFile("RestApplication.java", alternatives, variables);
-            fileCreator.writeContents(viewDirectory, artifactId + "RestApplication.java", javaFile);
+            fileCreator.writeContents(viewDirectory, application + "RestApplication.java", javaFile);
 
         }
 
@@ -288,10 +288,10 @@ public class MicroprofileServersAddon extends AbstractAddon {
             processTemplateFile(resourcesDirectory, "logging.properties", alternatives, variables);
             processTemplateFile(resourcesDirectory, "publicKey.pem", alternatives, variables);
 
-            String artifactId = variables.get("artifact");
+            String application = variables.get("application");
 
             String restAppFile = thymeleafEngine.processFile("RestApplication.java", alternatives, variables);
-            fileCreator.writeContents(viewDirectory, artifactId + "RestApplication.java", restAppFile);
+            fileCreator.writeContents(viewDirectory, application + "RestApplication.java", restAppFile);
         }
 
         String rootJava = getJavaApplicationRootPackage(model);

@@ -30,7 +30,7 @@ import java.util.Set;
 @DeclareRoles({"protected"})
 [/]
 @ApplicationScoped
-public class [# th:text="${artifact}"/]RestApplication extends Application {
+public class [# th:text="${application}"/]RestApplication extends Application {
 
     @Override
     public Set<Class<?>> getClasses() {

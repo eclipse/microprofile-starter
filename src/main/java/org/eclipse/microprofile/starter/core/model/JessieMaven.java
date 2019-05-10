@@ -49,4 +49,8 @@ public class JessieMaven {
         this.artifactId = artifactId;
     }
 
+    public String getPackage() {
+        return artifactId.replaceAll("-", ".");
+    }
+
 }
