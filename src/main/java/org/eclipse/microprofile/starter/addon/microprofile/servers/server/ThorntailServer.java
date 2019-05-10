@@ -76,6 +76,7 @@ public class ThorntailServer extends AbstractMicroprofileAddon {
             case NONE:
                 break;
             case MP22:
+                thorntailVersion = "2.4.0.Final";
                 break;
             case MP21:
                 thorntailVersion = "2.3.0.Final";
