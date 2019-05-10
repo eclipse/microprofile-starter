@@ -90,6 +90,7 @@ public class ThorntailServer extends AbstractMicroprofileAddon {
             case MP12:
                 thorntailVersion = "2.0.0.Final";
                 break;
+            default:
         }
         pomFile.addProperty("version.thorntail", thorntailVersion);
 

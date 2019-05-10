@@ -63,17 +63,6 @@ public class KumuluzeeServer extends AbstractMicroprofileAddon {
         String resourceDirectory = getResourceDirectory(model);
         processTemplateFile(resourceDirectory, "config.yaml", alternatives, variables);
 
-        // Override RestApplication to add specific classes for
-
-        String rootJava = MavenCreator.SRC_MAIN_JAVA + "/" + directoryCreator.createPathForGroupAndArtifact(model.getMaven());
-        String viewDirectory = model.getDirectory() + "/" + rootJava;
-
-        String artifactId = variables.get("artifact");
-
-        String javaFile = thymeleafEngine.processFile("RestApplication.java", alternatives, variables);
-        fileCreator.writeContents(viewDirectory, artifactId + "RestApplication.java", javaFile);
-
-
     }
 
     @Override
@@ -116,6 +105,7 @@ public class KumuluzeeServer extends AbstractMicroprofileAddon {
                 kumuluzeeConfigVersion = "1.1.1";
                 artifactId = "kumuluzee-microProfile-1.2";
                 break;
+            default:
         }
         pomFile.addProperty("kumuluz.version", kumuluzVersion);
         pomFile.addProperty("kumuluzee-config-mp.version", kumuluzeeConfigVersion);

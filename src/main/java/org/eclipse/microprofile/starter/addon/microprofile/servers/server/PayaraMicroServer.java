@@ -83,6 +83,7 @@ public class PayaraMicroServer extends AbstractMicroprofileAddon {
             case MP12:
                 payaraVersion = "5.181";
                 break;
+            default:
         }
         pomFile.addProperty("payaraVersion", payaraVersion);
     }

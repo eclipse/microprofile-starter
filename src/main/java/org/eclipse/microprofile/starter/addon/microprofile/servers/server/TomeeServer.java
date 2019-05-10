@@ -77,6 +77,7 @@ public class TomeeServer extends AbstractMicroprofileAddon {
             case MP12:
                 tomeeVersion = "8.0.0-M2";
                 break;
+            default:
         }
         pomFile.addProperty("tomee.version", tomeeVersion);
 

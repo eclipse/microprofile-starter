@@ -185,7 +185,7 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
         String serverName = model.getOptions().get("mp.server").getSingleValue();
         SupportedServer supportedServer = SupportedServer.valueFor(serverName);
 
-        String rootJava = getJavaApplicationRootPackage(model);
+                String rootJava = getJavaApplicationRootPackage(model);
 
         if (microprofileSpecs.contains(MicroprofileSpec.HEALTH_CHECKS)) {
             String healthDirectory = model.getDirectory() + "/" + rootJava + "/health";
