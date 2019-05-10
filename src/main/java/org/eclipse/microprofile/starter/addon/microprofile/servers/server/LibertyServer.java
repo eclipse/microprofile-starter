@@ -63,8 +63,9 @@ public class LibertyServer extends AbstractMicroprofileAddon {
 
     @Override
     public void adaptMavenModel(Model pomFile, JessieModel model) {
-        String openLibertyVersion = "";
+        String openLibertyVersion = "RELEASE";
         String openLibertyMavenVersion = "";
+
         switch (model.getSpecification().getMicroProfileVersion()) {
 
             case NONE:
@@ -72,23 +73,18 @@ public class LibertyServer extends AbstractMicroprofileAddon {
             case MP22:
                 break;
             case MP21:
-                openLibertyVersion = "RELEASE";
                 openLibertyMavenVersion = "2.2";
                 break;
             case MP20:
-                openLibertyVersion = "RELEASE";
                 openLibertyMavenVersion = "2.2";
                 break;
             case MP14:
-                openLibertyVersion = "18.0.0.3";
                 openLibertyMavenVersion = "2.0";
                 break;
             case MP13:
-                openLibertyVersion = "18.0.0.1";
                 openLibertyMavenVersion = "2.0";
                 break;
             case MP12:
-                openLibertyVersion = "17.0.0.3";
                 openLibertyMavenVersion = "2.0";
                 break;
         }
