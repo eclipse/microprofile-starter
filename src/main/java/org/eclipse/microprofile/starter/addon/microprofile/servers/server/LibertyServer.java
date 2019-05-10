@@ -71,6 +71,7 @@ public class LibertyServer extends AbstractMicroprofileAddon {
             case NONE:
                 break;
             case MP22:
+                openLibertyMavenVersion = "2.2";
                 break;
             case MP21:
                 openLibertyMavenVersion = "2.2";
