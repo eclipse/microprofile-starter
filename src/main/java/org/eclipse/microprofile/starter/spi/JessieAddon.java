@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -41,11 +41,11 @@ public interface JessieAddon extends JessieAlternativesProvider, JessieMavenAdap
     void addonOptions(Map<String, OptionValue> options);
 
     /**
-     * Return the addons on which this addon is dependent. But not Conditionally, always. For the conditional list, see getConditionalConfiguration
+     * Return the addons on which this addon is dependent. Conditionally when based on the JessieModel
      *
-     * @return
+     * @return List of add-on names.
      */
-    List<String> getDependentAddons();
+    List<String> getDependentAddons(JessieModel model);
 
     Map<String, String> getConditionalConfiguration(JessieModel jessieModel, List<JessieAddon> addons);
 

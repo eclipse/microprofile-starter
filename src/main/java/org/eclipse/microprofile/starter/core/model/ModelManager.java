@@ -102,7 +102,7 @@ public class ModelManager {
         List<String> addonList = model.getAddons();
         List<JessieAddon> allAddons = getAddons(addonList);
 
-        addDependentAddons(allAddons);
+        addDependentAddons(allAddons, model);
 
         orderAddons(allAddons);
 
@@ -144,10 +144,10 @@ public class ModelManager {
         allAddons.sort(Comparator.comparing(JessieAddon::priority));
     }
 
-    private void addDependentAddons(List<JessieAddon> allAddons) {
+    private void addDependentAddons(List<JessieAddon> allAddons, JessieModel model) {
 
         Set<String> dependents = allAddons.stream()
-                .map(JessieAddon::getDependentAddons)
+                .map(a ->  a.getDependentAddons(model))
                 .flatMap(Collection::stream)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
@@ -158,7 +158,7 @@ public class ModelManager {
 
         if (!dependents.isEmpty()) {
             allAddons.addAll(getAddons(dependents));
-            addDependentAddons(allAddons);
+            addDependentAddons(allAddons, model);
         }
 
     }

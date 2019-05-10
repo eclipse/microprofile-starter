@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2019 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,10 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Contributors:
- *   2018-09-29 - Rudy De Busscher
- *      Initially authored in Atbash Jessie
  */
+
 package org.eclipse.microprofile.starter.addon.microprofile.servers;
 
 import org.apache.maven.model.Activation;
@@ -32,8 +30,6 @@ import org.eclipse.microprofile.starter.core.artifacts.MavenCreator;
 import org.eclipse.microprofile.starter.core.exception.JessieConfigurationException;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 import org.eclipse.microprofile.starter.core.model.OptionValue;
-import org.eclipse.microprofile.starter.spi.AbstractAddon;
-import org.eclipse.microprofile.starter.spi.JessieAddon;
 import org.eclipse.microprofile.starter.spi.MavenHelper;
 
 import javax.annotation.PostConstruct;
@@ -46,7 +42,7 @@ import java.util.stream.Collectors;
  *
  */
 @ApplicationScoped
-public class MicroprofileServersAddon extends AbstractAddon {
+public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
 
     @Inject
     private MavenHelper mavenHelper;
@@ -60,18 +56,13 @@ public class MicroprofileServersAddon extends AbstractAddon {
 
     @PostConstruct
     public void init() {
-        defaultOptions = new HashMap<>();
+        super.init();
         serverPomModel = mavenHelper.readModel("/pom-servers.xml");
     }
 
     @Override
     public String addonName() {
         return "mp";
-    }
-
-    @Override
-    public int priority() {
-        return 50;
     }
 
     protected void validateModel(JessieModel model) {
@@ -123,27 +114,35 @@ public class MicroprofileServersAddon extends AbstractAddon {
     }
 
     @Override
+    public List<String> getDependentAddons(JessieModel model) {
+        List<String> result = new ArrayList<>();
+        result.add(model.getOptions().get("mp.server").getSingleValue());  // Here we have the original option, not translated.
+
+        return result;
+    }
+
+    @Override
     public void adaptMavenModel(Model pomFile, JessieModel model) {
 
         String serverName = options.get("server").getSingleValue();
         String profileName = serverName + "-" + model.getSpecification().getMicroProfileVersion().getCode();
-        for (Profile profile : serverPomModel.getProfiles()) {
-            if (profile.getId().equals(profileName)) {
-                Profile selectedProfile = profile.clone();
-                selectedProfile.setId(serverName);
-                Activation activeByDefault = new Activation();
-                activeByDefault.setActiveByDefault(true);
-                selectedProfile.setActivation(activeByDefault);
-                pomFile.getProfiles().add(selectedProfile);
-            }
+
+        Profile profile = findProfile(profileName);
+        if (profile == null) {
+            profile = findProfile(serverName);
+        }
+        if (profile == null) {
+            // FIXME Throw exception
         }
 
+        Profile selectedProfile = profile.clone();
+        selectedProfile.setId(serverName);
+        Activation activeByDefault = new Activation();
+        activeByDefault.setActiveByDefault(true);
+        selectedProfile.setActivation(activeByDefault);
+        pomFile.getProfiles().add(selectedProfile);
+
         SupportedServer supportedServer = SupportedServer.valueFor(serverName);
-        if (supportedServer == SupportedServer.KUMULUZEE
-                || supportedServer == SupportedServer.HELIDON) {
-            // KumuluzEE and Helidon needs jar packaging
-            pomFile.setPackaging("jar");
-        }
 
         if (microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH)) {
             mavenHelper.addDependency(pomFile, "com.nimbusds", "nimbus-jose-jwt", "5.7", "test");
@@ -152,15 +151,19 @@ public class MicroprofileServersAddon extends AbstractAddon {
             }
 
             mavenHelper.addDependency(pomFile, "org.bouncycastle", "bcpkix-jdk15on", "1.53", "test");
-
         }
 
-        if (supportedServer == SupportedServer.HELIDON) {
+    }
 
-            String packageName = model.getMaven().getGroupId() + '.' + model.getMaven().getArtifactId();
-            pomFile.addProperty("package", packageName);
+    private Profile findProfile(String profileName) {
+        Profile result = null;
+
+        for (Profile profile : serverPomModel.getProfiles()) {
+            if (profile.getId().equals(profileName)) {
+                result = profile;
+            }
         }
-
+        return result;
     }
 
     @Override
@@ -174,17 +177,6 @@ public class MicroprofileServersAddon extends AbstractAddon {
     }
 
     @Override
-    public List<String> getDependentAddons() {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public Map<String, String> getConditionalConfiguration(JessieModel jessieModel, List<JessieAddon> addons) {
-
-        return defaultOptions;
-    }
-
-    @Override
     public void createFiles(JessieModel model) {
 
         Set<String> alternatives = model.getParameter(JessieModel.Parameter.ALTERNATIVES);
@@ -193,108 +185,7 @@ public class MicroprofileServersAddon extends AbstractAddon {
         String serverName = model.getOptions().get("mp.server").getSingleValue();
         SupportedServer supportedServer = SupportedServer.valueFor(serverName);
 
-        if (supportedServer == SupportedServer.LIBERTY) {
-            String resourceDirectory = model.getDirectory() + "/src/main/liberty/config";
-
-            directoryCreator.createDirectory(resourceDirectory);
-
-            processTemplateFile(resourceDirectory, "server.xml", alternatives, variables);
-
-            resourceDirectory = model.getDirectory() + "/src/main/liberty/server/resources/security";
-
-            directoryCreator.createDirectory(resourceDirectory);
-
-            processFile(resourceDirectory, "public.jks", alternatives);
-        }
-
-        if (supportedServer == SupportedServer.KUMULUZEE) {
-            // kumuluzEE js JAR based, so needs beans.xml within META-INF
-
-            cdiCreator.createCDIFilesForJar(model);
-
-            String webDirectory = model.getDirectory() + "/" + MavenCreator.SRC_MAIN_WEBAPP;
-            directoryCreator.removeDirectory(webDirectory);
-            // TODO But further on the directory is created again (for index.html) so it it then only to get rid of beans.xml in WEB-INF?
-
-            String resourceDirectory = getResourceDirectory(model);
-            processTemplateFile(resourceDirectory, "config.yaml", alternatives, variables);
-
-            // Override RestApplication to add specific classes for
-
-            String rootJava = MavenCreator.SRC_MAIN_JAVA + "/" + directoryCreator.createPathForGroupAndArtifact(model.getMaven());
-            String viewDirectory = model.getDirectory() + "/" + rootJava;
-
-            String application = variables.get("application");
-
-            String javaFile = thymeleafEngine.processFile("RestApplication.java", alternatives, variables);
-            fileCreator.writeContents(viewDirectory, application + "RestApplication.java", javaFile);
-
-        }
-
-        if (supportedServer == SupportedServer.WILDFLY_SWARM || supportedServer == SupportedServer.THORNTAIL_V2) {
-            // Specific files for Auth-JWT
-            String resourceDirectory = getResourceDirectory(model);
-            directoryCreator.createDirectory(resourceDirectory);
-            processTemplateFile(resourceDirectory, "project-defaults.yml", alternatives, variables);
-            processTemplateFile(resourceDirectory, "jwt-roles.properties", alternatives, variables);
-
-            String metaInfDirectory = getResourceDirectory(model) + "/META-INF";
-
-            directoryCreator.createDirectory(metaInfDirectory);
-            processTemplateFile(metaInfDirectory, "publicKey.pem", "MP-JWT-SIGNER", alternatives, variables);
-
-            /// web.xml required for WildFly swarm
-            String webInfDirectory = model.getDirectory() + "/" + MavenCreator.SRC_MAIN_WEBAPP + "/WEB-INF";
-            directoryCreator.createDirectory(webInfDirectory);
-
-            String webXMLContents = thymeleafEngine.processFile("web.xml", alternatives, variables);
-            fileCreator.writeContents(webInfDirectory, "web.xml", webXMLContents);
-
-        }
-
-        if (supportedServer == SupportedServer.PAYARA_MICRO) {
-            // Specific files for Auth-JWT
-            String resourceDirectory = getResourceDirectory(model);
-            directoryCreator.createDirectory(resourceDirectory);
-            processTemplateFile(resourceDirectory, "publicKey.pem", alternatives, variables);
-            processTemplateFile(resourceDirectory, "payara-mp-jwt.properties", alternatives, variables);
-
-            String metaInfDirectory = getResourceDirectory(model) + "/META-INF";
-
-            directoryCreator.createDirectory(metaInfDirectory);
-        }
-
-        if (supportedServer == SupportedServer.TOMEE) {
-            String resourceDirectory = getResourceDirectory(model);
-            directoryCreator.createDirectory(resourceDirectory);
-            processTemplateFile(resourceDirectory, "publicKey.pem", alternatives, variables);
-        }
-
-        if (supportedServer == SupportedServer.HELIDON) {
-            cdiCreator.createCDIFilesForJar(model);
-
-            String webDirectory = model.getDirectory() + "/" + MavenCreator.SRC_MAIN_WEBAPP;
-            directoryCreator.removeDirectory(webDirectory);
-            // TODO But further on the directory is created again (for index.html) so it it then only to get rid of beans.xml in WEB-INF?
-
-
-            String rootJava = MavenCreator.SRC_MAIN_JAVA + "/" + directoryCreator.createPathForGroupAndArtifact(model.getMaven());
-            String viewDirectory = model.getDirectory() + "/" + rootJava;
-
-            String resourcesDirectory = model.getDirectory() + "/" + MavenCreator.SRC_MAIN_RESOURCES;
-            directoryCreator.createDirectory(resourcesDirectory);
-
-            processTemplateFile(resourcesDirectory, "application.yaml", alternatives, variables);
-            processTemplateFile(resourcesDirectory, "logging.properties", alternatives, variables);
-            processTemplateFile(resourcesDirectory, "publicKey.pem", alternatives, variables);
-
-            String application = variables.get("application");
-
-            String restAppFile = thymeleafEngine.processFile("RestApplication.java", alternatives, variables);
-            fileCreator.writeContents(viewDirectory, application + "RestApplication.java", restAppFile);
-        }
-
-        String rootJava = getJavaApplicationRootPackage(model);
+                String rootJava = getJavaApplicationRootPackage(model);
 
         if (microprofileSpecs.contains(MicroprofileSpec.HEALTH_CHECKS)) {
             String healthDirectory = model.getDirectory() + "/" + rootJava + "/health";
@@ -341,7 +232,6 @@ public class MicroprofileServersAddon extends AbstractAddon {
         }
 
         // Demo index file to all endpoints
-
         String webDirectory = model.getDirectory() + "/" + MavenCreator.SRC_MAIN_WEBAPP;
         directoryCreator.createDirectory(webDirectory);
         processTemplateFile(webDirectory, "index.html", alternatives, variables);
