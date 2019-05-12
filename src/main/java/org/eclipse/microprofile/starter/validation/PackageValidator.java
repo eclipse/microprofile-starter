@@ -41,7 +41,8 @@ public class PackageValidator implements Validator {
     public void validate(FacesContext facesContext, UIComponent uiComponent, Object value) throws ValidatorException {
 
         PackageNameValidator validator = retrieveInstance(PackageNameValidator.class);
-        if (!validator.isValidPackageName(value.toString())) {
+        String name = value.toString().replaceAll("-", ".");
+        if (!validator.isValidPackageName(name)) {
             FacesMessage msg =
                     new FacesMessage("Field validation failed.",
                             "Please provide a valid package name");

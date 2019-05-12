@@ -30,7 +30,7 @@
 
     <groupId>org.eclipse.microprofile</groupId>
     <artifactId>starter</artifactId>
-    <version>0.9-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
 
     <packaging>war</packaging>
 
@@ -47,10 +47,12 @@
         <maven.model.builder.version>3.3.9</maven.model.builder.version>
         <jackson.dataformat.yaml.version>2.8.6</jackson.dataformat.yaml.version>
         <jackson.databind.version>2.8.6</jackson.databind.version>
-        <primefaces.version>6.1</primefaces.version>
+        <primefaces.version>7.0</primefaces.version>
         <thymeleaf.version>3.0.10.RELEASE</thymeleaf.version>
         <junit.version>4.12</junit.version>
 
+        <checkstyle.version>2.17</checkstyle.version>
+        <checkstyle.methodNameFormat>^_?[a-z][a-zA-Z0-9]*$</checkstyle.methodNameFormat>
     </properties>
 
     <dependencies>
@@ -102,6 +104,109 @@
 
     <build>
         <finalName>mp-starter</finalName>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>${checkstyle.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>verify-style</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <consoleOutput>true</consoleOutput>
+                    <failOnViolation>true</failOnViolation>
+                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                    <failsOnError>true</failsOnError>
+                    <linkXRef>true</linkXRef>
+                    <logViolationsToConsole>true</logViolationsToConsole>
+                    <checkstyleRules>
+                        <module name="Checker">
+                            <module name="SuppressionCommentFilter"/>
+                            <module name="FileLength">
+                                <property name="max" value="3500"/>
+                                <property name="fileExtensions" value="java"/>
+                            </module>
+                            <module name="FileTabCharacter"/>
+                            <module name="TreeWalker">
+                                <module name="FileContentsHolder"/>
+                                <module name="ConstantName">
+                                    <property name="format" value="^(([A-Z][A-Z0-9]*(_[A-Z0-9]+)*))$"/>
+                                </module>
+                                <module name="LocalVariableName"/>
+                                <module name="MethodName">
+                                    <property name="format" value="${checkstyle.methodNameFormat}"/>
+                                </module>
+                                <module name="PackageName"/>
+                                <module name="LocalFinalVariableName"/>
+                                <module name="ParameterName"/>
+                                <module name="StaticVariableName"/>
+
+                                <module name="TypeName">
+                                    <property name="format" value="^_?[A-Z][a-zA-Z0-9]*$|packageinfo"/>
+                                </module>
+                                <module name="AvoidStarImport">
+                                    <property name="excludes"
+                                              value="java.io,java.net,java.util,javax.enterprise.inject.spi,javax.enterprise.context"/>
+                                </module>
+                                <module name="IllegalImport"/>
+                                <module name="RedundantImport"/>
+                                <module name="UnusedImports"/>
+                                <module name="LineLength">
+                                    <property name="max" value="150"/>
+                                    <property name="ignorePattern" value="@version|@see"/>
+                                </module>
+                                <module name="MethodLength">
+                                    <property name="max" value="250"/>
+                                </module>
+                                <module name="ParameterNumber">
+                                    <property name="max" value="11"/>
+                                </module>
+                                <module name="EmptyBlock">
+                                    <property name="option" value="text"/>
+                                </module>
+                                <module name="NeedBraces"/>
+                                <module name="LeftCurly">
+                                    <property name="option" value="EOL"/>
+                                </module>
+                                <module name="RightCurly"/>
+                                <module name="EmptyStatement"/>
+                                <module name="EqualsHashCode"/>
+                                <module name="DefaultComesLast"/>
+                                <module name="MissingSwitchDefault"/>
+                                <module name="FallThrough"/>
+                                <module name="MultipleVariableDeclarations"/>
+                                <module name="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck">
+                                    <property name="severity" value="ignore"/>
+                                </module>
+                                <module name="HideUtilityClassConstructor"/>
+                                <module name="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck">
+                                    <property name="packageAllowed" value="false"/>
+                                    <property name="protectedAllowed" value="true"/>
+                                    <property name="publicMemberPattern" value="^serialVersionUID"/>
+                                    <property name="severity" value="warning"/>
+                                </module>
+                                <module name="UpperEll"/>
+                            </module>
+                        </module>
+                    </checkstyleRules>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
     <profiles>

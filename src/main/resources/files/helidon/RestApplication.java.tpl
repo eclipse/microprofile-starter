@@ -11,17 +11,15 @@ import [# th:text="${java_package}"/].metric.MetricController;
 [/]
 [# th:if="${mp_JWT_auth}"]
 import [# th:text="${java_package}"/].secure.ProtectedController;
-import com.kumuluz.ee.jwt.auth.feature.JWTRolesAllowedDynamicFeature;
-import com.kumuluz.ee.jwt.auth.filter.JWTAuthorizationFilter;
 import org.eclipse.microprofile.auth.LoginConfig;
+import javax.annotation.security.DeclareRoles;
 [/]
 
-import javax.annotation.security.DeclareRoles;
+import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 import java.util.HashSet;
 import java.util.Set;
-
 
 /**
  *
@@ -31,18 +29,13 @@ import java.util.Set;
 @LoginConfig(authMethod = "MP-JWT")
 @DeclareRoles({"protected"})
 [/]
+@ApplicationScoped
 public class [# th:text="${application}"/]RestApplication extends Application {
 
     @Override
     public Set<Class<?>> getClasses() {
 
         Set<Class<?>> classes = new HashSet<>();
-
-        [# th:if="${mp_JWT_auth}"]
-        // microprofile jwt auth filters
-        classes.add(JWTAuthorizationFilter.class);
-        classes.add(JWTRolesAllowedDynamicFeature.class);
-        [/]
 
         // resources
         classes.add(HelloController.class);

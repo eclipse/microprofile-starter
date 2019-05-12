@@ -27,7 +27,7 @@ import java.util.Map;
 
 public class TestDependenciesRestClient {
 
-    private static TestDependenciesRestClient INSTANCE = new TestDependenciesRestClient();
+    private static final TestDependenciesRestClient INSTANCE = new TestDependenciesRestClient();
 
     private Map<SupportedServer, JessieMavenWithVersion> serverSpecificData;
 

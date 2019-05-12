@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -22,7 +22,7 @@
  */
 package org.eclipse.microprofile.starter;
 
-import org.eclipse.microprofile.starter.core.model.BeansXMLMode;
+import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
 import org.eclipse.microprofile.starter.core.model.JavaSEVersion;
 import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
 
@@ -31,6 +31,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @ApplicationScoped
@@ -39,28 +40,27 @@ public class DataBean {
 
     private List<SelectItem> javaSEItems;
     private List<SelectItem> mpItems;
-    private List<SelectItem> beansxmlItems;
 
     @PostConstruct
     public void init() {
         defineJavaSEItems();
 
         defineMPVersions();
-        defineBeanxmlItems();
-    }
-
-    private void defineBeanxmlItems() {
-        beansxmlItems = new ArrayList<>();
-        for (BeansXMLMode beansXMLMode : BeansXMLMode.values()) {
-            beansxmlItems.add(new SelectItem(beansXMLMode.getMode(), beansXMLMode.getMode()));
-        }
     }
 
     private void defineMPVersions() {
         mpItems = new ArrayList<>();
         for (MicroProfileVersion microProfileVersion : MicroProfileVersion.values()) {
-            mpItems.add(new SelectItem(microProfileVersion.getCode(), microProfileVersion.getLabel()));
+            if (microProfileVersion == MicroProfileVersion.NONE || versionHasImplementations(microProfileVersion)) {
+                mpItems.add(new SelectItem(microProfileVersion.getCode(), microProfileVersion.getLabel()));
+            }
         }
+    }
+
+    private boolean versionHasImplementations(MicroProfileVersion microProfileVersion) {
+        return Arrays.stream(SupportedServer.values())
+                .anyMatch(server -> server.getMpVersions().contains(microProfileVersion));
+
     }
 
     private void defineJavaSEItems() {
@@ -76,10 +76,6 @@ public class DataBean {
 
     public List<SelectItem> getMpItems() {
         return mpItems;
-    }
-
-    public List<SelectItem> getBeansxmlItems() {
-        return beansxmlItems;
     }
 
 }

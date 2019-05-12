@@ -77,7 +77,7 @@
                         </p:inputText>
 
                         <p:inputText id="artifactId" value="#{generatorDataBean.engineData.mavenData.artifactId}" required="true"
-                                     title="Used as part of the package name so it must comply with the Java rules"
+                                     title="Used as part of the package name so it must comply with the Java rules.  Hyphen is converted to . in package name"
                                      pt:autocomplete="off">
                             <f:validator validatorId="packageNameValidator"/>
                         </p:inputText></p:panelGrid>
@@ -119,11 +119,6 @@
                                 <f:selectItem/>
                                 <f:selectItems value="${generatorDataBean.supportedServerItems}"/>
                             </p:selectOneMenu>
-                            <p:outputLabel value="beans.xml" for="beansxmlFile"/>
-                            <p:selectOneMenu id="beansxmlFile" value="#{generatorDataBean.engineData.beansxmlMode}"
-                                             required="true">
-                                <f:selectItems value="${dataBean.beansxmlItems}"/>
-                            </p:selectOneMenu>
                         </p:panelGrid>
                         <h:panelGroup>
                             <p:outputLabel value="Examples for specifications" for="microprofileSpecs"/>
@@ -143,10 +138,7 @@
                         <h:panelGroup>
                             <p:commandButton value="Download"
                                              actionListener="#{generatorDataBean.generateProject}" ajax="false"/>
-
-                            &nbsp;<i class="fa fa-exclamation-triangle"/>
-                            &nbsp;<h:outputText styleClass="download-info" value='"implicit" -> no beans.xml, "annotated" and "all" are the values for "bean-discovery-mode"' />
-
+                            
                         </h:panelGroup>
                     </p:panelGrid>
 

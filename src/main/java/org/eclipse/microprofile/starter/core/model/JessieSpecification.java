@@ -24,7 +24,10 @@ package org.eclipse.microprofile.starter.core.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.eclipse.microprofile.starter.core.model.deserializer.*;
+import org.eclipse.microprofile.starter.core.model.deserializer.JavaSEVersionDeserializer;
+import org.eclipse.microprofile.starter.core.model.deserializer.MicroProfileVersionDeserializer;
+import org.eclipse.microprofile.starter.core.model.deserializer.ViewTypeDeserializer;
+
 
 import java.util.List;
 

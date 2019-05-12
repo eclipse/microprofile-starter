@@ -38,11 +38,12 @@ public class TemplateVariableProvider {
     public Map<String, String> determineVariables(JessieModel model) {
         Map<String, String> result = new HashMap<>();
 
-        result.put("java_package", model.getMaven().getGroupId() + '.' + model.getMaven().getArtifactId());
+        result.put("java_package", model.getMaven().getGroupId() + '.' + model.getMaven().getPackage());
         result.put("maven_artifactid", model.getMaven().getArtifactId());
 
         String artifactId = model.getMaven().getArtifactId().replaceAll("\\.", "");
         result.put("artifact", StringUtils.capitalize(artifactId));
+        result.put("application", StringUtils.capitalize(artifactId.replaceAll("-", "")));
 
         result.put("mp_version", model.getSpecification().getMicroProfileVersion().getCode());
 
