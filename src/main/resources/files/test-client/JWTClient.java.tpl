@@ -32,6 +32,7 @@ public class JWTClient {
 
         System.out.println(jwt);
 
+        // any method to send a REST request with an appropriate header will work of course.
         WebTarget target = ClientBuilder.newClient().target("http://localhost:8080/data/protected");
         Response response = target.request().header("authorization", "Bearer " + jwt).buildGet().invoke();
 

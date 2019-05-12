@@ -61,8 +61,11 @@ The example class **MetricController** contains an example how you can measure t
 
 Using the OpenId Connect JWT token to pass authentication and authorization information to the JAX-RS endpoint. Specification [here](https://microprofile.io/project/eclipse/microprofile-rest-client)
 
-Have a look at the **JWTClient** class which calls the protected endpoint on the server from a Java Main method.
-The **ProtectedController** contains the protected endpoint since it contains the _@RolesAllowed_ annotation on the JAX-RS endppoint method.
+Have a look at the **JWTClient** class within the test directory which calls the protected endpoint on the server from a Java Main method.
+The **ProtectedController** contains the protected endpoint since it contains the _@RolesAllowed_ annotation on the JAX-RS endpoint method.
+
+In order to call the protected endpoint, a separate program (see _JWTClient_) is used to simulate as much as possible a real world situation. A JAX-RS client implementation is used for this purpose to match the selected MicroProfile implementation, with an arbitrary version.
+However, any method to send a REST request with an appropriate header will work of course. Please feel free to change this code to your needs.
 
 [/]
 
