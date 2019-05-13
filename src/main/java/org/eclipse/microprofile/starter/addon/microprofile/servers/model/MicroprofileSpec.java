@@ -31,28 +31,28 @@ public enum MicroprofileSpec {
     // @formatter:off
     CONFIG("config", "Config",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
-                    MicroProfileVersion.MP20, MicroProfileVersion.MP21))
+                    MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22))
     , FAULT_TOLERANCE("fault_tolerance", "Fault Tolerance",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
-                    MicroProfileVersion.MP20, MicroProfileVersion.MP21))
+                    MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22))
     , JWT_AUTH("JWT_auth", "JWT Auth",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
-                    MicroProfileVersion.MP20, MicroProfileVersion.MP21))
+                    MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22))
     , HEALTH_METRICS("health_metrics", "Health Metrics",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
-                    MicroProfileVersion.MP20, MicroProfileVersion.MP21))
+                    MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22))
     , HEALTH_CHECKS("health_checks", "Health Checks",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
-                    MicroProfileVersion.MP20, MicroProfileVersion.MP21))
+                    MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22))
     , OPEN_API("open_API", "OpenAPI",
             Arrays.asList(MicroProfileVersion.MP13, MicroProfileVersion.MP14, MicroProfileVersion.MP20,
-                    MicroProfileVersion.MP21))
+                    MicroProfileVersion.MP21, MicroProfileVersion.MP22))
     , OPEN_TRACING("open_tracing", "OpenTracing",
             Arrays.asList(MicroProfileVersion.MP13, MicroProfileVersion.MP14, MicroProfileVersion.MP20,
-                    MicroProfileVersion.MP21))
+                    MicroProfileVersion.MP21, MicroProfileVersion.MP22))
     , REST_CLIENT("rest_client", "TypeSafe Rest Client",
             Arrays.asList(MicroProfileVersion.MP13, MicroProfileVersion.MP14, MicroProfileVersion.MP20,
-                    MicroProfileVersion.MP21))
+                    MicroProfileVersion.MP21, MicroProfileVersion.MP22))
     ;
     // @formatter:on
 

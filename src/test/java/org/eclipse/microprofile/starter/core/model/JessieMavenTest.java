@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2019 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,26 +16,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Contributors:
- *   2018-09-29 - Rudy De Busscher
- *      Initially authored in Atbash Jessie
  */
-package org.eclipse.microprofile.starter.core.artifacts;
+package org.eclipse.microprofile.starter.core.model;
 
-import org.eclipse.microprofile.starter.core.model.JessieMaven;
+import org.junit.Assert;
+import org.junit.Test;
 
-/**
- *
- */
+public class JessieMavenTest {
 
-public abstract class DirectoryCreator {
+    @Test
+    public void shouldRelaceHypendsWithPeriodInPackageName() {
+        JessieMaven maven = new JessieMaven();
 
-    public abstract void createDirectory(String directoryPath);
+        maven.setArtifactId("test-service");
 
-    public abstract void removeDirectory(String directoryPath);
-
-    public String createPathForGroupAndArtifact(JessieMaven mavenModel) {
-        return (mavenModel.getGroupId() + '.' + mavenModel.getPackage()).replaceAll("\\.", "/");
+        Assert.assertEquals("test.service", maven.getPackage());
     }
-
 }

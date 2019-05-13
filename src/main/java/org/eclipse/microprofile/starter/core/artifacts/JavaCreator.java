@@ -42,9 +42,9 @@ public class JavaCreator extends AbstractCreator {
         String viewDirectory = model.getDirectory() + "/" + rootJava;
         directoryCreator.createDirectory(viewDirectory);
 
-        String artifactId = variables.get("artifact");
+        String application = variables.get("application");
         String javaFile = thymeleafEngine.processFile("RestApplication.java", alternatives, variables);
-        fileCreator.writeContents(viewDirectory, artifactId + "RestApplication.java", javaFile);
+        fileCreator.writeContents(viewDirectory, application + "RestApplication.java", javaFile);
 
         javaFile = thymeleafEngine.processFile("HelloController.java", alternatives, variables);
         fileCreator.writeContents(viewDirectory, "HelloController.java", javaFile);
