@@ -28,6 +28,7 @@ import org.eclipse.microprofile.starter.addon.microprofile.servers.model.Support
 import org.eclipse.microprofile.starter.core.artifacts.CDICreator;
 import org.eclipse.microprofile.starter.core.artifacts.MavenCreator;
 import org.eclipse.microprofile.starter.core.exception.JessieConfigurationException;
+import org.eclipse.microprofile.starter.core.exception.JessieUnexpectedException;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 import org.eclipse.microprofile.starter.core.model.OptionValue;
 import org.eclipse.microprofile.starter.spi.MavenHelper;
@@ -36,7 +37,6 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -69,8 +69,6 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
         checkServerValue(model);
 
         handleSpecOptions(model);
-        // TODO Should we forsee a Map within JessieModel to stores these things?
-        // So that it doesn't need to be be redefined?
     }
 
     private void handleSpecOptions(JessieModel model) {
@@ -109,8 +107,7 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
     }
 
     private String invalidSpecValue(List<String> invalidSpecs) {
-        return "Unknown value for option 'mp.specs' : " + invalidSpecs.stream()
-                .collect(Collectors.joining(", "));
+        return "Unknown value for option 'mp.specs' : " + String.join(", ", invalidSpecs);
     }
 
     @Override
@@ -131,8 +128,9 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
         if (profile == null) {
             profile = findProfile(serverName);
         }
+
         if (profile == null) {
-            // FIXME Throw exception
+            throw new JessieUnexpectedException("Profile not found " + profileName);
         }
 
         Profile selectedProfile = profile.clone();

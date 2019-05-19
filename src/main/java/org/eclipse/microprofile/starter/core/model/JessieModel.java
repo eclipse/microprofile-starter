@@ -54,9 +54,6 @@ public class JessieModel {
     private Map<String, Object> parameters = new HashMap<>();
 
     @JsonIgnore
-    private Set<String> alternatives;  // FIXME Why was this needed?
-
-    @JsonIgnore
     private Map<String, String> variables = new HashMap<>();
 
     public String getDirectory() {

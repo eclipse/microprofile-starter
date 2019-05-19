@@ -30,11 +30,9 @@ import org.eclipse.microprofile.starter.spi.JessieAddon;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.ValidatorFactory;
 import java.util.List;
-import java.util.Set;
 
 /**
  *
@@ -53,19 +51,9 @@ public class ModelValidation {
 
     }
 
-    public void validate(Object objectToValidate) {
-        // toDO What was the idea here??
-        // This is the first phase of validation
-        Set<ConstraintViolation<Object>> violations = validatorFactory.getValidator().validate(objectToValidate);
-
-        if (!violations.isEmpty()) {
-            throw new ModelValidationException(violations);
-        }
-    }
-
     public void validate(JessieModel model) {
         if (!templateModelLoader.isValidTemplate(model.getTemplate())) {
-            String message = String.format("JES-102- specified template '%s' is not found", model.getTemplate());
+            String message = String.format("Specified template '%s' is not found", model.getTemplate());
             throw new JessieConfigurationException(message);
         }
         // TODO More validations

@@ -25,6 +25,7 @@ package org.eclipse.microprofile.starter.core.model;
 import org.eclipse.microprofile.starter.core.AlternativesProvider;
 import org.eclipse.microprofile.starter.core.TemplateVariableProvider;
 import org.eclipse.microprofile.starter.core.addon.AddonManager;
+import org.eclipse.microprofile.starter.core.exception.JessieUnexpectedException;
 import org.eclipse.microprofile.starter.core.templates.TemplateModelValues;
 import org.eclipse.microprofile.starter.core.validation.ModelValidation;
 import org.eclipse.microprofile.starter.spi.JessieAddon;
@@ -169,11 +170,11 @@ public class ModelManager {
             if (name != null) {
                 List<JessieAddon> addons = addonManager.getAddons(name);
                 if (addons.isEmpty()) {
-                    // FIXME Log warning
+                    throw new JessieUnexpectedException("Unable to find addon : " + name);
                 }
                 allAddons.addAll(addons);
             } else {
-                // FIXME Log warning
+                throw new JessieUnexpectedException("Empty addon name");
             }
         }
         return allAddons;

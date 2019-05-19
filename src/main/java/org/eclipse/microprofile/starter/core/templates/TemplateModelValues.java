@@ -48,7 +48,6 @@ public class TemplateModelValues {
 
         String templateName = model.getTemplate();
 
-        // FIXME Use StringUtils
         while (templateName != null && !templates.contains(templateName)) {
             templates.add(templateName);
 
