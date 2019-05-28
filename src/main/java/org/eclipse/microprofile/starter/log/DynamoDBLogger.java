@@ -67,7 +67,7 @@ public class DynamoDBLogger {
     }
 
     private static byte[] signatureKey(
-            final String key, final String dateStamp, final String regionName, final String serviceName) 
+            final String key, final String dateStamp, final String regionName, final String serviceName)
             throws NoSuchAlgorithmException, InvalidKeyException {
         final byte[] kDate = sign(StandardCharsets.UTF_8.encode("AWS4" + key).array(), StandardCharsets.UTF_8.encode(dateStamp).array());
         final byte[] kRegion = sign(kDate, StandardCharsets.US_ASCII.encode(regionName).array());
@@ -86,8 +86,11 @@ public class DynamoDBLogger {
         }
         final String timestamp = logMessageTimeFormat.format(date);
         final String logmark = Stream.concat(
-                Stream.of(engineData.getMpVersion(), engineData.getSupportedServer(), engineData.getBeansxmlMode(), WEB_APP_INSTANCE_ID,
-                        timestamp, engineData.getMavenData().getArtifactId(), engineData.getMavenData().getGroupId()),
+                Stream.of(engineData.getMpVersion(), engineData.getSupportedServer(),
+                        engineData.getBeansxmlMode(), WEB_APP_INSTANCE_ID,
+                        timestamp, engineData.getMavenData().getArtifactId(),
+                        engineData.getMavenData().getGroupId(),
+                        engineData.getTrafficSource().toString()),
                 engineData.getSelectedSpecs().stream()
         ).collect(Collectors.joining());
         sha1Hash.update(logmark.getBytes());
@@ -119,6 +122,9 @@ public class DynamoDBLogger {
             s.append(String.join("\",\"", engineData.getSelectedSpecs()));
         }
         s.append("\"]},")
+                .append("\"trafficSource\":{\"S\":\"")
+                .append(engineData.getTrafficSource().toString())
+                .append("\"},")
                 .append("\"timestamp\":{\"S\":\"")
                 .append(timestamp)
                 .append("\"}}}");

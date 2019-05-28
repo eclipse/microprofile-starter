@@ -22,6 +22,7 @@
  */
 package org.eclipse.microprofile.starter.view;
 
+import org.eclipse.microprofile.starter.Version;
 import org.eclipse.microprofile.starter.ZipFileCreator;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
@@ -51,7 +52,11 @@ import javax.inject.Named;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -67,6 +72,9 @@ public class GeneratorDataBean implements Serializable {
 
     @Inject
     private ZipFileCreator zipFileCreator;
+
+    @Inject
+    private Version version;
 
     @Resource
     private ManagedExecutorService managedExecutorService;
@@ -186,6 +194,10 @@ public class GeneratorDataBean implements Serializable {
         // Important! Otherwise JSF will attempt to render the response which obviously will fail
         // since it's already written with a file and closed.
         fc.responseComplete();
+    }
+
+    public Version getVersion() {
+        return version;
     }
 
     public EngineData getEngineData() {

@@ -13,6 +13,7 @@ java -server \
  -XX:+UseG1GC \
  -XX:+HeapDumpOnOutOfMemoryError \
  -XX:HeapDumpPath=/opt/mp-starter-hollow-thorntail/ \
+ -XX:+ExitOnOutOfMemoryError \
  -cp /opt/mp-starter-hollow-thorntail \
  org.wildfly.swarm.bootstrap.Main \
  /opt/mp-starter.war \

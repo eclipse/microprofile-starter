@@ -19,7 +19,10 @@
  */
 package org.eclipse.microprofile.starter;
 
+import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
+import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
 import org.eclipse.microprofile.starter.core.model.JessieMaven;
+import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
 import org.eclipse.microprofile.starter.log.DynamoDBLogger;
 import org.eclipse.microprofile.starter.view.EngineData;
 import org.junit.Test;
@@ -42,10 +45,10 @@ public class DynamoDBLoggerTest {
         jessieMaven.setGroupId("com.example.hahah");
 
         EngineData engineData = new EngineData();
-        engineData.setMpVersion("2.0");
-        engineData.setSupportedServer("liberty");
-        engineData.setBeansxmlMode("ANNOTATED");
-        engineData.setSelectedSpecs(Stream.of("HEALTH_METRICS", "HEALTH_CHECKS", "REST_CLIENT").collect(Collectors.toList()));
+        engineData.setMpVersion(MicroProfileVersion.MP20.getCode());
+        engineData.setSupportedServer(SupportedServer.LIBERTY.getCode());
+        engineData.setSelectedSpecs(
+                Stream.of(MicroprofileSpec.values()).map(MicroprofileSpec::getCode).collect(Collectors.toList()));
         engineData.setMavenData(jessieMaven);
 
         dynamoDBLogger.log(engineData);

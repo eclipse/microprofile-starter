@@ -184,19 +184,17 @@
                      styleClass="ui-panelgrid-blank ui-fluid">
 
             <h:panelGroup>
-
-                <p>&copy; 2019 Microprofile.
-                    Eclipse MicroProfile is an open source project under the Apache License 2.0. </p>
+                <p>&copy; 2019 Microprofile. Eclipse MicroProfile is an open source project under the Apache License 2.0.</p>
+                <p><h:outputText value="#{generatorDataBean.version.git}"/></p>
             </h:panelGroup>
             <h:panelGroup>
-
                 <ul class="social">
-                    <li><a target="_blank" href="https://twitter.com/microprofileio"><i class="fa fa-twitter"></i>
+                    <li><a target="_blank" href="https://twitter.com/microprofileio"><i class="fa fa-twitter"/>
                     </a></li>
                     <li><a target="_blank" href="https://www.facebook.com/microprofile.io/"><i
-                            class="fa fa-facebook"></i> </a></li>
+                            class="fa fa-facebook"/> </a></li>
                     <li><a target="_blank" href="https://www.linkedin.com/company/microprofileio/"><i
-                            class="fa fa-linkedin"></i> </a></li>
+                            class="fa fa-linkedin"/> </a></li>
                 </ul>
             </h:panelGroup>
         </p:panelGrid>

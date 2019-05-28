@@ -2,7 +2,13 @@
 
 [![Gitter](https://badges.gitter.im/eclipse/microprofile-starter.svg)](https://gitter.im/eclipse/microprofile-starter?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+## Web
+
 Live tool at [MicroProfile starter - Generate MicroProfile Maven Project](https://start.microprofile.io/index.xhtml)
+
+## REST API
+
+See [documentation](./src/main/resources/REST-README.md).
 
 ## When can an implementation be added to the MicroProfile Tool
 
