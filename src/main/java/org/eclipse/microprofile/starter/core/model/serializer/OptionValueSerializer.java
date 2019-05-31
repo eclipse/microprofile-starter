@@ -23,7 +23,6 @@
 package org.eclipse.microprofile.starter.core.model.serializer;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import org.eclipse.microprofile.starter.core.model.OptionValue;
@@ -33,7 +32,7 @@ import java.io.IOException;
 public class OptionValueSerializer extends JsonSerializer<OptionValue> {
     @Override
     public void serialize(OptionValue optionValue, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
-            throws IOException, JsonProcessingException {
+            throws IOException {
         if (optionValue.isMultipleValues()) {
             serializerProvider.defaultSerializeValue(optionValue.getValues(), jsonGenerator);
         } else {

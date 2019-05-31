@@ -56,20 +56,19 @@ public class TemplateModelLoader {
 
         URL templatesRegistryFile = this.getClass().getClassLoader().getResource("templates/templates.yaml");
         if (templatesRegistryFile == null) {
-            throw new JessieUnexpectedException("JES001- templates.yaml file not found");
+            throw new JessieUnexpectedException("templates.yaml file not found");
         }
 
         InputStream resource = this.getClass().getClassLoader().getResourceAsStream("templates/templates.yaml");
         List<String> templateFiles = yamlReader.readYAML(resource, List.class);
-        // FIXME mechanism to define custom templates.
         try {
-            resource.close();
+            resource.close();  // Should never be null as we have checked if .getResource return something useful.
         } catch (IOException e) {
             throw new TechnicalException(e);
         }
 
         if (templateFiles == null || templateFiles.isEmpty()) {
-            throw new JessieUnexpectedException("JES002- the yaml files for the templates aren't found");
+            throw new JessieUnexpectedException("The yaml files for the templates aren't found");
         }
         for (String templateFile : templateFiles) {
             templates.add(templateFile.substring(0, templateFile.length() - 5));

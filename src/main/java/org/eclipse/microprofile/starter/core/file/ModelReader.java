@@ -22,14 +22,10 @@
  */
 package org.eclipse.microprofile.starter.core.file;
 
-import org.eclipse.microprofile.starter.core.exception.TechnicalException;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -47,34 +43,6 @@ public class ModelReader {
 
         result.addParameter(JessieModel.Parameter.FILENAME, modelName);
 
-        return result;
-    }
-
-    public JessieModel readModel(String fileName) {
-        JessieModel result;
-
-        File file = determineFileName(fileName);
-
-        try {
-            FileInputStream stream = new FileInputStream(file);
-            result = yamlReader.readYAML(stream, JessieModel.class);
-
-            result.addParameter(JessieModel.Parameter.FILENAME, file.getName());
-            stream.close();
-        } catch (IOException e) {
-            throw new TechnicalException(e);
-        }
-        return result;
-    }
-
-    private File determineFileName(String fileName) {
-        File result = new File(fileName);
-        if (!result.exists()) {
-            // If file not exists, try with the .yaml extension.
-            if (!fileName.endsWith(".yaml")) {
-                result = new File(fileName + ".yaml");
-            }
-        }
         return result;
     }
 

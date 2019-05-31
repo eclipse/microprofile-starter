@@ -25,7 +25,6 @@ package org.eclipse.microprofile.starter.core.files;
 import org.eclipse.microprofile.starter.core.exception.JessieException;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -38,7 +37,7 @@ public class FileResolutionException extends JessieException {
     }
 
     private static String createMessage(String file, Set<String> alternatives) {
-        String alternativeInfo = alternatives.stream().collect(Collectors.joining(", "));
+        String alternativeInfo = String.join(", ", alternatives);
         return String.format("No file found for '%s' with alternatives '%s'", file, alternativeInfo);
     }
 }

@@ -25,7 +25,7 @@ import java.util.UUID;
 public class JWTClient {
 
     public static void main(String[] args) throws IOException {
-        // TODO Use Atbash JWT Support
+
         PrivateKey key = readPrivateKey();
 
         String jwt = generateJWT(key);

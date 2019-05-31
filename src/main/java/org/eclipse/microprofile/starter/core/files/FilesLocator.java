@@ -97,10 +97,8 @@ public class FilesLocator {
         if (result == -1 && !multipleMatch) {
             // Didn't found anything which matches exact, but we didn't stop looking because there was a multiple match.
             // Are there versions without any alternative.
-            List<FileIdentification> matches = new ArrayList<>();
-            matches.addAll(candidates.stream()
-                    .filter(fi -> fi.getAlternatives().isEmpty())
-                    .collect(Collectors.toList()));
+            List<FileIdentification> matches = candidates.stream()
+                    .filter(fi -> fi.getAlternatives().isEmpty()).collect(Collectors.toList());
 
             if (matches.size() == 1) {
                 result = candidates.indexOf(matches.get(0)); // We have a single match, this is the one.

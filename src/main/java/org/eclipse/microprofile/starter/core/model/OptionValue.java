@@ -58,8 +58,7 @@ public class OptionValue {
     }
 
     public List<String> getValues() {
-        // FIXME Immutable
-        return values;
+        return new ArrayList<>(values);
     }
 
     public boolean isMultipleValues() {

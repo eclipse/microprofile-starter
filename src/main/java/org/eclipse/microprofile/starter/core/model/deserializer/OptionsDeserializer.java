@@ -23,7 +23,6 @@
 package org.eclipse.microprofile.starter.core.model.deserializer;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -36,7 +35,7 @@ import java.util.*;
 public class OptionsDeserializer extends JsonDeserializer<Map<String, OptionValue>> {
     @Override
     public Map<String, OptionValue> deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
-            throws IOException, JsonProcessingException {
+            throws IOException {
         Map<String, OptionValue> result = new HashMap<>();
         ObjectNode node = jsonParser.readValueAsTree();
         Iterator<Map.Entry<String, JsonNode>> fields = node.fields();

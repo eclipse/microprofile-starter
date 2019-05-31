@@ -22,11 +22,8 @@
  */
 package org.eclipse.microprofile.starter.core.file;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import org.eclipse.microprofile.starter.core.exception.JessieUnexpectedException;
 import org.eclipse.microprofile.starter.core.exception.TechnicalException;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -40,9 +37,6 @@ public class YAMLReader {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         try {
             return mapper.readValue(in, classType);
-        } catch (JsonParseException | JsonMappingException e) {
-            throw new JessieUnexpectedException("Error parsing file " + /*fileName +*/ " ??TODO?? Error message = " + e.getMessage());
-
         } catch (IOException e) {
             throw new TechnicalException(e);
         }
