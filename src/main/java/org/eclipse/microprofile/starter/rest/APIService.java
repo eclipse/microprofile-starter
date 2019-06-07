@@ -15,6 +15,7 @@ import org.eclipse.microprofile.starter.core.model.JessieSpecification;
 import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
 import org.eclipse.microprofile.starter.core.model.ModelManager;
 import org.eclipse.microprofile.starter.core.model.OptionValue;
+import org.eclipse.microprofile.starter.core.validation.PackageNameValidator;
 import org.eclipse.microprofile.starter.log.LoggingTask;
 import org.eclipse.microprofile.starter.rest.model.MPOptionsAvailable;
 import org.eclipse.microprofile.starter.rest.model.Project;
@@ -25,7 +26,6 @@ import javax.annotation.Resource;
 import javax.enterprise.concurrent.ManagedExecutorService;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.validation.constraints.NotNull;
 import javax.ws.rs.core.EntityTag;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -54,6 +54,9 @@ public class APIService {
     @Inject
     private Version version;
 
+    @Inject
+    private PackageNameValidator packageNameValidator;
+
     @PostConstruct
     public void init() {
         mpvToOptions =
@@ -77,9 +80,16 @@ public class APIService {
         }
     }
 
-    public static final String ERROR001 = "{\"error\":\"supportedServer query parameter is mandatory\",\"code\":\"ERROR001\"}";
-    public static final String ERROR002 = "{\"error\":\"Selected supportedServer is not available for given mpVersion\",\"code\":\"ERROR002\"}";
-    public static final String ERROR003 = "{\"error\":\"One or more selectedSpecs is not available for given mpVersion\",\"code\":\"ERROR003\"}";
+    public static final String ERROR001 =
+            "{\"error\":\"supportedServer query parameter is mandatory\",\"code\":\"ERROR001\"}";
+    public static final String ERROR002 =
+            "{\"error\":\"Selected supportedServer is not available for given mpVersion\",\"code\":\"ERROR002\"}";
+    public static final String ERROR003 =
+            "{\"error\":\"One or more selectedSpecs is not available for given mpVersion\",\"code\":\"ERROR003\"}";
+    public static final String ERROR004 =
+            "{\"error\":\"groupId contains illegal characters or is longer than " + PackageNameValidator.MAX_LENGTH + "\",\"code\":\"ERROR004\"}";
+    public static final String ERROR005 =
+            "{\"error\":\"artifactId contains illegal characters or is longer than " + PackageNameValidator.MAX_LENGTH + "\",\"code\":\"ERROR005\"}";
 
     @Inject
     private ModelManager modelManager;
@@ -135,7 +145,7 @@ public class APIService {
         return processProject(ifNoneMatch, body);
     }
 
-    private Response validate(@NotNull Project p) {
+    private Response validate(Project p) {
         if (p.getSupportedServer() == null) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity(ERROR001)
@@ -144,11 +154,28 @@ public class APIService {
                     .header("Content-Disposition", "attachment; filename=\"error.json\"")
                     .build();
         }
+
         if (StringUtils.isBlank(p.getGroupId())) {
             p.setGroupId(EngineData.DEFAULT_GROUP_ID);
         }
+        if (!packageNameValidator.isValidPackageName(p.getGroupId())) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(ERROR004)
+                    .type("application/json")
+                    .header("Content-Length", ERROR004.length())
+                    .header("Content-Disposition", "attachment; filename=\"error.json\"")
+                    .build();
+        }
         if (StringUtils.isBlank(p.getArtifactId())) {
             p.setArtifactId(EngineData.DEFAULT_ARTIFACT_ID);
+        }
+        if (!packageNameValidator.isValidPackageName(p.getArtifactId())) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(ERROR005)
+                    .type("application/json")
+                    .header("Content-Length", ERROR005.length())
+                    .header("Content-Disposition", "attachment; filename=\"error.json\"")
+                    .build();
         }
         if (p.getMpVersion() == null || p.getMpVersion() == MicroProfileVersion.NONE) {
             p.setMpVersion(
@@ -193,7 +220,7 @@ public class APIService {
         return engineData;
     }
 
-    private Response processProject(String ifNoneMatch, @NotNull Project p) {
+    private Response processProject(String ifNoneMatch, Project p) {
 
         Response validatorResponse = validate(p);
         if (validatorResponse.getStatusInfo() != Response.Status.OK) {

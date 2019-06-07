@@ -5,8 +5,6 @@ import org.eclipse.microprofile.starter.addon.microprofile.servers.model.Support
 import org.eclipse.microprofile.starter.core.model.JavaSEVersion;
 import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,7 +17,6 @@ public class Project {
     private SupportedServer supportedServer = null;
     private List<MicroprofileSpec> selectedSpecs = null;
 
-    @Pattern(regexp = "^(\\w+|\\w+\\.\\w+)+$")
     public String getGroupId() {
         return groupId;
     }
@@ -28,7 +25,6 @@ public class Project {
         this.groupId = groupId;
     }
 
-    @Pattern(regexp = "^(\\w+|\\w+\\.\\w+)+$")
     public String getArtifactId() {
         return artifactId;
     }
@@ -53,7 +49,6 @@ public class Project {
         this.javaSEVersion = javaSEVersion;
     }
 
-    @NotNull
     public SupportedServer getSupportedServer() {
         return supportedServer;
     }
