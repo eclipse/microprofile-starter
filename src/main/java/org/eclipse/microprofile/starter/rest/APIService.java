@@ -102,13 +102,15 @@ public class APIService {
     public static final String ERROR001 =
             "{\"error\":\"supportedServer query parameter is mandatory\",\"code\":\"ERROR001\"}";
     public static final String ERROR002 =
-            "{\"error\":\"Selected supportedServer is not available for given mpVersion\",\"code\":\"ERROR002\"}";
+            "{\"error\":\"Selected supportedServer is not available for the given mpVersion\",\"code\":\"ERROR002\"}";
     public static final String ERROR003 =
-            "{\"error\":\"One or more selectedSpecs is not available for given mpVersion\",\"code\":\"ERROR003\"}";
+            "{\"error\":\"One or more selectedSpecs is not available for the given mpVersion\",\"code\":\"ERROR003\"}";
     public static final String ERROR004 =
-            "{\"error\":\"groupId contains illegal characters, does not start with a word or is longer than " + PackageNameValidator.MAX_LENGTH + "\",\"code\":\"ERROR004\"}";
+            "{\"error\":\"groupId contains illegal characters, does not start with a word or is longer than " +
+                    PackageNameValidator.MAX_LENGTH + "\",\"code\":\"ERROR004\"}";
     public static final String ERROR005 =
-            "{\"error\":\"artifactId contains illegal characters, does not start with a word or is longer than " + PackageNameValidator.MAX_LENGTH + "\",\"code\":\"ERROR005\"}";
+            "{\"error\":\"artifactId contains illegal characters, does not start with a word or is longer than " +
+                    PackageNameValidator.MAX_LENGTH + "\",\"code\":\"ERROR005\"}";
 
     @Inject
     private ModelManager modelManager;
