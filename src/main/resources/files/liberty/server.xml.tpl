@@ -9,7 +9,7 @@
                   httpPort="${httpPort}"
                   httpsPort="${httpsPort}"/>
 
-    <application location="${project.build.directory}/${project.build.finalName}.war"/>
+    <application location="${project.build.finalName}.war"/>
 
     <logging traceSpecification="${log.name}.*=${log.level}"/>
 
