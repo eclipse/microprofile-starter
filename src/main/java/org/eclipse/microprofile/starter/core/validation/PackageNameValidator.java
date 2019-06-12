@@ -29,10 +29,10 @@ import java.util.regex.Pattern;
 public class PackageNameValidator {
 
     public static final String VALID_REGEX = "^(?:\\w+|\\w+[\\.-]\\w+)+$";
-    public static final int MAX_LENGTH = 100;
+    public static final int MAX_LENGTH = 200;
     private Pattern pattern = Pattern.compile(VALID_REGEX, Pattern.CASE_INSENSITIVE);
 
     public boolean isValidPackageName(String name) {
-        return pattern.matcher(name).matches() && name.length() < MAX_LENGTH;
+        return name.length() < MAX_LENGTH && pattern.matcher(name).matches();
     }
 }

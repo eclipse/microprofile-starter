@@ -70,13 +70,13 @@
 
                     <p:panelGrid columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
                                  styleClass="ui-panelgrid-blank ui-fluid">
-                        <p:inputText id="groupId" value="#{generatorDataBean.engineData.mavenData.groupId}" required="true"
+                        <p:inputText id="groupId" label="groupId" value="#{generatorDataBean.engineData.mavenData.groupId}" required="true"
                                      title="Used as part of the package name so it must comply with the Java rules"
                                      pt:autocomplete="off">
                             <f:validator validatorId="packageNameValidator"/>
                         </p:inputText>
 
-                        <p:inputText id="artifactId" value="#{generatorDataBean.engineData.mavenData.artifactId}" required="true"
+                        <p:inputText id="artifactId" label="artifactId" value="#{generatorDataBean.engineData.mavenData.artifactId}" required="true"
                                      title="Used as part of the package name so it must comply with the Java rules.  Hyphen is converted to . in package name"
                                      pt:autocomplete="off">
                             <f:validator validatorId="packageNameValidator"/>

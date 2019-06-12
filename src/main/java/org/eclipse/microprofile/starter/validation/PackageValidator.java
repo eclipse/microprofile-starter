@@ -29,6 +29,7 @@ import javax.enterprise.inject.UnsatisfiedResolutionException;
 import javax.enterprise.inject.spi.CDI;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
@@ -43,7 +44,7 @@ public class PackageValidator implements Validator {
         PackageNameValidator validator = retrieveInstance(PackageNameValidator.class);
         if (!validator.isValidPackageName(value.toString())) {
             FacesMessage msg =
-                    new FacesMessage(uiComponent.getId() + " field validation failed.",
+                    new FacesMessage(((HtmlInputText) uiComponent).getLabel() + " field validation failed.",
                             "Please provide a valid package name");
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 
