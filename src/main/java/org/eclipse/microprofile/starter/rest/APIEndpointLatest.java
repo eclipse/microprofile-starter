@@ -42,8 +42,8 @@ import java.util.List;
 /**
  * @author Michal Karm Babacek <karm@redhat.com>
  */
-@Path("/1.0.0")
-public class APIEndpoint {
+@Path("/")
+public class APIEndpointLatest {
 
     @Inject
     private APIService api;

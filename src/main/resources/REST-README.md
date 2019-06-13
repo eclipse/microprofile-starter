@@ -15,7 +15,7 @@
 # Project generator REST API
 
 This document summarizes examples of MicroProfile Starter web application REST API
-[microprofile/starter/1.0.0](https://app.swaggerhub.com/apis/microprofile/starter/1.0.0)
+[microprofile/starter/1](https://app.swaggerhub.com/apis/microprofile/starter/1)
 
 Each MicroProfile version (mpVersion) offers a suite of specifications (specs) and is implemented
 by a set of application servers (supportedServers).
@@ -26,7 +26,7 @@ The latest mpVersion with all specs it offers is used by default then.
 # Get available MicroProfile versions
 
 ```
-$ curl https://start.microprofile.io/api/1.0.0/mpVersion
+$ curl https://start.microprofile.io/api/1/mpVersion
 
 ["MP22","MP21","MP20","MP14","MP13","MP12"]
 ```
@@ -37,7 +37,7 @@ Note the order of supportedServers values is pseudorandom each call.
 Note the JSON formatting was altered for this document.
 
 ```
-$ curl https://start.microprofile.io/api/1.0.0/mpVersion/MP14
+$ curl https://start.microprofile.io/api/1/mpVersion/MP14
 {
   "supportedServers": [
     "PAYARA_MICRO",
@@ -67,7 +67,7 @@ Curl: ```-O -J``` makes curl to save the zip file in the current directory. ```-
 Note that latest available MP version for the supportedServer and All available Specs were selected by default.
 
 ```
-$ curl -O -J 'https://start.microprofile.io/api/1.0.0/project?supportedServer=THORNTAIL_V2'
+$ curl -O -J 'https://start.microprofile.io/api/1/project?supportedServer=THORNTAIL_V2'
 
 curl: Saved to filename 'demo.zip'
 
@@ -79,7 +79,7 @@ The only mandatory attribute is ```supportedServer```. One can omit ```-v``` cur
 Note the optional usage of [Etag](https://tools.ietf.org/html/rfc7232#section-2.3) and [If-None-Match](https://tools.ietf.org/html/rfc7232#section-3.2).
 
 ```
-$ curl -v -O -J -L 'https://start.microprofile.io/api/1.0.0/project?supportedServer=PAYARA_MICRO&artifactId=XXXXX&mpVersion=MP12&selectedSpecs=FAULT_TOLERANCE&selectedSpecs=JWT_AUTH'
+$ curl -v -O -J -L 'https://start.microprofile.io/api/1/project?supportedServer=PAYARA_MICRO&artifactId=XXXXX&mpVersion=MP12&selectedSpecs=FAULT_TOLERANCE&selectedSpecs=JWT_AUTH'
 
 < ETag: "dd085c81"
 
@@ -89,7 +89,7 @@ curl: Saved to filename 'XXXXX.zip'
 Note we can use ETag dd085c81 from the previous response:
 
 ```
-curl -v -O -J -L -H 'If-None-Match: "dd085c81"' 'https://start.microprofile.io/api/1.0.0/project?supportedServer=PAYARA_MICRO&artifactId=XXXXX&mpVersion=MP12&selectedSpecs=FAULT_TOLERANCE&selectedSpecs=JWT_AUTH'
+curl -v -O -J -L -H 'If-None-Match: "dd085c81"' 'https://start.microprofile.io/api/1/project?supportedServer=PAYARA_MICRO&artifactId=XXXXX&mpVersion=MP12&selectedSpecs=FAULT_TOLERANCE&selectedSpecs=JWT_AUTH'
 
 < HTTP/1.1 304 Not Modified
 ```
@@ -97,7 +97,7 @@ curl -v -O -J -L -H 'If-None-Match: "dd085c81"' 'https://start.microprofile.io/a
 ## Example with all attributes
 
 ```
-$ curl -O -J -L 'https://start.microprofile.io/api/1.0.0/project?supportedServer=LIBERTY&groupId=com.example&artifactId=myapp&mpVersion=MP22&javaSEVersion=SE8&selectedSpecs=CONFIG&selectedSpecs=FAULT_TOLERANCE&selectedSpecs=JWT_AUTH&selectedSpecs=HEALTH_METRICS&selectedSpecs=HEALTH_CHECKS&selectedSpecs=OPEN_API&selectedSpecs=OPEN_TRACING&selectedSpecs=REST_CLIENT'
+$ curl -O -J -L 'https://start.microprofile.io/api/1/project?supportedServer=LIBERTY&groupId=com.example&artifactId=myapp&mpVersion=MP22&javaSEVersion=SE8&selectedSpecs=CONFIG&selectedSpecs=FAULT_TOLERANCE&selectedSpecs=JWT_AUTH&selectedSpecs=HEALTH_METRICS&selectedSpecs=HEALTH_CHECKS&selectedSpecs=OPEN_API&selectedSpecs=OPEN_TRACING&selectedSpecs=REST_CLIENT'
 
 curl: Saved to filename 'myapp.zip'
 ```
@@ -107,7 +107,7 @@ curl: Saved to filename 'myapp.zip'
 By POSTing a JSON string one can get the same result as with using query parameters above.
 
 ```
-$ curl -O -J -L -H "Content-Type: application/json" -d '{"mpVersion":"MP14","supportedServer":"TOMEE","selectedSpecs":["REST_CLIENT","CONFIG"]}' 'https://start.microprofile.io/api/1.0.0/project'
+$ curl -O -J -L -H "Content-Type: application/json" -d '{"mpVersion":"MP14","supportedServer":"TOMEE","selectedSpecs":["REST_CLIENT","CONFIG"]}' 'https://start.microprofile.io/api/1/project'
 
 curl: Saved to filename 'demo.zip'
 ```
@@ -115,7 +115,7 @@ curl: Saved to filename 'demo.zip'
 This is how one can have the JSON stored in a file:
 
 ```
-$ curl -O -J -L -H "Content-Type: application/json" -d @my.json 'https://start.microprofile.io/api/1.0.0/project'
+$ curl -O -J -L -H "Content-Type: application/json" -d @my.json 'https://start.microprofile.io/api/1/project'
 
 curl: Saved to filename 'demo.zip'
 ```
@@ -142,7 +142,7 @@ $ cat all.json
   ]
 }
 
-$ curl -O -J -L -H "Content-Type: application/json" -d @all.json 'https://start.microprofile.io/api/1.0.0/project'
+$ curl -O -J -L -H "Content-Type: application/json" -d @all.json 'https://start.microprofile.io/api/1/project'
 
 curl: Saved to filename 'myapp.zip'
 ```
@@ -150,7 +150,7 @@ curl: Saved to filename 'myapp.zip'
 ## JSON Minimal example
 
 ```
-$ curl -O -J -L -H "Content-Type: application/json" -d '{"supportedServer":"KUMULUZEE"}' 'https://start.microprofile.io/api/1.0.0/project'
+$ curl -O -J -L -H "Content-Type: application/json" -d '{"supportedServer":"KUMULUZEE"}' 'https://start.microprofile.io/api/1/project'
 
 curl: Saved to filename 'demo.zip'
 ```
@@ -160,7 +160,7 @@ curl: Saved to filename 'demo.zip'
 Note that if you select an invalid combination of selectedSpecs and supportedServer and mpVersion you get an error, e.g.:
 
 ```
-$ curl -v -O -J -L 'https://start.microprofile.io/api/1.0.0/project?supportedServer=HELIDON&selectedSpecs=REST_CLIENT'
+$ curl -v -O -J -L 'https://start.microprofile.io/api/1/project?supportedServer=HELIDON&selectedSpecs=REST_CLIENT'
 
 curl: Saved to filename 'error.json'
 
@@ -171,7 +171,7 @@ $ cat error.json
 What happened: We did not specify mpVersion, so the latest for the given server at the time was selected by default, it means MP12 at the time of writing of this example. MP12 does not offer spec REST_CLIENT as we can see:
 
 ```
-$ curl https://start.microprofile.io/api/1.0.0/mpVersion/MP12
+$ curl https://start.microprofile.io/api/1/mpVersion/MP12
 {
   "supportedServers": [
     "PAYARA_MICRO",
@@ -199,13 +199,13 @@ $ curl https://start.microprofile.io/api/1.0.0/mpVersion/MP12
 Curl is widely available on Windows too, e.g. [https://curl.haxx.se/windows/](https://curl.haxx.se/windows/)
 
 ```
-C:\curl\bin>curl -O -J https://start.microprofile.io/api/1.0.0/project?supportedServer=THORNTAIL_V2
+C:\curl\bin>curl -O -J https://start.microprofile.io/api/1/project?supportedServer=THORNTAIL_V2
 
 curl: Saved to filename 'demo.zip'
 ```
 
 ```
-C:\curl\bin>curl -O -J "https://start.microprofile.io/api/1.0.0/project?supportedServer=TOMEE&selectedSpecs=JWT_AUTH&selectedSpecs=CONFIG"
+C:\curl\bin>curl -O -J "https://start.microprofile.io/api/1/project?supportedServer=TOMEE&selectedSpecs=JWT_AUTH&selectedSpecs=CONFIG"
 
 curl: Saved to filename 'demo.zip'
 ```
@@ -215,7 +215,7 @@ curl: Saved to filename 'demo.zip'
 #### Minimal
 
 ```
-PS C:\> Invoke-WebRequest -OutFile project.zip -Uri https://start.microprofile.io/api/1.0.0/project?supportedServer=LIBERTY
+PS C:\> Invoke-WebRequest -OutFile project.zip -Uri https://start.microprofile.io/api/1/project?supportedServer=LIBERTY
 ```
 
 #### Using JSON
@@ -242,5 +242,5 @@ PS C:\> type .\all.json
 PS C:\> $headers = @{
 >>   "Content-Type" = "application/json"
 >> }
-PS C:\> Invoke-WebRequest -InFile ./all.json -OutFile project.zip -Method Post -Uri "https://start.microprofile.io/api/1.0.0/project" -Headers $headers
+PS C:\> Invoke-WebRequest -InFile ./all.json -OutFile project.zip -Method Post -Uri "https://start.microprofile.io/api/1/project" -Headers $headers
 ```
