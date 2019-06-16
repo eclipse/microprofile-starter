@@ -19,24 +19,36 @@
  */
 package org.eclipse.microprofile.starter.view;
 
+import org.eclipse.microprofile.starter.core.model.JavaSEVersion;
 import org.eclipse.microprofile.starter.core.model.JessieMaven;
 
 import java.util.List;
 
 public class EngineData {
 
+    public static final String DEFAULT_GROUP_ID = "com.example";
+    public static final String DEFAULT_ARTIFACT_ID = "demo";
+    public static final JavaSEVersion DEFAULT_JAVA_SE_VERSION = JavaSEVersion.SE8;
+
     private JessieMaven mavenData;
-    private String javaSEVersion = "1.8";
+    private String javaSEVersion = DEFAULT_JAVA_SE_VERSION.getCode();
 
     private String mpVersion;
     private String supportedServer;
     private String beansxmlMode = "all";
     private List<String> selectedSpecs;
 
+    private TrafficSource trafficSource = TrafficSource.WEB;
+
+    public enum TrafficSource {
+        WEB,
+        REST
+    }
+
     public EngineData() {
         mavenData = new JessieMaven();
-        mavenData.setGroupId("com.example");
-        mavenData.setArtifactId("demo");
+        mavenData.setGroupId(DEFAULT_GROUP_ID);
+        mavenData.setArtifactId(DEFAULT_ARTIFACT_ID);
     }
 
     public JessieMaven getMavenData() {
@@ -85,5 +97,13 @@ public class EngineData {
 
     public void setSelectedSpecs(List<String> selectedSpecs) {
         this.selectedSpecs = selectedSpecs;
+    }
+
+    public TrafficSource getTrafficSource() {
+        return trafficSource;
+    }
+
+    public void setTrafficSource(TrafficSource trafficSource) {
+        this.trafficSource = trafficSource;
     }
 }

@@ -23,17 +23,16 @@
 package org.eclipse.microprofile.starter.core.validation;
 
 import javax.enterprise.context.ApplicationScoped;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @ApplicationScoped
 public class PackageNameValidator {
 
-    private static final String VALID_REGEX = "^(?:\\w+|\\w+\\.\\w+)+$";
+    public static final String VALID_REGEX = "^(?:\\w+|\\w+[\\.-]\\w+)+$";
+    public static final int MAX_LENGTH = 200;
+    private Pattern pattern = Pattern.compile(VALID_REGEX, Pattern.CASE_INSENSITIVE);
 
     public boolean isValidPackageName(String name) {
-        Pattern pattern = Pattern.compile(VALID_REGEX, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(name);
-        return matcher.matches();
+        return name.length() < MAX_LENGTH && pattern.matcher(name).matches();
     }
 }

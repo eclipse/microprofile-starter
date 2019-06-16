@@ -40,6 +40,7 @@
         <version.thorntail>2.2.1.Final</version.thorntail>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.exec.plugin.version>1.6.0</maven.exec.plugin.version>
 
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -206,6 +207,24 @@
                     </checkstyleRules>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${maven.exec.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>generate-configs</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>${basedir}/version.txt.sh</executable>
+                    <workingDirectory>${basedir}/target/classes/</workingDirectory>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -222,6 +241,12 @@
                     <groupId>io.thorntail</groupId>
                     <artifactId>cdi</artifactId>
                 </dependency>
+
+                <dependency>
+                    <groupId>io.thorntail</groupId>
+                    <artifactId>jaxrs</artifactId>
+                </dependency>
+
             </dependencies>
 
             <dependencyManagement>
