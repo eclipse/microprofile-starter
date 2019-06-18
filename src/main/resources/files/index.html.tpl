@@ -26,7 +26,7 @@
 <a href="health" target="_blank" >Health status (with custom status ServiceHealthCheck)</a> <br/>
 [/]
 
-[# th:if="${mp_health_metrics}"]
+[# th:if="${mp_metrics}"]
 <h3>Metrics</h3>
 <a href="data/metric/timed" target="_blank" >Timed endpoint</a> <br/>
 <a href="metrics" target="_blank" >Metrics page</a> <br/>

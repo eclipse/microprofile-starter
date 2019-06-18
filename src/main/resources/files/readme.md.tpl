@@ -48,7 +48,7 @@ The health status can be used to determine if the 'computing node' needs to be d
 The class **ServiceHealthCheck** contains an example of a custom check which can be integrated to health status checks of the instance.  The index page contains a link to the status data.
 [/]
 
-[# th:if="${mp_health_metrics}"]
+[# th:if="${mp_metrics}"]
 ### Metrics
 
 The Metrics exports _Telemetric_ data in a uniform way of system and custom resources. Specification [here](https://microprofile.io/project/eclipse/microprofile-metrics)
