@@ -200,7 +200,7 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
             processTemplateFile(configDirectory, "ConfigTestController.java", alternatives, variables);
         }
 
-        if (microprofileSpecs.contains(MicroprofileSpec.HEALTH_METRICS)) {
+        if (microprofileSpecs.contains(MicroprofileSpec.METRICS)) {
             String metricDirectory = model.getDirectory() + "/" + rootJava + "/metric";
             directoryCreator.createDirectory(metricDirectory);
 

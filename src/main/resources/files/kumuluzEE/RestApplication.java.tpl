@@ -6,7 +6,7 @@ import [# th:text="${java_package}"/].config.ConfigTestController;
 [# th:if="${mp_fault_tolerance}"]
 import [# th:text="${java_package}"/].resilient.ResilienceController;
 [/]
-[# th:if="${mp_health_metrics}"]
+[# th:if="${mp_metrics}"]
 import [# th:text="${java_package}"/].metric.MetricController;
 [/]
 [# th:if="${mp_JWT_auth}"]
@@ -52,7 +52,7 @@ public class [# th:text="${application}"/]RestApplication extends Application {
         [# th:if="${mp_fault_tolerance}"]
         classes.add(ResilienceController.class);
         [/]
-        [# th:if="${mp_health_metrics}"]
+        [# th:if="${mp_metrics}"]
         classes.add(MetricController.class);
         [/]
         [# th:if="${mp_JWT_auth}"]

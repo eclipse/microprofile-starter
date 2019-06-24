@@ -49,7 +49,7 @@ $ curl https://start.microprofile.io/api/1/mpVersion/MP14
     "CONFIG",
     "FAULT_TOLERANCE",
     "JWT_AUTH",
-    "HEALTH_METRICS",
+    "METRICS",
     "HEALTH_CHECKS",
     "OPEN_API",
     "OPEN_TRACING",
@@ -97,7 +97,7 @@ curl -v -O -J -L -H 'If-None-Match: "dd085c81"' 'https://start.microprofile.io/a
 ## Example with all attributes
 
 ```
-$ curl -O -J -L 'https://start.microprofile.io/api/1/project?supportedServer=LIBERTY&groupId=com.example&artifactId=myapp&mpVersion=MP22&javaSEVersion=SE8&selectedSpecs=CONFIG&selectedSpecs=FAULT_TOLERANCE&selectedSpecs=JWT_AUTH&selectedSpecs=HEALTH_METRICS&selectedSpecs=HEALTH_CHECKS&selectedSpecs=OPEN_API&selectedSpecs=OPEN_TRACING&selectedSpecs=REST_CLIENT'
+$ curl -O -J -L 'https://start.microprofile.io/api/1/project?supportedServer=LIBERTY&groupId=com.example&artifactId=myapp&mpVersion=MP22&javaSEVersion=SE8&selectedSpecs=CONFIG&selectedSpecs=FAULT_TOLERANCE&selectedSpecs=JWT_AUTH&selectedSpecs=METRICS&selectedSpecs=HEALTH_CHECKS&selectedSpecs=OPEN_API&selectedSpecs=OPEN_TRACING&selectedSpecs=REST_CLIENT'
 
 curl: Saved to filename 'myapp.zip'
 ```
@@ -134,7 +134,7 @@ $ cat all.json
     "CONFIG",
     "FAULT_TOLERANCE",
     "JWT_AUTH",
-    "HEALTH_METRICS",
+    "METRICS",
     "HEALTH_CHECKS",
     "OPEN_API",
     "OPEN_TRACING",
@@ -186,7 +186,7 @@ $ curl https://start.microprofile.io/api/1/mpVersion/MP12
     "CONFIG",
     "FAULT_TOLERANCE",
     "JWT_AUTH",
-    "HEALTH_METRICS",
+    "METRICS",
     "HEALTH_CHECKS"
   ]
 }
@@ -232,7 +232,7 @@ PS C:\> type .\all.json
     "CONFIG",
     "FAULT_TOLERANCE",
     "JWT_AUTH",
-    "HEALTH_METRICS",
+    "METRICS",
     "HEALTH_CHECKS",
     "OPEN_API",
     "OPEN_TRACING",
