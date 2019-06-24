@@ -17,6 +17,12 @@ jobs:
         keys:
         - v1-dependencies-{{ checksum "pom.xml" }}
         - v1-dependencies-
+    - run:
+        name: Gitter Notification
+        command: |
+          curl -X POST -i -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer $GITTER_TOKEN" \
+          "https://api.gitter.im/v1/rooms/$GITTER_ROOM_ID/chatMessages" -d \
+          "{\"text\":\"Automatic message: Hello, new [build]($CIRCLE_BUILD_URL) has started.\"}"
     - run: mvn dependency:go-offline -Pthorntail -Djdk.net.URLClassPath.disableClassPathURLCheck=true
     - save_cache:
         paths:
@@ -75,9 +81,15 @@ jobs:
         fingerprints:
         - "75:12:72:e1:19:f8:2d:8f:eb:ed:88:87:6c:c2:66:28"
     - run:
-        name: Deploy Over SSH
+        name: Restart Compose
         command: |
           ssh $SSH_USER@$SSH_HOST "sudo systemctl restart docker-compose@test-start.microprofile.io"
+    - run:
+        name: Gitter Notification
+        command: |
+          curl -X POST -i -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer $GITTER_TOKEN" \
+          "https://api.gitter.im/v1/rooms/$GITTER_ROOM_ID/chatMessages" -d \
+          "{\"text\":\"Automatic message: Hello, new [build]($CIRCLE_BUILD_URL) is live on https://test-start.microprofile.io/\"}"
 
 workflows:
   build-master:
@@ -88,19 +100,19 @@ workflows:
             only: master
     - docker-build:
         requires:
-        - build
+          - build
         filters:
           branches:
             only: master
     - publish-master:
         requires:
-        - docker-build
+          - docker-build
         filters:
           branches:
             only: master
     - deploy:
         requires:
-        - publish-master
+          - publish-master
         filters:
           branches:
             only: master
