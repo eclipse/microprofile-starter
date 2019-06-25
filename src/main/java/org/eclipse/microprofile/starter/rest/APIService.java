@@ -66,6 +66,10 @@ public class APIService {
     private static final Logger LOG = Logger.getLogger(APIService.class.getName());
 
     private Map<MicroProfileVersion, MPOptionsAvailable> mpvToOptions;
+    private EntityTag mpvToOptionsEtag;
+
+    private Map<SupportedServer, Map<MicroProfileVersion, List<MicroprofileSpec>>> serversToOptions;
+    private EntityTag serversToOptionsEtag;
 
     private String readme;
     private EntityTag readmeEtag;
@@ -78,18 +82,38 @@ public class APIService {
 
     @PostConstruct
     public void init() {
+        // Keys are MP versions and values are servers and specs
         mpvToOptions =
                 new HashMap<MicroProfileVersion, MPOptionsAvailable>(MicroProfileVersion.values().length) {
                     {
-                        Stream.of(MicroProfileVersion.values()).forEach(mpv -> put(mpv, new MPOptionsAvailable(
-                                Stream.of(SupportedServer.values())
-                                        .filter(v -> v.getMpVersions().contains(mpv)).collect(Collectors.toList()),
-                                Stream.of(MicroprofileSpec.values())
-                                        .filter(v -> v.getMpVersions().contains(mpv)).collect(Collectors.toList()))));
+                        Stream.of(MicroProfileVersion.values()).filter(mpv -> mpv != MicroProfileVersion.NONE)
+                                .forEach(mpv -> put(mpv, new MPOptionsAvailable(
+                                        Stream.of(SupportedServer.values())
+                                                .filter(v -> v.getMpVersions().contains(mpv)).collect(Collectors.toList()),
+                                        Stream.of(MicroprofileSpec.values())
+                                                .filter(v -> v.getMpVersions().contains(mpv)).collect(Collectors.toList()))));
 
                     }
 
                 };
+        mpvToOptionsEtag = new EntityTag(Integer.toHexString(31 * version.getGit().hashCode() + mpvToOptions.hashCode()));
+        // Keys are servers and values are MP versions and specs
+        serversToOptions =
+                new HashMap<SupportedServer, Map<MicroProfileVersion, List<MicroprofileSpec>>>(SupportedServer.values().length) {
+                    {
+                        Stream.of(SupportedServer.values()).sorted()
+                                .forEach(s -> put(s,
+                                        s.getMpVersions().stream().collect(
+                                                Collectors.toMap(x -> x,
+                                                        x -> Stream.of(MicroprofileSpec.values())
+                                                                .filter(v -> v.getMpVersions().contains(x))
+                                                                .collect(Collectors.toList())
+                                                ))
+                                ));
+                    }
+                };
+
+        serversToOptionsEtag = new EntityTag(Integer.toHexString(31 * version.getGit().hashCode() + serversToOptions.hashCode()));
         try (Scanner s = new Scanner(FilesLocator.class.getClassLoader()
                 .getResourceAsStream("/REST-README.md")).useDelimiter("\\A")) {
             readme = (s.hasNext() ? s.next() : "") + "\n" + version.getGit() + "\n";
@@ -130,7 +154,7 @@ public class APIService {
                 return Response.notModified().build();
             }
         }
-        return Response.ok(readme).build();
+        return Response.ok(readme).tag(readmeEtag).build();
     }
 
     public Response listMPVersions() {
@@ -140,6 +164,24 @@ public class APIService {
                         .filter(mpv -> mpv != MicroProfileVersion.NONE)
                         .collect(Collectors.toList()), MediaType.APPLICATION_JSON_TYPE
         ).build();
+    }
+
+    public Response supportMatrix(String ifNoneMatch) {
+        if (ifNoneMatch != null) {
+            if (mpvToOptionsEtag.toString().equals(ifNoneMatch)) {
+                return Response.notModified().build();
+            }
+        }
+        return Response.ok(mpvToOptions, MediaType.APPLICATION_JSON_TYPE).tag(mpvToOptionsEtag).build();
+    }
+
+    public Response supportMatrixServers(String ifNoneMatch) {
+        if (ifNoneMatch != null) {
+            if (serversToOptionsEtag.toString().equals(ifNoneMatch)) {
+                return Response.notModified().build();
+            }
+        }
+        return Response.ok(serversToOptions, MediaType.APPLICATION_JSON_TYPE).tag(serversToOptionsEtag).build();
     }
 
     public Response listOptions(MicroProfileVersion mpVersion) {
