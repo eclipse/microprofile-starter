@@ -48,7 +48,10 @@ import javax.inject.Inject;
 import javax.ws.rs.core.EntityTag;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -83,36 +86,24 @@ public class APIService {
     @PostConstruct
     public void init() {
         // Keys are MP versions and values are servers and specs
-        mpvToOptions =
-                new HashMap<MicroProfileVersion, MPOptionsAvailable>(MicroProfileVersion.values().length) {
-                    {
-                        Stream.of(MicroProfileVersion.values()).filter(mpv -> mpv != MicroProfileVersion.NONE)
-                                .forEach(mpv -> put(mpv, new MPOptionsAvailable(
-                                        Stream.of(SupportedServer.values())
-                                                .filter(v -> v.getMpVersions().contains(mpv)).collect(Collectors.toList()),
-                                        Stream.of(MicroprofileSpec.values())
-                                                .filter(v -> v.getMpVersions().contains(mpv)).collect(Collectors.toList()))));
-
-                    }
-
-                };
+        mpvToOptions = new HashMap<>(MicroProfileVersion.values().length);
+        Stream.of(MicroProfileVersion.values()).filter(mpv -> mpv != MicroProfileVersion.NONE).forEach(mpv -> {
+            List<SupportedServer> supportedServers = Stream.of(SupportedServer.values())
+                    .filter(v -> v.getMpVersions().contains(mpv)).collect(Collectors.toList());
+            List<MicroprofileSpec> specs = Stream.of(MicroprofileSpec.values())
+                    .filter(v -> v.getMpVersions().contains(mpv)).collect(Collectors.toList());
+            mpvToOptions.put(mpv, new MPOptionsAvailable(supportedServers, specs));
+        });
         mpvToOptionsEtag = new EntityTag(Integer.toHexString(31 * version.getGit().hashCode() + mpvToOptions.hashCode()));
         // Keys are servers and values are MP versions and specs
-        serversToOptions =
-                new HashMap<SupportedServer, Map<MicroProfileVersion, List<MicroprofileSpec>>>(SupportedServer.values().length) {
-                    {
-                        Stream.of(SupportedServer.values()).sorted()
-                                .forEach(s -> put(s,
-                                        s.getMpVersions().stream().collect(
-                                                Collectors.toMap(x -> x,
-                                                        x -> Stream.of(MicroprofileSpec.values())
-                                                                .filter(v -> v.getMpVersions().contains(x))
-                                                                .collect(Collectors.toList())
-                                                ))
-                                ));
-                    }
-                };
-
+        serversToOptions = new HashMap<>(SupportedServer.values().length);
+        for (SupportedServer s : SupportedServer.values()) {
+            Map<MicroProfileVersion, List<MicroprofileSpec>> mpvToSpec = new HashMap<>(s.getMpVersions().size());
+            s.getMpVersions().forEach(mpv -> mpvToSpec.put(
+                    mpv,
+                    Stream.of(MicroprofileSpec.values()).filter(v -> v.getMpVersions().contains(mpv)).collect(Collectors.toList())));
+            serversToOptions.put(s, mpvToSpec);
+        }
         serversToOptionsEtag = new EntityTag(Integer.toHexString(31 * version.getGit().hashCode() + serversToOptions.hashCode()));
         try (Scanner s = new Scanner(FilesLocator.class.getClassLoader()
                 .getResourceAsStream("/REST-README.md")).useDelimiter("\\A")) {
@@ -181,7 +172,13 @@ public class APIService {
                 return Response.notModified().build();
             }
         }
-        return Response.ok(serversToOptions, MediaType.APPLICATION_JSON_TYPE).tag(serversToOptionsEtag).build();
+        List<SupportedServer> servers = new ArrayList<>(serversToOptions.keySet());
+        Collections.shuffle(servers);
+        Map<SupportedServer, Map<MicroProfileVersion, List<MicroprofileSpec>>> rndServersToOptions = new LinkedHashMap<>(servers.size());
+        for (SupportedServer s : servers) {
+            rndServersToOptions.put(s, serversToOptions.get(s));
+        }
+        return Response.ok(rndServersToOptions, MediaType.APPLICATION_JSON_TYPE).tag(serversToOptionsEtag).build();
     }
 
     public Response listOptions(MicroProfileVersion mpVersion) {
