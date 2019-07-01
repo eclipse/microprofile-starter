@@ -273,7 +273,7 @@ ETag: "44730639"
       "CONFIG",
       "FAULT_TOLERANCE",
       "JWT_AUTH",
-      "HEALTH_METRICS",
+      "METRICS",
       "HEALTH_CHECKS"
     ]
   },
@@ -288,7 +288,7 @@ ETag: "44730639"
       "CONFIG",
       "FAULT_TOLERANCE",
       "JWT_AUTH",
-      "HEALTH_METRICS",
+      "METRICS",
       "HEALTH_CHECKS",
       "OPEN_API",
       "OPEN_TRACING",
