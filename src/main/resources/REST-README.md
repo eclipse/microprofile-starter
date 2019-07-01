@@ -244,3 +244,153 @@ PS C:\> $headers = @{
 >> }
 PS C:\> Invoke-WebRequest -InFile ./all.json -OutFile project.zip -Method Post -Uri "https://start.microprofile.io/api/1/project" -Headers $headers
 ```
+
+# Integration with IDEs
+
+If it is preferred to acquire all valid options in a one request the ```supportMatrix``` call is recommended.
+The integration code [SHOULD](https://tools.ietf.org/html/rfc2119) use [Etag](https://tools.ietf.org/html/rfc7232#section-2.3) response header
+and [If-None-Match](https://tools.ietf.org/html/rfc7232#section-3.2) request header so as to avoid unnecessary deserialization of identical responses.
+
+## MicroProfile versions as keys
+
+```
+$ curl -i https://start.microprofile.io/api/1/supportMatrix
+...
+ETag: "44730639"
+...
+{
+  "MP12": {
+    "supportedServers": [
+      "WILDFLY_SWARM",
+      "PAYARA_MICRO",
+      "THORNTAIL_V2",
+      "TOMEE",
+      "LIBERTY",
+      "KUMULUZEE",
+      "HELIDON"
+    ],
+    "specs": [
+      "CONFIG",
+      "FAULT_TOLERANCE",
+      "JWT_AUTH",
+      "METRICS",
+      "HEALTH_CHECKS"
+    ]
+  },
+  "MP21": {
+    "supportedServers": [
+      "KUMULUZEE",
+      "THORNTAIL_V2",
+      "LIBERTY",
+      "PAYARA_MICRO"
+    ],
+    "specs": [
+      "CONFIG",
+      "FAULT_TOLERANCE",
+      "JWT_AUTH",
+      "METRICS",
+      "HEALTH_CHECKS",
+      "OPEN_API",
+      "OPEN_TRACING",
+      "REST_CLIENT"
+    ]
+  },
+  ...removed for brevity...
+}
+```
+
+Using value from ETag in If-None-Match:
+
+```
+$ curl '-HIf-None-Match: "44730639"' -i https://start.microprofile.io/api/1/supportMatrix
+...
+HTTP/1.1 304 Not Modified
+```
+
+## Server implementations as keys
+
+```
+$ curl -i https://start.microprofile.io/api/1/supportMatrix/servers
+...
+ETag: "7b99230f"
+...
+{
+  "HELIDON": {
+    "MP12": [
+      "CONFIG",
+      "FAULT_TOLERANCE",
+      "JWT_AUTH",
+      "METRICS",
+      "HEALTH_CHECKS"
+    ]
+  },
+  "PAYARA_MICRO": {
+    "MP20": [
+      "CONFIG",
+      "FAULT_TOLERANCE",
+      "JWT_AUTH",
+      "METRICS",
+      "HEALTH_CHECKS",
+      "OPEN_API",
+      "OPEN_TRACING",
+      "REST_CLIENT"
+    ],
+    "MP13": [
+      "CONFIG",
+      "FAULT_TOLERANCE",
+      "JWT_AUTH",
+      "METRICS",
+      "HEALTH_CHECKS",
+      "OPEN_API",
+      "OPEN_TRACING",
+      "REST_CLIENT"
+    ],
+    "MP22": [
+      "CONFIG",
+      "FAULT_TOLERANCE",
+      "JWT_AUTH",
+      "METRICS",
+      "HEALTH_CHECKS",
+      "OPEN_API",
+      "OPEN_TRACING",
+      "REST_CLIENT"
+    ],
+    "MP12": [
+      "CONFIG",
+      "FAULT_TOLERANCE",
+      "JWT_AUTH",
+      "METRICS",
+      "HEALTH_CHECKS"
+    ],
+    "MP14": [
+      "CONFIG",
+      "FAULT_TOLERANCE",
+      "JWT_AUTH",
+      "METRICS",
+      "HEALTH_CHECKS",
+      "OPEN_API",
+      "OPEN_TRACING",
+      "REST_CLIENT"
+    ],
+    "MP21": [
+      "CONFIG",
+      "FAULT_TOLERANCE",
+      "JWT_AUTH",
+      "METRICS",
+      "HEALTH_CHECKS",
+      "OPEN_API",
+      "OPEN_TRACING",
+      "REST_CLIENT"
+    ]
+  }
+  ...removed for brevity...
+}
+```
+
+Using value from ETag in If-None-Match:
+
+```
+$ curl '-HIf-None-Match: "7b99230f"' -i https://start.microprofile.io/api/1/supportMatrix/servers
+...
+HTTP/1.1 304 Not Modified
+```

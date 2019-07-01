@@ -62,13 +62,26 @@ public class APIEndpointLatest {
         return api.listMPVersions();
     }
 
+    @Path("/supportMatrix")
+    @GET
+    @Produces({"application/json"})
+    public Response supportMatrix(@HeaderParam(HttpHeaders.IF_NONE_MATCH) String ifNoneMatch) {
+        return api.supportMatrix(ifNoneMatch);
+    }
+
+    @Path("/supportMatrix/servers")
+    @GET
+    @Produces({"application/json"})
+    public Response supportMatrixServers(@HeaderParam(HttpHeaders.IF_NONE_MATCH) String ifNoneMatch) {
+        return api.supportMatrixServers(ifNoneMatch);
+    }
+
     @Path("/mpVersion/{mpVersion}")
     @GET
     @Produces({"application/json"})
     public Response listOptions(@NotNull @PathParam("mpVersion") MicroProfileVersion mpVersion) {
         return api.listOptions(mpVersion);
     }
-
 
     @Path("/project")
     @GET
