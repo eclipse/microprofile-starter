@@ -64,18 +64,19 @@ public class TomeeServer extends AbstractMicroprofileAddon {
             case MP22:
                 break;
             case MP21:
+                tomeeVersion = "8.0.0-M3";
                 break;
             case MP20:
-                tomeeVersion = "8.0.0-M2";
+                tomeeVersion = "8.0.0-M3";
                 break;
             case MP14:
-                tomeeVersion = "8.0.0-M2";
+                tomeeVersion = "8.0.0-M3";
                 break;
             case MP13:
-                tomeeVersion = "8.0.0-M2";
+                tomeeVersion = "8.0.0-M3";
                 break;
             case MP12:
-                tomeeVersion = "8.0.0-M2";
+                tomeeVersion = "8.0.0-M3";
                 break;
             default:
         }
