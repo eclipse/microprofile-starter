@@ -40,7 +40,7 @@ public enum SupportedServer {
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22))
     , KUMULUZEE("kumuluzEE", "KumuluzEE",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
-                    MicroProfileVersion.MP20, MicroProfileVersion.MP21))
+                    MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22))
     , PAYARA_MICRO("payara-micro", "Payara Micro",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22))
