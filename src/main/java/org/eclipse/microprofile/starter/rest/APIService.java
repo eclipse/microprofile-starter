@@ -69,6 +69,8 @@ public class APIService {
 
     private static final Logger LOG = Logger.getLogger(APIService.class.getName());
 
+    private Map<String, String> specsDescriptions;
+
     private TreeMap<MicroProfileVersion, MPOptionsAvailable> mpvToOptions;
     private EntityTag mpvToOptionsEtag;
 
@@ -86,6 +88,8 @@ public class APIService {
 
     @PostConstruct
     public void init() {
+        specsDescriptions = Stream.of(MicroprofileSpec.values())
+                .collect(Collectors.toMap(MicroprofileSpec::toString, MicroprofileSpec::getDescription));
         // Keys are MP versions and values are servers and specs
         mpvToOptions = new TreeMap<>();
         Stream.of(MicroProfileVersion.values()).filter(mpv -> mpv != MicroProfileVersion.NONE).sorted().forEach(mpv -> {
@@ -95,7 +99,8 @@ public class APIService {
                     .filter(v -> v.getMpVersions().contains(mpv)).collect(Collectors.toList());
             mpvToOptions.put(mpv, new MPOptionsAvailable(supportedServers, specs));
         });
-        mpvToOptionsEtag = new EntityTag(Integer.toHexString(31 * version.getGit().hashCode() + mpvToOptions.hashCode()));
+        mpvToOptionsEtag = new EntityTag(Integer.toHexString(
+                31 * version.getGit().hashCode() + mpvToOptions.hashCode() + specsDescriptions.hashCode()));
         // Keys are servers and values are MP versions and specs
         serversToOptions = new HashMap<>(SupportedServer.values().length);
         for (SupportedServer s : SupportedServer.values()) {
@@ -105,7 +110,8 @@ public class APIService {
                     Stream.of(MicroprofileSpec.values()).filter(v -> v.getMpVersions().contains(mpv)).collect(Collectors.toList())));
             serversToOptions.put(s, mpvToSpec);
         }
-        serversToOptionsEtag = new EntityTag(Integer.toHexString(31 * version.getGit().hashCode() + serversToOptions.hashCode()));
+        serversToOptionsEtag = new EntityTag(Integer.toHexString(
+                31 * version.getGit().hashCode() + serversToOptions.hashCode() + specsDescriptions.hashCode()));
         try (Scanner s = new Scanner(FilesLocator.class.getClassLoader()
                 .getResourceAsStream("/REST-README.md")).useDelimiter("\\A")) {
             readme = (s.hasNext() ? s.next() : "") + "\n" + version.getGit() + "\n";
@@ -158,13 +164,40 @@ public class APIService {
         ).build();
     }
 
-    public Response supportMatrix(String ifNoneMatch) {
+    public Response supportMatrixV1(String ifNoneMatch) {
         if (ifNoneMatch != null) {
             if (mpvToOptionsEtag.toString().equals(ifNoneMatch)) {
                 return Response.notModified().build();
             }
         }
         return Response.ok(mpvToOptions, MediaType.APPLICATION_JSON_TYPE).tag(mpvToOptionsEtag).build();
+    }
+
+    public Response supportMatrix(String ifNoneMatch) {
+        if (ifNoneMatch != null) {
+            if (mpvToOptionsEtag.toString().equals(ifNoneMatch)) {
+                return Response.notModified().build();
+            }
+        }
+        Map<String, Map> mpvToOptionsAndSpecsDescriptions = new HashMap<>(2);
+        mpvToOptionsAndSpecsDescriptions.put("configs", mpvToOptions);
+        mpvToOptionsAndSpecsDescriptions.put("descriptions", specsDescriptions);
+        return Response.ok(mpvToOptionsAndSpecsDescriptions, MediaType.APPLICATION_JSON_TYPE).tag(mpvToOptionsEtag).build();
+    }
+
+    public Response supportMatrixServersV1(String ifNoneMatch) {
+        if (ifNoneMatch != null) {
+            if (serversToOptionsEtag.toString().equals(ifNoneMatch)) {
+                return Response.notModified().build();
+            }
+        }
+        List<SupportedServer> servers = new ArrayList<>(serversToOptions.keySet());
+        Collections.shuffle(servers);
+        Map<SupportedServer, Map<MicroProfileVersion, List<MicroprofileSpec>>> rndServersToOptions = new LinkedHashMap<>(servers.size());
+        for (SupportedServer s : servers) {
+            rndServersToOptions.put(s, serversToOptions.get(s));
+        }
+        return Response.ok(rndServersToOptions, MediaType.APPLICATION_JSON_TYPE).tag(serversToOptionsEtag).build();
     }
 
     public Response supportMatrixServers(String ifNoneMatch) {
@@ -179,7 +212,12 @@ public class APIService {
         for (SupportedServer s : servers) {
             rndServersToOptions.put(s, serversToOptions.get(s));
         }
-        return Response.ok(rndServersToOptions, MediaType.APPLICATION_JSON_TYPE).tag(serversToOptionsEtag).build();
+
+        Map<String, Map> serversAndSpecsDescriptions = new HashMap<>(2);
+        serversAndSpecsDescriptions.put("configs", rndServersToOptions);
+        serversAndSpecsDescriptions.put("descriptions", specsDescriptions);
+
+        return Response.ok(serversAndSpecsDescriptions, MediaType.APPLICATION_JSON_TYPE).tag(serversToOptionsEtag).build();
     }
 
     public Response listOptions(MicroProfileVersion mpVersion) {

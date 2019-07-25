@@ -30,27 +30,35 @@ import java.util.List;
 public enum MicroprofileSpec {
     // @formatter:off
     CONFIG("config", "Config",
+            "Configuration - externalize and manage your configuration parameters outside your microservices",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22))
     , FAULT_TOLERANCE("fault_tolerance", "Fault Tolerance",
+            "Fault Tolerance - all about bulkheads, timeouts, circuit breakers, retries, etc. for your microservices",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22))
     , JWT_AUTH("JWT_auth", "JWT Auth",
+            "JWT Propagation - propagate security across your microservices",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22))
     , METRICS("metrics", "Metrics",
+            "Metrics - Gather and create operational and business measurements for your microservices",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22))
     , HEALTH_CHECKS("health_checks", "Health Checks",
+            "Health Checks - Verify the health of your microservices with custom verifications",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22))
     , OPEN_API("open_API", "OpenAPI",
+            "Open API - Generate OpenAPI-compliant API documentation for your microservices",
             Arrays.asList(MicroProfileVersion.MP13, MicroProfileVersion.MP14, MicroProfileVersion.MP20,
                     MicroProfileVersion.MP21, MicroProfileVersion.MP22))
     , OPEN_TRACING("open_tracing", "OpenTracing",
+            "Open Tracing - trace the flow of requests as they traverse your microservices",
             Arrays.asList(MicroProfileVersion.MP13, MicroProfileVersion.MP14, MicroProfileVersion.MP20,
                     MicroProfileVersion.MP21, MicroProfileVersion.MP22))
     , REST_CLIENT("rest_client", "TypeSafe Rest Client",
+            "Rest Client - Invoke RESTful services in a type-safe manner",
             Arrays.asList(MicroProfileVersion.MP13, MicroProfileVersion.MP14, MicroProfileVersion.MP20,
                     MicroProfileVersion.MP21, MicroProfileVersion.MP22))
     ;
@@ -58,17 +66,23 @@ public enum MicroprofileSpec {
 
     private String code;
     private String label;
+    private String description;
     private List<MicroProfileVersion> mpVersions;
 
-    MicroprofileSpec(String code, String label, List<MicroProfileVersion> mpVersions) {
+    MicroprofileSpec(String code, String label, String description, List<MicroProfileVersion> mpVersions) {
         this.code = code;
         this.label = label;
+        this.description = description;
 
         this.mpVersions = mpVersions;
     }
 
     public String getCode() {
         return code;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public List<MicroProfileVersion> getMpVersions() {

@@ -259,43 +259,55 @@ $ curl -i https://start.microprofile.io/api/1/supportMatrix
 ETag: "44730639"
 ...
 {
-  "MP12": {
-    "supportedServers": [
-      "WILDFLY_SWARM",
-      "PAYARA_MICRO",
-      "THORNTAIL_V2",
-      "TOMEE",
-      "LIBERTY",
-      "KUMULUZEE",
-      "HELIDON"
-    ],
-    "specs": [
-      "CONFIG",
-      "FAULT_TOLERANCE",
-      "JWT_AUTH",
-      "METRICS",
-      "HEALTH_CHECKS"
-    ]
+  "configs": {
+    "MP21": {
+      "supportedServers": [
+        "THORNTAIL_V2",
+        "PAYARA_MICRO",
+        "KUMULUZEE",
+        "LIBERTY"
+      ],
+      "specs": [
+        "CONFIG",
+        "FAULT_TOLERANCE",
+        "JWT_AUTH",
+        "METRICS",
+        "HEALTH_CHECKS",
+        "OPEN_API",
+        "OPEN_TRACING",
+        "REST_CLIENT"
+      ]
+    },
+    "MP22": {
+      "supportedServers": [
+        "PAYARA_MICRO",
+        "LIBERTY",
+        "KUMULUZEE",
+        "THORNTAIL_V2"
+      ],
+      "specs": [
+        "CONFIG",
+        "FAULT_TOLERANCE",
+        "JWT_AUTH",
+        "METRICS",
+        "HEALTH_CHECKS",
+        "OPEN_API",
+        "OPEN_TRACING",
+        "REST_CLIENT"
+      ]
+    },
+  ...more MPxx removed for brevity...
   },
-  "MP21": {
-    "supportedServers": [
-      "KUMULUZEE",
-      "THORNTAIL_V2",
-      "LIBERTY",
-      "PAYARA_MICRO"
-    ],
-    "specs": [
-      "CONFIG",
-      "FAULT_TOLERANCE",
-      "JWT_AUTH",
-      "METRICS",
-      "HEALTH_CHECKS",
-      "OPEN_API",
-      "OPEN_TRACING",
-      "REST_CLIENT"
-    ]
-  },
-  ...removed for brevity...
+  "descriptions": {
+    "CONFIG": "Configuration - externalize and manage your configuration parameters outside your microservices",
+    "OPEN_API": "Open API - Generate OpenAPI-compliant API documentation for your microservices",
+    "HEALTH_CHECKS": "Health Checks - Verify the health of your microservices with custom verifications",
+    "REST_CLIENT": "Rest Client - Invoke RESTful services in a type-safe manner",
+    "FAULT_TOLERANCE": "Fault Tolerance - all about bulkheads, timeouts, circuit breakers, retries, etc. for your microservices",
+    "JWT_AUTH": "JWT Propagation - propagate security across your microservices",
+    "OPEN_TRACING": "Open Tracing - trace the flow of requests as they traverse your microservices",
+    "METRICS": "Metrics - Gather and create operational and business measurements for your microservices"
+  }
 }
 ```
 
@@ -315,75 +327,117 @@ $ curl -i https://start.microprofile.io/api/1/supportMatrix/servers
 ETag: "7b99230f"
 ...
 {
-  "HELIDON": {
-    "MP12": [
-      "CONFIG",
-      "FAULT_TOLERANCE",
-      "JWT_AUTH",
-      "METRICS",
-      "HEALTH_CHECKS"
-    ]
+  "configs": {
+    "PAYARA_MICRO": {
+      "MP21": [
+        "CONFIG",
+        "FAULT_TOLERANCE",
+        "JWT_AUTH",
+        "METRICS",
+        "HEALTH_CHECKS",
+        "OPEN_API",
+        "OPEN_TRACING",
+        "REST_CLIENT"
+      ],
+      "MP22": [
+        "CONFIG",
+        "FAULT_TOLERANCE",
+        "JWT_AUTH",
+        "METRICS",
+        "HEALTH_CHECKS",
+        "OPEN_API",
+        "OPEN_TRACING",
+        "REST_CLIENT"
+      ],
+      "MP12": [
+        "CONFIG",
+        "FAULT_TOLERANCE",
+        "JWT_AUTH",
+        "METRICS",
+        "HEALTH_CHECKS"
+      ],
+      "MP13": [
+        "CONFIG",
+        "FAULT_TOLERANCE",
+        "JWT_AUTH",
+        "METRICS",
+        "HEALTH_CHECKS",
+        "OPEN_API",
+        "OPEN_TRACING",
+        "REST_CLIENT"
+      ],
+      "MP14": [
+        "CONFIG",
+        "FAULT_TOLERANCE",
+        "JWT_AUTH",
+        "METRICS",
+        "HEALTH_CHECKS",
+        "OPEN_API",
+        "OPEN_TRACING",
+        "REST_CLIENT"
+      ],
+      "MP20": [
+        "CONFIG",
+        "FAULT_TOLERANCE",
+        "JWT_AUTH",
+        "METRICS",
+        "HEALTH_CHECKS",
+        "OPEN_API",
+        "OPEN_TRACING",
+        "REST_CLIENT"
+      ]
+    },
+    "THORNTAIL_V2": {
+      "MP21": [
+        "CONFIG",
+        "FAULT_TOLERANCE",
+        "JWT_AUTH",
+        "METRICS",
+        "HEALTH_CHECKS",
+        "OPEN_API",
+        "OPEN_TRACING",
+        "REST_CLIENT"
+      ],
+      "MP22": [
+        "CONFIG",
+        "FAULT_TOLERANCE",
+        "JWT_AUTH",
+        "METRICS",
+        "HEALTH_CHECKS",
+        "OPEN_API",
+        "OPEN_TRACING",
+        "REST_CLIENT"
+      ],
+      "MP12": [
+        "CONFIG",
+        "FAULT_TOLERANCE",
+        "JWT_AUTH",
+        "METRICS",
+        "HEALTH_CHECKS"
+      ],
+      "MP13": [
+        "CONFIG",
+        "FAULT_TOLERANCE",
+        "JWT_AUTH",
+        "METRICS",
+        "HEALTH_CHECKS",
+        "OPEN_API",
+        "OPEN_TRACING",
+        "REST_CLIENT"
+      ]
+    },
+...more servers removed for brevity...
   },
-  "PAYARA_MICRO": {
-    "MP20": [
-      "CONFIG",
-      "FAULT_TOLERANCE",
-      "JWT_AUTH",
-      "METRICS",
-      "HEALTH_CHECKS",
-      "OPEN_API",
-      "OPEN_TRACING",
-      "REST_CLIENT"
-    ],
-    "MP13": [
-      "CONFIG",
-      "FAULT_TOLERANCE",
-      "JWT_AUTH",
-      "METRICS",
-      "HEALTH_CHECKS",
-      "OPEN_API",
-      "OPEN_TRACING",
-      "REST_CLIENT"
-    ],
-    "MP22": [
-      "CONFIG",
-      "FAULT_TOLERANCE",
-      "JWT_AUTH",
-      "METRICS",
-      "HEALTH_CHECKS",
-      "OPEN_API",
-      "OPEN_TRACING",
-      "REST_CLIENT"
-    ],
-    "MP12": [
-      "CONFIG",
-      "FAULT_TOLERANCE",
-      "JWT_AUTH",
-      "METRICS",
-      "HEALTH_CHECKS"
-    ],
-    "MP14": [
-      "CONFIG",
-      "FAULT_TOLERANCE",
-      "JWT_AUTH",
-      "METRICS",
-      "HEALTH_CHECKS",
-      "OPEN_API",
-      "OPEN_TRACING",
-      "REST_CLIENT"
-    ],
-    "MP21": [
-      "CONFIG",
-      "FAULT_TOLERANCE",
-      "JWT_AUTH",
-      "METRICS",
-      "HEALTH_CHECKS",
-      "OPEN_API",
-      "OPEN_TRACING",
-      "REST_CLIENT"
-    ]
+  "descriptions": {
+    "CONFIG": "Configuration - externalize and manage your configuration parameters outside your microservices",
+    "OPEN_API": "Open API - Generate OpenAPI-compliant API documentation for your microservices",
+    "HEALTH_CHECKS": "Health Checks - ensure your microservices is up and running by enabling health checks",
+    "REST_CLIENT": "Rest Client - Invoke RESTful services in a type-safe manner",
+    "FAULT_TOLERANCE": "Fault Tolerance - all about bulkheads, timeouts, circuit breakers, retries, etc. for your microservices",
+    "JWT_AUTH": "JWT Propagation - manage and propagate security across your microservices",
+    "OPEN_TRACING": "Open Tracing - trace the flow of requests as they traverse your microservices",
+    "METRICS": "Metrics - Gather and create operational and business measurements for your microservices"
   }
-  ...removed for brevity...
 }
 ```
 

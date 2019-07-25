@@ -19,36 +19,12 @@
  */
 package org.eclipse.microprofile.starter.rest;
 
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
 
 /**
  * @author Michal Karm Babacek <karm@redhat.com>
  */
-@Path("/1")
-public class APIEndpointV1 extends APIEndpointLatest {
+@Path("/2")
+public class APIEndpointV2 extends APIEndpointLatest {
 
-    @Inject
-    private APIService api;
-
-    @Path("/supportMatrix")
-    @GET
-    @Produces({"application/json"})
-    @Override
-    public Response supportMatrix(@HeaderParam(HttpHeaders.IF_NONE_MATCH) String ifNoneMatch) {
-        return api.supportMatrixV1(ifNoneMatch);
-    }
-
-    @Path("/supportMatrix/servers")
-    @GET
-    @Produces({"application/json"})
-    @Override
-    public Response supportMatrixServers(@HeaderParam(HttpHeaders.IF_NONE_MATCH) String ifNoneMatch) {
-        return api.supportMatrixServersV1(ifNoneMatch);
-    }
 }
