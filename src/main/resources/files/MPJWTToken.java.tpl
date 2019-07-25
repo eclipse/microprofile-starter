@@ -1,4 +1,4 @@
-package [# th:text="${java_package}"/];
+package [# th:text="${java_package}"/].secure;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;

@@ -21,11 +21,14 @@ package org.eclipse.microprofile.starter.addon.microprofile.servers.server;
 
 import org.apache.maven.model.Model;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.AbstractMicroprofileAddon;
+import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -47,22 +50,35 @@ public class LibertyServer extends AbstractMicroprofileAddon {
         Set<String> alternatives = model.getParameter(JessieModel.Parameter.ALTERNATIVES);
         Map<String, String> variables = model.getVariables();
 
-        String resourceDirectory = model.getDirectory() + "/src/main/liberty/config";
-
+        String resourceDirectory = model.getDirectory(true)  + "/src/main/liberty/config";
         directoryCreator.createDirectory(resourceDirectory);
 
         processTemplateFile(resourceDirectory, "server.xml", alternatives, variables);
 
-        resourceDirectory = model.getDirectory() + "/src/main/liberty/server/resources/security";
+        if (model.hasMainAndSecondaryProject()) {
+            Set<String> tempAlternative = new HashSet<>(alternatives);
+            tempAlternative.add(JessieModel.SECONDARY_INDICATOR);
 
-        directoryCreator.createDirectory(resourceDirectory);
+            resourceDirectory = model.getDirectory(false)  + "/src/main/liberty/config";
+            directoryCreator.createDirectory(resourceDirectory);
 
-        processFile(resourceDirectory, "public.jks", alternatives);
+            processTemplateFile(resourceDirectory, "server.xml", tempAlternative, variables);
+        }
+
+        List<MicroprofileSpec> microprofileSpecs = model.getParameter(JessieModel.Parameter.MICROPROFILESPECS);
+        if (model.hasMainAndSecondaryProject() && microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH)) {
+
+            resourceDirectory = model.getDirectory(false) + "/src/main/liberty/server/resources/security";
+
+            directoryCreator.createDirectory(resourceDirectory);
+
+            processFile(resourceDirectory, "public.jks", alternatives);
+        }
 
     }
 
     @Override
-    public void adaptMavenModel(Model pomFile, JessieModel model) {
+    public void adaptMavenModel(Model pomFile, JessieModel model, boolean mainProject) {
         String openLibertyVersion = "RELEASE";
         String openLibertyMavenVersion = "";
 

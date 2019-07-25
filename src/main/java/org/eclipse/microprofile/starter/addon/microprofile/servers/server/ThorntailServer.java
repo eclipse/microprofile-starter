@@ -21,12 +21,14 @@ package org.eclipse.microprofile.starter.addon.microprofile.servers.server;
 
 import org.apache.maven.model.Model;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.AbstractMicroprofileAddon;
+import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
 import org.eclipse.microprofile.starter.core.artifacts.MavenCreator;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -48,19 +50,23 @@ public class ThorntailServer extends AbstractMicroprofileAddon {
         Set<String> alternatives = model.getParameter(JessieModel.Parameter.ALTERNATIVES);
         Map<String, String> variables = model.getVariables();
 
-        // Specific files for Auth-JWT
-        String resourceDirectory = getResourceDirectory(model);
-        directoryCreator.createDirectory(resourceDirectory);
-        processTemplateFile(resourceDirectory, "project-defaults.yml", alternatives, variables);
-        processTemplateFile(resourceDirectory, "jwt-roles.properties", alternatives, variables);
+        List<MicroprofileSpec> microprofileSpecs = model.getParameter(JessieModel.Parameter.MICROPROFILESPECS);
+        if (model.hasMainAndSecondaryProject() && microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH)) {
 
-        String metaInfDirectory = getResourceDirectory(model) + "/META-INF";
+            // Specific files for Auth-JWT
+            String resourceDirectory = getResourceDirectory(model, false);
+            directoryCreator.createDirectory(resourceDirectory);
+            processTemplateFile(resourceDirectory, "project-defaults.yml", alternatives, variables);
+            processTemplateFile(resourceDirectory, "jwt-roles.properties", alternatives, variables);
 
-        directoryCreator.createDirectory(metaInfDirectory);
-        processTemplateFile(metaInfDirectory, "publicKey.pem", "MP-JWT-SIGNER", alternatives, variables);
+            String metaInfDirectory = getResourceDirectory(model, false) + "/META-INF";
+
+            directoryCreator.createDirectory(metaInfDirectory);
+            processTemplateFile(metaInfDirectory, "publicKey.pem", "MP-JWT-SIGNER", alternatives, variables);
+        }
 
         /// web.xml required for WildFly swarm
-        String webInfDirectory = model.getDirectory() + "/" + MavenCreator.SRC_MAIN_WEBAPP + "/WEB-INF";
+        String webInfDirectory = model.getDirectory(true) + "/" + MavenCreator.SRC_MAIN_WEBAPP + "/WEB-INF";
         directoryCreator.createDirectory(webInfDirectory);
 
         String webXMLContents = thymeleafEngine.processFile("web.xml", alternatives, variables);
@@ -69,7 +75,7 @@ public class ThorntailServer extends AbstractMicroprofileAddon {
     }
 
     @Override
-    public void adaptMavenModel(Model pomFile, JessieModel model) {
+    public void adaptMavenModel(Model pomFile, JessieModel model, boolean mainProject) {
         String thorntailVersion = "";
         switch (model.getSpecification().getMicroProfileVersion()) {
 

@@ -34,7 +34,7 @@
 
 [# th:if="${mp_JWT_auth}"]
 <h3>JWT Auth</h3>
-Look at readme.md on how to test protected endpoint.
+<a href="data/secured/test" target="_blank" >Call Secured endpoint with JWT in Authorization Header</a> <br/>
 [/]
 
 [# th:if="${mp_open_API}"]
@@ -48,6 +48,7 @@ Look at readme.md on how to test protected endpoint.
 
 [# th:if="${mp_rest_client}"]
 <h3>Rest Client</h3>
+<a href="data/client/test/parameterValue" target="_blank" >Call REST endpoint using generated client based on interface</a> <br/>
 [/]
 
 </body>

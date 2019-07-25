@@ -54,16 +54,16 @@ public class HelidonServer extends AbstractMicroprofileAddon {
         Map<String, String> variables = model.getVariables();
 
         // kumuluzEE is JAR based, so needs beans.xml within META-INF
-        cdiCreator.createCDIFilesForJar(model);
+        cdiCreator.createCDIFilesForJar(model, true);
 
         // Remove WEB-INF containing the beans.xml
-        String webDirectory = model.getDirectory() + "/" + MavenCreator.SRC_MAIN_WEBAPP + "/WEB-INF";
+        String webDirectory = model.getDirectory(true) + "/" + MavenCreator.SRC_MAIN_WEBAPP + "/WEB-INF";
         directoryCreator.removeDirectory(webDirectory);
 
         String rootJava = MavenCreator.SRC_MAIN_JAVA + "/" + directoryCreator.createPathForGroupAndArtifact(model.getMaven());
-        String viewDirectory = model.getDirectory() + "/" + rootJava;
+        String viewDirectory = model.getDirectory(true) + "/" + rootJava;
 
-        String resourcesDirectory = model.getDirectory() + "/" + MavenCreator.SRC_MAIN_RESOURCES;
+        String resourcesDirectory = model.getDirectory(true)  + "/" + MavenCreator.SRC_MAIN_RESOURCES;
         directoryCreator.createDirectory(resourcesDirectory);
 
         processTemplateFile(resourcesDirectory, "application.yaml", alternatives, variables);
@@ -79,7 +79,7 @@ public class HelidonServer extends AbstractMicroprofileAddon {
     }
 
     @Override
-    public void adaptMavenModel(Model pomFile, JessieModel model) {
+    public void adaptMavenModel(Model pomFile, JessieModel model, boolean mainProject) {
         // Helidon needs jar packaging
         pomFile.setPackaging("jar");
 

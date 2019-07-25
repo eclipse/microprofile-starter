@@ -29,14 +29,23 @@ import org.eclipse.microprofile.starter.core.model.deserializer.OptionsDeseriali
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
  */
 public class JessieModel {
 
-    private String directory;
+    public static final String MAIN_INDICATOR = "main";
+    public static final String SECONDARY_INDICATOR = "secondary";
+
+    private String topLevelDirectory;
+    private String mainDirectory;
+    private String secondaryDirectory;
+
     @NotNull
     @Valid
     private JessieMaven maven;
@@ -56,12 +65,33 @@ public class JessieModel {
     @JsonIgnore
     private Map<String, String> variables = new HashMap<>();
 
-    public String getDirectory() {
-        return directory;
+    /**
+     * The root directory of the main application (containing the main/demo application)
+     * or the secondary application.
+     *
+     * @return directory location for main or secondary application.
+     */
+    public String getDirectory(boolean mainProject) {
+        return mainProject ? mainDirectory : secondaryDirectory;
+    }
+
+    public String getTopLevelDirectory() {
+        return topLevelDirectory;
     }
 
     public void setDirectory(String directory) {
-        this.directory = directory;
+        topLevelDirectory = directory;
+        mainDirectory = directory;
+        secondaryDirectory = directory;
+    }
+
+    public void generateMainAndSecondaryProject() {
+        mainDirectory = topLevelDirectory + "/" + MAIN_INDICATOR;
+        secondaryDirectory = topLevelDirectory + "/" + SECONDARY_INDICATOR;
+    }
+
+    public boolean hasMainAndSecondaryProject() {
+        return !mainDirectory.equals(secondaryDirectory);
     }
 
     public JessieMaven getMaven() {
@@ -124,7 +154,7 @@ public class JessieModel {
     }
 
     public enum Parameter {
-        FILENAME, ALTERNATIVES, ADDONS
+        FILENAME, ALTERNATIVES, ADDONS, MICROPROFILESPECS
     }
 
 }

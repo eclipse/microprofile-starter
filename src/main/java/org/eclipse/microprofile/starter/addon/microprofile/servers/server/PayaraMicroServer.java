@@ -21,11 +21,13 @@ package org.eclipse.microprofile.starter.addon.microprofile.servers.server;
 
 import org.apache.maven.model.Model;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.AbstractMicroprofileAddon;
+import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -47,20 +49,24 @@ public class PayaraMicroServer extends AbstractMicroprofileAddon {
         Set<String> alternatives = model.getParameter(JessieModel.Parameter.ALTERNATIVES);
         Map<String, String> variables = model.getVariables();
 
-        // Specific files for Auth-JWT
-        String resourceDirectory = getResourceDirectory(model);
-        directoryCreator.createDirectory(resourceDirectory);
-        processTemplateFile(resourceDirectory, "publicKey.pem", alternatives, variables);
-        processTemplateFile(resourceDirectory, "payara-mp-jwt.properties", alternatives, variables);
+        List<MicroprofileSpec> microprofileSpecs = model.getParameter(JessieModel.Parameter.MICROPROFILESPECS);
+        if (model.hasMainAndSecondaryProject() && microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH)) {
 
-        String metaInfDirectory = getResourceDirectory(model) + "/META-INF";
+            // Specific files for Auth-JWT
+            String resourceDirectory = getResourceDirectory(model, false);
+            directoryCreator.createDirectory(resourceDirectory);
+            processTemplateFile(resourceDirectory, "publicKey.pem", alternatives, variables);
+            processTemplateFile(resourceDirectory, "payara-mp-jwt.properties", alternatives, variables);
+        }
+
+        String metaInfDirectory = getResourceDirectory(model, true) + "/META-INF";
 
         directoryCreator.createDirectory(metaInfDirectory);
 
     }
 
     @Override
-    public void adaptMavenModel(Model pomFile, JessieModel model) {
+    public void adaptMavenModel(Model pomFile, JessieModel model, boolean mainProject) {
         String payaraVersion = "";
         switch (model.getSpecification().getMicroProfileVersion()) {
 

@@ -274,9 +274,6 @@
                         <configuration>
                             <context>ROOT</context>
                             <tomeeClassifier>microprofile</tomeeClassifier>
-                            <systemVariables>
-                                <mp.jwt.verify.publickey.location>/publicKey.pem</mp.jwt.verify.publickey.location>
-                            </systemVariables>
                         </configuration>
                         <executions>
                             <execution>

@@ -29,6 +29,7 @@ import org.eclipse.microprofile.starter.core.model.JessieModel;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -52,21 +53,29 @@ public class KumuluzeeServer extends AbstractMicroprofileAddon {
     public void createFiles(JessieModel model) {
         Set<String> alternatives = model.getParameter(JessieModel.Parameter.ALTERNATIVES);
         Map<String, String> variables = model.getVariables();
+        createfiles(model, alternatives, variables, true);
+        if (model.hasMainAndSecondaryProject()) {
+            Set<String> tempAlternatives = new HashSet<>(alternatives);
+            tempAlternatives.add(JessieModel.SECONDARY_INDICATOR);
+            createfiles(model, tempAlternatives, variables, false);
 
+        }
+    }
+
+    private void createfiles(JessieModel model, Set<String> alternatives, Map<String, String> variables, boolean mainProject) {
         // kumuluzEE is JAR based, so needs beans.xml within META-INF
-        cdiCreator.createCDIFilesForJar(model);
+        cdiCreator.createCDIFilesForJar(model, mainProject);
 
         // Remove WEB-INF containing the beans.xml
-        String webDirectory = model.getDirectory() + "/" + MavenCreator.SRC_MAIN_WEBAPP + "/WEB-INF";
+        String webDirectory = model.getDirectory(mainProject) + "/" + MavenCreator.SRC_MAIN_WEBAPP + "/WEB-INF";
         directoryCreator.removeDirectory(webDirectory);
 
-        String resourceDirectory = getResourceDirectory(model);
+        String resourceDirectory = getResourceDirectory(model, mainProject);
         processTemplateFile(resourceDirectory, "config.yaml", alternatives, variables);
-
     }
 
     @Override
-    public void adaptMavenModel(Model pomFile, JessieModel model) {
+    public void adaptMavenModel(Model pomFile, JessieModel model, boolean mainProject) {
         // KumuluzEE needs jar packaging
         pomFile.setPackaging("jar");
 

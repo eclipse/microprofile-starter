@@ -14,7 +14,7 @@ This will create an executable jar file **[# th:text="${jar_file}"/]** within th
 
 To launch the test page, open your browser at the following URL
 
-    [# th:text="${test_url}"/]
+    [# th:text="${test_url}"/]/index.html
 
 ## Specification examples
 
@@ -61,12 +61,11 @@ The example class **MetricController** contains an example how you can measure t
 
 Using the OpenId Connect JWT token to pass authentication and authorization information to the JAX-RS endpoint. Specification [here](https://microprofile.io/project/eclipse/microprofile-rest-client)
 
-Have a look at the **JWTClient** class within the test directory which calls the protected endpoint on the server from a Java Main method.
-The **ProtectedController** contains the protected endpoint since it contains the _@RolesAllowed_ annotation on the JAX-RS endpoint method.
+Have a look at the **TestSecureController** class which calls the protected endpoint on the secondary application.
+The **ProtectedController** (secondary application) contains the protected endpoint since it contains the _@RolesAllowed_ annotation on the JAX-RS endpoint method.
 
-In order to call the protected endpoint, a separate program (see _JWTClient_) is used to simulate as much as possible a real world situation. A JAX-RS client implementation is used for this purpose to match the selected MicroProfile implementation, with an arbitrary version.
+The _TestSecureController_ code creates a JWT based on the private key found within the resource directory.
 However, any method to send a REST request with an appropriate header will work of course. Please feel free to change this code to your needs.
-
 [/]
 
 [# th:if="${mp_open_API}"]
@@ -92,6 +91,6 @@ Example needs to be created.
 
 A type safe invocation of HTTP rest endpoints. Specification [here](https://microprofile.io/project/eclipse/microprofile-rest-client)
 
-Example needs to be created.
+The example calls one endpoint from another JAX-RS resource where generated Rest Client is injected as CDI bean.
 
 [/]
