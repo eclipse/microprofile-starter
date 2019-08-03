@@ -55,6 +55,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -68,7 +69,7 @@ public class APIService {
 
     private static final Logger LOG = Logger.getLogger(APIService.class.getName());
 
-    private Map<MicroProfileVersion, MPOptionsAvailable> mpvToOptions;
+    private TreeMap<MicroProfileVersion, MPOptionsAvailable> mpvToOptions;
     private EntityTag mpvToOptionsEtag;
 
     private Map<SupportedServer, Map<MicroProfileVersion, List<MicroprofileSpec>>> serversToOptions;
@@ -86,8 +87,8 @@ public class APIService {
     @PostConstruct
     public void init() {
         // Keys are MP versions and values are servers and specs
-        mpvToOptions = new HashMap<>(MicroProfileVersion.values().length);
-        Stream.of(MicroProfileVersion.values()).filter(mpv -> mpv != MicroProfileVersion.NONE).forEach(mpv -> {
+        mpvToOptions = new TreeMap<>();
+        Stream.of(MicroProfileVersion.values()).filter(mpv -> mpv != MicroProfileVersion.NONE).sorted().forEach(mpv -> {
             List<SupportedServer> supportedServers = Stream.of(SupportedServer.values())
                     .filter(v -> v.getMpVersions().contains(mpv)).collect(Collectors.toList());
             List<MicroprofileSpec> specs = Stream.of(MicroprofileSpec.values())
