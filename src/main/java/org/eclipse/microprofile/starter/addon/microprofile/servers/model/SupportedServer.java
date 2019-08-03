@@ -34,10 +34,11 @@ public enum SupportedServer {
             Collections.singletonList(MicroProfileVersion.MP12))
     , THORNTAIL_V2("thorntail-v2", "Thorntail V2",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP21,
-                    MicroProfileVersion.MP22))
+                    MicroProfileVersion.MP22, MicroProfileVersion.MP30))
     , LIBERTY("liberty", "Open Liberty",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
-                    MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22))
+                    MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22,
+                    MicroProfileVersion.MP30))
     , KUMULUZEE("kumuluzEE", "KumuluzEE",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22))
