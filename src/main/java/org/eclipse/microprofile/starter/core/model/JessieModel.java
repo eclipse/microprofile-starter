@@ -39,8 +39,8 @@ import java.util.Map;
  */
 public class JessieModel {
 
-    public static final String MAIN_INDICATOR = "main";
-    public static final String SECONDARY_INDICATOR = "secondary";
+    public static final String MAIN_INDICATOR = "service-a";
+    public static final String SECONDARY_INDICATOR = "service-b";
 
     private String topLevelDirectory;
     private String mainDirectory;

@@ -53,16 +53,16 @@ public class KumuluzeeServer extends AbstractMicroprofileAddon {
     public void createFiles(JessieModel model) {
         Set<String> alternatives = model.getParameter(JessieModel.Parameter.ALTERNATIVES);
         Map<String, String> variables = model.getVariables();
-        createfiles(model, alternatives, variables, true);
+        createFiles(model, alternatives, variables, true);
         if (model.hasMainAndSecondaryProject()) {
             Set<String> tempAlternatives = new HashSet<>(alternatives);
             tempAlternatives.add(JessieModel.SECONDARY_INDICATOR);
-            createfiles(model, tempAlternatives, variables, false);
+            createFiles(model, tempAlternatives, variables, false);
 
         }
     }
 
-    private void createfiles(JessieModel model, Set<String> alternatives, Map<String, String> variables, boolean mainProject) {
+    private void createFiles(JessieModel model, Set<String> alternatives, Map<String, String> variables, boolean mainProject) {
         // kumuluzEE is JAR based, so needs beans.xml within META-INF
         cdiCreator.createCDIFilesForJar(model, mainProject);
 

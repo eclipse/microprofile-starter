@@ -2,7 +2,7 @@
 
 ## Introduction
 
-MicroProfile Starter has generated this MicroProfile application for you containing some endpoints which are called from the main application (see the `main` direcotory)
+MicroProfile Starter has generated this MicroProfile application for you containing some endpoints which are called from the main application (see the `service-a` directory)
 
 The generation of the executable jar file can be performed by issuing the following command
 

@@ -51,7 +51,7 @@ public class JavaCreator extends AbstractCreator {
         fileCreator.writeContents(viewDirectory, "HelloController.java", javaFile);
 
         if (model.hasMainAndSecondaryProject()) {
-             viewDirectory = model.getDirectory(false) + "/" + rootJava;
+            viewDirectory = model.getDirectory(false) + "/" + rootJava;
             directoryCreator.createDirectory(viewDirectory);
 
             Set<String> tempAlternative = new HashSet<>(alternatives);

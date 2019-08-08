@@ -9,6 +9,4 @@ kumuluzee:
   server:
     http:
       port: 8180
-injected:
-  value: Injected value
-value: lookup value
+
