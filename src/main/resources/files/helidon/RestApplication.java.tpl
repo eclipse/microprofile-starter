@@ -8,7 +8,7 @@ import [# th:text="${java_package}"/].resilient.ResilienceController;
 [/]
 [# th:if="${mp_metrics}"]
 import [# th:text="${java_package}"/].metric.MetricController;
-
+[/]
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
