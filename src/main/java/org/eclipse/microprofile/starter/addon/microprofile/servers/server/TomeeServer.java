@@ -90,11 +90,11 @@ public class TomeeServer extends AbstractMicroprofileAddon {
         pomFile.addProperty("tomee.version", tomeeVersion);
 
         if (!mainProject) {
-            adjustPOM(pomFile);
+            adjustPOM(pomFile, model);
         }
     }
 
-    private void adjustPOM(Model pomFile) {
+    private void adjustPOM(Model pomFile, JessieModel model) {
         Profile profile = pomFile.getProfiles().get(0);// We assume there is only 1 profile.
         Plugin mavenPlugin = findMavenPlugin(profile.getBuild().getPlugins());
         Xpp3Dom configuration = (Xpp3Dom) mavenPlugin.getConfiguration();
@@ -111,12 +111,15 @@ public class TomeeServer extends AbstractMicroprofileAddon {
         httpPort.setValue("8109");
         configuration.addChild(ajpPort);
 
-        Xpp3Dom systemVariables = new Xpp3Dom("systemVariables");
-        Xpp3Dom publicKeyLocation = new Xpp3Dom("mp.jwt.verify.publickey.location");
-        publicKeyLocation.setValue("/publicKey.pem");
+        List<MicroprofileSpec> microprofileSpecs = model.getParameter(JessieModel.Parameter.MICROPROFILESPECS);
+        if (microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH)) {
+            Xpp3Dom systemVariables = new Xpp3Dom("systemVariables");
+            Xpp3Dom publicKeyLocation = new Xpp3Dom("mp.jwt.verify.publickey.location");
+            publicKeyLocation.setValue("/publicKey.pem");
 
-        systemVariables.addChild(publicKeyLocation);
-        configuration.addChild(systemVariables);
+            systemVariables.addChild(publicKeyLocation);
+            configuration.addChild(systemVariables);
+        }
 
     }
 
