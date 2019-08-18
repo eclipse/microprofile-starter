@@ -63,15 +63,14 @@ public class WildflySwarmServer extends AbstractMicroprofileAddon {
 
             directoryCreator.createDirectory(metaInfDirectory);
             processTemplateFile(metaInfDirectory, "publicKey.pem", "MP-JWT-SIGNER", alternatives, variables);
+
+            /// web.xml required for WildFly swarm
+            String webInfDirectory = model.getDirectory(true) + "/" + MavenCreator.SRC_MAIN_WEBAPP + "/WEB-INF";
+            directoryCreator.createDirectory(webInfDirectory);
+
+            String webXMLContents = thymeleafEngine.processFile("web.xml", alternatives, variables);
+            fileCreator.writeContents(webInfDirectory, "web.xml", webXMLContents);
         }
-
-        /// web.xml required for WildFly swarm
-        String webInfDirectory = model.getDirectory(true) + "/" + MavenCreator.SRC_MAIN_WEBAPP + "/WEB-INF";
-        directoryCreator.createDirectory(webInfDirectory);
-
-        String webXMLContents = thymeleafEngine.processFile("web.xml", alternatives, variables);
-        fileCreator.writeContents(webInfDirectory, "web.xml", webXMLContents);
-
     }
 
     @Override
