@@ -104,11 +104,11 @@ public class TomeeServer extends AbstractMicroprofileAddon {
         configuration.addChild(httpPort);
 
         Xpp3Dom shutdownPort = new Xpp3Dom("tomeeShutdownPort");
-        httpPort.setValue("8105");
+        shutdownPort.setValue("8105");
         configuration.addChild(shutdownPort);
 
         Xpp3Dom ajpPort = new Xpp3Dom("tomeeAjpPort");
-        httpPort.setValue("8109");
+        ajpPort.setValue("8109");
         configuration.addChild(ajpPort);
 
         List<MicroprofileSpec> microprofileSpecs = model.getParameter(JessieModel.Parameter.MICROPROFILESPECS);
