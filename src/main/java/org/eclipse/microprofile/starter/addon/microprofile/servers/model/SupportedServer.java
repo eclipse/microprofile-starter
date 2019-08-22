@@ -48,7 +48,7 @@ public enum SupportedServer {
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20))
     , HELIDON("helidon", "Helidon",
-            Collections.singletonList(MicroProfileVersion.MP12));
+            Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP22));
     // @formatter:on
 
     private String code;

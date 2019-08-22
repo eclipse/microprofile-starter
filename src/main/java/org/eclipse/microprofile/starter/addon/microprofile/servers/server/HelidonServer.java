@@ -86,6 +86,32 @@ public class HelidonServer extends AbstractMicroprofileAddon {
         String packageName = model.getMaven().getGroupId() + '.' + model.getMaven().getArtifactId();
         pomFile.addProperty("package", packageName);
 
+        String helidonVersion = "";
+        String mpVersion = "";
+        switch (model.getSpecification().getMicroProfileVersion()) {
+
+            case NONE:
+                break;
+            case MP22:
+                helidonVersion = "1.2.0";
+                mpVersion = "2.2";
+                break;
+            case MP21:
+                break;
+            case MP20:
+                break;
+            case MP14:
+                break;
+            case MP13:
+                break;
+            case MP12:
+                helidonVersion = "1.0.1";
+                mpVersion = "1.2";
+                break;
+            default:
+        }
+        pomFile.addProperty("helidonVersion", helidonVersion);
+        pomFile.addProperty("mpVersion", mpVersion);
 
     }
 }
