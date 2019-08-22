@@ -6,8 +6,8 @@
     </featureManager>
 
     <httpEndpoint id="defaultHttpEndpoint"
-                  httpPort="8181"
-                  httpsPort="8543"/>
+                  httpPort="8281"
+                  httpsPort="8643"/>
 
     <application location="${project.build.finalName}.war"/>
 

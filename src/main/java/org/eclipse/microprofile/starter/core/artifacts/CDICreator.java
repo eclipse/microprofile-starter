@@ -46,12 +46,18 @@ public class CDICreator extends AbstractCreator {
         Map<String, String> variables = model.getVariables();
         variables.put("beans_xml_mode", mode.getMode());
 
-        String webInfDirectory = model.getDirectory() + "/" + MavenCreator.SRC_MAIN_WEBAPP + "/WEB-INF";
+        createBeansXmlFile(model, alternatives, variables, true);
+        if (model.hasMainAndSecondaryProject()) {
+            createBeansXmlFile(model, alternatives, variables, false);
+        }
+    }
+
+    private void createBeansXmlFile(JessieModel model, Set<String> alternatives, Map<String, String> variables, boolean mainProject) {
+        String webInfDirectory = model.getDirectory(mainProject) + "/" + MavenCreator.SRC_MAIN_WEBAPP + "/WEB-INF";
         directoryCreator.createDirectory(webInfDirectory);
 
         String beansXMLContents = thymeleafEngine.processFile("beans.xml", alternatives, variables);
         fileCreator.writeContents(webInfDirectory, "beans.xml", beansXMLContents);
-
     }
 
     private BeansXMLMode getMode(JessieModel model) {
@@ -63,7 +69,7 @@ public class CDICreator extends AbstractCreator {
         return mode;
     }
 
-    public void createCDIFilesForJar(JessieModel model) {
+    public void createCDIFilesForJar(JessieModel model, boolean mainProject) {
         BeansXMLMode mode = getMode(model);
         if (mode == BeansXMLMode.IMPLICIT) {
             // implicit means no beans.xml
@@ -73,7 +79,8 @@ public class CDICreator extends AbstractCreator {
         Map<String, String> variables = model.getVariables();
         variables.put("beans_xml_mode", mode.getMode());
 
-        String metaInfDirectory = model.getDirectory() + "/" + MavenCreator.SRC_MAIN_RESOURCES + "/META-INF";
+        String directory = model.getDirectory(mainProject);
+        String metaInfDirectory = directory + "/" + MavenCreator.SRC_MAIN_RESOURCES + "/META-INF";
         directoryCreator.createDirectory(metaInfDirectory);
 
         String beansXMLContents = thymeleafEngine.processFile("beans.xml", alternatives, variables);

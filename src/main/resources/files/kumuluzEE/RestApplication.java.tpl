@@ -10,10 +10,10 @@ import [# th:text="${java_package}"/].resilient.ResilienceController;
 import [# th:text="${java_package}"/].metric.MetricController;
 [/]
 [# th:if="${mp_JWT_auth}"]
-import [# th:text="${java_package}"/].secure.ProtectedController;
-import com.kumuluz.ee.jwt.auth.feature.JWTRolesAllowedDynamicFeature;
-import com.kumuluz.ee.jwt.auth.filter.JWTAuthorizationFilter;
-import org.eclipse.microprofile.auth.LoginConfig;
+import [# th:text="${java_package}"/].secure.TestSecureController;
+[/]
+[# th:if="${mp_rest_client}"]
+import [# th:text="${java_package}"/].client.ClientController;
 [/]
 
 import javax.annotation.security.DeclareRoles;
@@ -27,22 +27,12 @@ import java.util.Set;
  *
  */
 @ApplicationPath("/data")
-[# th:if="${mp_JWT_auth}"]
-@LoginConfig(authMethod = "MP-JWT")
-@DeclareRoles({"protected"})
-[/]
 public class [# th:text="${application}"/]RestApplication extends Application {
 
     @Override
     public Set<Class<?>> getClasses() {
 
         Set<Class<?>> classes = new HashSet<>();
-
-        [# th:if="${mp_JWT_auth}"]
-        // microprofile jwt auth filters
-        classes.add(JWTAuthorizationFilter.class);
-        classes.add(JWTRolesAllowedDynamicFeature.class);
-        [/]
 
         // resources
         classes.add(HelloController.class);
@@ -56,7 +46,10 @@ public class [# th:text="${application}"/]RestApplication extends Application {
         classes.add(MetricController.class);
         [/]
         [# th:if="${mp_JWT_auth}"]
-        classes.add(ProtectedController.class);
+        classes.add(TestSecureController.class);
+        [/]
+        [# th:if="${mp_rest_client}"]
+        classes.add(ClientController.class);
         [/]
 
         return classes;

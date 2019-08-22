@@ -25,6 +25,7 @@ package org.eclipse.microprofile.starter.core.artifacts;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -39,7 +40,7 @@ public class JavaCreator extends AbstractCreator {
         Map<String, String> variables = model.getVariables();
 
         String rootJava = MavenCreator.SRC_MAIN_JAVA + "/" + directoryCreator.createPathForGroupAndArtifact(model.getMaven());
-        String viewDirectory = model.getDirectory() + "/" + rootJava;
+        String viewDirectory = model.getDirectory(true) + "/" + rootJava;
         directoryCreator.createDirectory(viewDirectory);
 
         String application = variables.get("application");
@@ -49,5 +50,16 @@ public class JavaCreator extends AbstractCreator {
         javaFile = thymeleafEngine.processFile("HelloController.java", alternatives, variables);
         fileCreator.writeContents(viewDirectory, "HelloController.java", javaFile);
 
+        if (model.hasMainAndSecondaryProject()) {
+            viewDirectory = model.getDirectory(false) + "/" + rootJava;
+            directoryCreator.createDirectory(viewDirectory);
+
+            Set<String> tempAlternative = new HashSet<>(alternatives);
+            tempAlternative.add(JessieModel.SECONDARY_INDICATOR);
+            application = variables.get("application");
+            javaFile = thymeleafEngine.processFile("RestApplication.java", tempAlternative, variables);
+            fileCreator.writeContents(viewDirectory, application + "RestApplication.java", javaFile);
+
+        }
     }
 }

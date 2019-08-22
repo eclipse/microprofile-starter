@@ -1,4 +1,4 @@
-package [# th:text="${java_package}"/];
+package [# th:text="${java_package}"/].secure;
 
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.RSASSASigner;
@@ -7,6 +7,11 @@ import org.bouncycastle.openssl.PEMKeyPair;
 import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
@@ -18,26 +23,35 @@ import java.security.PrivateKey;
 import java.util.Arrays;
 import java.util.UUID;
 
-/**
- *
- */
+@Path("/secured")
+@ApplicationScoped
+public class TestSecureController {
 
-public class JWTClient {
+    private PrivateKey key;
 
-    public static void main(String[] args) throws IOException {
+    @PostConstruct
+    public void init() {
+        try {
+            key = readPrivateKey();
+        } catch (IOException e) {
+            ; //
+        }
+    }
 
-        PrivateKey key = readPrivateKey();
+    @GET
+    @Path("/test")
+    public String testSecureCall() {
+        if (key == null) {
+            throw new WebApplicationException("Unable to read privateKey.pem", 500);
+        }
 
         String jwt = generateJWT(key);
 
-        System.out.println(jwt);
-
-        WebTarget target = ClientBuilder.newClient().target("http://localhost:8181/[# th:text="${maven_artifactid}"/]/data/protected");
+        // any method to send a REST request with an appropriate header will work of course.
+        WebTarget target = ClientBuilder.newClient().target("http://localhost:8180/data/protected");
         Response response = target.request().header("authorization", "Bearer " + jwt).buildGet().invoke();
 
-        System.out.println(response.getStatus());
-        System.out.println(response.readEntity(String.class));
-
+        return String.format("Claim value within JWT of 'custom-value' : %s", response.readEntity(String.class));
     }
 
     private static String generateJWT(PrivateKey key) {
@@ -75,9 +89,9 @@ public class JWTClient {
         return jwsObject.serialize();
     }
 
-    public static PrivateKey readPrivateKey() throws IOException {
+    private PrivateKey readPrivateKey() throws IOException {
 
-        InputStream inputStream = JWTClient.class.getResourceAsStream("/privateKey.pem");
+        InputStream inputStream = TestSecureController.class.getResourceAsStream("/privateKey.pem");
 
         PEMParser pemParser = new PEMParser(new InputStreamReader(inputStream));
         JcaPEMKeyConverter converter = new JcaPEMKeyConverter().setProvider(new BouncyCastleProvider());
@@ -85,5 +99,4 @@ public class JWTClient {
         KeyPair kp = converter.getKeyPair((PEMKeyPair) object);
         return kp.getPrivate();
     }
-
 }

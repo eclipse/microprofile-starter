@@ -45,13 +45,13 @@ public class JessieModelInitializer {
     }
 
     private void checkDirectory(JessieModel model, boolean localExecution) {
-        if (model.getDirectory() == null) {
+        if (model.getDirectory(true) == null) {
             String modelFileName = model.getParameter(JessieModel.Parameter.FILENAME);
             model.setDirectory(getDirectoryFromModelFileName(modelFileName));
         }
 
         if (localExecution) {
-            File file = new File(model.getDirectory());
+            File file = new File(model.getDirectory(true));
             try {
                 model.setDirectory(file.getCanonicalPath());
             } catch (IOException e) {

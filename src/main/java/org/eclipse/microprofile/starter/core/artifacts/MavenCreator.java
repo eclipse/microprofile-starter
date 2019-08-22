@@ -49,9 +49,6 @@ public class MavenCreator {
     public static final String SRC_MAIN_RESOURCES = "src/main/resources";
     public static final String SRC_MAIN_WEBAPP = "src/main/webapp";
 
-    public static final String SRC_TEST_JAVA = "src/test/java";
-    public static final String SRC_TEST_RESOURCES = "src/test/resources";
-
     @Inject
     private DirectoryCreator directoryCreator;
 
@@ -67,14 +64,22 @@ public class MavenCreator {
     public void createMavenFiles(JessieModel model) {
         Model pomFile = createSingleModule(model);
 
-        applyMavenAdapters(model, pomFile);
+        applyMavenAdapters(model, pomFile, true);
 
-        writePOMFile(pomFile, model);
+        writePOMFile(pomFile, model, true);
+        createDefaultDirectories(model, true);
 
-        createDefaultDirectories(model);
+        if (model.hasMainAndSecondaryProject()) {
+            pomFile = createSingleModule(model);
+
+            applyMavenAdapters(model, pomFile, false);
+
+            writePOMFile(pomFile, model, false);
+            createDefaultDirectories(model, false);
+        }
     }
 
-    private void writePOMFile(Model pomFile, JessieModel model) {
+    private void writePOMFile(Model pomFile, JessieModel model, boolean mainProject) {
         String content;
         MavenXpp3Writer pomWriter = new MavenXpp3Writer();
 
@@ -87,35 +92,38 @@ public class MavenCreator {
             throw new TechnicalException(e);
         }
 
-        fileCreator.writeContents(model.getDirectory(), "pom.xml", content);
+        fileCreator.writeContents(model.getDirectory(mainProject), "pom.xml", content);
+
     }
 
-    private void applyMavenAdapters(JessieModel model, Model pomFile) {
+    private void applyMavenAdapters(JessieModel model, Model pomFile, boolean mainProject) {
         List<JessieAddon> allAddons = model.getParameter(JessieModel.Parameter.ADDONS);
 
         for (JessieAddon addon : allAddons) {
-            addon.adaptMavenModel(pomFile, model);
+            addon.adaptMavenModel(pomFile, model, mainProject);
         }
 
         for (JessieMavenAdapter mavenAdapter : addonManager.getMavenAdapters()) {
-            mavenAdapter.adaptMavenModel(pomFile, model);
+            mavenAdapter.adaptMavenModel(pomFile, model, mainProject);
         }
     }
 
-    private void createDefaultDirectories(JessieModel model) {
-        String javaDirectory = model.getDirectory() + "/" + SRC_MAIN_JAVA;
-        directoryCreator.createDirectory(javaDirectory);
-        javaDirectory = model.getDirectory() + "/src/test/java";
-        directoryCreator.createDirectory(javaDirectory);
-        fileCreator.createEmptyFile(javaDirectory, ".gitkeep");
+    private void createDefaultDirectories(JessieModel model, boolean mainProject) {
 
-        String resourcesDirectory = model.getDirectory() + "/src/main/resources";
+        String directory = model.getDirectory(mainProject);
+
+        String javaDirectory = directory + "/" + SRC_MAIN_JAVA;
+        directoryCreator.createDirectory(javaDirectory);
+
+        String resourcesDirectory = directory + "/" + SRC_MAIN_RESOURCES;
         directoryCreator.createDirectory(resourcesDirectory);
         fileCreator.createEmptyFile(resourcesDirectory, ".gitkeep");
 
-        String webappDirectory = model.getDirectory() + "/" + SRC_MAIN_WEBAPP;
-        directoryCreator.createDirectory(webappDirectory);
-        fileCreator.createEmptyFile(webappDirectory, ".gitkeep");
+        if (mainProject) {
+            String webappDirectory = directory + "/" + SRC_MAIN_WEBAPP;
+            directoryCreator.createDirectory(webappDirectory);
+            fileCreator.createEmptyFile(webappDirectory, ".gitkeep");
+        }
     }
 
     private Model createSingleModule(JessieModel model) {

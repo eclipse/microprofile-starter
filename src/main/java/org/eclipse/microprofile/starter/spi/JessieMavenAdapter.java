@@ -31,6 +31,6 @@ import org.eclipse.microprofile.starter.core.model.JessieModel;
 
 public interface JessieMavenAdapter {
 
-    void adaptMavenModel(Model pomFile, JessieModel model);
+    void adaptMavenModel(Model pomFile, JessieModel model, boolean mainProject);
 
 }
