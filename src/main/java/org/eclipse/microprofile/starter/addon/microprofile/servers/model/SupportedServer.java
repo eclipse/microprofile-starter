@@ -39,7 +39,7 @@ public enum SupportedServer {
             )
     , THORNTAIL_V2("thorntail-v2", "Thorntail V2",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP21,
-                    MicroProfileVersion.MP22)
+                    MicroProfileVersion.MP22, MicroProfileVersion.MP30)
             , "%s-thorntail.jar" //jarFileName
             , "-Dswarm.port.offset=100" //jarParameters
             , "http://localhost:8080" //testURL
@@ -47,7 +47,8 @@ public enum SupportedServer {
             )
     , LIBERTY("liberty", "Open Liberty",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
-                    MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22)
+                    MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22,
+                    MicroProfileVersion.MP30)
             , "%s.jar" //jarFileName
             , "" //jarParameters // Hard coded in server.xml since no way of overriding a default.
             , "http://localhost:8181/%s" //testURL
@@ -78,7 +79,7 @@ public enum SupportedServer {
             , "http://localhost:8180" //secondaryURL // This need to match with Port value from TomeeServer.adjustPOM
             )
     , HELIDON("helidon", "Helidon",
-            Collections.singletonList(MicroProfileVersion.MP12)
+            Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP22)
             , "%s.jar" //jarFileName
             , "" //jarParameters // Done by secondary/helidon/microprofile-config.properties
             , "http://localhost:8080" //testURL
