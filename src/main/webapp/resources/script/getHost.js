@@ -1,0 +1,1 @@
+document.getElementById("REST").innerHTML = "REST API: $ curl  '"+window.location.protocol+"//"+window.location.host+"/api'";
