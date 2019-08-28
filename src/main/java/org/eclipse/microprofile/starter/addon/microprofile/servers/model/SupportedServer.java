@@ -72,7 +72,7 @@ public enum SupportedServer {
             )
     , TOMEE("tomee", "Apache TomEE 8.0.0-M3",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
-                    MicroProfileVersion.MP20)
+                    MicroProfileVersion.MP20,MicroProfileVersion.MP21)
             , "%s-exec.jar" //jarFileName
             , "" //jarParameters // Done by TomeeServer.adaptMavenModel
             , "http://localhost:8080" // testURL
