@@ -37,6 +37,19 @@
         <param-name>primefaces.FONT_AWESOME</param-name>
         <param-value>true</param-value>
     </context-param>
+    
+    <context-param>
+        <param-name>primefaces.CSP</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <session-config>
+        <cookie-config>
+            <http-only>true</http-only>
+            <!-- Breaks PrimeFaces if you terminate TLS on a proxy: <secure>true</secure> -->
+        </cookie-config>
+        <tracking-mode>COOKIE</tracking-mode>
+    </session-config>
 
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
