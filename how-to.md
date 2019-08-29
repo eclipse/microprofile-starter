@@ -23,7 +23,7 @@
     , "http://localhost:8080" 
     , "http://localhost:8180" `
 * Add a 'profile' to the file `src/main/resources/pom-servers.xml`.   
-   The id of the profile must be the _code_ you specified in the previous bullet. See also the section _A verify specific 'profile' for a server - MicroProfile version combination_ for an alternative.
+   The id of the profile must be the _code_ you specified in the previous bullet. See also the section _ Use a specific 'profile' for a server - MicroProfile version combination_ for an alternative.
    This profile should generate an executable jar file.  
    `<profile>
       <id>implementationx</id>
@@ -47,10 +47,10 @@
 * In case the implementation requires adjusted example files (which is, however, an indication of some problem following the specification) you can create a customized template within the directory `src/main/resources/files/<code>`
    This adjusted template file will be picked up automatically when the rules described in the section **Add a new template file** are followed.
 
-## Use a verify specific 'profile' for an Implementation - MicroProfile version combination
+## Use a specific 'profile' for an Implementation - MicroProfile version combination
 
 * The selection of the 'profile' within the `src/main/resources/pom-servers.xml` file is:
-   1. based on implementation and MP version -> `<code>-<version>`
+   1. Based on the implementation and MP version -> `<code>-<version>`
    2. If not found, based on the server -> `<code>`
 * In both cases, customizations, like version numbers can be performed by adding properties in the **adaptMavenModel()** of the add-on.
 
@@ -77,8 +77,8 @@ If a specific one for the MP version exists, the `thorntail-2.2` profile is used
 
 ## Adding a new MicroProfile Version
 
-* Add the version to the enum **org.eclipse.microprofile.starter.core.model.MicroProfileVersion**. The third parameter is only required when the maven MicroProfile version is not the same as _version value_ (as for example with version 2.0)
-* Add to each MicroProfile specification this new version number in the class **org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec**. (since existing specifications will also be part of the new MicroProfile version)
+* Add the enum value for the new version to the **org.eclipse.microprofile.starter.core.model.MicroProfileVersion**. The third parameter is only required when the maven MicroProfile version is not the same as _version value_ (as for example with version 2.0)
+* Add to each MicroProfile specification this new enum value in the class **org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec**. (since existing specifications will also be part of the new MicroProfile version)
 
 As long as there are no MicroProfile implementations assigned to this new MicroProfile version, the version isn't shown in the dropdown.
 
