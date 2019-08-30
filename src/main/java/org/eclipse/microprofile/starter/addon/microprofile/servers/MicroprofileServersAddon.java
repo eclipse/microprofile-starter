@@ -35,7 +35,11 @@ import org.eclipse.microprofile.starter.spi.MavenHelper;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static org.eclipse.microprofile.starter.core.model.JessieModel.Parameter.MICROPROFILESPECS;
 
@@ -143,6 +147,16 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
         if (microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH) && mainProject) {
             mavenHelper.addDependency(pomFile, "com.nimbusds", "nimbus-jose-jwt", "5.7");
             mavenHelper.addDependency(pomFile, "org.bouncycastle", "bcpkix-jdk15on", "1.53");
+        }
+
+        if (model.hasMainAndSecondaryProject()) {
+            String artifactID = pomFile.getArtifactId();
+            if (mainProject) {
+                pomFile.setArtifactId(artifactID + "-" + JessieModel.MAIN_INDICATOR);
+            } else {
+                pomFile.setArtifactId(artifactID + "-" + JessieModel.SECONDARY_INDICATOR);
+            }
+            pomFile.getBuild().setFinalName(artifactID);
         }
 
     }
