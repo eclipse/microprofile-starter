@@ -45,6 +45,7 @@
 
 [# th:if="${mp_open_tracing}"]
 <h3>Open Tracing</h3>
+If you have <pre>./jaeger-all-in-one</pre> running, open <a href="http://localhost:16686/">http://localhost:16686</a>
 [/]
 
 [# th:if="${mp_rest_client}"]

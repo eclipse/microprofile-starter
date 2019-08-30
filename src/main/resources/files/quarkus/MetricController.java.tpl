@@ -19,7 +19,9 @@ public class MetricController {
     @Inject
     @Metric(name = "endpoint_counter")
 
-    private Counter counter;
+    // https://quarkus.io/guides/cdi-reference#private-members
+    // - private Counter counter;
+    Counter counter;
 
     @Path("timed")
     @Timed(name = "timed-request")
