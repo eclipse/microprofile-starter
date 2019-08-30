@@ -1,11 +1,10 @@
 package [# th:text="${java_package}"/].secure;
 
-import com.nimbusds.jose.*;
-import com.nimbusds.jose.crypto.RSASSASigner;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.openssl.PEMKeyPair;
-import org.bouncycastle.openssl.PEMParser;
-import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
+import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.PubSecKeyOptions;
+import io.vertx.ext.auth.jwt.JWTAuth;
+import io.vertx.ext.auth.jwt.JWTAuthOptions;
+import io.vertx.ext.jwt.JWTOptions;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -15,11 +14,10 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.security.KeyPair;
-import java.security.PrivateKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -27,15 +25,11 @@ import java.util.UUID;
 @ApplicationScoped
 public class TestSecureController {
 
-    private PrivateKey key;
+    private String key;
 
     @PostConstruct
     public void init() {
-        try {
-            key = readPrivateKey();
-        } catch (IOException e) {
-            ; //
-        }
+        key = readPemFile();
     }
 
     @GET
@@ -44,21 +38,19 @@ public class TestSecureController {
         if (key == null) {
             throw new WebApplicationException("Unable to read privateKey.pem", 500);
         }
-
         String jwt = generateJWT(key);
-
         // any method to send a REST request with an appropriate header will work of course.
         WebTarget target = ClientBuilder.newClient().target("http://localhost:[# th:text="${port_service_b}"/]/data/protected");
         Response response = target.request().header("authorization", "Bearer " + jwt).buildGet().invoke();
-
         return String.format("Claim value within JWT of 'custom-value' : %s", response.readEntity(String.class));
     }
 
-    private static String generateJWT(PrivateKey key) {
-        JWSHeader header = new JWSHeader.Builder(JWSAlgorithm.RS256)
-                .type(JOSEObjectType.JWT)
-                .keyID("theKeyId")
-                .build();
+    private static String generateJWT(String key) {
+        JWTAuth provider = JWTAuth.create(null, new JWTAuthOptions()
+                .addPubSecKey(new PubSecKeyOptions()
+                        .setAlgorithm("RS256")
+                        .setSecretKey(key)
+                ));
 
         MPJWTToken token = new MPJWTToken();
         token.setAud("targetService");
@@ -75,28 +67,26 @@ public class TestSecureController {
 
         token.setGroups(Arrays.asList("user", "protected"));
 
-        JWSObject jwsObject = new JWSObject(header, new Payload(token.toJSONString()));
-
-        // Apply the Signing protection
-        JWSSigner signer = new RSASSASigner(key);
-
-        try {
-            jwsObject.sign(signer);
-        } catch (JOSEException e) {
-            e.printStackTrace();
-        }
-
-        return jwsObject.serialize();
+        return provider.generateToken(new JsonObject().mergeIn(token.toJSONString()), new JWTOptions().setAlgorithm("RS256"));
     }
 
-    private PrivateKey readPrivateKey() throws IOException {
-
-        InputStream inputStream = TestSecureController.class.getResourceAsStream("/privateKey.pem");
-
-        PEMParser pemParser = new PEMParser(new InputStreamReader(inputStream));
-        JcaPEMKeyConverter converter = new JcaPEMKeyConverter().setProvider(new BouncyCastleProvider());
-        Object object = pemParser.readObject();
-        KeyPair kp = converter.getKeyPair((PEMKeyPair) object);
-        return kp.getPrivate();
+    // NOTE:   Expected format is PKCS#8 (BEGIN PRIVATE KEY) NOT PKCS#1 (BEGIN RSA PRIVATE KEY)
+    // See gencerts.sh
+    private static String readPemFile() {
+        StringBuilder sb = new StringBuilder(8192);
+        try (BufferedReader is = new BufferedReader(
+                new InputStreamReader(
+                        TestSecureController.class.getResourceAsStream("/privateKey.pem"), StandardCharsets.US_ASCII))) {
+            String line;
+            while ((line = is.readLine()) != null) {
+                if (!line.startsWith("-")) {
+                    sb.append(line);
+                    sb.append('\n');
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return sb.toString();
     }
 }

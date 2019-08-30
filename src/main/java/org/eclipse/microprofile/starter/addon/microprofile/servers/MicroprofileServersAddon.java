@@ -56,6 +56,8 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
 
     private List<MicroprofileSpec> microprofileSpecs;
 
+    private static final String VERTX_JWT_VERSION = "3.8.1";
+
     @PostConstruct
     public void init() {
         super.init();
@@ -145,8 +147,7 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
         pomFile.getProfiles().add(selectedProfile);
 
         if (microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH) && mainProject) {
-            mavenHelper.addDependency(pomFile, "com.nimbusds", "nimbus-jose-jwt", "5.7");
-            mavenHelper.addDependency(pomFile, "org.bouncycastle", "bcpkix-jdk15on", "1.53");
+            mavenHelper.addDependency(pomFile, "io.vertx", "vertx-auth-jwt", VERTX_JWT_VERSION);
         }
 
         if (model.hasMainAndSecondaryProject()) {
