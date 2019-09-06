@@ -149,15 +149,17 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
             mavenHelper.addDependency(pomFile, "org.bouncycastle", "bcpkix-jdk15on", "1.53");
         }
 
-        if (model.hasMainAndSecondaryProject()) {
+        // Needs refactoring and review  for Liberty and possibly Helidon.
+        /*if (model.hasMainAndSecondaryProject()) {
             String artifactID = pomFile.getArtifactId();
             if (mainProject) {
                 pomFile.setArtifactId(artifactID + "-" + JessieModel.MAIN_INDICATOR);
             } else {
                 pomFile.setArtifactId(artifactID + "-" + JessieModel.SECONDARY_INDICATOR);
             }
+            model.getMaven().setArtifactId(pomFile.getArtifactId());
             pomFile.getBuild().setFinalName(artifactID);
-        }
+        }*/
 
     }
 

@@ -131,14 +131,11 @@
             <id>liberty</id>
 
             <properties>
-
                 <httpPort>8181</httpPort>
                 <httpsPort>8543</httpsPort>
-                <jwt.issuer>https://server.example.com</jwt.issuer>
             </properties>
             <build>
                 <finalName>${project.artifactId}</finalName>
-                
 
                 <plugins>
                     <plugin>
@@ -163,8 +160,8 @@
                             <configDirectory>${project.basedir}/src/main/liberty/server</configDirectory>
                             <bootstrapProperties>
                                 <project.name>${project.artifactId}</project.name>
+                                <jwt.issuer>https://server.example.com</jwt.issuer>
                             </bootstrapProperties>
-
                         </configuration>
                         <executions>
                             <execution>

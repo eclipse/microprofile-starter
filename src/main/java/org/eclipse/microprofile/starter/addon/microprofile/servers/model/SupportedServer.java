@@ -51,8 +51,8 @@ public enum SupportedServer {
                     MicroProfileVersion.MP30)
             , "%s.jar" //jarFileName
             , "" //jarParameters // Hard coded in server.xml since no way of overriding a default.
-            , "http://localhost:8181/%s" //testURL
-            , "http://localhost:8281/%s" //secondaryURL // This need to match with port value from server.xml
+            , "http://localhost:8181/" //testURL, %s would be replaced with artifactId
+            , "http://localhost:8281/" //secondaryURL // This need to match with port value from server.xml, %s would be replaced with artifactId
             )
     , KUMULUZEE("kumuluzEE", "KumuluzEE",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
