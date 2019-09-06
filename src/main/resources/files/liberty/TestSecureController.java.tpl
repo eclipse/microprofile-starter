@@ -48,7 +48,7 @@ public class TestSecureController {
         String jwt = generateJWT(key);
 
         // any method to send a REST request with an appropriate header will work of course.
-        WebTarget target = ClientBuilder.newClient().target("http://localhost:8281/demo/data/protected");
+        WebTarget target = ClientBuilder.newClient().target("http://localhost:8281/[# th:text="${artifact_id}"/]/data/protected");
         Response response = target.request().header("authorization", "Bearer " + jwt).buildGet().invoke();
 
         return String.format("Claim value within JWT of 'custom-value' : %s", response.readEntity(String.class));
