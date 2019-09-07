@@ -195,7 +195,11 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
         variables.put("jar_file", defineJarFileName(supportedServer, artifactId));
         variables.put("jar_parameters", defineJarParameters(supportedServer));
         variables.put("test_url", defineTestURL(supportedServer, artifactId));
-        variables.put("secondary_url", defineSecondaryURL(supportedServer, artifactId));
+        if (supportedServer != SupportedServer.LIBERTY) {
+            variables.put("secondary_url", defineSecondaryURL(supportedServer, artifactId));
+        } else {
+            variables.put("secondary_url", defineSecondaryURL(supportedServer, ""));
+        }
         variables.put("artifact_id", artifactId);
 
         String rootJava = getJavaApplicationRootPackage(model);
