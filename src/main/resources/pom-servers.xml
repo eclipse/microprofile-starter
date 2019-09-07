@@ -138,21 +138,7 @@
             </properties>
             <build>
                 <finalName>${project.artifactId}</finalName>
-                <resources>
-                    <resource>
-                        <directory>${basedir}/src/main/resources</directory>
-                        <includes>
-                            <include>**/*.*</include>
-                        </includes>
-                    </resource>
-                    <resource>
-                        <directory>${basedir}/src/main/liberty</directory>
-                        <filtering>true</filtering>
-                        <includes>
-                            <include>**/*.*</include>
-                        </includes>
-                    </resource>
-                </resources>
+                
 
                 <plugins>
                     <plugin>
@@ -168,13 +154,16 @@
                                 <type>zip</type>
                             </assemblyArtifact>
 
-                            <configFile>target/classes/config/server.xml</configFile>
+                            <configFile>src/main/liberty/config/server.xml</configFile>
                             <appArchive>${project.build.directory}/${project.artifactId}.war</appArchive>
                             <packageFile>${project.build.directory}/${project.artifactId}.jar</packageFile>
                             <include>runnable</include>
                             <serverName>${project.artifactId}</serverName>
                             <installAppPackages>project</installAppPackages>
                             <configDirectory>${project.basedir}/src/main/liberty/server</configDirectory>
+                            <bootstrapProperties>
+                                <project.name>${project.artifactId}</project.name>
+                            </bootstrapProperties>
 
                         </configuration>
                         <executions>
