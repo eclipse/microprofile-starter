@@ -89,34 +89,38 @@ public class TomeeServer extends AbstractMicroprofileAddon {
         }
         pomFile.addProperty("tomee.version", tomeeVersion);
 
-        if (!mainProject) {
-            adjustPOM(pomFile, model);
-        }
+        adjustPOM(pomFile, model, mainProject);
+
     }
 
-    private void adjustPOM(Model pomFile, JessieModel model) {
+    private void adjustPOM(Model pomFile, JessieModel model, boolean mainProject) {
         Profile profile = pomFile.getProfiles().get(0);// We assume there is only 1 profile.
         Plugin mavenPlugin = findMavenPlugin(profile.getBuild().getPlugins());
         Xpp3Dom configuration = (Xpp3Dom) mavenPlugin.getConfiguration();
 
         Xpp3Dom httpPort = new Xpp3Dom("tomeeHttpPort");
-        httpPort.setValue("8180");
+        httpPort.setValue(
+                mainProject ? SupportedServer.TOMEE.getPortServiceA() : SupportedServer.TOMEE.getPortServiceB()
+        );
         configuration.addChild(httpPort);
 
         Xpp3Dom shutdownPort = new Xpp3Dom("tomeeShutdownPort");
-        shutdownPort.setValue("8105");
+        shutdownPort.setValue(
+                mainProject ? "8005" : "8105"
+        );
         configuration.addChild(shutdownPort);
 
         Xpp3Dom ajpPort = new Xpp3Dom("tomeeAjpPort");
-        ajpPort.setValue("8109");
+        ajpPort.setValue(
+                mainProject ? "8009" : "8109"
+        );
         configuration.addChild(ajpPort);
 
         List<MicroprofileSpec> microprofileSpecs = model.getParameter(JessieModel.Parameter.MICROPROFILESPECS);
-        if (microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH)) {
+        if (microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH) && !mainProject) {
             Xpp3Dom systemVariables = new Xpp3Dom("systemVariables");
             Xpp3Dom publicKeyLocation = new Xpp3Dom("mp.jwt.verify.publickey.location");
             publicKeyLocation.setValue("/publicKey.pem");
-
             systemVariables.addChild(publicKeyLocation);
             configuration.addChild(systemVariables);
         }

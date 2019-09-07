@@ -8,5 +8,5 @@ kumuluzee:
     issuer: https://server.example.com
   server:
     http:
-      port: 8180
+      port: [# th:text="${port_service_b}"/]
 

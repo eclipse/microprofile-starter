@@ -17,7 +17,7 @@
  * limitations under the License.
  *
  */
-package org.eclipse.microprofile.starter;
+package org.eclipse.microprofile.starter.dynamologger;
 
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;

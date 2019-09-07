@@ -129,31 +129,7 @@
 
         <profile>
             <id>liberty</id>
-
-            <properties>
-
-                <httpPort>8181</httpPort>
-                <httpsPort>8543</httpsPort>
-                <jwt.issuer>https://server.example.com</jwt.issuer>
-            </properties>
             <build>
-                <finalName>${project.artifactId}</finalName>
-                <resources>
-                    <resource>
-                        <directory>${basedir}/src/main/resources</directory>
-                        <includes>
-                            <include>**/*.*</include>
-                        </includes>
-                    </resource>
-                    <resource>
-                        <directory>${basedir}/src/main/liberty</directory>
-                        <filtering>true</filtering>
-                        <includes>
-                            <include>**/*.*</include>
-                        </includes>
-                    </resource>
-                </resources>
-
                 <plugins>
                     <plugin>
                         <groupId>net.wasdev.wlp.maven.plugins</groupId>
@@ -168,14 +144,17 @@
                                 <type>zip</type>
                             </assemblyArtifact>
 
-                            <configFile>target/classes/config/server.xml</configFile>
-                            <appArchive>${project.build.directory}/${project.artifactId}.war</appArchive>
-                            <packageFile>${project.build.directory}/${project.artifactId}.jar</packageFile>
+                            <configFile>src/main/liberty/config/server.xml</configFile>
+                            <appArchive>${project.build.directory}/${final.name}.war</appArchive>
+                            <packageFile>${project.build.directory}/${final.name}.jar</packageFile>
                             <include>runnable</include>
-                            <serverName>${project.artifactId}</serverName>
+                            <serverName>${final.name}</serverName>
                             <installAppPackages>project</installAppPackages>
                             <configDirectory>${project.basedir}/src/main/liberty/server</configDirectory>
-
+                            <bootstrapProperties>
+                                <project.name>${final.name}</project.name>
+                                <jwt.issuer>https://server.example.com</jwt.issuer>
+                            </bootstrapProperties>
                         </configuration>
                         <executions>
                             <execution>
@@ -292,7 +271,7 @@
         <profile>
             <id>helidon</id>
             <properties>
-                <jersey.version>2.26</jersey.version>
+                <jersey.version>2.29</jersey.version>
                 <mainClass>io.helidon.microprofile.server.Main</mainClass>
                 <libs.classpath.prefix>libs</libs.classpath.prefix>
                 <copied.libs.dir>${project.build.directory}/${libs.classpath.prefix}</copied.libs.dir>
@@ -321,11 +300,6 @@
                         <artifactId>jersey-media-json-binding</artifactId>
                         <version>${jersey.version}</version>
                     </dependency>
-                    <dependency>
-                        <groupId>org.glassfish.jersey.core</groupId>
-                        <artifactId>jersey-client</artifactId>
-                        <version>${jersey.version}</version>
-                    </dependency>
                 </dependencies>
             </dependencyManagement>
             <dependencies>
@@ -336,11 +310,6 @@
                 <dependency>
                     <groupId>org.glassfish.jersey.media</groupId>
                     <artifactId>jersey-media-json-binding</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>org.glassfish.jersey.core</groupId>
-                    <artifactId>jersey-client</artifactId>
-                    <scope>compile</scope>
                 </dependency>
                 <dependency>
                     <groupId>org.jboss</groupId>

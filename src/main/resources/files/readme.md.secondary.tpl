@@ -23,7 +23,6 @@ The **ProtectedController** contains the protected endpoint since it contains th
 
 The _TestSecureController_ code creates a JWT based on the private key found within the resource directory.
 However, any method to send a REST request with an appropriate header will work of course. Please feel free to change this code to your needs.
-
 [/]
 
 
@@ -33,5 +32,4 @@ However, any method to send a REST request with an appropriate header will work 
 A type safe invocation of HTTP rest endpoints. Specification [here](https://microprofile.io/project/eclipse/microprofile-rest-client)
 
 The example calls one endpoint from another JAX-RS resource where generated Rest Client is injected as CDI bean.
-
 [/]

@@ -10,7 +10,10 @@ kumuluzee:
   rest-client:
     registrations:
       - class: [# th:text="${java_package}"/].client.Service
-        url: [# th:text="${secondary_url}"/]/data/client/service
+        url: http://localhost:[# th:text="${port_service_b}"/]/data/client/service
+  server:
+    http:
+      port: [# th:text="${port_service_a}"/]
 injected:
   value: Injected value
 value: lookup value
