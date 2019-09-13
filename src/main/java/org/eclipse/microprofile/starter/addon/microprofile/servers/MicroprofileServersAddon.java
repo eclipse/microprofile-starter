@@ -183,6 +183,8 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
     public void createFiles(JessieModel model) {
 
         Set<String> alternatives = model.getParameter(JessieModel.Parameter.ALTERNATIVES);
+        Set<String> bAlternatives = new HashSet<>(alternatives);
+        bAlternatives.add(JessieModel.SECONDARY_INDICATOR);
         Map<String, String> variables = model.getVariables();
 
         String serverName = model.getOptions().get("mp.server").getSingleValue();
@@ -225,18 +227,6 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
             processTemplateFile(faultDirectory, "ResilienceController.java", alternatives, variables);
         }
 
-        if (microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH)) {
-            String secureDirectory;
-
-            if (model.hasMainAndSecondaryProject()) {
-                secureDirectory = model.getDirectory(false) + "/" + rootJava + "/secure";
-                directoryCreator.createDirectory(secureDirectory);
-
-                processTemplateFile(secureDirectory, "ProtectedController.java", alternatives, variables);
-
-            }
-        }
-
         if (microprofileSpecs.contains(MicroprofileSpec.REST_CLIENT)) {
             String clientMainDirectory = model.getDirectory(true) + "/" + rootJava + "/client";
             directoryCreator.createDirectory(clientMainDirectory);
@@ -244,16 +234,22 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
             String clientSecondaryDirectory = model.getDirectory(false) + "/" + rootJava + "/client";
             directoryCreator.createDirectory(clientSecondaryDirectory);
 
-            processTemplateFile(clientSecondaryDirectory, "ServiceController.java", alternatives, variables);
+            processTemplateFile(clientSecondaryDirectory, "ServiceController.java", bAlternatives, variables);
             processTemplateFile(clientMainDirectory, "Service.java", alternatives, variables);
             processTemplateFile(clientMainDirectory, "ClientController.java", alternatives, variables);
         }
 
         if (microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH)) {
-            String javaDirectory = model.getDirectory(true) + "/" + rootJava + "/secure";
+            if (model.hasMainAndSecondaryProject()) {
+                String bSecureDirectory = model.getDirectory(false) + "/" + rootJava + "/secure";
+                directoryCreator.createDirectory(bSecureDirectory);
+                processTemplateFile(bSecureDirectory, "ProtectedController.java", bAlternatives, variables);
+            }
 
-            processTemplateFile(javaDirectory, "TestSecureController.java", alternatives, variables);
-            processTemplateFile(javaDirectory, "MPJWTToken.java", alternatives, variables);
+            String aSecureDirectory = model.getDirectory(true) + "/" + rootJava + "/secure";
+
+            processTemplateFile(aSecureDirectory, "TestSecureController.java", alternatives, variables);
+            processTemplateFile(aSecureDirectory, "MPJWTToken.java", alternatives, variables);
 
             String resourceDirectory = getResourceDirectory(model, true);
 
@@ -263,12 +259,11 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
         // With KumuluzEE, it properties are integrated within config.yaml
         if (supportedServer != SupportedServer.KUMULUZEE) {
             String metaInfDirectory = getResourceDirectory(model, true) + "/META-INF";
-
             directoryCreator.createDirectory(metaInfDirectory);
             processTemplateFile(metaInfDirectory, "microprofile-config.properties", alternatives, variables);
         }
 
-        // Helidon should have it in src/main/resource/WEB
+        // Helidon should have it in src/main/resources/WEB
         if (supportedServer != SupportedServer.HELIDON) {
             // Demo index file to all endpoints
             String webDirectory = model.getDirectory(true) + "/" + MavenCreator.SRC_MAIN_WEBAPP;

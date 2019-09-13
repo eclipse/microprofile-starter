@@ -99,8 +99,6 @@ public class HelidonServer extends AbstractMicroprofileAddon {
 
             if (microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH)) {
                 processTemplateFile(bResourcesDir, "publicKey.pem", alternatives, variables);
-                javaFile = thymeleafEngine.processFile("ServiceController.java", tempAlternative, variables);
-                fileCreator.writeContents(viewDirectory + "/client", "ServiceController.java", javaFile);
             }
 
             String configFile = thymeleafEngine.processFile("microprofile-config.properties", tempAlternative, variables);
