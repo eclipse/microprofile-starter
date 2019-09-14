@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<server description="${project.artifactId}">
+<server description="${project.name}">
 
     <featureManager>
         <feature>microProfile-[# th:text="${mp_version}"/]</feature>
     </featureManager>
 
     <httpEndpoint id="defaultHttpEndpoint"
-                  httpPort="8181"
+                  httpPort="[# th:text="${port_service_a}"/]"
                   httpsPort="8543"/>
 
-    <application location="${project.build.finalName}.war"/>
-
-    <logging traceSpecification="${log.name}.*=${log.level}"/>
+    <webApplication location="${project.name}.war" contextRoot="/"/>
+    <mpMetrics authentication="false"/>
 
     <!-- This is the keystore that will be used by SSL and by JWT. -->
     <keyStore id="defaultKeyStore" location="public.jks" type="JKS" password="atbash" />

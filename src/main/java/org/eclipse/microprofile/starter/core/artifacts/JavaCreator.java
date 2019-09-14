@@ -59,7 +59,6 @@ public class JavaCreator extends AbstractCreator {
             application = variables.get("application");
             javaFile = thymeleafEngine.processFile("RestApplication.java", tempAlternative, variables);
             fileCreator.writeContents(viewDirectory, application + "RestApplication.java", javaFile);
-
         }
     }
 }

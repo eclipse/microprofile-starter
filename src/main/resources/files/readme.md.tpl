@@ -14,7 +14,7 @@ This will create an executable jar file **[# th:text="${jar_file}"/]** within th
 
 To launch the test page, open your browser at the following URL
 
-    [# th:text="${test_url}"/]/index.html
+    http://localhost:[# th:text="${port_service_a}"/]/index.html
 
 ## Specification examples
 
@@ -83,7 +83,6 @@ The index page contains a link to the OpenAPI information of your endpoints.
 Allow the participation in distributed tracing of your requests through various micro services. Specification [here](https://microprofile.io/project/eclipse/microprofile-opentracing)
 
 Example needs to be created.
-
 [/]
 
 [# th:if="${mp_rest_client}"]
@@ -92,5 +91,4 @@ Example needs to be created.
 A type safe invocation of HTTP rest endpoints. Specification [here](https://microprofile.io/project/eclipse/microprofile-rest-client)
 
 The example calls one endpoint from another JAX-RS resource where generated Rest Client is injected as CDI bean.
-
 [/]

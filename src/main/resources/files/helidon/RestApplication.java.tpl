@@ -9,6 +9,12 @@ import [# th:text="${java_package}"/].resilient.ResilienceController;
 [# th:if="${mp_metrics}"]
 import [# th:text="${java_package}"/].metric.MetricController;
 [/]
+[# th:if="${mp_JWT_auth}"]
+import [# th:text="${java_package}"/].secure.TestSecureController;
+[/]
+[# th:if="${mp_rest_client}"]
+import [# th:text="${java_package}"/].client.ClientController;
+[/]
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
@@ -38,7 +44,12 @@ public class [# th:text="${application}"/]RestApplication extends Application {
         [# th:if="${mp_metrics}"]
         classes.add(MetricController.class);
         [/]
-
+        [# th:if="${mp_rest_client}"]
+        classes.add(ClientController.class);
+        [/]
+        [# th:if="${mp_JWT_auth}"]
+        classes.add(TestSecureController.class);
+        [/]
         return classes;
     }
 

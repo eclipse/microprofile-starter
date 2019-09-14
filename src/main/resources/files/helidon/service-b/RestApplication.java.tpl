@@ -5,7 +5,9 @@ import [# th:text="${java_package}"/].secure.ProtectedController;
 import org.eclipse.microprofile.auth.LoginConfig;
 import javax.annotation.security.DeclareRoles;
 [/]
-
+[# th:if="${mp_rest_client}"]
+import [# th:text="${java_package}"/].client.ServiceController;
+[/]
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
@@ -29,8 +31,9 @@ public class [# th:text="${application}"/]RestApplication extends Application {
         Set<Class<?>> classes = new HashSet<>();
 
         // resources
-        classes.add(HelloController.class);
-
+        [# th:if="${mp_rest_client}"]
+        classes.add(ServiceController.class);
+        [/]
         [# th:if="${mp_JWT_auth}"]
         classes.add(ProtectedController.class);
         [/]
