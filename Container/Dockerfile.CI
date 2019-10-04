@@ -5,8 +5,8 @@
 FROM centos:7 AS build-env
 LABEL Author="Michal Karm Babacek <karm@redhat.com>"
 WORKDIR /opt
-ENV MVN_VERSION  3.3.9
-ENV JAVA_VERSION 1.8.0
+ENV MVN_VERSION  3.6.0
+ENV JAVA_VERSION 11
 ENV M2_HOME /opt/apache-maven-${MVN_VERSION}
 ENV JAVA_HOME /usr/lib/jvm/jre-${JAVA_VERSION}-openjdk
 RUN yum install java-${JAVA_VERSION}-openjdk-devel unzip -y
@@ -24,8 +24,8 @@ RUN  ./apache-maven-${MVN_VERSION}/bin/mvn package -Pthorntail && \
 #############
 FROM centos:7
 LABEL Author="Michal Karm Babacek <karm@redhat.com>"
-ENV JAVA_VERSION 1.8.0
-RUN yum install java-${JAVA_VERSION}-openjdk-headless -y && yum clean all && \
+ENV JAVA_VERSION 11
+RUN yum install java-${JAVA_VERSION}-openjdk -y && yum clean all && \
     rm -rf /var/cache/yum /tmp/* && useradd -s /sbin/nologin wildfly
 EXPOSE 8080/tcp
 USER wildfly

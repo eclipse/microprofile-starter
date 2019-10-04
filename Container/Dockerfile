@@ -1,7 +1,7 @@
 FROM centos:7
 LABEL Author="Michal Karm Babacek <karm@redhat.com>"
-ENV JAVA_VERSION 1.8.0
-RUN yum install java-${JAVA_VERSION}-openjdk-headless -y && yum clean all && rm -rf /var/cache/yum /tmp/* && \
+ENV JAVA_VERSION 11
+RUN yum install java-${JAVA_VERSION}-openjdk -y && yum clean all && rm -rf /var/cache/yum /tmp/* && \
     useradd -s /sbin/nologin wildfly
 EXPOSE 8080/tcp
 USER wildfly

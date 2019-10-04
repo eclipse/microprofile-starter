@@ -37,9 +37,9 @@
     <inceptionYear>2017</inceptionYear>
 
     <properties>
-        <version.thorntail>2.2.1.Final</version.thorntail>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <version.thorntail>2.5.0.Final</version.thorntail>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <maven.exec.plugin.version>1.6.0</maven.exec.plugin.version>
 
         <failOnMissingWebXml>false</failOnMissingWebXml>
@@ -51,6 +51,7 @@
         <primefaces.version>7.0</primefaces.version>
         <thymeleaf.version>3.0.10.RELEASE</thymeleaf.version>
         <junit.version>4.12</junit.version>
+        <resteasy.version>4.3.0.Final</resteasy.version>
 
         <checkstyle.version>2.17</checkstyle.version>
         <checkstyle.methodNameFormat>^_?[a-z][a-zA-Z0-9]*$</checkstyle.methodNameFormat>
@@ -95,12 +96,6 @@
             <version>${thymeleaf.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
@@ -221,16 +216,73 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <executable>${basedir}/version.txt.sh</executable>
+                    <executable>${basedir}/version.txt.${script.extension}</executable>
                     <workingDirectory>${basedir}/target/classes/</workingDirectory>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.0.0-M3</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>add-integration-test-source-as-test-sources</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>add-test-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/it/java</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
 
     <profiles>
         <profile>
+            <id>Windows</id>
+            <activation>
+                <os>
+                    <family>Windows</family>
+                </os>
+            </activation>
+            <properties>
+                <script.extension>bat</script.extension>
+            </properties>
+        </profile>
+        <profile>
+            <id>unix</id>
+            <activation>
+                <os>
+                    <family>unix</family>
+                </os>
+            </activation>
+            <properties>
+                <script.extension>sh</script.extension>
+            </properties>
+        </profile>
+        <profile>
             <id>thorntail</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <dependencies>
                 <dependency>
                     <groupId>io.thorntail</groupId>
@@ -247,16 +299,36 @@
                     <artifactId>jaxrs</artifactId>
                 </dependency>
 
+                <dependency>
+                    <groupId>org.jboss.resteasy</groupId>
+                    <artifactId>resteasy-client</artifactId>
+                    <version>${resteasy.version}</version>
+                    <scope>test</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>io.thorntail</groupId>
+                    <artifactId>arquillian</artifactId>
+                    <scope>test</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                    <version>${junit.version}</version>
+                    <scope>test</scope>
+                </dependency>
+
             </dependencies>
 
             <dependencyManagement>
                 <dependencies>
                     <dependency>
                         <groupId>io.thorntail</groupId>
-                        <artifactId>bom-all</artifactId>
+                        <artifactId>bom</artifactId>
                         <version>${version.thorntail}</version>
-                        <scope>import</scope>
                         <type>pom</type>
+                        <scope>import</scope>
                     </dependency>
                 </dependencies>
             </dependencyManagement>
