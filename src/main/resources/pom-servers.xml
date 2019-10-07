@@ -151,7 +151,7 @@
                         </executions>
                         <configuration>   
                             <appArchive>${project.build.directory}/${final.name}.war</appArchive>
-                            <packageType>runnable</packagType>
+                            <packageType>jar</packageType>
                             <serverName>${final.name}</serverName>
                             <bootstrapProperties>
                                 <project.name>${final.name}</project.name>
