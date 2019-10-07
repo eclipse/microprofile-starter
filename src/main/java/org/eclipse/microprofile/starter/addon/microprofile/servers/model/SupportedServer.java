@@ -79,7 +79,7 @@ public enum SupportedServer {
             , "8180" //portServiceB // This need to match with Port value from TomeeServer.adjustPOM
             )
     , HELIDON("helidon", "Helidon",
-            Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP22)
+            Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP22, MicroProfileVersion.MP30)
             , "%s.jar" //jarFileName
             , "" //jarParameters // Done by secondary/helidon/microprofile-config.properties
             , "8080" //portServiceA
