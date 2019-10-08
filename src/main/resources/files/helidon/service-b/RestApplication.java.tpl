@@ -40,5 +40,4 @@ public class [# th:text="${application}"/]RestApplication extends Application {
 
         return classes;
     }
-
 }

@@ -16,7 +16,6 @@ import [# th:text="${java_package}"/].secure.TestSecureController;
 import [# th:text="${java_package}"/].client.ClientController;
 [/]
 
-import javax.annotation.security.DeclareRoles;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 import java.util.HashSet;
@@ -45,14 +44,12 @@ public class [# th:text="${application}"/]RestApplication extends Application {
         [# th:if="${mp_metrics}"]
         classes.add(MetricController.class);
         [/]
-        [# th:if="${mp_JWT_auth}"]
-        classes.add(TestSecureController.class);
-        [/]
         [# th:if="${mp_rest_client}"]
         classes.add(ClientController.class);
         [/]
-
+        [# th:if="${mp_JWT_auth}"]
+        classes.add(TestSecureController.class);
+        [/]
         return classes;
     }
-
 }

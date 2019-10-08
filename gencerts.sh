@@ -30,8 +30,8 @@ mv public.pem  ./files/publicKey.pem.tpl
 # As soon as we switch to VertX JWT https://github.com/eclipse/microprofile-starter/issues/206
 # This conversion won't be needed:
 # org.bouncycastle.asn1.pkcs.PrivateKeyInfo cannot be cast to org.bouncycastle.openssl.PEMKeyPair
-openssl rsa -in ./files/privateKey.pem.tpl -text -out ./files/privateKey.pem.tpl.long
-mv ./files/privateKey.pem.tpl.long ./files/privateKey.pem.tpl
+#openssl rsa -in ./files/privateKey.pem.tpl -text -out ./files/privateKey.pem.tpl.long
+#mv ./files/privateKey.pem.tpl.long ./files/privateKey.pem.tpl
 
 # KumuluzEE needs pub key in config
 KEY=`cat ./files/publicKey.pem.tpl | grep -ve '^-' | tr -d '\n'`

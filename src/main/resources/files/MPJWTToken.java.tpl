@@ -1,7 +1,7 @@
 package [# th:text="${java_package}"/].secure;
 
-import net.minidev.json.JSONArray;
-import net.minidev.json.JSONObject;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -132,31 +132,31 @@ public class MPJWTToken {
         additionalClaims.put(key, value);
     }
 
-    public String toJSONString() {
+    public JsonObject toJSONString() {
+        JsonObject jsonObject = new JsonObject();
 
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.appendField("iss", iss);
-        jsonObject.appendField("aud", aud);
-        jsonObject.appendField("jti", jti);
-        jsonObject.appendField("exp", exp / 1000);
-        jsonObject.appendField("iat", iat / 1000);
-        jsonObject.appendField("sub", sub);
-        jsonObject.appendField("upn", upn);
-        jsonObject.appendField("preferred_username", preferredUsername);
+        jsonObject.put("iss", iss);
+        jsonObject.put("aud", aud);
+        jsonObject.put("jti", jti);
+        jsonObject.put("exp", exp / 1000);
+        jsonObject.put("iat", iat / 1000);
+        jsonObject.put("sub", sub);
+        jsonObject.put("upn", upn);
+        jsonObject.put("preferred_username", preferredUsername);
 
         if (additionalClaims != null) {
             for (Map.Entry<String, String> entry : additionalClaims.entrySet()) {
-                jsonObject.appendField(entry.getKey(), entry.getValue());
+                jsonObject.put(entry.getKey(), entry.getValue());
             }
         }
 
-        JSONArray groupsArr = new JSONArray();
+        JsonArray jsonArray = new JsonArray();
         for (String group : groups) {
-            groupsArr.appendElement(group);
+            jsonArray.add(group);
         }
-        jsonObject.appendField("groups", groupsArr);
+        jsonObject.put("groups", jsonArray);
 
-        return jsonObject.toJSONString();
+        return jsonObject;
     }
 
 }
