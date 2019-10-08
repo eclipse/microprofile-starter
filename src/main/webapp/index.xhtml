@@ -90,8 +90,7 @@
 
                     <p:panelGrid columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
                                  styleClass="ui-panelgrid-blank ui-fluid">
-                        <p:selectOneMenu id="mpVersion" value="#{generatorDataBean.engineData.mpVersion}"
-                                         required="true">
+                        <p:selectOneMenu id="mpVersion" value="#{generatorDataBean.engineData.mpVersion}">
                             <f:selectItems value="${dataBean.mpItems}"/>
                             <p:ajax listener="#{generatorDataBean.onMPVersionSelected}" update="options"/>
                         </p:selectOneMenu>
@@ -111,13 +110,13 @@
                                  styleClass="ui-panelgrid-blank ui-fluid" id="options">
                         <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid"
                                      styleClass="ui-panelgrid-blank ui-fluid nested">
-                            <p:outputLabel value="MicroProfile Server" for="supportedServer"/>
+                            <p:outputLabel value="MicroProfile Runtime" for="supportedServer"/>
 
                             <p:selectOneMenu id="supportedServer" value="#{generatorDataBean.engineData.supportedServer}"
-                                             required="true"
-                                             disabled="#{empty generatorDataBean.engineData.mpVersion}">
+                                             required="true">
                                 <f:selectItem/>
                                 <f:selectItems value="${generatorDataBean.supportedServerItems}"/>
+                                <p:ajax listener="#{generatorDataBean.onMPRuntimeSelected}" update="options, mpVersion"/>
                             </p:selectOneMenu>
                         </p:panelGrid>
                         <h:panelGroup>

@@ -88,12 +88,29 @@ public class GeneratorDataBean implements Serializable {
     @PostConstruct
     public void init() {
         engineData = new EngineData();
+        defineSupportedServerItems(null);
     }
 
     public void onMPVersionSelected() {
         MicroProfileVersion version = MicroProfileVersion.valueFor(engineData.getMpVersion());
         defineExampleSpecs(version);
         defineSupportedServerItems(version);
+    }
+
+    public void onMPRuntimeSelected() {
+        if (engineData.getMpVersion() == null || engineData.getMpVersion().trim().isEmpty()) {
+            defineMPVersionValue();
+            onMPVersionSelected();  // So that example specs are filled and shown on screen.
+            // This also limit the supportedServers as the MPVersion is now filled with a value.
+        }
+    }
+
+    private void defineMPVersionValue() {
+        // Look for the latest MP version
+        SupportedServer supportedServer = SupportedServer.valueFor(engineData.getSupportedServer());
+        List<MicroProfileVersion> versions = supportedServer.getMpVersions();
+        MicroProfileVersion microProfileVersion = versions.get(versions.size() - 1);
+        engineData.setMpVersion(microProfileVersion.getCode());
     }
 
     private void defineExampleSpecs(MicroProfileVersion version) {
@@ -113,7 +130,7 @@ public class GeneratorDataBean implements Serializable {
 
         supportedServerItems = new ArrayList<>();
         for (SupportedServer supportedServer : SupportedServer.values()) {
-            if (supportedServer.getMpVersions().contains(version)) {
+            if (version == null || supportedServer.getMpVersions().contains(version)) {
                 supportedServerItems.add(new SelectItem(supportedServer.getCode(), supportedServer.getDisplayName()));
             }
         }
