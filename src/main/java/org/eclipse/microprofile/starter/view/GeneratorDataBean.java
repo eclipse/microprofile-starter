@@ -57,8 +57,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.function.Function;
+import java.util.Iterator;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @ViewScoped
 @Named
@@ -143,10 +144,12 @@ public class GeneratorDataBean implements Serializable {
     }
 
     private void randomizeSupportedServers() {
-        Random rnd = new Random();
-        Map<Integer, SelectItem> data = supportedServerItems
-                .stream().collect(Collectors.toMap(s -> rnd.nextInt(500),
-                        Function.identity()));
+        List<Integer> rnd = generateUniqueRandomNumbers(supportedServerItems.size());
+
+        Iterator<Integer> keyIterator = rnd.iterator();
+        Iterator<SelectItem> valueIterator = supportedServerItems.iterator();
+        Map<Integer, SelectItem> data = IntStream.range(0, rnd.size()).boxed()
+                .collect(Collectors.toMap(i -> keyIterator.next(), i -> valueIterator.next()));
 
         supportedServerItems = new ArrayList<>(data.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
@@ -154,6 +157,18 @@ public class GeneratorDataBean implements Serializable {
                         (oldValue, newValue) -> oldValue, LinkedHashMap::new))
                 .values());
 
+    }
+
+    private List<Integer> generateUniqueRandomNumbers(int randomNumberSize) {
+        Random rnd = new Random();
+        List<Integer> result = new ArrayList<>();
+        while (result.size() < randomNumberSize) {
+            int value = rnd.nextInt(500);
+            if (!result.contains(value)) {
+                result.add(value);
+            }
+        }
+        return result;
     }
 
     public void generateProject() {
