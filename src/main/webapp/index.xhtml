@@ -120,12 +120,20 @@
                             </p:selectOneMenu>
                         </p:panelGrid>
                         <h:panelGroup>
-                            <p:outputLabel value="Examples for specifications" for="microprofileSpecs"/>
+                            <p:outputLabel value="Examples for specifications" for="microprofileSpecs"/> <h:outputText value="&#160;" />
+                            <p:commandLink value="Select All" actionListener="#{generatorDataBean.selectAll}" update="microprofileSpecs"
+                                           ajax="true" process="@this"
+                                           rendered="#{not empty generatorDataBean.engineData.mpVersion}"/>
+                            <h:outputText value="&#160;" /><h:outputText value="&#160;" /><h:outputText value="&#160;" />
+                            <p:commandLink value="Unselect All" actionListener="#{generatorDataBean.unselectAll}" update="microprofileSpecs"
+                                           ajax="true" process="@this"
+                                           rendered="#{not empty generatorDataBean.engineData.mpVersion}"/>
                             <p:selectManyCheckbox id="microprofileSpecs" value="#{generatorDataBean.selectedSpecs}"
                                                   layout="responsive" styleClass="specifications"
                                                   columns="2" disabled="#{empty generatorDataBean.engineData.mpVersion}">
                                 <f:selectItems value="#{generatorDataBean.specs}" var="spec" itemLabel="#{spec}"
                                                itemValue="#{spec}"/>
+                                <p:ajax process="@this" />
                             </p:selectManyCheckbox>
                         </h:panelGroup>
 

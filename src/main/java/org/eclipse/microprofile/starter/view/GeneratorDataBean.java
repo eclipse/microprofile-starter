@@ -115,12 +115,17 @@ public class GeneratorDataBean implements Serializable {
 
     private void defineExampleSpecs(MicroProfileVersion version) {
         specs = new ArrayList<>();
+        List<String> currentSelected = new ArrayList<>(selectedSpecs);
         selectedSpecs.clear();
 
         for (MicroprofileSpec microprofileSpec : MicroprofileSpec.values()) {
             if (microprofileSpec.getMpVersions().contains(version)) {
                 specs.add(new SelectItem(microprofileSpec.getCode(), microprofileSpec.getLabel()));
-                selectedSpecs.add(microprofileSpec.getCode());
+                if (currentSelected.contains(microprofileSpec.getCode())) {
+                    // If the spec is currently selected, keep it selected.
+                    // But if it is not listed anymore in the MP version, it has to go.
+                    selectedSpecs.add(microprofileSpec.getCode());
+                }
             }
         }
 
@@ -237,4 +242,11 @@ public class GeneratorDataBean implements Serializable {
         this.selectedSpecs = selectedSpecs;
     }
 
+    public void selectAll() {
+        selectedSpecs = specs.stream().map(si -> si.getValue().toString()).collect(Collectors.toList());
+    }
+
+    public void unselectAll() {
+        selectedSpecs.clear();
+    }
 }
