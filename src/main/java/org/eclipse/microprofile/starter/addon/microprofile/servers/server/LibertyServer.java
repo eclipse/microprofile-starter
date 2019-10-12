@@ -55,6 +55,7 @@ public class LibertyServer extends AbstractMicroprofileAddon {
 
         processTemplateFile(resourceDirectory, "server.xml", alternatives, variables);
 
+        List<MicroprofileSpec> microprofileSpecs = model.getParameter(JessieModel.Parameter.MICROPROFILESPECS);
         if (model.hasMainAndSecondaryProject()) {
             Set<String> tempAlternative = new HashSet<>(alternatives);
             tempAlternative.add(JessieModel.SECONDARY_INDICATOR);
@@ -63,9 +64,16 @@ public class LibertyServer extends AbstractMicroprofileAddon {
             directoryCreator.createDirectory(resourceDirectory);
 
             processTemplateFile(resourceDirectory, "server.xml", tempAlternative, variables);
+            if  (microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH)) {
+
+                resourceDirectory = resourceDirectory + "/resources/security";
+                directoryCreator.createDirectory(resourceDirectory);
+    
+                processFile(resourceDirectory, "public.jks", alternatives);
+            }
         }
 
-        List<MicroprofileSpec> microprofileSpecs = model.getParameter(JessieModel.Parameter.MICROPROFILESPECS);
+        
         if (model.hasMainAndSecondaryProject() && microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH)) {
 
             resourceDirectory = model.getDirectory(false) + "/src/main/liberty/server/resources/security";
@@ -80,7 +88,7 @@ public class LibertyServer extends AbstractMicroprofileAddon {
     @Override
     public void adaptMavenModel(Model pomFile, JessieModel model, boolean mainProject) {
         String openLibertyVersion = "[19.0.0.9,)";
-        String openLibertyMavenVersion = "3.0.1";
+        String openLibertyMavenVersion = "3.1";
         pomFile.addProperty("openliberty.version", openLibertyVersion);
         pomFile.addProperty("openliberty.maven.version", openLibertyMavenVersion);
 
