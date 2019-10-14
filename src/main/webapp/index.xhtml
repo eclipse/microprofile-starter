@@ -121,6 +121,12 @@
                         </p:panelGrid>
                         <h:panelGroup>
                             <p:outputLabel value="Examples for specifications" for="microprofileSpecs"/>
+                            <h:outputText value="&#160;" />
+                            <p:selectBooleanCheckbox value="#{generatorDataBean.allSpecsSelected}"
+                                                     itemLabel="Select / Deselect All"
+                                                     rendered="#{not empty generatorDataBean.engineData.mpVersion}">
+                                <p:ajax process="@this" update="microprofileSpecs" listener="#{generatorDataBean.toggleSelection}" />
+                            </p:selectBooleanCheckbox>
                             <p:selectManyCheckbox id="microprofileSpecs" value="#{generatorDataBean.selectedSpecs}"
                                                   layout="responsive" styleClass="specifications"
                                                   columns="2" disabled="#{empty generatorDataBean.engineData.mpVersion}">
@@ -128,8 +134,6 @@
                                                itemValue="#{spec}"/>
                             </p:selectManyCheckbox>
                         </h:panelGroup>
-
-
                     </p:panelGrid>
                     <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid"
                                  styleClass="ui-panelgrid-blank ui-fluid download-cell">
@@ -143,7 +147,6 @@
 
 
                 </div>
-
             </div>
         </h:form>
     </div>

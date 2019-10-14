@@ -339,7 +339,7 @@ input[type=text]{
     text-indent: 0;
 }
 
-.ui-chkbox-box .ui-icon::before {
+.ui-icon-check::before {
     content: '\f00c';
     font-family: FontAwesome;
     font-weight: 400;
@@ -353,7 +353,11 @@ input[type=text]{
     top: 2px;
 }
 
-.ui-selectmanycheckbox .ui-chkbox .ui-chkbox-box .ui-icon.ui-icon-check::before, .ui-selectmanycheckbox .ui-chkbox .ui-chkbox-box .ui-icon.ui-icon-check::before {
+.ui-selectmanycheckbox .ui-chkbox .ui-chkbox-box .ui-icon.ui-icon-check::before {
+    color: rgb(253, 183, 28);
+}
+
+.ui-selectbooleancheckbox .ui-chkbox-box .ui-icon-check::before {
     color: rgb(253, 183, 28);
 }
 
@@ -373,6 +377,10 @@ span.ui-chkbox-icon.ui-icon.ui-c.ui-icon-check {
 
 .ui-selectmanycheckbox.specifications label {
     margin: 0 0 0 8px;
+}
+
+.ui-selectbooleancheckbox.ui-widget .ui-chkbox-label {
+    margin: -5px 0 0 8px;
 }
 
 .content > .ui-panelgrid > .ui-panelgrid-content > .ui-grid-row > .ui-grid-col-6,

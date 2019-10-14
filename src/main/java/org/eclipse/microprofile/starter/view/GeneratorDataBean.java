@@ -84,6 +84,7 @@ public class GeneratorDataBean implements Serializable {
     private List<SelectItem> supportedServerItems;
     private List<String> selectedSpecs = new ArrayList<>();
     private List<SelectItem> specs;
+    private boolean allSpecsSelected;
 
     @PostConstruct
     public void init() {
@@ -120,7 +121,6 @@ public class GeneratorDataBean implements Serializable {
         for (MicroprofileSpec microprofileSpec : MicroprofileSpec.values()) {
             if (microprofileSpec.getMpVersions().contains(version)) {
                 specs.add(new SelectItem(microprofileSpec.getCode(), microprofileSpec.getLabel()));
-                selectedSpecs.add(microprofileSpec.getCode());
             }
         }
 
@@ -237,4 +237,19 @@ public class GeneratorDataBean implements Serializable {
         this.selectedSpecs = selectedSpecs;
     }
 
+    public void setAllSpecsSelected(boolean allSpecsSelected) {
+        this.allSpecsSelected = allSpecsSelected;
+    }
+
+    public boolean isAllSpecsSelected() {
+        return allSpecsSelected;
+    }
+
+    public void toggleSelection() {
+        if (allSpecsSelected && specs != null) {
+            selectedSpecs = specs.stream().map(si -> si.getValue().toString()).collect(Collectors.toList());
+        } else if (selectedSpecs != null) {
+            selectedSpecs.clear();
+        }
+    }
 }
