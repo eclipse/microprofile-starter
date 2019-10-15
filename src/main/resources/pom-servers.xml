@@ -141,6 +141,7 @@
                             <phase>package</phase>
                             <goals>
                                 <goal>create</goal>
+                                <goal>install-feature</goal>
                                 <goal>deploy</goal>
                                 <goal>package</goal>
                             </goals>
@@ -151,7 +152,7 @@
                         </executions>
                         <configuration>   
                             <appArchive>${project.build.directory}/${final.name}.war</appArchive>
-                            <packageType>jar</packageType>
+                            <include>runnable</include>
                             <serverName>${final.name}</serverName>
                             <bootstrapProperties>
                                 <project.name>${final.name}</project.name>
