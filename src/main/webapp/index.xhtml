@@ -124,8 +124,8 @@
                             <p:commandLink value="Select All" actionListener="#{generatorDataBean.selectAll}" update="microprofileSpecs"
                                            ajax="true" process="@this"
                                            rendered="#{not empty generatorDataBean.engineData.mpVersion}"/>
-                            <h:outputText value="&#160;" /><h:outputText value="&#160;" /><h:outputText value="&#160;" />
-                            <p:commandLink value="Unselect All" actionListener="#{generatorDataBean.unselectAll}" update="microprofileSpecs"
+                            <h:outputText value="&#160;" /><h:outputText value="&#160;" />
+                            <p:commandLink value="Clear All" actionListener="#{generatorDataBean.unselectAll}" update="microprofileSpecs"
                                            ajax="true" process="@this"
                                            rendered="#{not empty generatorDataBean.engineData.mpVersion}"/>
                             <p:selectManyCheckbox id="microprofileSpecs" value="#{generatorDataBean.selectedSpecs}"
