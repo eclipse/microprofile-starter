@@ -13,6 +13,14 @@ This will create an executable jar file **[# th:text="${jar_file}"/]** within th
     java -jar target/[# th:text="${jar_file}"/] [# th:text="${jar_parameters}"/]
 
 
+[# th:if="${mp_servername} == 'liberty'"]
+### Liberty Dev Mode
+
+If you are in development stage, you can use Liberty Dev mode to code while observing and testing your changes on the fly. 
+The Liberty Dev mode means you can code along and watch the change reflected in the running server; 
+unit and integration tests are run on pressing Enter in the command terminal; allows you to attach a debugger to the running server at any time to step through your code.
+    mvn liberty:dev
+[/]
 ## Specification examples
 
 [# th:if="${mp_JWT_auth}"]
