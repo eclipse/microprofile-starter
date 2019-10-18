@@ -44,3 +44,9 @@ crashlytics-build.properties
 # Arquillian  (warp)
 lib
 log.txt
+
+# projects
+.project
+.classpath
+.settings/
+.vscode
