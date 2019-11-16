@@ -151,7 +151,7 @@
                             </execution>
                         </executions>
                         <configuration>   
-                            <appArchive>${project.build.directory}/${final.name}.war</appArchive>
+                            <archive>${project.build.directory}/${final.name}.war</archive>
                             <include>runnable</include>
                             <serverName>${final.name}</serverName>
                             <bootstrapProperties>
