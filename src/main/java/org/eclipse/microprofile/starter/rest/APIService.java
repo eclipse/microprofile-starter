@@ -35,6 +35,7 @@ import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
 import org.eclipse.microprofile.starter.core.model.ModelManager;
 import org.eclipse.microprofile.starter.core.model.OptionValue;
 import org.eclipse.microprofile.starter.core.validation.PackageNameValidator;
+import org.eclipse.microprofile.starter.log.ErrorLogger;
 import org.eclipse.microprofile.starter.log.LoggingTask;
 import org.eclipse.microprofile.starter.rest.model.MPOptionsAvailable;
 import org.eclipse.microprofile.starter.rest.model.Project;
@@ -85,6 +86,9 @@ public class APIService {
 
     @Inject
     private PackageNameValidator packageNameValidator;
+
+    @Inject
+    private ErrorLogger errorLogger;
 
     @PostConstruct
     public void init() {
@@ -358,20 +362,29 @@ public class APIService {
         model.getOptions().put(BeansXMLMode.OptionName.NAME,
                 new OptionValue(BeansXMLMode.getValue(ed.getBeansxmlMode()).getMode()));
 
-        modelManager.prepareModel(model, false);
-        creator.createArtifacts(model);
+        try {
+            modelManager.prepareModel(model, false);
+            creator.createArtifacts(model);
 
-        byte[] archive = zipFileCreator.createArchive();
+            byte[] archive = zipFileCreator.createArchive();
 
-        String fileName = ed.getMavenData().getArtifactId() + ".zip";
+            String fileName = ed.getMavenData().getArtifactId() + ".zip";
 
-        return Response
-                .ok()
-                .tag(etag)
-                .header("Content-Length", archive.length)
-                .header("Content-Disposition", "attachment; filename=\"" + fileName + "\"")
-                .type("application/zip")
-                .entity(archive)
-                .build();
+            return Response
+                    .ok()
+                    .tag(etag)
+                    .header("Content-Length", archive.length)
+                    .header("Content-Disposition", "attachment; filename=\"" + fileName + "\"")
+                    .type("application/zip")
+                    .entity(archive)
+                    .build();
+        } catch (Throwable e) {
+            errorLogger.logError(e, model);
+            return Response
+                    .serverError()
+                    .type("")
+                    .entity("Unexpected error occurred; please file GitHub issue if problem persist. Error : " + e.getMessage())
+                    .build();
+        }
     }
 }
