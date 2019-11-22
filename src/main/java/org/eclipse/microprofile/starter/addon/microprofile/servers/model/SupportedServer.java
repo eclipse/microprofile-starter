@@ -56,7 +56,7 @@ public enum SupportedServer {
             )
     , KUMULUZEE("kumuluzEE", "KumuluzEE",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
-                    MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22)
+                    MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22, MicroProfileVersion.MP30)
             , "%s.jar" //jarFileName
             , "" //jarParameters // Hard coded in config.xml since we needed a specific version for secondary app.
             , "8080" //portServiceA
