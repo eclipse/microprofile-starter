@@ -22,6 +22,8 @@
  */
 package org.eclipse.microprofile.starter.core.model;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,7 +32,7 @@ public enum MicroProfileVersion {
     // Order is important as it determines the order in the Dropdown on the screen.
     // @formatter:off
     NONE(null, "")
-    , MP30("3.0", "MP 3.0")
+    , MP30("3.0", "MP 3.0", Collections.singletonList("mp3_0"))
     , MP22("2.2", "MP 2.2")
     , MP21("2.1", "MP 2.1")
     , MP20("2.0", "MP 2.0", "2.0.1")
@@ -48,6 +50,13 @@ public enum MicroProfileVersion {
         this.code = code;
         this.label = label;
         alternatives = new HashSet<>();
+        mavenVersion = code;
+    }
+
+    MicroProfileVersion(String code, String label, Collection<String> alternatives) {
+        this.code = code;
+        this.label = label;
+        this.alternatives = new HashSet<>(alternatives);
         mavenVersion = code;
     }
 

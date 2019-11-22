@@ -41,6 +41,7 @@ src/main/resources/files/securedURLs.ini.tpl
 src/main/resources/files/service-b/RestApplication.java.tpl
 src/main/resources/files/ServiceController.java.tpl
 src/main/resources/files/ServiceHealthCheck.java.tpl
+src/main/resources/files/mp3_0/ServiceHealthCheck.java.tpl
 src/main/resources/files/Service.java.tpl
 src/main/resources/files/TestSecureController.java.tpl
 src/main/resources/files/thorntail-v2/web.xml.tpl
