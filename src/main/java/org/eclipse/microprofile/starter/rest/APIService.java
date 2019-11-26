@@ -383,7 +383,7 @@ public class APIService {
             return Response
                     .serverError()
                     .type("")
-                    .entity("Unexpected error occurred; please file GitHub issue if problem persist. Error : " + e.getMessage())
+                    .entity("Unexpected error occurred; Please file a GitHub issue if the problem persists. Error : " + e.getMessage())
                     .build();
         }
     }

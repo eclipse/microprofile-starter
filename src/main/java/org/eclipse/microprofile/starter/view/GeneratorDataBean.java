@@ -207,7 +207,7 @@ public class GeneratorDataBean implements Serializable {
             download(zipFileCreator.createArchive());
         } catch (Throwable e) {
             errorLogger.logError(e, model);
-            String messageText = "Unexpected error occurred; please file GitHub issue if problem persist. Error : " + e.getMessage();
+            String messageText = "Unexpected error occurred; Please file a GitHub issue if the problem persists. Error : " + e.getMessage();
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, messageText, messageText);
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
