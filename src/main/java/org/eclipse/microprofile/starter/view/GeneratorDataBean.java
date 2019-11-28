@@ -27,7 +27,6 @@ import org.eclipse.microprofile.starter.ZipFileCreator;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
 import org.eclipse.microprofile.starter.core.artifacts.Creator;
-import org.eclipse.microprofile.starter.core.exception.JessieException;
 import org.eclipse.microprofile.starter.core.exception.JessieUnexpectedException;
 import org.eclipse.microprofile.starter.core.model.BeansXMLMode;
 import org.eclipse.microprofile.starter.core.model.JavaSEVersion;
@@ -37,6 +36,7 @@ import org.eclipse.microprofile.starter.core.model.JessieSpecification;
 import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
 import org.eclipse.microprofile.starter.core.model.ModelManager;
 import org.eclipse.microprofile.starter.core.model.OptionValue;
+import org.eclipse.microprofile.starter.log.ErrorLogger;
 import org.eclipse.microprofile.starter.log.LoggingTask;
 
 import javax.annotation.PostConstruct;
@@ -76,6 +76,9 @@ public class GeneratorDataBean implements Serializable {
 
     @Inject
     private Version version;
+
+    @Inject
+    private ErrorLogger errorLogger;
 
     @Resource
     private ManagedExecutorService managedExecutorService;
@@ -202,8 +205,9 @@ public class GeneratorDataBean implements Serializable {
             managedExecutorService.submit(new LoggingTask(engineData));
 
             download(zipFileCreator.createArchive());
-        } catch (JessieException e) {
-            String messageText = "Unexpected error occurred; please file GitHub issue if problem persist. Error : " + e.getMessage();
+        } catch (Throwable e) {
+            errorLogger.logError(e, model);
+            String messageText = "Unexpected error occurred; Please file a GitHub issue if the problem persists. Error : " + e.getMessage();
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, messageText, messageText);
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
