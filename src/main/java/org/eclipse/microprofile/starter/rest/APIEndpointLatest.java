@@ -92,8 +92,9 @@ public class APIEndpointLatest {
                                @QueryParam("artifactId") String artifactId,
                                @QueryParam("mpVersion") MicroProfileVersion mpVersion,
                                @QueryParam("javaSEVersion") JavaSEVersion javaSEVersion,
-                               @QueryParam("selectedSpecs") List<MicroprofileSpec> selectedSpecs) {
-        return api.getProject(ifNoneMatch, supportedServer, groupId, artifactId, mpVersion, javaSEVersion, selectedSpecs);
+                               @QueryParam("selectedSpecs") List<MicroprofileSpec> selectedSpecs,
+                               @QueryParam("selectAllSpecs") boolean selectAllSpecs) {
+        return api.getProject(ifNoneMatch, supportedServer, groupId, artifactId, mpVersion, javaSEVersion, selectedSpecs, selectAllSpecs);
     }
 
     @Path("/project")

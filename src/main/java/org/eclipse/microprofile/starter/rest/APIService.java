@@ -228,12 +228,12 @@ public class APIService {
         return Response.ok(mpvToOptions.get(mpVersion)).build();
     }
 
-    public Response getProject(String ifNoneMatch,
-                               SupportedServer supportedServer,
-                               String groupId, String artifactId,
-                               MicroProfileVersion mpVersion,
-                               JavaSEVersion javaSEVersion,
-                               List<MicroprofileSpec> selectedSpecs) {
+    public Response getProjectV1(String ifNoneMatch,
+                                 SupportedServer supportedServer,
+                                 String groupId, String artifactId,
+                                 MicroProfileVersion mpVersion,
+                                 JavaSEVersion javaSEVersion,
+                                 List<MicroprofileSpec> selectedSpecs) {
         Project project = new Project();
         project.setSupportedServer(supportedServer);
         project.setGroupId(groupId);
@@ -241,11 +241,82 @@ public class APIService {
         project.setMpVersion(mpVersion);
         project.setJavaSEVersion(javaSEVersion);
         project.setSelectedSpecs(selectedSpecs);
+
+        setDefaultsV1(project);
+
+        return processProject(ifNoneMatch, project);
+    }
+
+    public Response getProjectV1(String ifNoneMatch, Project body) {
+        setDefaultsV1(body);
+        return processProject(ifNoneMatch, body);
+    }
+
+    public Response getProject(String ifNoneMatch,
+                               SupportedServer supportedServer,
+                               String groupId, String artifactId,
+                               MicroProfileVersion mpVersion,
+                               JavaSEVersion javaSEVersion,
+                               List<MicroprofileSpec> selectedSpecs,
+                               boolean selectAllSpecs) {
+        Project project = new Project();
+        project.setSupportedServer(supportedServer);
+        project.setGroupId(groupId);
+        project.setArtifactId(artifactId);
+        project.setMpVersion(mpVersion);
+        project.setJavaSEVersion(javaSEVersion);
+        project.setSelectedSpecs(selectedSpecs);
+        project.setSelectAllSpecs(selectAllSpecs);
+
+        setDefaults(project);
+
         return processProject(ifNoneMatch, project);
     }
 
     public Response getProject(String ifNoneMatch, Project body) {
+        setDefaults(body);
         return processProject(ifNoneMatch, body);
+    }
+
+    private void setDefaultsV1(Project p) {
+        if (StringUtils.isBlank(p.getGroupId())) {
+            p.setGroupId(EngineData.DEFAULT_GROUP_ID);
+        }
+        if (StringUtils.isBlank(p.getArtifactId())) {
+            p.setArtifactId(EngineData.DEFAULT_ARTIFACT_ID);
+        }
+        if (p.getMpVersion() == null || p.getMpVersion() == MicroProfileVersion.NONE) {
+            p.setMpVersion(
+                    p.getSupportedServer().getMpVersions().get(p.getSupportedServer().getMpVersions().size() - 1));
+        }
+        if (p.getJavaSEVersion() == null || p.getJavaSEVersion() == JavaSEVersion.NONE) {
+            p.setJavaSEVersion(EngineData.DEFAULT_JAVA_SE_VERSION);
+        }
+        if (p.getSelectedSpecs() == null || p.getSelectedSpecs().isEmpty()) {
+            p.setSelectedSpecs(mpvToOptions.get(p.getMpVersion()).getSpecs());
+        }
+    }
+
+    private void setDefaults(Project p) {
+        if (StringUtils.isBlank(p.getGroupId())) {
+            p.setGroupId(EngineData.DEFAULT_GROUP_ID);
+        }
+        if (StringUtils.isBlank(p.getArtifactId())) {
+            p.setArtifactId(EngineData.DEFAULT_ARTIFACT_ID);
+        }
+        if (p.getMpVersion() == null || p.getMpVersion() == MicroProfileVersion.NONE) {
+            p.setMpVersion(
+                    p.getSupportedServer().getMpVersions().get(p.getSupportedServer().getMpVersions().size() - 1));
+        }
+        if (p.getJavaSEVersion() == null || p.getJavaSEVersion() == JavaSEVersion.NONE) {
+            p.setJavaSEVersion(EngineData.DEFAULT_JAVA_SE_VERSION);
+        }
+        if (p.getSelectedSpecs() == null) {
+            p.setSelectedSpecs(Collections.emptyList());
+        }
+        if (p.getSelectedSpecs().isEmpty() && p.isSelectAllSpecs()) {
+            p.setSelectedSpecs(mpvToOptions.get(p.getMpVersion()).getSpecs());
+        }
     }
 
     private Response validate(Project p) {
@@ -257,10 +328,6 @@ public class APIService {
                     .header("Content-Disposition", "attachment; filename=\"error.json\"")
                     .build();
         }
-
-        if (StringUtils.isBlank(p.getGroupId())) {
-            p.setGroupId(EngineData.DEFAULT_GROUP_ID);
-        }
         if (!packageNameValidator.isValidPackageName(p.getGroupId())) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity(ERROR004)
@@ -268,9 +335,6 @@ public class APIService {
                     .header("Content-Length", ERROR004.length())
                     .header("Content-Disposition", "attachment; filename=\"error.json\"")
                     .build();
-        }
-        if (StringUtils.isBlank(p.getArtifactId())) {
-            p.setArtifactId(EngineData.DEFAULT_ARTIFACT_ID);
         }
         if (!packageNameValidator.isValidPackageName(p.getArtifactId())) {
             return Response.status(Response.Status.BAD_REQUEST)
@@ -280,10 +344,6 @@ public class APIService {
                     .header("Content-Disposition", "attachment; filename=\"error.json\"")
                     .build();
         }
-        if (p.getMpVersion() == null || p.getMpVersion() == MicroProfileVersion.NONE) {
-            p.setMpVersion(
-                    p.getSupportedServer().getMpVersions().get(p.getSupportedServer().getMpVersions().size() - 1));
-        }
         if (!mpvToOptions.get(p.getMpVersion()).getSupportedServers().contains(p.getSupportedServer())) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .type("application/json")
@@ -291,12 +351,6 @@ public class APIService {
                     .header("Content-Disposition", "attachment; filename=\"error.json\"")
                     .entity(ERROR002)
                     .build();
-        }
-        if (p.getJavaSEVersion() == null || p.getJavaSEVersion() == JavaSEVersion.NONE) {
-            p.setJavaSEVersion(EngineData.DEFAULT_JAVA_SE_VERSION);
-        }
-        if (p.getSelectedSpecs() == null || p.getSelectedSpecs().isEmpty()) {
-            p.setSelectedSpecs(mpvToOptions.get(p.getMpVersion()).getSpecs());
         }
         if (!mpvToOptions.get(p.getMpVersion()).getSpecs().containsAll(p.getSelectedSpecs())) {
             return Response.status(Response.Status.BAD_REQUEST)
@@ -324,7 +378,6 @@ public class APIService {
     }
 
     private Response processProject(String ifNoneMatch, Project p) {
-
         Response validatorResponse = validate(p);
         if (validatorResponse.getStatusInfo() != Response.Status.OK) {
             return validatorResponse;

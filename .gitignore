@@ -50,3 +50,5 @@ log.txt
 .classpath
 .settings/
 .vscode
+download.sh
+.checkstyle
