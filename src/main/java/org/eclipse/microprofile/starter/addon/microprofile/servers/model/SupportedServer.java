@@ -48,7 +48,7 @@ public enum SupportedServer {
     , LIBERTY("liberty", "Open Liberty",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22,
-                    MicroProfileVersion.MP30)
+                    MicroProfileVersion.MP30, MicroProfileVersion.MP32)
             , "%s.jar" //jarFileName
             , "" //jarParameters // Hard coded in server.xml since no way of overriding a default.
             , "8181" //portServiceA
@@ -64,7 +64,8 @@ public enum SupportedServer {
             )
     , PAYARA_MICRO("payara-micro", "Payara Micro",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
-                    MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22)
+                    MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22
+                    , MicroProfileVersion.MP32)
             , "%s-microbundle.jar" //jarFileName
             , "--port 8180" //jarParameters
             , "8080" //portServiceA
@@ -79,7 +80,8 @@ public enum SupportedServer {
             , "8180" //portServiceB // This need to match with Port value from TomeeServer.adjustPOM
             )
     , HELIDON("helidon", "Helidon",
-            Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP22, MicroProfileVersion.MP30)
+            Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP22, MicroProfileVersion.MP30
+                    , MicroProfileVersion.MP32)
             , "%s.jar" //jarFileName
             , "" //jarParameters // Done by secondary/helidon/microprofile-config.properties
             , "8080" //portServiceA
