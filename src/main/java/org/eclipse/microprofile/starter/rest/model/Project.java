@@ -27,7 +27,9 @@ import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
 import java.util.List;
 import java.util.Objects;
 
-
+/**
+ * @author Michal Karm Babacek <karm@redhat.com>
+ */
 public class Project {
     private String groupId = null;
     private String artifactId = null;
@@ -35,6 +37,7 @@ public class Project {
     private JavaSEVersion javaSEVersion = null;
     private SupportedServer supportedServer = null;
     private List<MicroprofileSpec> selectedSpecs = null;
+    private boolean selectAllSpecs = false;
 
     public String getGroupId() {
         return groupId;
@@ -84,6 +87,14 @@ public class Project {
         this.selectedSpecs = selectedSpecs;
     }
 
+    public boolean isSelectAllSpecs() {
+        return selectAllSpecs;
+    }
+
+    public void setSelectAllSpecs(boolean selectAllSpecs) {
+        this.selectAllSpecs = selectAllSpecs;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -98,11 +109,12 @@ public class Project {
                 mpVersion == project.mpVersion &&
                 javaSEVersion == project.javaSEVersion &&
                 supportedServer == project.supportedServer &&
+                selectAllSpecs == project.selectAllSpecs &&
                 Objects.equals(selectedSpecs, project.selectedSpecs);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(groupId, artifactId, mpVersion, javaSEVersion, supportedServer, selectedSpecs);
+        return Objects.hash(groupId, artifactId, mpVersion, javaSEVersion, supportedServer, selectedSpecs, selectAllSpecs);
     }
 }

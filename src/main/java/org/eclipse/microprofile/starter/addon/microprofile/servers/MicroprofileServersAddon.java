@@ -29,6 +29,7 @@ import org.eclipse.microprofile.starter.core.artifacts.MavenCreator;
 import org.eclipse.microprofile.starter.core.exception.JessieConfigurationException;
 import org.eclipse.microprofile.starter.core.exception.JessieUnexpectedException;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
+import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
 import org.eclipse.microprofile.starter.core.model.OptionValue;
 import org.eclipse.microprofile.starter.spi.MavenHelper;
 
@@ -204,7 +205,12 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
             String healthDirectory = model.getDirectory(true) + "/" + rootJava + "/health";
             directoryCreator.createDirectory(healthDirectory);
 
-            processTemplateFile(healthDirectory, "ServiceHealthCheck.java", alternatives, variables);
+            if (alternatives.contains(MicroProfileVersion.Constants.MP3X_ALTERNATIVE)) {
+                processTemplateFile(healthDirectory, "ServiceLiveHealthCheck.java", alternatives, variables);
+                processTemplateFile(healthDirectory, "ServiceReadyHealthCheck.java", alternatives, variables);
+            } else {
+                processTemplateFile(healthDirectory, "ServiceHealthCheck.java", alternatives, variables);
+            }
         }
 
         if (microprofileSpecs.contains(MicroprofileSpec.CONFIG)) {

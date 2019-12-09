@@ -22,6 +22,8 @@
  */
 package org.eclipse.microprofile.starter.core.model;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,7 +33,7 @@ public enum MicroProfileVersion {
     // @formatter:off
     NONE(null, "")
     , MP32("3.2", "MP 3.2")
-    , MP30("3.0", "MP 3.0")
+    , MP30("3.0", "MP 3.0", Collections.singletonList(Constants.MP3X_ALTERNATIVE))
     , MP22("2.2", "MP 2.2")
     , MP21("2.1", "MP 2.1")
     , MP20("2.0", "MP 2.0", "2.0.1")
@@ -49,6 +51,13 @@ public enum MicroProfileVersion {
         this.code = code;
         this.label = label;
         alternatives = new HashSet<>();
+        mavenVersion = code;
+    }
+
+    MicroProfileVersion(String code, String label, Collection<String> alternatives) {
+        this.code = code;
+        this.label = label;
+        this.alternatives = new HashSet<>(alternatives);
         mavenVersion = code;
     }
 
@@ -82,5 +91,9 @@ public enum MicroProfileVersion {
             }
         }
         return result;
+    }
+
+    public static class Constants {
+        public static final String MP3X_ALTERNATIVE = "mp3_x";
     }
 }
