@@ -32,6 +32,7 @@ public enum MicroProfileVersion {
     // Order is important as it determines the order in the Dropdown on the screen.
     // @formatter:off
     NONE(null, "")
+    , MP32("3.2", "MP 3.2", Collections.singletonList(Constants.MP3X_ALTERNATIVE))
     , MP30("3.0", "MP 3.0", Collections.singletonList(Constants.MP3X_ALTERNATIVE))
     , MP22("2.2", "MP 2.2")
     , MP21("2.1", "MP 2.1")

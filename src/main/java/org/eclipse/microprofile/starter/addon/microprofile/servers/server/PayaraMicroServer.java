@@ -72,6 +72,9 @@ public class PayaraMicroServer extends AbstractMicroprofileAddon {
 
             case NONE:
                 break;
+            case MP32:
+                payaraVersion = "5.194";
+                break;
             case MP22:
                 payaraVersion = "5.192";
                 break;
