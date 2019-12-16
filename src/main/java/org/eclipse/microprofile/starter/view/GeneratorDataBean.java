@@ -88,6 +88,7 @@ public class GeneratorDataBean implements Serializable {
     private List<SelectItem> supportedServerItems;
     private List<String> selectedSpecs = new ArrayList<>();
     private List<SelectItem> specs;
+    private boolean javaSEEnabled = false;
 
     @PostConstruct
     public void init() {
@@ -99,6 +100,7 @@ public class GeneratorDataBean implements Serializable {
         MicroProfileVersion version = MicroProfileVersion.valueFor(engineData.getMpVersion());
         defineExampleSpecs(version);
         defineSupportedServerItems(version);
+        defineJavaSEVersionEnabled();
     }
 
     public void onMPRuntimeSelected() {
@@ -107,6 +109,23 @@ public class GeneratorDataBean implements Serializable {
             onMPVersionSelected();  // So that example specs are filled and shown on screen.
             // This also limit the supportedServers as the MPVersion is now filled with a value.
         }
+        defineJavaSEVersionEnabled();
+    }
+
+    private void defineJavaSEVersionEnabled() {
+        javaSEEnabled = false;
+        if (engineData.getMpVersion() != null && engineData.getSupportedServer() != null) {
+            SupportedServer supportedServer = SupportedServer.valueFor(engineData.getSupportedServer());
+            MicroProfileVersion mpVersion = MicroProfileVersion.valueFor(engineData.getMpVersion());
+            javaSEEnabled = isSameOrMoreRecentVersion(supportedServer.getFirstJava11SupportedVersion(), mpVersion);
+        }
+    }
+
+    private boolean isSameOrMoreRecentVersion(MicroProfileVersion firstJava11SupportedVersion, MicroProfileVersion mpVersion) {
+        if (firstJava11SupportedVersion == null) {
+            return false;  // No Java 11 support for Implementation defined.
+        }
+        return firstJava11SupportedVersion.ordinal() >= mpVersion.ordinal();
     }
 
     private void defineMPVersionValue() {
@@ -143,7 +162,16 @@ public class GeneratorDataBean implements Serializable {
                 supportedServerItems.add(new SelectItem(supportedServer.getCode(), supportedServer.getDisplayName()));
             }
         }
+        if (!supportedServerListContainsCurrentSelection()) {
+            engineData.setSupportedServer(null);
+        }
         randomizeSupportedServers();
+    }
+
+    private boolean supportedServerListContainsCurrentSelection() {
+        return supportedServerItems.stream()
+                .map(SelectItem::getValue)
+                .anyMatch(s -> s.equals(engineData.getSupportedServer()));
     }
 
     private void randomizeSupportedServers() {
@@ -267,5 +295,9 @@ public class GeneratorDataBean implements Serializable {
 
     public void unselectAll() {
         selectedSpecs.clear();
+    }
+
+    public boolean getJavaSEEnabled() {
+        return javaSEEnabled;
     }
 }

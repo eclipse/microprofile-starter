@@ -92,11 +92,11 @@
                                  styleClass="ui-panelgrid-blank ui-fluid">
                         <p:selectOneMenu id="mpVersion" value="#{generatorDataBean.engineData.mpVersion}">
                             <f:selectItems value="${dataBean.mpItems}"/>
-                            <p:ajax listener="#{generatorDataBean.onMPVersionSelected}" update="options"/>
+                            <p:ajax listener="#{generatorDataBean.onMPVersionSelected}" update="options, javaSEVersion"/>
                         </p:selectOneMenu>
 
                         <p:selectOneMenu id="javaSEVersion" value="#{generatorDataBean.engineData.javaSEVersion}"
-                                         disabled="true">
+                                         disabled="#{not generatorDataBean.javaSEEnabled}">
                             <f:selectItems value="${dataBean.javaSEItems}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
@@ -116,7 +116,7 @@
                                              required="true">
                                 <f:selectItem/>
                                 <f:selectItems value="${generatorDataBean.supportedServerItems}"/>
-                                <p:ajax listener="#{generatorDataBean.onMPRuntimeSelected}" update="options, mpVersion"/>
+                                <p:ajax listener="#{generatorDataBean.onMPRuntimeSelected}" update="options, mpVersion, javaSEVersion"/>
                             </p:selectOneMenu>
                         </p:panelGrid>
                         <h:panelGroup>
