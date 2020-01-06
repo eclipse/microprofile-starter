@@ -53,8 +53,8 @@ public enum SupportedServer {
                     MicroProfileVersion.MP30, MicroProfileVersion.MP32)
             , "%s.jar" //jarFileName
             , "" //jarParameters // Hard coded in server.xml since no way of overriding a default.
-            , "8181" //portServiceA
-            , "8281" //portServiceB
+            , "9080" //portServiceA
+            , "9081" //portServiceB
             , MicroProfileVersion.MP30 // MP Spec for Java 11 support
             )
     , KUMULUZEE("kumuluzEE", "KumuluzEE",

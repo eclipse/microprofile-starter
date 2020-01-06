@@ -7,7 +7,7 @@
 
     <httpEndpoint id="defaultHttpEndpoint"
                   httpPort="[# th:text="${port_service_b}"/]"
-                  httpsPort="8643"/>
+                  httpsPort="9444"/>
 
     <webApplication location="${project.name}.war" contextRoot="/"/>
     <mpMetrics authentication="false"/>
