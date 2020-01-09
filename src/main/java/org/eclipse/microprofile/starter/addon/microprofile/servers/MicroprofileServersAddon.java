@@ -132,7 +132,7 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
         // From MP 3.2 on with Helidon, one of the Maven deps changed
         // So I created a new profile with correct naming.  The solution with the MP version in the profile name is not really useful in this case
         // since it will be for several MP releases.
-        if ("helidon".equals(serverName) && model.getSpecification().getMicroProfileVersion() == MicroProfileVersion.MP32) {
+        if ("helidon".equals(serverName) && model.getSpecification().getMicroProfileVersion().ordinal() <= MicroProfileVersion.MP32.ordinal()) {
             serverName = "helidon2";
         }
         String profileName = serverName + "-" + model.getSpecification().getMicroProfileVersion().getCode();
