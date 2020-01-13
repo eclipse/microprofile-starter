@@ -10,6 +10,10 @@ Live tool at [MicroProfile starter - Generate MicroProfile Maven Project](https:
 
 See [documentation](./src/main/resources/REST-README.md).
 
+## Procedures around PRs and releases
+
+See [documentation](./releasing.md).
+
 ## When can an implementation be added to the MicroProfile Tool
 
 Pre-requisites to be added as an implementation:
