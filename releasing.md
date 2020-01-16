@@ -1,4 +1,4 @@
-# Procedures around PRs and releases
+# Procedures around Pull Requests (PRs) and releases
 
 ## General
 
@@ -29,6 +29,8 @@ Releases on the [test site](https://test-start.microprofile.io/) are performed a
 ## Releases on production
 
 Releasing on production requires a manual step and can only be performed by those who have the SSH key for the production machine.
+
+The following commands will build and release to production the currently checked-out tag of the MicroProfile Starter:
 
 - mvn package -Pthorntail
 - unzip target/mp-starter-hollow-thorntail.jar -d target/mp-starter-hollow-thorntail
