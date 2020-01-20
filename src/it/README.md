@@ -50,9 +50,9 @@ Last but not least, build and runtime logs are checked for errors. See Whitelist
 
 At the very end of the execution, application(s) are terminated. There is also a loop that waits for a TCP socket to die.
 # Platforms
-The TS was tested on OenJDK Java 11 J9, on Linux. It is aiming at being portable to Windows, e.g. ```powershell``` is used
-instead of ```unzip``` and ```taskkill``` instead of ```kill```, but it was not tested on Windows yet. If you are running the TS on Mac,
-make sure your ```unzip``` can work with the arguments TS supplies or open a PR.
+The TS was tested on OpenJDK Java 11 J9 and HotSpot on Linux and with OpenJDK 11 HotSpot on Windows. With Windows,  ```powershell``` is used
+instead of ```unzip``` and ```taskkill``` instead of ```kill```. There is also some ```wmic``` heuristics to clean hanging processes.
+If you are running the TS on Mac, make sure your ```unzip``` can work with the arguments TS supplies or open a PR.
 
 # Logging and logs
 All logs are archived in ```target/archived-logs```. If a build or a server runtime fails, 
@@ -84,6 +84,10 @@ Run some tests for a specific runtime only:
 Debug a single test:
 
     mvn -DfoforkCount=0 -Dmaven.surefire.debug clean verify -Pthorntail -Dtest=TestMatrixTest#tomeeAll -Dskip.integration.tests=false -DSTARTER_TS_WORKSPACE=/dev/shm/
+    
+Starting on Windows, e.g.:
+
+    mvn clean verify -Pthorntail -Dskip.integration.tests=false -DSTARTER_TS_WORKSPACE=C:\tmp\
 
 Note that if you don't specify STARTER_TS_WORKSPACE, the fallback is whatever ```java.io.tmpdir``` returns on your system.
 
