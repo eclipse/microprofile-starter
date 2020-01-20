@@ -1,1 +1,1 @@
-document.getElementById("REST").innerHTML = "REST API: $ curl  '"+window.location.protocol+"//"+window.location.host+"/api'";
+document.getElementById("REST").innerHTML = "Command line: curl '"+window.location.protocol+"//"+window.location.host+"/api'";
