@@ -40,4 +40,4 @@ The following commands will build and release to production the currently checke
 - Edit image version within _docker-compose.yml_ file at aws-microstarter server (match with the one you have pushed)
 - Restart Docker container ( ssh -i <<rsa-key-location>> ec2-user@aws-microstarter "sudo systemctl restart docker-compose@start.microprofile.io")
 
- 
+The version _1.0_ will follow the semantic versioning rules for future releases.
