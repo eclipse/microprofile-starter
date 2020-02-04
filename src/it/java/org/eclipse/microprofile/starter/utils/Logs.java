@@ -38,8 +38,6 @@ import static org.junit.Assert.assertFalse;
 public class Logs {
     private static final Logger LOGGER = Logger.getLogger(Logs.class.getName());
 
-    public static final String S = File.separator;
-
     public static void checkLog(String testClass, String testMethod, String logname, File log) throws FileNotFoundException {
         String[] whiteList;
         if (testMethod.contains(Whitelist.THORNTAIL_V2.name)) {
@@ -73,7 +71,7 @@ public class Logs {
                     }
                 }
                 assertFalse(logname + " should not contain `ERROR' lines that are not whitelisted. " +
-                                "See target" + S + "archived-logs" + S + testClass + S + testMethod + S + log.getName() + "",
+                                "See target" + File.separator + "archived-logs" + File.separator + testClass + File.separator + testMethod + File.separator + log.getName() + "",
                         error && !whiteListed);
             }
         }
@@ -90,7 +88,7 @@ public class Logs {
         if (StringUtils.isBlank(testMethod)) {
             throw new IllegalArgumentException("testMethod must not be blank");
         }
-        Path destDir = new File(System.getProperties().get("basedir") + S + "target" + S + "archived-logs" + S + testClass + S + testMethod).toPath();
+        Path destDir = new File(System.getProperties().get("basedir") + File.separator + "target" + File.separator + "archived-logs" + File.separator + testClass + File.separator + testMethod).toPath();
         Files.createDirectories(destDir);
         String filename = log.getName();
         Files.copy(log.toPath(), Paths.get(destDir.toString(), filename));

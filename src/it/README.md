@@ -50,9 +50,8 @@ Last but not least, build and runtime logs are checked for errors. See Whitelist
 
 At the very end of the execution, application(s) are terminated. There is also a loop that waits for a TCP socket to die.
 # Platforms
-The TS was tested on OpenJDK Java 11 J9 and HotSpot on Linux and with OpenJDK 11 HotSpot on Windows. With Windows,  ```powershell``` is used
+The TS was tested on OpenJDK Java 11 J9 and HotSpot on Linux and with OpenJDK 11 HotSpot on Windows. It also works on Mac OS. With Windows,  ```powershell``` is used
 instead of ```unzip``` and ```taskkill``` instead of ```kill```. There is also some ```wmic``` heuristics to clean hanging processes.
-If you are running the TS on Mac, make sure your ```unzip``` can work with the arguments TS supplies or open a PR.
 
 # Logging and logs
 All logs are archived in ```target/archived-logs```. If a build or a server runtime fails, 

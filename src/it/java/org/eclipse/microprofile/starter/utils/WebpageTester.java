@@ -50,14 +50,15 @@ public class WebpageTester {
         if (timeoutS < 0) {
             throw new IllegalArgumentException("timeoutS must be positive");
         }
-        if (stringToLookFor == null ||
-                StringUtils.isBlank(stringToLookFor)) {
+        if (StringUtils.isBlank(stringToLookFor)) {
             throw new IllegalArgumentException("stringToLookFor must contain a non-empty string");
         }
         String webPage = "";
         long now = System.currentTimeMillis();
         long startTime = now;
         boolean found = false;
+        // Some runtimes give you HTTP 404 or even HTTP 200 with empty response
+        // the very moment the web app is being deployed. We patiently wait for the correct result here.
         while (now - startTime < 1000 * timeoutS) {
             URLConnection c = new URL(url).openConnection();
             // Server returned HTTP response code: 406 for URL: http://localhost:8080/metrics

@@ -1,8 +1,10 @@
 package org.eclipse.microprofile.starter.readmeparser;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -68,7 +70,12 @@ public class ReadmeParserTest {
             );
 
             boolean isServiceA = f.contains("-a-");
-            String[][] buildCmdRunCmdWebAddr = parseReadme(readme, isServiceA);
+            String[][] buildCmdRunCmdWebAddr = new String[0][];
+            try {
+                buildCmdRunCmdWebAddr = parseReadme(readme, isServiceA);
+            } catch (FileNotFoundException e) {
+                Assert.fail(e.getMessage());
+            }
 
             assertArrayEquals("Build command parsing failed. Expected: " +
                     Arrays.toString(c[0]) + ", Was:" + Arrays.toString(buildCmdRunCmdWebAddr[0]), c[0], buildCmdRunCmdWebAddr[0]);

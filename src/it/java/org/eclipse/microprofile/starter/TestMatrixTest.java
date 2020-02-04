@@ -49,7 +49,6 @@ import static org.eclipse.microprofile.starter.utils.Commands.getWorkspaceDir;
 import static org.eclipse.microprofile.starter.utils.Commands.processStopper;
 import static org.eclipse.microprofile.starter.utils.Commands.runCommand;
 import static org.eclipse.microprofile.starter.utils.Commands.unzip;
-import static org.eclipse.microprofile.starter.utils.Logs.S;
 import static org.eclipse.microprofile.starter.utils.Logs.archiveLog;
 import static org.eclipse.microprofile.starter.utils.Logs.checkLog;
 import static org.eclipse.microprofile.starter.utils.ReadmeParser.parseReadme;
@@ -103,7 +102,7 @@ public class TestMatrixTest {
 
             // Download
             LOGGER.info("Downloading...");
-            String location = TMP + S + artifactId + ".zip";
+            String location = TMP + File.separator + artifactId + ".zip";
             download(client, supportedServer, artifactId, specSelection, location);
 
             // Unzip
@@ -114,21 +113,21 @@ public class TestMatrixTest {
             File directoryB = null;
             String[][] buildCmdRunCmd = null;
             if (specSelection.hasServiceB) {
-                directoryA = new File(TMP + S + artifactId + S + "service-a" + S);
-                directoryB = new File(TMP + S + artifactId + S + "service-b" + S);
+                directoryA = new File(TMP + File.separator + artifactId + File.separator + "service-a" + File.separator);
+                directoryB = new File(TMP + File.separator + artifactId + File.separator + "service-b" + File.separator);
                 File readmeB = new File(directoryB, "readme.md");
                 buildCmdRunCmd = parseReadme(readmeB, false);
             } else {
-                directoryA = new File(TMP + S + artifactId + S);
+                directoryA = new File(TMP + File.separator + artifactId + File.separator);
             }
             File readmeA = new File(directoryA, "readme.md");
             String[][] buildCmdRunCmdWebAddr = parseReadme(readmeA, true);
 
             // Build
             LOGGER.info("Build might take many minutes if the whole Internet is being downloaded.");
-            buildLogA = new File(directoryA.getAbsolutePath() + S + directoryA.getName() + "-build.log");
+            buildLogA = new File(directoryA.getAbsolutePath() + File.separator + directoryA.getName() + "-build.log");
             if (specSelection.hasServiceB) {
-                buildLogB = new File(directoryB.getAbsolutePath() + S + directoryB.getName() + "-build.log");
+                buildLogB = new File(directoryB.getAbsolutePath() + File.separator + directoryB.getName() + "-build.log");
             }
             ExecutorService buildService = Executors.newFixedThreadPool(2);
             buildService.submit(new Commands.ProcessRunner(directoryA, buildLogA, buildCmdRunCmdWebAddr[0], 20));
@@ -147,10 +146,10 @@ public class TestMatrixTest {
 
             // Run Service A (and Service B)
             LOGGER.info("Running...");
-            runLogA = new File(directoryA.getAbsolutePath() + S + directoryA.getName() + "-run.log");
+            runLogA = new File(directoryA.getAbsolutePath() + File.separator + directoryA.getName() + "-run.log");
             pA = runCommand(buildCmdRunCmdWebAddr[1], directoryA, runLogA);
             if (specSelection.hasServiceB) {
-                runLogB = new File(directoryB.getAbsolutePath() + S + directoryB.getName() + "-run.log");
+                runLogB = new File(directoryB.getAbsolutePath() + File.separator + directoryB.getName() + "-run.log");
                 pB = runCommand(buildCmdRunCmd[1], directoryB, runLogB);
             }
 
@@ -202,9 +201,9 @@ public class TestMatrixTest {
 
             LOGGER.info("Terminate and scan logs...");
             // This is a move that makes it flush on my Linux x86_64 OpenJDK J9/HotSpot 11. Does no harm on Win.
-            int bytes = pA.getInputStream().available();
+            pA.getInputStream().available();
             if (specSelection.hasServiceB) {
-                bytes = pB.getInputStream().available();
+                pB.getInputStream().available();
             }
 
             processStopper(pA, artifactId);
@@ -218,10 +217,12 @@ public class TestMatrixTest {
             }
             LOGGER.info("Gonna wait for ports closed...");
             // Release ports
-            Commands.waitForTcpClosed("localhost", Commands.parsePort(urlBase), 60);
+            assertTrue("Main ports are still open",
+                    Commands.waitForTcpClosed("localhost", Commands.parsePort(urlBase), 60));
             if (additionalPotsToCheck != null) {
                 for (int port : additionalPotsToCheck) {
-                    Commands.waitForTcpClosed("localhost", port, 30);
+                    assertTrue("Ports are still open",
+                            Commands.waitForTcpClosed("localhost", port, 30));
                 }
             }
         } finally {

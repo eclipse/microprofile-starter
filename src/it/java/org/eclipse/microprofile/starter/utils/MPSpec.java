@@ -33,6 +33,8 @@ public enum MPSpec {
     FAULT_TOLERANCE(new String[][]{
             new String[]{"data/resilience", "Fallback answer due to timeout"}
     }),
+    // Note that there are runtimes ATTOW, such as Tomee, that do not do latest MP spec
+    //  and thus cannot do /health/ready endpoint. We stick to the largest common denominator here.
     HEALTH_CHECKS(new String[][]{
             new String[]{"health", "\"UP\""}
     }),

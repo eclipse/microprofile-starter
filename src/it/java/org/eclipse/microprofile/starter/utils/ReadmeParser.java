@@ -19,8 +19,6 @@
  */
 package org.eclipse.microprofile.starter.utils;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -29,7 +27,7 @@ import java.util.Scanner;
  * @author Michal Karm Babacek <karm@redhat.com>
  */
 public class ReadmeParser {
-    public static String[][] parseReadme(File readme, boolean isServiceA) {
+    public static String[][] parseReadme(File readme, boolean isServiceA) throws FileNotFoundException {
         String[] buildCommand = null;
         String[] runCommand = null;
         String[] webAddress = null;
@@ -40,25 +38,19 @@ public class ReadmeParser {
                 }
                 String line = sc.nextLine();
                 if (buildCommand == null && line.startsWith("    mvn")) {
-                    buildCommand = splitBySpace(line);
+                    buildCommand = line.trim().split(" ");
                 }
                 if (runCommand == null && line.startsWith("    java")) {
-                    runCommand = splitBySpace(line);
+                    runCommand = line.trim().split(" ");
                 }
                 if (webAddress == null && isServiceA && line.startsWith("    http://")) {
-                    webAddress = splitBySpace(line);
+                    webAddress = line.trim().split(" ");
                 }
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
         if (isServiceA) {
             return new String[][]{buildCommand, runCommand, webAddress};
         }
         return new String[][]{buildCommand, runCommand};
-    }
-
-    private static String[] splitBySpace(String line) {
-        return StringUtils.trim(line).split(" ");
     }
 }

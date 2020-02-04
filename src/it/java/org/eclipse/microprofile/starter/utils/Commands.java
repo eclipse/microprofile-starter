@@ -44,7 +44,6 @@ import java.util.logging.Logger;
 
 import static org.eclipse.microprofile.starter.TestMatrixTest.API_URL;
 import static org.eclipse.microprofile.starter.TestMatrixTest.TMP;
-import static org.eclipse.microprofile.starter.utils.Logs.S;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -89,7 +88,7 @@ public class Commands {
         Map<String, String> env = pb.environment();
         env.put("PATH", System.getenv("PATH"));
         pb.directory(new File(TMP));
-        File unzipLog = new File(TMP + S + artifactId + "-unzip.log");
+        File unzipLog = new File(TMP + File.separator + artifactId + "-unzip.log");
         pb.redirectErrorStream(true);
         pb.redirectOutput(ProcessBuilder.Redirect.to(unzipLog));
         Process p = pb.start();
@@ -98,13 +97,18 @@ public class Commands {
         return unzipLog;
     }
 
+    /**
+     * Does not fail the TS. Makes best effort to clean up.
+     * @param artifactId by convention, this is a filename friendly name of the server
+     */
     public static void cleanWorkspace(String artifactId) {
-        String path = TMP + S + artifactId;
+        String path = TMP + File.separator + artifactId;
         try {
             FileUtils.deleteDirectory(new File(path));
         } catch (IOException e) {
             // Silence is golden
         }
+        // onExit covers corner cases on Windows if a fd lock is held
         (new File(path + ".zip")).deleteOnExit();
         (new File(path + "-unzip.log")).deleteOnExit();
         (new File(path + ".zip")).delete();
