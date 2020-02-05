@@ -23,13 +23,14 @@
 
 [# th:if="${mp_health_checks}"]
 <h3>Health</h3>
-<a href="data/health" target="_blank" >Health status (with custom status ServiceHealthCheck)</a> <br/>
+<a href="health/live" target="_blank" >Health (Live) status (with custom status)</a> <br/>
+<a href="health/ready" target="_blank" >Health (Ready) status (with custom status)</a> <br/>
 [/]
 
 [# th:if="${mp_metrics}"]
 <h3>Metrics</h3>
 <a href="data/metric/timed" target="_blank" >Timed endpoint</a> <br/>
-<a href="data/metrics" target="_blank" >Metrics page</a> <br/>
+<a href="metrics" target="_blank" >Metrics page</a> <br/>
 [/]
 
 [# th:if="${mp_JWT_auth}"]
@@ -39,12 +40,12 @@
 
 [# th:if="${mp_open_API}"]
 <h3>Open API</h3>
-<a href="data/openapi" target="_blank" >Open API Documentation</a> <br/>
+<a href="openapi" target="_blank" >Open API Documentation</a> <br/>
 [/]
 
 [# th:if="${mp_open_tracing}"]
 <h3>Open Tracing</h3>
-If you have a tracer running, you can open it now.
+If you have <pre>./jaeger-all-in-one</pre> running, open <a href="http://localhost:16686/">http://localhost:16686</a>
 [/]
 
 [# th:if="${mp_rest_client}"]

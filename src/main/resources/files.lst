@@ -35,6 +35,7 @@ src/main/resources/files/quarkus/application.properties.tpl
 src/main/resources/files/quarkus/ClientController.java.tpl
 src/main/resources/files/quarkus/ConfigTestController.java.tpl
 src/main/resources/files/quarkus/MetricController.java.tpl
+src/main/resources/files/quarkus/mp3_x/index.html.tpl
 src/main/resources/files/quarkus/readme.md.secondary.tpl
 src/main/resources/files/quarkus/readme.md.tpl
 src/main/resources/files/quarkus/service-b/application.properties.tpl
