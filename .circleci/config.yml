@@ -1,8 +1,7 @@
 version: 2.1
 executors:
   maven-builder:
-    docker:
-    - image: circleci/openjdk:11-jdk
+    machine: true
   docker-publisher:
     environment:
       IMAGE_NAME: microprofile/start.microprofile.io
@@ -23,12 +22,28 @@ jobs:
           curl -X POST -i -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer $GITTER_TOKEN" \
           "https://api.gitter.im/v1/rooms/$GITTER_ROOM_ID/chatMessages" -d \
           "{\"text\":\"Automatic message: Hello, new [build]($CIRCLE_BUILD_URL) has started.\"}"
-    - run: mvn dependency:go-offline -Pthorntail -Djdk.net.URLClassPath.disableClassPathURLCheck=true
+    - run: if [[ ! -d ${HOME}/jdk-11.0.4+11 ]];then wget https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.4%2B11/OpenJDK11U-jdk_x64_linux_hotspot_11.0.4_11.tar.gz;fi;
+    - run: if [[ ! -d ${HOME}/jdk-11.0.4+11 ]];then tar -xvf OpenJDK11U-jdk_x64_linux_hotspot_11.0.4_11.tar.gz -C ${HOME}/;fi;
+    - run: if [[ ! -d ${HOME}/apache-maven-3.6.3 ]];then wget https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz;fi;
+    - run: if [[ ! -d ${HOME}/apache-maven-3.6.3 ]];then tar -xvf apache-maven-3.6.3-bin.tar.gz -C ${HOME}/;fi;
+    - run:
+         name: build-fetch
+         command: |
+           export PATH=${HOME}/apache-maven-3.6.3/bin:${HOME}/jdk-11.0.4+11/bin:${PATH}; \
+           export JAVA_HOME=${HOME}/jdk-11.0.4+11/; \
+           mvn -Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2 dependency:go-offline -Pthorntail
     - save_cache:
         paths:
-        - ~/.m2
+        - ${HOME}/.m2
+        - ${HOME}/apache-maven-3.6.3
+        - ${HOME}/jdk-11.0.4+11
         key: v1-dependencies-{{ checksum "pom.xml" }}
-    - run: mvn clean package -Pthorntail -Djdk.net.URLClassPath.disableClassPathURLCheck=true
+    - run:
+        name: package-tests
+        command: |
+           export PATH=${HOME}/apache-maven-3.6.3/bin:${HOME}/jdk-11.0.4+11/bin:${PATH}; \
+           export JAVA_HOME=${HOME}/jdk-11.0.4+11/; \
+           mvn -Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2 clean package -Pthorntail -Dskip.integration.tests=false -DSTARTER_TS_WORKSPACE=/dev/shm/
     - persist_to_workspace:
         root: .
         paths:
