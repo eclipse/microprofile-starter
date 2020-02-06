@@ -87,6 +87,11 @@ public class KumuluzeeServer extends AbstractMicroprofileAddon {
 
             case NONE:
                 break;
+            case MP32:
+                kumuluzVersion = "3.7.0";
+                kumuluzeeConfigVersion = "1.3.0";
+                artifactId = "kumuluzee-microProfile-3.2";
+                break;
             case MP30:
                 kumuluzVersion = "3.6.0";
                 kumuluzeeConfigVersion = "1.3.0";
