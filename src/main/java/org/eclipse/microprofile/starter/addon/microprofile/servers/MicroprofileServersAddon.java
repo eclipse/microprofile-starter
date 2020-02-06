@@ -200,6 +200,7 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
 
         String artifactId = model.getMaven().getArtifactId();
         variables.put("jar_file", defineJarFileName(supportedServer, artifactId));
+        variables.put("jar_file_no_suffix", variables.get("jar_file").split("\\.jar")[0]);
         variables.put("jar_parameters", defineJarParameters(supportedServer));
         variables.put("port_service_a", supportedServer.getPortServiceA());
         variables.put("port_service_b", supportedServer.getPortServiceB());
@@ -270,14 +271,16 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
         }
 
         // With KumuluzEE, it properties are integrated within config.yaml
-        if (supportedServer != SupportedServer.KUMULUZEE) {
+        // With Quarkus, its properties use application.properties
+        if (supportedServer != SupportedServer.KUMULUZEE && supportedServer != SupportedServer.QUARKUS) {
             String metaInfDirectory = getResourceDirectory(model, true) + "/META-INF";
             directoryCreator.createDirectory(metaInfDirectory);
             processTemplateFile(metaInfDirectory, "microprofile-config.properties", alternatives, variables);
         }
 
         // Helidon should have it in src/main/resources/WEB
-        if (supportedServer != SupportedServer.HELIDON) {
+        // Quarkus should have it in src/main/resources/META-INF/resources
+        if (supportedServer != SupportedServer.HELIDON & supportedServer != SupportedServer.QUARKUS) {
             // Demo index file to all endpoints
             String webDirectory = model.getDirectory(true) + "/" + MavenCreator.SRC_MAIN_WEBAPP;
             directoryCreator.createDirectory(webDirectory);

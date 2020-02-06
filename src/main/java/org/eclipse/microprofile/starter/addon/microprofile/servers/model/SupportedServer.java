@@ -37,8 +37,7 @@ public enum SupportedServer {
             , "8080" //portServiceA
             , "8180" //portServiceB
             , null // MP Spec for Java 11 support
-            )
-    , THORNTAIL_V2("thorntail-v2", "Thorntail V2",
+    ), THORNTAIL_V2("thorntail-v2", "Thorntail V2",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP21,
                     MicroProfileVersion.MP22, MicroProfileVersion.MP30, MicroProfileVersion.MP32)
             , "%s-thorntail.jar" //jarFileName
@@ -46,8 +45,14 @@ public enum SupportedServer {
             , "8080" //portServiceA
             , "8180" //portServiceB
             , MicroProfileVersion.MP22 // MP Spec for Java 11 support
-            )
-    , LIBERTY("liberty", "Open Liberty",
+    ), QUARKUS("quarkus", "Quarkus",
+            Collections.singletonList(MicroProfileVersion.MP32)
+            , "%s-runner.jar" //jarFileName
+            , "-Dquarkus.http.port=8180" //jarParameters; these are env props, e.g. java -D... or mvn -D...
+            , "8080" //portServiceA
+            , "8180" //portServiceB
+            , null // MP Spec for Java 11 support
+    ), LIBERTY("liberty", "Open Liberty",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22,
                     MicroProfileVersion.MP30, MicroProfileVersion.MP32)
@@ -56,8 +61,7 @@ public enum SupportedServer {
             , "9080" //portServiceA
             , "9081" //portServiceB
             , MicroProfileVersion.MP30 // MP Spec for Java 11 support
-            )
-    , KUMULUZEE("kumuluzEE", "KumuluzEE",
+    ), KUMULUZEE("kumuluzEE", "KumuluzEE",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22,
                     MicroProfileVersion.MP30, MicroProfileVersion.MP32)
@@ -66,8 +70,7 @@ public enum SupportedServer {
             , "8080" //portServiceA
             , "8180" //portServiceB // This need to match with port value from secondary/config.yaml
             , null // MP Spec for Java 11 support
-            )
-    , PAYARA_MICRO("payara-micro", "Payara Micro",
+    ), PAYARA_MICRO("payara-micro", "Payara Micro",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22
                     , MicroProfileVersion.MP32)
@@ -75,9 +78,8 @@ public enum SupportedServer {
             , "--port 8180" //jarParameters
             , "8080" //portServiceA
             , "8180" //portServiceB // This need to match with port value from defineJarParameters()
-            ,  MicroProfileVersion.MP32 // MP Spec for Java 11 support
-            )
-    , TOMEE("tomee", "Apache TomEE 8.0.0-M3",
+            , MicroProfileVersion.MP32 // MP Spec for Java 11 support
+    ), TOMEE("tomee", "Apache TomEE 8.0.0-M3",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21)
             , "%s-exec.jar" //jarFileName
@@ -85,8 +87,7 @@ public enum SupportedServer {
             , "8080" // portServiceA
             , "8180" //portServiceB // This need to match with Port value from TomeeServer.adjustPOM
             , null // MP Spec for Java 11 support
-            )
-    , HELIDON("helidon", "Helidon",
+    ), HELIDON("helidon", "Helidon",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP22, MicroProfileVersion.MP30
                     , MicroProfileVersion.MP32)
             , "%s.jar" //jarFileName
@@ -94,7 +95,7 @@ public enum SupportedServer {
             , "8080" //portServiceA
             , "8180" //portServiceB  // This need to match Port vcalue from secondary/microprofile-config.proeprties
             , MicroProfileVersion.MP32 // MP Spec for Java 11 support
-            );
+    );
     // @formatter:on
 
     private String code;

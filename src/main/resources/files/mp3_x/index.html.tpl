@@ -45,6 +45,7 @@
 
 [# th:if="${mp_open_tracing}"]
 <h3>Open Tracing</h3>
+If you have a tracer running, you can open it now.
 [/]
 
 [# th:if="${mp_rest_client}"]

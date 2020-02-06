@@ -96,7 +96,7 @@ Before the new template files can be used, the following steps need to be perfor
 * Add the file, with an extension of `.tpl` into the directory _src\main\resources\files_.
 * A custom version of the template for a certain implementation, can be put into a subdirectory with the name of the implementation.
 * When there is a specific version required for inclusion within `service-b`, use that as the name of the subdirectory.
-* Add the file to the `files.lst`, you can use the command `find src/main/resources/files -type f -name "*.tpl" > src/main/resources/files.lst` to do this automatically.
+* Add the file to the `files.lst`, you can use the command `find src/main/resources/files -type f -name "*.tpl" | sort > src/main/resources/files.lst` to do this automatically.
 
 Have a look at the method _org.eclipse.microprofile.starter.addon.microprofile.servers.MicroprofileServersAddon.createFiles()_ for examples how the template files can be used.
 
