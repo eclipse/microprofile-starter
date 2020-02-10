@@ -446,4 +446,36 @@ public class TestMatrixTest {
         testRuntime("TOMEE", "tomee",
                 SpecSelection.JWT_REST, new int[]{8009, 8005, 8180, 8109, 8105});
     }
+
+    @Test
+    @RunAsClient
+    @InSequence(25)
+    public void quarkusEmpty() throws IOException, InterruptedException {
+        testRuntime("QUARKUS", "quarkus",
+                SpecSelection.EMPTY, new int[]{9990});
+    }
+
+    @Test
+    @RunAsClient
+    @InSequence(26)
+    public void quarkusAll() throws IOException, InterruptedException {
+        testRuntime("QUARKUS", "quarkus",
+                SpecSelection.ALL, new int[]{9990, 8180, 10090});
+    }
+
+    @Test
+    @RunAsClient
+    @InSequence(27)
+    public void quarkusAllButJWTRest() throws IOException, InterruptedException {
+        testRuntime("QUARKUS", "quarkus",
+                SpecSelection.ALL_BUT_JWT_REST, new int[]{9990});
+    }
+
+    @Test
+    @RunAsClient
+    @InSequence(28)
+    public void quarkusJWTRest() throws IOException, InterruptedException {
+        testRuntime("QUARKUS", "quarkus",
+                SpecSelection.JWT_REST, new int[]{9990, 8180, 10090});
+    }
 }

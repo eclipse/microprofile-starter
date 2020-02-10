@@ -27,14 +27,26 @@ package org.eclipse.microprofile.starter.utils;
  * @author Michal Karm Babacek <karm@redhat.com>
  */
 public enum Whitelist {
-    THORNTAIL_V2("thorntail", new String[]{}),
-    PAYARA_MICRO("payara", new String[]{}),
+    THORNTAIL_V2("thorntail", new String[]{
+            "wildfly-domain-http-error-context"
+    }),
+    PAYARA_MICRO("payara", new String[]{
+            "com.hazelcast.nio.tcp.TcpIpConnectionErrorHandler"
+    }),
     LIBERTY("liberty", new String[]{
             "OpenTracing cannot track JAX-RS requests because an OpentracingTracerFactory class was not provided."
     }),
     HELIDON("helidon", new String[]{}),
-    KUMULUZEE("kumuluzee", new String[]{"Copying error_prone_annotations"}),
-    TOMEE("tomee", new String[]{});
+    KUMULUZEE("kumuluzee", new String[]{
+            "error_prone_annotations",
+            "error_prone_parent",
+            "underlying class loading error: Type Failure to load: com.mongodb.MongoClient not found."
+    }),
+    TOMEE("tomee", new String[]{}),
+    QUARKUS("quarkus", new String[]{
+            "[org.jboss.threads.errors] Thread Thread[build",
+            "org/jboss/threads/EnhancedQueueExecutor"
+    });
 
     public final String name;
     public final String[] errs;
