@@ -31,7 +31,7 @@ jobs:
          command: |
            export PATH=${HOME}/apache-maven-3.6.3/bin:${HOME}/jdk-11.0.4+11/bin:${PATH}; \
            export JAVA_HOME=${HOME}/jdk-11.0.4+11/; \
-           mvn -Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2 dependency:go-offline -Pthorntail
+           mvn -Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2 dependency:go-offline -Pthorntail -Dskip.integration.tests=false
     - save_cache:
         paths:
         - ${HOME}/.m2
@@ -40,6 +40,7 @@ jobs:
         key: v1-dependencies-{{ checksum "pom.xml" }}
     - run:
         name: package-tests
+        no_output_timeout: 120000
         command: |
            export PATH=${HOME}/apache-maven-3.6.3/bin:${HOME}/jdk-11.0.4+11/bin:${PATH}; \
            export JAVA_HOME=${HOME}/jdk-11.0.4+11/; \
