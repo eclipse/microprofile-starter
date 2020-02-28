@@ -52,6 +52,13 @@ public enum SupportedServer {
             , "8080" //portServiceA
             , "8180" //portServiceB
             , null // MP Spec for Java 11 support
+    ), WILDFLY("wildfly", "WildFly",
+            Collections.singletonList(MicroProfileVersion.MP32)
+            , "%s-wildfly.jar" //jarFileName
+            , "-Djboss.socket.binding.port-offset=100" //jarParameters
+            , "8080" //portServiceA
+            , "8180" //portServiceB
+            , MicroProfileVersion.MP32  // MP Spec for Java 11 support
     ), LIBERTY("liberty", "Open Liberty",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22,

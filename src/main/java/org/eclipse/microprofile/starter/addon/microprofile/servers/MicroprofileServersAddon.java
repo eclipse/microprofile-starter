@@ -205,6 +205,8 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
         variables.put("port_service_a", supportedServer.getPortServiceA());
         variables.put("port_service_b", supportedServer.getPortServiceB());
         variables.put("artifact_id", artifactId);
+        variables.put("wf_main_url", "http://localhost:" + SupportedServer.WILDFLY.getPortServiceA());
+        variables.put("wf_manage_url", "http://localhost:9990");
 
         String rootJava = getJavaApplicationRootPackage(model);
 
@@ -272,7 +274,9 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
 
         // With KumuluzEE, it properties are integrated within config.yaml
         // With Quarkus, its properties use application.properties
-        if (supportedServer != SupportedServer.KUMULUZEE && supportedServer != SupportedServer.QUARKUS) {
+        if (supportedServer != SupportedServer.KUMULUZEE &&
+                supportedServer != SupportedServer.QUARKUS &&
+                supportedServer != SupportedServer.WILDFLY) {
             String metaInfDirectory = getResourceDirectory(model, true) + "/META-INF";
             directoryCreator.createDirectory(metaInfDirectory);
             processTemplateFile(metaInfDirectory, "microprofile-config.properties", alternatives, variables);

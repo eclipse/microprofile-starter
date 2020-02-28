@@ -83,6 +83,53 @@
             </build>
         </profile>
         <profile>
+            <id>wildfly</id>
+            <repositories>
+                <repository>
+                    <id>jboss-public-repository</id>
+                    <name>JBoss Public Maven Repository Group</name>
+                    <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+                </repository>
+                <repository>
+                    <id>Red Hat GA</id>
+                    <name>Red Hat GA</name>
+                    <url>https://maven.repository.redhat.com/ga/</url>
+                    <layout>default</layout>
+                </repository>
+            </repositories>
+            <dependencies>
+                <!-- Import the JAX-RS API, we use provided scope as the API is included in JBoss EAP -->
+                <dependency>
+                    <groupId>org.jboss.spec.javax.ws.rs</groupId>
+                    <artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
+                    <version>1.0.1.Final</version>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-jar-maven-plugin</artifactId>
+                        <version>1.0.0.Alpha3</version>
+                        <configuration>
+                            <feature-pack-location>
+                                wildfly@maven(org.jboss.universe:community-universe)#${version.wildfly}
+                            </feature-pack-location>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
             <id>thorntail-v2</id>
 
             <dependencyManagement>
@@ -170,20 +217,20 @@
                         <version>${openliberty.maven.version}</version>
                         <executions>
                             <execution>
-                            <id>package-server</id>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>create</goal>
-                                <goal>install-feature</goal>
-                                <goal>deploy</goal>
-                                <goal>package</goal>
-                            </goals>
-                            <configuration>
-                                <outputDirectory>target/wlp-package</outputDirectory>
-                            </configuration>
+                                <id>package-server</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>create</goal>
+                                    <goal>install-feature</goal>
+                                    <goal>deploy</goal>
+                                    <goal>package</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>target/wlp-package</outputDirectory>
+                                </configuration>
                             </execution>
                         </executions>
-                        <configuration>   
+                        <configuration>
                             <include>runnable</include>
                             <serverName>${final.name}</serverName>
                             <bootstrapProperties>

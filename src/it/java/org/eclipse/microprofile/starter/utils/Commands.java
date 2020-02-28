@@ -56,15 +56,14 @@ public class Commands {
 
     public static String getWorkspaceDir() {
         String env = System.getenv().get(STARTER_TS_WORKSPACE);
-        String sys = System.getProperty(STARTER_TS_WORKSPACE);
-        String fallback = System.getProperty("java.io.tmpdir");
         if (StringUtils.isNotBlank(env)) {
             return env;
         }
+        String sys = System.getProperty(STARTER_TS_WORKSPACE);
         if (StringUtils.isNotBlank(sys)) {
             return sys;
         }
-        return fallback;
+        return System.getProperty("java.io.tmpdir");
     }
 
     public static void download(Client client, String supportedServer, String artifactId, SpecSelection specSelection, String location) {
@@ -99,6 +98,7 @@ public class Commands {
 
     /**
      * Does not fail the TS. Makes best effort to clean up.
+     *
      * @param artifactId by convention, this is a filename friendly name of the server
      */
     public static void cleanWorkspace(String artifactId) {

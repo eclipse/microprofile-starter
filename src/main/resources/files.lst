@@ -54,4 +54,7 @@ src/main/resources/files/TestSecureController.java.tpl
 src/main/resources/files/thorntail-v2/web.xml.tpl
 src/main/resources/files/tomee/index.html.tpl
 src/main/resources/files/web.xml.tpl
+src/main/resources/files/wildfly/microprofile-config.properties.tpl
+src/main/resources/files/wildfly/mp3_x/index.html.tpl
+src/main/resources/files/wildfly/service-b/microprofile-config.properties.tpl
 src/main/resources/files/wildfly-swarm/web.xml.tpl

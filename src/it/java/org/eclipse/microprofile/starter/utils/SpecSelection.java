@@ -32,7 +32,15 @@ public enum SpecSelection {
                     "&selectedSpecs=METRICS" +
                     "&selectedSpecs=OPEN_TRACING" +
                     "&selectedSpecs=OPEN_API", false),
-    JWT_REST("&selectedSpecs=JWT_AUTH&selectedSpecs=REST_CLIENT", true);
+    JWT_REST("&selectedSpecs=JWT_AUTH&selectedSpecs=REST_CLIENT", true),
+    CONFIG("&selectedSpecs=CONFIG", false),
+    FAULT_TOLERANCE("&selectedSpecs=FAULT_TOLERANCE", false),
+    HEALTH_CHECKS("&selectedSpecs=HEALTH_CHECKS", false),
+    JWT_AUTH("&selectedSpecs=JWT_AUTH", true),
+    METRICS("&selectedSpecs=METRICS", false),
+    OPEN_API("&selectedSpecs=OPEN_API", false),
+    OPEN_TRACING("&selectedSpecs=OPEN_TRACING", false),
+    REST_CLIENT("&selectedSpecs=REST_CLIENT", true);
 
     public final String queryParam;
     public final boolean hasServiceB;
