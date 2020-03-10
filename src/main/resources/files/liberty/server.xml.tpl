@@ -9,7 +9,9 @@
                   httpPort="[# th:text="${port_service_a}"/]"
                   httpsPort="9443"/>
 
-    <webApplication location="${project.name}.war" contextRoot="/"/>
+    <webApplication location="${project.name}.war" contextRoot="/">
+        <classloader apiTypeVisibility="+third-party" />
+    </webApplication>
     <mpMetrics authentication="false"/>
 
     <!-- This is the keystore that will be used by SSL and by JWT. -->
