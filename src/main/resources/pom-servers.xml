@@ -111,7 +111,7 @@
                     <plugin>
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-jar-maven-plugin</artifactId>
-                        <version>1.0.0.Alpha3</version>
+                        <version>1.0.0.Alpha4</version>
                         <configuration>
                             <feature-pack-location>
                                 wildfly@maven(org.jboss.universe:community-universe)#${version.wildfly}
