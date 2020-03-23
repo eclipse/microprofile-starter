@@ -36,6 +36,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * @author Michal Karm Babacek <karm@redhat.com>
+ */
 @ApplicationScoped
 public class QuarkusServer extends AbstractMicroprofileAddon {
 

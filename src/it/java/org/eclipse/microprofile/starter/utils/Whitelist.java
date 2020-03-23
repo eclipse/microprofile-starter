@@ -46,6 +46,9 @@ public enum Whitelist {
     QUARKUS("quarkus", new String[]{
             "[org.jboss.threads.errors] Thread Thread[build",
             "org/jboss/threads/EnhancedQueueExecutor"
+    }),
+    WILDFLY("wildfly", new String[]{
+            "wildfly-domain-http-error-context"
     });
 
     public final String name;

@@ -50,7 +50,7 @@ public enum MPSpec {
     }),
     OPEN_API(new String[][]{
             // Tomee shows only /resilience:, all others show "/data/resilience".
-            new String[]{"openapi", "/resilience"}
+            new String[]{"openapi", "/hello"}
     }),
     // TODO Install Jaeger?
     //OPEN_TRACING(new String[][]{
