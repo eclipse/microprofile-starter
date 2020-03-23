@@ -33,9 +33,7 @@ public enum Whitelist {
     PAYARA_MICRO("payara", new String[]{
             "com.hazelcast.nio.tcp.TcpIpConnectionErrorHandler"
     }),
-    LIBERTY("liberty", new String[]{
-            "OpenTracing cannot track JAX-RS requests because an OpentracingTracerFactory class was not provided."
-    }),
+    LIBERTY("liberty", new String[]{}),
     HELIDON("helidon", new String[]{}),
     KUMULUZEE("kumuluzee", new String[]{
             "error_prone_annotations",

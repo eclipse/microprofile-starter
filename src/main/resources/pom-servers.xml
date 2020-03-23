@@ -162,15 +162,13 @@
 
         <profile>
             <id>liberty</id>
-            <dependencyManagement>
-                <dependencies>
+            <dependencies>
                     <dependency>
                         <groupId>io.jaegertracing</groupId>
                         <artifactId>jaeger-client</artifactId>
                         <version>0.34.0</version>
                     </dependency>
-                </dependencies>
-            </dependencyManagement>
+            </dependencies>
             <build>
                 <plugins>
                     <plugin>

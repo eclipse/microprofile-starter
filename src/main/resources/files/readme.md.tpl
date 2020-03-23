@@ -92,8 +92,13 @@ The index page contains a link to the OpenAPI information of your endpoints.
 ### Open Tracing
 
 Allow the participation in distributed tracing of your requests through various micro services. Specification [here](https://microprofile.io/project/eclipse/microprofile-opentracing)
+[# th:if="${mp_servername} == 'liberty'"]
+To show this capability, you need to download [Jaeger](https://www.jaegertracing.io/download/#binaries) and run ```./jaeger-all-in-one```. 
+Alternatively, you can dowanload the docker image of `all-in-one` using ```docker pull jaegertracing/all-in-one:${version}```,
+followed by running the docker image. Refer to [Jaeger doc](https://www.jaegertracing.io/docs/) for more info.
 
-Example needs to be created.
+Open [http://localhost:16686/](http://localhost:16686/) to see the traces. You have to invoke your demo app endpoint for any traces to show on Jaeger UI.
+[/]
 [/]
 
 [# th:if="${mp_rest_client}"]
