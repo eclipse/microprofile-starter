@@ -53,7 +53,7 @@ public enum SupportedServer {
             , "8180" //portServiceB
             , null // MP Spec for Java 11 support
     ), WILDFLY("wildfly", "WildFly",
-            Collections.singletonList(MicroProfileVersion.MP32)
+            Arrays.asList(MicroProfileVersion.MP32, MicroProfileVersion.MP33)
             , "%s-wildfly.jar" //jarFileName
             , "-Djboss.socket.binding.port-offset=100" //jarParameters
             , "8080" //portServiceA
@@ -62,7 +62,7 @@ public enum SupportedServer {
     ), LIBERTY("liberty", "Open Liberty",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22,
-                    MicroProfileVersion.MP30, MicroProfileVersion.MP32)
+                    MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33)
             , "%s.jar" //jarFileName
             , "" //jarParameters // Hard coded in server.xml since no way of overriding a default.
             , "9080" //portServiceA
