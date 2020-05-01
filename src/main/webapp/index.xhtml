@@ -131,7 +131,7 @@
                                                   layout="responsive" styleClass="specifications"
                                                   columns="2" disabled="#{empty generatorDataBean.engineData.mpVersion}">
                                 <f:selectItems value="#{generatorDataBean.specs}" var="spec" itemLabel="#{spec}"
-                                               itemValue="#{spec}"/>
+                                               itemValue="#{spec}" itemDescription="#{spec}"/>
                                 <p:ajax process="@this" />
                             </p:selectManyCheckbox>
                         </h:panelGroup>

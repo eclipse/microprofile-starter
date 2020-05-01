@@ -143,7 +143,7 @@ public class GeneratorDataBean implements Serializable {
 
         for (MicroprofileSpec microprofileSpec : MicroprofileSpec.values()) {
             if (microprofileSpec.getMpVersions().contains(version)) {
-                specs.add(new SelectItem(microprofileSpec.getCode(), microprofileSpec.getLabel()));
+                specs.add(new SelectItem(microprofileSpec.getCode(), microprofileSpec.getLabel(), microprofileSpec.getDescription()));
                 if (currentSelected.contains(microprofileSpec.getCode())) {
                     // If the spec is currently selected, keep it selected.
                     // But if it is not listed anymore in the MP version, it has to go.
