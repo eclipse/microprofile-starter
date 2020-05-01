@@ -25,6 +25,7 @@ package org.eclipse.microprofile.starter.core.artifacts;
 import org.apache.maven.model.Build;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Writer;
+import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
 import org.eclipse.microprofile.starter.core.addon.AddonManager;
 import org.eclipse.microprofile.starter.core.exception.TechnicalException;
 import org.eclipse.microprofile.starter.core.model.JavaSEVersion;
@@ -144,7 +145,7 @@ public class MavenCreator {
         pomFile.addProperty("failOnMissingWebXml", "false");
 
         pomFile.addProperty("final.name", model.getMaven().getArtifactId());
-        
+
         Build build = new Build();
         build.setFinalName(model.getMaven().getArtifactId());
         pomFile.setBuild(build);
@@ -158,8 +159,13 @@ public class MavenCreator {
     }
 
     private void addJavaMPDependencies(Model pomFile, JessieModel model) {
-        mavenHelper.addDependency(pomFile, "org.eclipse.microprofile", "microprofile",
-                model.getSpecification().getMicroProfileVersion().getMavenVersion(), "provided", "pom");
+        /*
+         * Quarkus should not have explicitly enforced MP version in its generated pom.xml
+         */
+        if (!SupportedServer.QUARKUS.getCode().equals(model.getOptions().get("mp.server").getSingleValue())) {
+            mavenHelper.addDependency(pomFile, "org.eclipse.microprofile", "microprofile",
+                    model.getSpecification().getMicroProfileVersion().getMavenVersion(), "provided", "pom");
+        }
     }
 
     private void addJavaSEVersionProperties(Model pomFile, JessieModel model) {
