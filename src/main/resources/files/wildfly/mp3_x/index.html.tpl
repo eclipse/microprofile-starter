@@ -12,13 +12,13 @@
 
 [# th:if="${mp_config}"]
 <h3>Config</h3>
-<a href="[# th:text="${wf_main_url}"/]/data/config/injected" target="_blank" >Injected config values</a> <br/>
-<a href="[# th:text="${wf_main_url}"/]/data/config/lookup" target="_blank" >Config values by lookup</a> <br/>
+<a href="data/config/injected" target="_blank" >Injected config values</a> <br/>
+<a href="data/config/lookup" target="_blank" >Config values by lookup</a> <br/>
 [/]
 
 [# th:if="${mp_fault_tolerance}"]
 <h3>Fault tolerance</h3>
-<a href="[# th:text="${wf_main_url}"/]/data/resilience" target="_blank" >Fallback after timeout</a> <br/>
+<a href="data/resilience" target="_blank" >Fallback after timeout</a> <br/>
 [/]
 
 [# th:if="${mp_health_checks}"]
@@ -29,18 +29,18 @@
 
 [# th:if="${mp_metrics}"]
 <h3>Metrics</h3>
-<a href="[# th:text="${wf_main_url}"/]/data/metric/timed" target="_blank" >Timed endpoint</a> <br/>
+<a href="data/metric/timed" target="_blank" >Timed endpoint</a> <br/>
 <a href="[# th:text="${wf_manage_url}"/]/metrics" target="_blank" >Metrics page</a> <br/>
 [/]
 
 [# th:if="${mp_JWT_auth}"]
 <h3>JWT Auth</h3>
-<a href="[# th:text="${wf_main_url}"/]/data/secured/test" target="_blank" >Call Secured endpoint with JWT in Authorization Header</a> <br/>
+<a href="data/secured/test" target="_blank" >Call Secured endpoint with JWT in Authorization Header</a> <br/>
 [/]
 
 [# th:if="${mp_open_API}"]
 <h3>Open API</h3>
-<a href="[# th:text="${wf_main_url}"/]/openapi" target="_blank" >Open API Documentation</a> <br/>
+<a href="openapi" target="_blank" >Open API Documentation</a> <br/>
 [/]
 
 [# th:if="${mp_open_tracing}"]
@@ -50,7 +50,7 @@ If you have <pre>./jaeger-all-in-one</pre> running, open <a href="http://localho
 
 [# th:if="${mp_rest_client}"]
 <h3>Rest Client</h3>
-<a href="[# th:text="${wf_main_url}"/]/data/client/test/parameterValue" target="_blank" >Call REST endpoint using generated client based on interface</a> <br/>
+<a href="data/client/test/parameterValue" target="_blank" >Call REST endpoint using generated client based on interface</a> <br/>
 [/]
 
 </body>
