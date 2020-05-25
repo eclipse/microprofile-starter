@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,29 +19,14 @@
  */
 package org.eclipse.microprofile.starter.rest;
 
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
 
 /**
  * @author Michal Karm Babacek <karm@redhat.com>
  */
-@Path("/3")
-public class APIEndpointV3 extends APIEndpointLatest {
+@Path("/4")
+public class APIEndpointV4 extends APIEndpointLatest {
 
-    @Inject
-    private APIService api;
-
-    @Path("/supportMatrix/servers")
-    @GET
-    @Produces({"application/json"})
-    @Override
-    public Response supportMatrixServers(@HeaderParam(HttpHeaders.IF_NONE_MATCH) String ifNoneMatch) {
-        return api.supportMatrixServersV3(ifNoneMatch);
-    }
+    // Does not differ from latest in anything.
 
 }

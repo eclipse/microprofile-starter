@@ -200,7 +200,8 @@
                                 <module name="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck">
                                     <property name="packageAllowed" value="false"/>
                                     <property name="protectedAllowed" value="true"/>
-                                    <property name="publicMemberPattern" value="^serialVersionUID"/>
+                                    <property name="publicMemberPattern" value=".*"/>
+                                    <property name="allowPublicImmutableFields" value="true"/>
                                     <property name="severity" value="warning"/>
                                 </module>
                                 <module name="UpperEll"/>

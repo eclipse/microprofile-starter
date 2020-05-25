@@ -39,6 +39,7 @@ import org.eclipse.microprofile.starter.log.ErrorLogger;
 import org.eclipse.microprofile.starter.log.LoggingTask;
 import org.eclipse.microprofile.starter.rest.model.MPOptionsAvailable;
 import org.eclipse.microprofile.starter.rest.model.Project;
+import org.eclipse.microprofile.starter.rest.model.ServerOptions;
 import org.eclipse.microprofile.starter.view.EngineData;
 
 import javax.annotation.PostConstruct;
@@ -75,7 +76,7 @@ public class APIService {
     private TreeMap<MicroProfileVersion, MPOptionsAvailable> mpvToOptions;
     private EntityTag mpvToOptionsEtag;
 
-    private Map<SupportedServer, Map<MicroProfileVersion, List<MicroprofileSpec>>> serversToOptions;
+    private Map<SupportedServer, List<ServerOptions>> serversToOptions;
     private EntityTag serversToOptionsEtag;
 
     private String readme;
@@ -108,11 +109,20 @@ public class APIService {
         // Keys are servers and values are MP versions and specs
         serversToOptions = new HashMap<>(SupportedServer.values().length);
         for (SupportedServer s : SupportedServer.values()) {
-            Map<MicroProfileVersion, List<MicroprofileSpec>> mpvToSpec = new HashMap<>(s.getMpVersions().size());
-            s.getMpVersions().forEach(mpv -> mpvToSpec.put(
-                    mpv,
-                    Stream.of(MicroprofileSpec.values()).filter(v -> v.getMpVersions().contains(mpv)).collect(Collectors.toList())));
-            serversToOptions.put(s, mpvToSpec);
+            List<ServerOptions> serverOptions = new ArrayList<>();
+            s.getMpVersions().forEach(mpv -> {
+                List<MicroprofileSpec> mpSpec = Stream.of(MicroprofileSpec.values())
+                        .filter(v -> v.getMpVersions().contains(mpv)).collect(Collectors.toList());
+                List<JavaSEVersion> supportedJavaVersions = new ArrayList<>(JavaSEVersion.values().length);
+                if (s.getFirstJava11SupportedVersion() == null || s.getFirstJava11SupportedVersion().compareTo(mpv) < 0) {
+                    supportedJavaVersions.add(JavaSEVersion.SE8);
+                } else {
+                    supportedJavaVersions.add(JavaSEVersion.SE8);
+                    supportedJavaVersions.add(JavaSEVersion.SE11);
+                }
+                serverOptions.add(new ServerOptions(mpv, mpSpec, supportedJavaVersions));
+            });
+            serversToOptions.put(s, serverOptions);
         }
         serversToOptionsEtag = new EntityTag(Integer.toHexString(
                 31 * version.getGit().hashCode() + serversToOptions.hashCode() + specsDescriptions.hashCode()));
@@ -189,19 +199,39 @@ public class APIService {
         return Response.ok(mpvToOptionsAndSpecsDescriptions, MediaType.APPLICATION_JSON_TYPE).tag(mpvToOptionsEtag).build();
     }
 
+    public Map<SupportedServer, Map<MicroProfileVersion, List<MicroprofileSpec>>> transformToLegacy() {
+        List<SupportedServer> servers = new ArrayList<>(serversToOptions.keySet());
+        Collections.shuffle(servers);
+        Map<SupportedServer, Map<MicroProfileVersion, List<MicroprofileSpec>>> rndServersToOptions = new LinkedHashMap<>(servers.size());
+        for (SupportedServer s : servers) {
+            List<ServerOptions> so = serversToOptions.get(s);
+            Map<MicroProfileVersion, List<MicroprofileSpec>> mpvSpecs = new HashMap<>(so.size());
+            so.forEach(soo -> mpvSpecs.put(soo.mpVersion, soo.mpSpecs));
+            rndServersToOptions.put(s, mpvSpecs);
+        }
+        return rndServersToOptions;
+    }
+
     public Response supportMatrixServersV1(String ifNoneMatch) {
         if (ifNoneMatch != null) {
             if (serversToOptionsEtag.toString().equals(ifNoneMatch)) {
                 return Response.notModified().build();
             }
         }
-        List<SupportedServer> servers = new ArrayList<>(serversToOptions.keySet());
-        Collections.shuffle(servers);
-        Map<SupportedServer, Map<MicroProfileVersion, List<MicroprofileSpec>>> rndServersToOptions = new LinkedHashMap<>(servers.size());
-        for (SupportedServer s : servers) {
-            rndServersToOptions.put(s, serversToOptions.get(s));
+        return Response.ok(transformToLegacy(), MediaType.APPLICATION_JSON_TYPE).tag(serversToOptionsEtag).build();
+    }
+
+    public Response supportMatrixServersV3(String ifNoneMatch) {
+        if (ifNoneMatch != null) {
+            if (serversToOptionsEtag.toString().equals(ifNoneMatch)) {
+                return Response.notModified().build();
+            }
         }
-        return Response.ok(rndServersToOptions, MediaType.APPLICATION_JSON_TYPE).tag(serversToOptionsEtag).build();
+        Map<String, Map> serversAndSpecsDescriptions = new HashMap<>(2);
+        serversAndSpecsDescriptions.put("configs", transformToLegacy());
+        serversAndSpecsDescriptions.put("descriptions", specsDescriptions);
+
+        return Response.ok(serversAndSpecsDescriptions, MediaType.APPLICATION_JSON_TYPE).tag(serversToOptionsEtag).build();
     }
 
     public Response supportMatrixServers(String ifNoneMatch) {
@@ -212,11 +242,10 @@ public class APIService {
         }
         List<SupportedServer> servers = new ArrayList<>(serversToOptions.keySet());
         Collections.shuffle(servers);
-        Map<SupportedServer, Map<MicroProfileVersion, List<MicroprofileSpec>>> rndServersToOptions = new LinkedHashMap<>(servers.size());
+        Map<SupportedServer, List<ServerOptions>> rndServersToOptions = new LinkedHashMap<>(servers.size());
         for (SupportedServer s : servers) {
             rndServersToOptions.put(s, serversToOptions.get(s));
         }
-
         Map<String, Map> serversAndSpecsDescriptions = new HashMap<>(2);
         serversAndSpecsDescriptions.put("configs", rndServersToOptions);
         serversAndSpecsDescriptions.put("descriptions", specsDescriptions);

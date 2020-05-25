@@ -1,0 +1,6 @@
+{"configs":{"
+TOMEE":[{
+"mpVersion":"MP12","mpSpecs":["CONFIG","FAULT_TOLERANCE","JWT_AUTH","METRICS","HEALTH_CHECKS"],"javaSEVersions":["SE8"]},
+{"mpVersion":"MP13","mpSpecs":["CONFIG","FAULT_TOLERANCE","JWT_AUTH","METRICS","HEALTH_CHECKS","OPEN_API","OPEN_TRACING","REST_CLIENT"],"javaSEVersions":["SE8"]},{
+]},{"mpVersion":"MP30","mpSpecs":["CONFIG","FAULT_TOLERANCE","JWT_AUTH","METRICS","HEALTH_CHECKS","OPEN_API","OPEN_TRACING","REST_CLIENT"],"javaSEVersions":["SE8","SE11"]},{"mpVersion":"
+]}]},"descriptions":{"CONFIG":"Configuration - externalize and manage your configuration parameters outside your microservices","OPEN_API":"Open API - Generate OpenAPI-compliant API documentation for your microservices","HEALTH_CHECKS":"Health Checks - Verify the health of your microservices with custom verifications","REST_CLIENT":"Rest Client - Invoke RESTful services in a type-safe manner","FAULT_TOLERANCE":"Fault Tolerance - all about bulkheads, timeouts, circuit breakers, retries, etc. for your microservices","JWT_AUTH":"JWT Propagation - propagate security across your microservices","OPEN_TRACING":"Open Tracing - trace the flow of requests as they traverse your microservices","METRICS":"Metrics - Gather and create operational and business measurements for your microservices
