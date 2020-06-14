@@ -82,6 +82,12 @@ public class DataBean {
         return SupportedServer.valueFor(value).getHomePage();
     }
 
+    public String getRuntimeName(String value) {
+
+        SupportedServer supportedServer = SupportedServer.valueFor(value);
+        return supportedServer == null ? ""  : supportedServer.getDisplayName();
+    }
+
     public String getVersionReleasePage(String value) {
         return "https://github.com/eclipse/microprofile/releases/tag/" + value;
     }
