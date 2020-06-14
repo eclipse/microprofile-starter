@@ -78,4 +78,11 @@ public class DataBean {
         return mpItems;
     }
 
+    public String getHomePage(String value) {
+        return SupportedServer.valueFor(value).getHomePage();
+    }
+
+    public String getVersionReleasePage(String value) {
+        return "https://github.com/eclipse/microprofile/releases/tag/" + value;
+    }
 }
