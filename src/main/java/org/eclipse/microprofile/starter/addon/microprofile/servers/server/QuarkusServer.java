@@ -94,7 +94,7 @@ public class QuarkusServer extends AbstractMicroprofileAddon {
             case NONE:
                 break;
             case MP32:
-                quarkusVersion = "1.3.0.Final";
+                quarkusVersion = "1.3.4.Final";
                 break;
             case MP30:
                 break;

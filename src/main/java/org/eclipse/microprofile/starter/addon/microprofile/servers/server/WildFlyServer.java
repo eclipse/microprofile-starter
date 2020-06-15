@@ -86,7 +86,7 @@ public class WildFlyServer extends AbstractMicroprofileAddon {
             case NONE:
                 break;
             case MP33:
-                wildflyVersion = "19.0.0.Final";
+                wildflyVersion = "19.1.0.Final";
                 break;
             case MP32:
                 wildflyVersion = "19.0.0.Final";
