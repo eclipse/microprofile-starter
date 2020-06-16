@@ -39,7 +39,7 @@ public enum SupportedServer {
             , null // MP Spec for Java 11 support
     ), THORNTAIL_V2("thorntail-v2", "Thorntail V2",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP21,
-                    MicroProfileVersion.MP22, MicroProfileVersion.MP30, MicroProfileVersion.MP32)
+                    MicroProfileVersion.MP22, MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33)
             , "%s-thorntail.jar" //jarFileName
             , "-Dswarm.port.offset=100" //jarParameters
             , "8080" //portServiceA
