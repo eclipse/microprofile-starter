@@ -40,6 +40,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"/>
     <link rel="shortcut icon" type="image/x-icon" href="resources/img/mp.ico"/>
+    <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
 </h:head>
 
 <h:body>
@@ -89,9 +90,17 @@
 
                     <p:panelGrid columns="2" columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
                                  styleClass="ui-panelgrid-blank ui-fluid">
-                        <p:selectOneMenu id="mpVersion" value="#{generatorDataBean.engineData.mpVersion}">
+                        <p:selectOneMenu id="mpVersion" value="#{generatorDataBean.engineData.mpVersion}" var="item">
                             <f:selectItems value="${dataBean.mpItems}"/>
                             <p:ajax listener="#{generatorDataBean.onMPVersionSelected}" update="options, javaSEVersion"/>
+                            <p:column>
+                                <h:outputText value="#{item}" />
+
+                                <a href="#{dataBean.getVersionReleasePage(item)}" target="blank">
+                                    <i class="pi pi-external-link"></i>
+                                </a>
+                            </p:column>
+
                         </p:selectOneMenu>
 
                         <p:selectOneMenu id="javaSEVersion" value="#{generatorDataBean.engineData.javaSEVersion}"
@@ -112,10 +121,19 @@
                             <p:outputLabel value="MicroProfile Runtime" for="supportedServer"/>
 
                             <p:selectOneMenu id="supportedServer" value="#{generatorDataBean.engineData.supportedServer}"
-                                             required="true">
-                                <f:selectItem/>
+                                             required="true" var="item">
+                                <f:selectItem noSelectionOption="true" itemLabel=" "/>
                                 <f:selectItems value="${generatorDataBean.supportedServerItems}"/>
                                 <p:ajax listener="#{generatorDataBean.onMPRuntimeSelected}" update="options, mpVersion, javaSEVersion"/>
+
+                                <p:column>
+                                    <h:outputText value="#{dataBean.getRuntimeName(item)}" rendered="#{not empty item}"/>
+
+                                    <a href="#{dataBean.getHomePage(item)}" target="blank">
+                                        <i class="pi pi-external-link"></i>
+                                    </a>
+                            </p:column>
+
                             </p:selectOneMenu>
                         </p:panelGrid>
                         <h:panelGroup>
