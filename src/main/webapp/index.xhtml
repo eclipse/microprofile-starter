@@ -36,10 +36,11 @@
 
 <h:head>
     <title>Starter | MicroProfile</title>
-    <h:outputStylesheet library="css" name="starter-0.9.css"/>
+    <h:outputStylesheet library="css" name="starter-1.4.css"/>
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"/>
     <link rel="shortcut icon" type="image/x-icon" href="resources/img/mp.ico"/>
+    <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
 </h:head>
 
 <h:body>
@@ -131,8 +132,17 @@
                                                   layout="responsive" styleClass="specifications"
                                                   columns="2" disabled="#{empty generatorDataBean.engineData.mpVersion}">
                                 <f:selectItems value="#{generatorDataBean.specs}" var="spec" itemLabel="#{spec}"
-                                               itemValue="#{spec}" itemDescription="#{spec}"/>
+                                               itemValue="#{spec}"/>
                                 <p:ajax process="@this" />
+                                <f:facet name="label">
+                                    <h:outputText value="#{item.label}"/>
+                                    <a href="#{generatorDataBean.getSpecificationLink(item)}" target="blank">
+                                        <i class="pi pi-external-link"></i>
+                                    </a>
+                                </f:facet>
+                                <f:facet name="tooltip">
+                                    <h:outputText value="#{item.description}"/>
+                                </f:facet>
                             </p:selectManyCheckbox>
                         </h:panelGroup>
 
