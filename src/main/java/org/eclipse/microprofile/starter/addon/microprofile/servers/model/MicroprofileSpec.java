@@ -49,8 +49,8 @@ public enum MicroprofileSpec {
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22,
                     MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33))
-    , HEALTH_CHECKS("health_checks", "Health Checks",
-            "Health Checks - Verify the health of your microservices with custom verifications",
+    , HEALTH_CHECKS("health_checks", "Health",
+            "Health - Verify the health of your microservices with custom verifications",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22,
                     MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33))
