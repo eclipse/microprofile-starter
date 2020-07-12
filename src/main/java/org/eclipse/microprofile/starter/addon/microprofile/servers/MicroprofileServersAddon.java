@@ -236,6 +236,15 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
             processTemplateFile(metricDirectory, "MetricController.java", alternatives, variables);
         }
 
+        if (microprofileSpecs.contains(MicroprofileSpec.OPEN_API)) {
+            String openapiDirectory = model.getDirectory(true) + "/" + rootJava + "/openapi";
+            directoryCreator.createDirectory(openapiDirectory);
+
+            processTemplateFile(openapiDirectory, "BookingController.java", alternatives, variables);
+            processTemplateFile(openapiDirectory, "Booking.java", alternatives, variables);
+            processTemplateFile(openapiDirectory, "Destination.java", alternatives, variables);
+        }
+
         if (microprofileSpecs.contains(MicroprofileSpec.FAULT_TOLERANCE)) {
             String faultDirectory = model.getDirectory(true) + "/" + rootJava + "/resilient";
             directoryCreator.createDirectory(faultDirectory);

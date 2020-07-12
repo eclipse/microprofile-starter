@@ -58,3 +58,6 @@ src/main/resources/files/wildfly/microprofile-config.properties.tpl
 src/main/resources/files/wildfly/mp3_x/index.html.tpl
 src/main/resources/files/wildfly/service-b/microprofile-config.properties.tpl
 src/main/resources/files/wildfly-swarm/web.xml.tpl
+src/main/resources/files/Booking.java.tpl
+src/main/resources/files/BookingController.java.tpl
+src/main/resources/files/Destination.java.tpl
