@@ -29,7 +29,14 @@ import org.eclipse.microprofile.starter.addon.microprofile.servers.model.Support
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.VersionSpecMatrix;
 import org.eclipse.microprofile.starter.core.artifacts.Creator;
 import org.eclipse.microprofile.starter.core.exception.JessieUnexpectedException;
-import org.eclipse.microprofile.starter.core.model.*;
+import org.eclipse.microprofile.starter.core.model.BeansXMLMode;
+import org.eclipse.microprofile.starter.core.model.JavaSEVersion;
+import org.eclipse.microprofile.starter.core.model.JessieMaven;
+import org.eclipse.microprofile.starter.core.model.JessieModel;
+import org.eclipse.microprofile.starter.core.model.JessieSpecification;
+import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
+import org.eclipse.microprofile.starter.core.model.ModelManager;
+import org.eclipse.microprofile.starter.core.model.OptionValue;
 import org.eclipse.microprofile.starter.log.ErrorLogger;
 import org.eclipse.microprofile.starter.log.LoggingTask;
 
@@ -46,7 +53,12 @@ import javax.inject.Named;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
