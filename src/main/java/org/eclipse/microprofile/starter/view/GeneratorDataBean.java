@@ -26,16 +26,10 @@ import org.eclipse.microprofile.starter.Version;
 import org.eclipse.microprofile.starter.ZipFileCreator;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
+import org.eclipse.microprofile.starter.addon.microprofile.servers.model.VersionSpecMatrix;
 import org.eclipse.microprofile.starter.core.artifacts.Creator;
 import org.eclipse.microprofile.starter.core.exception.JessieUnexpectedException;
-import org.eclipse.microprofile.starter.core.model.BeansXMLMode;
-import org.eclipse.microprofile.starter.core.model.JavaSEVersion;
-import org.eclipse.microprofile.starter.core.model.JessieMaven;
-import org.eclipse.microprofile.starter.core.model.JessieModel;
-import org.eclipse.microprofile.starter.core.model.JessieSpecification;
-import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
-import org.eclipse.microprofile.starter.core.model.ModelManager;
-import org.eclipse.microprofile.starter.core.model.OptionValue;
+import org.eclipse.microprofile.starter.core.model.*;
 import org.eclipse.microprofile.starter.log.ErrorLogger;
 import org.eclipse.microprofile.starter.log.LoggingTask;
 
@@ -52,12 +46,7 @@ import javax.inject.Named;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -85,6 +74,8 @@ public class GeneratorDataBean implements Serializable {
 
     private EngineData engineData;
 
+    private MicroProfileVersion microProfileVersion;
+
     private List<SelectItem> supportedServerItems;
     private List<String> selectedSpecs = new ArrayList<>();
     private List<SelectItem> specs;
@@ -97,9 +88,9 @@ public class GeneratorDataBean implements Serializable {
     }
 
     public void onMPVersionSelected() {
-        MicroProfileVersion version = MicroProfileVersion.valueFor(engineData.getMpVersion());
-        defineExampleSpecs(version);
-        defineSupportedServerItems(version);
+        microProfileVersion = MicroProfileVersion.valueFor(engineData.getMpVersion());
+        defineExampleSpecs(microProfileVersion);
+        defineSupportedServerItems(microProfileVersion);
         defineJavaSEVersionEnabled();
     }
 
@@ -152,6 +143,11 @@ public class GeneratorDataBean implements Serializable {
             }
         }
 
+    }
+
+    public String getSpecificationLink(MicroprofileSpec spec) {
+        Map<MicroprofileSpec, String> specData = VersionSpecMatrix.getInstance().getSpecData(microProfileVersion);
+        return String.format(spec.getTagURL(), specData.get(spec) );
     }
 
     private void defineSupportedServerItems(MicroProfileVersion version) {
