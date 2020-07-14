@@ -26,6 +26,7 @@ import org.eclipse.microprofile.starter.Version;
 import org.eclipse.microprofile.starter.ZipFileCreator;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
+import org.eclipse.microprofile.starter.addon.microprofile.servers.model.VersionSpecMatrix;
 import org.eclipse.microprofile.starter.core.artifacts.Creator;
 import org.eclipse.microprofile.starter.core.exception.JessieUnexpectedException;
 import org.eclipse.microprofile.starter.core.model.BeansXMLMode;
@@ -85,6 +86,8 @@ public class GeneratorDataBean implements Serializable {
 
     private EngineData engineData;
 
+    private MicroProfileVersion microProfileVersion;
+
     private List<SelectItem> supportedServerItems;
     private List<String> selectedSpecs = new ArrayList<>();
     private List<SelectItem> specs;
@@ -97,9 +100,9 @@ public class GeneratorDataBean implements Serializable {
     }
 
     public void onMPVersionSelected() {
-        MicroProfileVersion version = MicroProfileVersion.valueFor(engineData.getMpVersion());
-        defineExampleSpecs(version);
-        defineSupportedServerItems(version);
+        microProfileVersion = MicroProfileVersion.valueFor(engineData.getMpVersion());
+        defineExampleSpecs(microProfileVersion);
+        defineSupportedServerItems(microProfileVersion);
         defineJavaSEVersionEnabled();
     }
 
@@ -152,6 +155,11 @@ public class GeneratorDataBean implements Serializable {
             }
         }
 
+    }
+
+    public String getSpecificationLink(MicroprofileSpec spec) {
+        Map<MicroprofileSpec, String> specData = VersionSpecMatrix.getInstance().getSpecData(microProfileVersion);
+        return String.format(spec.getTagURL(), specData.get(spec) );
     }
 
     private void defineSupportedServerItems(MicroProfileVersion version) {
