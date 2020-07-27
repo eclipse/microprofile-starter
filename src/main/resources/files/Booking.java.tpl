@@ -9,9 +9,6 @@ public class Booking {
     @Schema(required = true, description = "Description of the destination")
     private Destination destination;
 
-    public Booking() {
-    }
-
     public String getId() {
         return id;
     }
