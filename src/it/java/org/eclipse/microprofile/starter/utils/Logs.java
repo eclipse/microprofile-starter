@@ -22,15 +22,18 @@ package org.eclipse.microprofile.starter.utils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
-import static org.junit.Assert.assertFalse;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Michal Karm Babacek <karm@redhat.com>
@@ -38,8 +41,10 @@ import static org.junit.Assert.assertFalse;
 public class Logs {
     private static final Logger LOGGER = Logger.getLogger(Logs.class.getName());
 
-    public static void checkLog(String testClass, String testMethod, String logname, File log) throws FileNotFoundException {
-        String[] whiteList;
+    private static final Pattern ERROR_DETECTION_PATTERN = Pattern.compile("(?i:.*ERROR.*)");
+
+    public static void checkLog(String testClass, String testMethod, String logname, File log) throws IOException {
+        Pattern[] whiteList;
         if (testMethod.contains(Whitelist.THORNTAIL_V2.name)) {
             whiteList = Whitelist.THORNTAIL_V2.errs;
         } else if (testMethod.contains(Whitelist.PAYARA_MICRO.name)) {
@@ -60,24 +65,29 @@ public class Logs {
             throw new IllegalArgumentException(
                     "testMethod as matter of convention should always contain lower-case server name, e.g. thorntail");
         }
-        try (Scanner sc = new Scanner(log)) {
+        try (Scanner sc = new Scanner(log, UTF_8)) {
+            Set<String> offendingLines = new HashSet<>();
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
-                boolean error = line.matches("(?i:.*ERROR.*)");
+                boolean error = ERROR_DETECTION_PATTERN.matcher(line).matches();
                 boolean whiteListed = false;
                 if (error) {
-                    for (String w : whiteList) {
-                        if (line.contains(w)) {
+                    for (Pattern p : whiteList) {
+                        if (p.matcher(line).matches()) {
                             whiteListed = true;
-                            LOGGER.info(logname + " for " + testMethod + " contains whitelisted error: `" + line + "'");
+                            LOGGER.info(logname + " " + log.getName() + " log for " + testMethod + " contains whitelisted error: `" + line + "'");
                             break;
                         }
                     }
+                    if (!whiteListed) {
+                        offendingLines.add(line);
+                    }
                 }
-                assertFalse(logname + " should not contain `ERROR' lines that are not whitelisted. " +
-                                "See target" + File.separator + "archived-logs" + File.separator + testClass + File.separator + testMethod + File.separator + log.getName(),
-                        error && !whiteListed);
             }
+            assertTrue(logname + " " + log.getName() + " log should not contain error or warning lines that are not whitelisted. " +
+                    "See target" + File.separator + "archived-logs" +
+                    File.separator + testClass + File.separator + testMethod + File.separator + log.getName() +
+                    " and check these offending lines: \n" + String.join("\n", offendingLines), offendingLines.isEmpty());
         }
     }
 

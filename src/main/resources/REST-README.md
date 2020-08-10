@@ -333,7 +333,7 @@ ETag: "44730639"
     "descriptions": {
         "CONFIG": "Configuration - externalize and manage your configuration parameters outside your microservices",
         "OPEN_API": "Open API - Generate OpenAPI-compliant API documentation for your microservices",
-        "HEALTH_CHECKS": "Health Checks - Verify the health of your microservices with custom verifications",
+        "HEALTH_CHECKS": "Health - Verify the health of your microservices with custom verifications",
         "REST_CLIENT": "Rest Client - Invoke RESTful services in a type-safe manner",
         "FAULT_TOLERANCE": "Fault Tolerance - all about bulkheads, timeouts, circuit breakers, retries, etc. for your microservices",
         "JWT_AUTH": "JWT Propagation - propagate security across your microservices",
@@ -544,7 +544,7 @@ ETag: "7b99230f"
     "descriptions": {
         "CONFIG": "Configuration - externalize and manage your configuration parameters outside your microservices",
         "OPEN_API": "Open API - Generate OpenAPI-compliant API documentation for your microservices",
-        "HEALTH_CHECKS": "Health Checks - Verify the health of your microservices with custom verifications",
+        "HEALTH_CHECKS": "Health - Verify the health of your microservices with custom verifications",
         "REST_CLIENT": "Rest Client - Invoke RESTful services in a type-safe manner",
         "FAULT_TOLERANCE": "Fault Tolerance - all about bulkheads, timeouts, circuit breakers, retries, etc. for your microservices",
         "JWT_AUTH": "JWT Propagation - propagate security across your microservices",
