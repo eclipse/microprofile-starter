@@ -49,8 +49,10 @@ public enum MPSpec {
             new String[]{"data/secured/test", "Jessie specific value"},
     }),
     OPEN_API(new String[][]{
-            // Tomee shows only /resilience:, all others show "/data/resilience".
-            new String[]{"openapi", "/hello"}
+            // Tomee shows only /booking/{bookingId}, all others show "/data/booking/{bookingId}".
+            new String[]{"openapi", "/booking/{bookingId}"},
+            new String[]{"openapi", "$ref: '#/components/schemas/Booking'"},
+            new String[]{"openapi", "description: No booking found for the id."}
     }),
     // TODO Install Jaeger?
     //OPEN_TRACING(new String[][]{
