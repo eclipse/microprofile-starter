@@ -19,6 +19,8 @@
  */
 package org.eclipse.microprofile.starter.utils;
 
+import java.util.regex.Pattern;
+
 /**
  * Whitelists errors in log files.
  *
@@ -27,32 +29,32 @@ package org.eclipse.microprofile.starter.utils;
  * @author Michal Karm Babacek <karm@redhat.com>
  */
 public enum Whitelist {
-    THORNTAIL_V2("thorntail", new String[]{
-            "wildfly-domain-http-error-context"
+    THORNTAIL_V2("thorntail", new Pattern[]{
+            Pattern.compile(".*wildfly-domain-http-error-context.*"),
     }),
-    PAYARA_MICRO("payara", new String[]{
-            "com.hazelcast.nio.tcp.TcpIpConnectionErrorHandler"
+    PAYARA_MICRO("payara", new Pattern[]{
+            Pattern.compile(".*com.hazelcast.nio.tcp.TcpIpConnectionErrorHandler.*"),
     }),
-    LIBERTY("liberty", new String[]{}),
-    HELIDON("helidon", new String[]{}),
-    KUMULUZEE("kumuluzee", new String[]{
-            "error_prone_annotations",
-            "error_prone_parent",
-            "underlying class loading error: Type Failure to load: com.mongodb.MongoClient not found."
+    LIBERTY("liberty", new Pattern[]{}),
+    HELIDON("helidon", new Pattern[]{}),
+    KUMULUZEE("kumuluzee", new Pattern[]{
+            Pattern.compile(".*error_prone_annotations.*"),
+            Pattern.compile(".*error_prone_parent.*"),
+            Pattern.compile(".*underlying class loading error: Type Failure to load: com.mongodb.MongoClient not found.*"),
     }),
-    TOMEE("tomee", new String[]{}),
-    QUARKUS("quarkus", new String[]{
-            "[org.jboss.threads.errors] Thread Thread[build",
-            "org/jboss/threads/EnhancedQueueExecutor"
+    TOMEE("tomee", new Pattern[]{}),
+    QUARKUS("quarkus", new Pattern[]{
+            Pattern.compile(".*\\[org.jboss.threads.errors] Thread Thread\\[build.*"),
+            Pattern.compile(".*org/jboss/threads/EnhancedQueueExecutor.*"),
     }),
-    WILDFLY("wildfly", new String[]{
-            "wildfly-domain-http-error-context"
+    WILDFLY("wildfly", new Pattern[]{
+            Pattern.compile(".*wildfly-domain-http-error-context.*"),
     });
 
     public final String name;
-    public final String[] errs;
+    public final Pattern[] errs;
 
-    Whitelist(String name, String[] errs) {
+    Whitelist(String name, Pattern[] errs) {
         this.name = name;
         this.errs = errs;
     }
