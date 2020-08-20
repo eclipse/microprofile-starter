@@ -179,7 +179,7 @@
                 <dependencies>
                     <dependency>
                         <groupId>io.quarkus</groupId>
-                        <artifactId>quarkus-bom</artifactId>
+                        <artifactId>quarkus-universe-bom</artifactId>
                         <version>${version.quarkus}</version>
                         <type>pom</type>
                         <scope>import</scope>
@@ -187,7 +187,6 @@
                 </dependencies>
             </dependencyManagement>
             <dependencies>
-
             </dependencies>
             <build>
                 <plugins>
@@ -198,10 +197,15 @@
                         <executions>
                             <execution>
                                 <goals>
+                                    <goal>prepare</goal>
                                     <goal>build</goal>
                                 </goals>
                             </execution>
                         </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>3.8.1</version>
                     </plugin>
                 </plugins>
             </build>

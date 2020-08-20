@@ -57,7 +57,7 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
 
     private List<MicroprofileSpec> microprofileSpecs;
 
-    private static final String VERTX_JWT_VERSION = "3.8.1";
+    private static final String VERTX_JWT_VERSION = "3.9.2";
 
     @PostConstruct
     public void init() {

@@ -6,7 +6,7 @@ MicroProfile Starter has generated this MicroProfile application for you.
 
 The generation of the executable jar file can be performed by issuing the following command
 
-    mvn clean compile quarkus:build
+    mvn clean compile package
 
 This will create a jar file **[# th:text="${jar_file}"/]** within the _target_ maven folder. This can be started by executing the following command
 
@@ -18,7 +18,7 @@ You can also start the project in development mode where it automatically update
 
 Last but not least, you can build the whole application into a one statically linked executable that does not require JVM:
 
-    mvn clean compile quarkus:native-image -Pnative
+    mvn clean compile package -Pnative
 
 Native executable build might take a minute. Then you can execute it on a compatible architecture without JVM:
 

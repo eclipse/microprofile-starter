@@ -19,6 +19,7 @@
  */
 package org.eclipse.microprofile.starter.addon.microprofile.servers.server;
 
+import org.apache.maven.model.ActivationProperty;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Profile;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
@@ -94,7 +95,7 @@ public class QuarkusServer extends AbstractMicroprofileAddon {
             case NONE:
                 break;
             case MP32:
-                quarkusVersion = "1.3.4.Final";
+                quarkusVersion = "1.7.0.Final";
                 break;
             case MP30:
                 break;
@@ -113,11 +114,16 @@ public class QuarkusServer extends AbstractMicroprofileAddon {
             default:
         }
         pomFile.addProperty("version.quarkus", quarkusVersion);
+        pomFile.setPackaging("jar");
         List<MicroprofileSpec> microprofileSpecs = model.getParameter(JessieModel.Parameter.MICROPROFILESPECS);
 
         Profile nativeProfile = pomFile.getProfiles().get(0).clone();
         nativeProfile.setId("native");
         nativeProfile.getActivation().setActiveByDefault(false);
+        ActivationProperty activationPropertyNative = new ActivationProperty();
+        activationPropertyNative.setName("name");
+        activationPropertyNative.setValue("native");
+        nativeProfile.getActivation().setProperty(activationPropertyNative);
         nativeProfile.getBuild().getPlugins().get(0).getExecutions().get(0).setGoals(Collections.singletonList("native-image"));
 
         Xpp3Dom configuration = new Xpp3Dom("configuration");
