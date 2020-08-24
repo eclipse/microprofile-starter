@@ -31,6 +31,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.model.SelectItem;
 import java.io.IOException;
+import java.util.UUID;
 
 public class CustomSelectManyCheckboxRenderer extends SelectManyCheckboxRenderer {
 
@@ -77,8 +78,20 @@ public class CustomSelectManyCheckboxRenderer extends SelectManyCheckboxRenderer
     protected void encodeLabel(FacesContext context, SelectItem option, String target) throws IOException {
         labelFacet.encodeAll(context);  // From the facet
         if (tooltipFacet != null) {
+            // Ids need to be unique and tooltipFacet is reused (as child from Tooltip). So need to assign unique id.
+            String idPart = UUID.randomUUID().toString();
+            String currentId = tooltipFacet.getId();
+            String newId;
+            if (currentId.length() > idPart.length()) {
+                // Some String magic to avoid the id to be growing each time.
+                newId = currentId.substring(0, currentId.length() - idPart.length()) + idPart;
+            } else {
+                // Very first time, just append
+                newId = currentId + idPart;
+            }
+            tooltipFacet.setId(newId);
+            
             // Add the tooltip for this option.
-
             Tooltip tooltip = new Tooltip();
             tooltip.setFor(target);
             tooltip.getChildren().add(tooltipFacet);
