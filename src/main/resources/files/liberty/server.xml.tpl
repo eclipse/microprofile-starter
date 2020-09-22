@@ -15,7 +15,7 @@
     <mpMetrics authentication="false"/>
 
     <!-- This is the keystore that will be used by SSL and by JWT. -->
-    <keyStore id="defaultKeyStore" location="public.jks" type="JKS" password="atbash" />
+    <keyStore id="defaultKeyStore" location="public.jks" type="JKS" />
 
 
     <!-- The MP JWT configuration that injects the caller's JWT into a ResourceScoped bean for inspection. -->
