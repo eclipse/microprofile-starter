@@ -14,9 +14,7 @@
     </webApplication>
     <mpMetrics authentication="false"/>
 
-    <!-- This is the keystore that will be used by SSL and by JWT. -->
-    <keyStore id="defaultKeyStore" location="public.jks" type="JKS" password="atbash" />
-
+    <ssl id="defaultSSLConfig" trustDefaultCerts="true" />
 
     <!-- The MP JWT configuration that injects the caller's JWT into a ResourceScoped bean for inspection. -->
     <mpJwt id="jwtUserConsumer" keyName="theKeyId" audiences="targetService" issuer="${jwt.issuer}"/>
