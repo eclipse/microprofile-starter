@@ -19,6 +19,7 @@
 package org.eclipse.microprofile.starter.view.renderer;
 
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
+import org.eclipse.microprofile.starter.addon.microprofile.servers.model.StandaloneMPSpec;
 import org.primefaces.component.selectmanycheckbox.SelectManyCheckbox;
 import org.primefaces.component.selectmanycheckbox.SelectManyCheckboxRenderer;
 import org.primefaces.component.tooltip.Tooltip;
@@ -68,7 +69,11 @@ public class CustomSelectManyCheckboxRenderer extends SelectManyCheckboxRenderer
                 writer.writeAttribute("title", option.getDescription(), null);
             }
 
-            context.getExternalContext().getRequestMap().put("item", MicroprofileSpec.valueFor(option.getValue().toString()));
+            Object item = MicroprofileSpec.valueFor(option.getValue().toString());
+            if (item == null) {
+                item = StandaloneMPSpec.valueFor(option.getValue().toString());
+            }
+            context.getExternalContext().getRequestMap().put("item", item);
             encodeLabel(context, option, target);
             writer.endElement("label");
         }

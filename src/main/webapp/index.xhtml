@@ -161,6 +161,26 @@
                                     <h:outputText value="#{item.description}"/>
                                 </f:facet>
                             </p:selectManyCheckbox>
+                            <h:panelGroup rendered="#{not empty generatorDataBean.standaloneSpecs}">
+                                <p:separator />
+                                <p:selectManyCheckbox id="microprofileStandaloneSpecs" value="#{generatorDataBean.selectedStandaloneSpecs}"
+                                                      layout="responsive" styleClass="specifications"
+                                                      columns="2" disabled="#{empty generatorDataBean.engineData.mpVersion}">
+                                    <f:selectItems value="#{generatorDataBean.standaloneSpecs}" var="spec" itemLabel="#{spec}"
+                                                   itemValue="#{spec}" itemDisabled="#{spec}"/>
+                                    <p:ajax process="@this" />
+                                    <f:facet name="label">
+                                        <h:outputText value="#{item.label}"/>
+                                        <a href="#{generatorDataBean.getSpecificationStandaloneLink(item)}" target="blank">
+                                            <i class="pi pi-external-link"></i>
+                                        </a>
+                                    </f:facet>
+                                    <f:facet name="tooltip">
+                                        <h:outputText value="#{item.description}"/>
+                                    </f:facet>
+
+                                </p:selectManyCheckbox>
+                            </h:panelGroup>
                         </h:panelGroup>
 
 

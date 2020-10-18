@@ -53,5 +53,10 @@ If you have a tracer running, you can open it now.
 <a href="data/client/test/parameterValue" target="_blank" >Call REST endpoint using generated client based on interface</a> <br/>
 [/]
 
+[# th:if="${mp_graphql}"]
+<h3>Rest Client</h3>
+<a href="graphql/schema.graphql" target="_blank" >GraphQL schema</a> <br/>
+[/]
+
 </body>
 </html>

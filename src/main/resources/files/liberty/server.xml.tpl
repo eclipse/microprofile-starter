@@ -3,6 +3,9 @@
 
     <featureManager>
         <feature>microProfile-[# th:text="${mp_version}"/]</feature>
+        [# th:if="${mp_graphql}"]
+        <feature>mpGraphQL-1.0</feature>
+        [/]
     </featureManager>
 
     <httpEndpoint id="defaultHttpEndpoint"
