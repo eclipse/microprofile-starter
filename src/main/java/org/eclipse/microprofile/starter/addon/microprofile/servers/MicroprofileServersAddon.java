@@ -187,7 +187,11 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
         }
 
         if (microprofileStandaloneSpecs.contains(StandaloneMPSpec.GRAPH_QL) && mainProject) {
-            mavenHelper.addDependency(pomFile, StandaloneMPSpec.GRAPH_QL.getGroupId(), StandaloneMPSpec.GRAPH_QL.getArtifactId(), StandaloneMPSpec.GRAPH_QL.getVersion(), "provided");
+            mavenHelper.addDependency(pomFile,
+                    StandaloneMPSpec.GRAPH_QL.getGroupId(),
+                    StandaloneMPSpec.GRAPH_QL.getArtifactId(),
+                    StandaloneMPSpec.GRAPH_QL.getVersion(),
+                    "provided");
         }
 
         if (model.hasMainAndSecondaryProject()) {

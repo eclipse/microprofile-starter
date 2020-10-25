@@ -26,7 +26,7 @@ public enum StandaloneMPSpec {
     // @formatter:off
     GRAPH_QL("graphql", "Graph QL",
             "https://github.com/eclipse/microprofile-graphql/releases/tag/%s",
-            "Graph QL: ???",
+            "Graph QL: GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data.",
             Arrays.asList(ServerMPVersion.of(SupportedServer.LIBERTY)),
             "org.eclipse.microprofile.graphql",
             "microprofile-graphql-api",
@@ -43,7 +43,14 @@ public enum StandaloneMPSpec {
     private String artifactId;
     private String version;
 
-    StandaloneMPSpec(String code, String label, String tagURL, String description, List<ServerMPVersion> serverRestrictions, String groupId, String artifactId, String version) {
+    StandaloneMPSpec(String code,
+                     String label,
+                     String tagURL,
+                     String description,
+                     List<ServerMPVersion> serverRestrictions,
+                     String groupId,
+                     String artifactId,
+                     String version) {
         this.code = code;
         this.label = label;
         this.tagURL = tagURL;
