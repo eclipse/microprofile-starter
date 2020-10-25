@@ -367,10 +367,12 @@ public class GeneratorDataBean implements Serializable {
 
     public void selectAll() {
         selectedSpecs = specs.stream().map(si -> si.getValue().toString()).collect(Collectors.toList());
+        selectedStandaloneSpecs = standaloneSpecs.stream().map(si -> si.getValue().toString()).collect(Collectors.toList());
     }
 
     public void unselectAll() {
         selectedSpecs.clear();
+        selectedStandaloneSpecs.clear();
     }
 
     public boolean getJavaSEEnabled() {
