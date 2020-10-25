@@ -171,9 +171,11 @@ public class GeneratorDataBean implements Serializable {
         for (StandaloneMPSpec standaloneMPSpec : StandaloneMPSpec.values()) {
             if (standaloneSpecForVersion(standaloneMPSpec.getServerRestrictions())) {
                 boolean standaloneSpecEnabled = isStandaloneSpecEnabled(standaloneMPSpec);
-                standaloneSpecs.add(new SelectItem(standaloneMPSpec.getCode(), standaloneMPSpec.getLabel(), null, !standaloneSpecEnabled));
-                if (standaloneSpecEnabled && currentSelected.contains(standaloneMPSpec.getCode())) {
-                    selectedStandaloneSpecs.add(standaloneMPSpec.getCode());
+                if (standaloneSpecEnabled) {
+                    standaloneSpecs.add(new SelectItem(standaloneMPSpec.getCode(), standaloneMPSpec.getLabel()));
+                    if (currentSelected.contains(standaloneMPSpec.getCode())) {
+                        selectedStandaloneSpecs.add(standaloneMPSpec.getCode());
+                    }
                 }
             }
         }
