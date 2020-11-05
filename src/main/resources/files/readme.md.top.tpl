@@ -8,3 +8,9 @@ There are 2 projects generated so that the examples for the Rest Client and/or J
 . In the `service-b` directory, you can find some endpoints which will be called by code within the client application. This can be seen as the 'backend'.
 
 Have a look in the `readme.md` file in each directory which describes how each project can be built and run.
+
+[# th:if="${mp_rest_client}"]
+Once both projects are built and started, open your browser at the following URL to launch the test page and execute both projects:
+
+    http://localhost:[# th:text="${port_service_a}"/]/index.html
+[/]
