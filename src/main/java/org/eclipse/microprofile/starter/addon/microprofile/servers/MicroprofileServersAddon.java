@@ -143,7 +143,7 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
     }
 
     private String invalidStandaloneSpecValue(List<String> invalidSpecs) {
-        return "Unknown value for option 'mp.stabdaloneSpecs' : " + String.join(", ", invalidSpecs);
+        return "Unknown value for option 'mp.standaloneSpecs' : " + String.join(", ", invalidSpecs);
     }
 
     @Override

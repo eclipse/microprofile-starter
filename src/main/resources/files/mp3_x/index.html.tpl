@@ -54,7 +54,7 @@ If you have a tracer running, you can open it now.
 [/]
 
 [# th:if="${mp_graphql}"]
-<h3>Rest Client</h3>
+<h3>GraphQL</h3>
 <a href="graphql/schema.graphql" target="_blank" >GraphQL schema</a> <br/>
 [/]
 

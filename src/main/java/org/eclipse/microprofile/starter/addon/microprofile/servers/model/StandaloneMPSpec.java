@@ -24,9 +24,9 @@ import java.util.List;
 
 public enum StandaloneMPSpec {
     // @formatter:off
-    GRAPH_QL("graphql", "Graph QL",
+    GRAPH_QL("graphql", "GraphQL",
             "https://github.com/eclipse/microprofile-graphql/releases/tag/%s",
-            "Graph QL: GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data.",
+            "GraphQL: GraphQL is a query language for APIs and a library for fulfilling those queries with your existing data.",
             Arrays.asList(ServerMPVersion.of(SupportedServer.LIBERTY)),
             "org.eclipse.microprofile.graphql",
             "microprofile-graphql-api",
