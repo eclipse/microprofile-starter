@@ -128,6 +128,9 @@ public class GeneratorDataBean implements Serializable {
             List<JavaSEVersion> versions = jdkSelector.getSupportedVersion(supportedServer, mpVersion);
             javaSEEnabled = versions.size() > 1;
 
+            if (!javaSEEnabled) {
+                engineData.setJavaSEVersion(versions.get(0).getCode());
+            }
             javaSEItems = new ArrayList<>();
             for (JavaSEVersion javaSEVersion : versions) {
                 javaSEItems.add(new SelectItem(javaSEVersion.getCode(), javaSEVersion.getLabel()));
