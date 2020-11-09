@@ -3,7 +3,13 @@
 
     <featureManager>
         <feature>microProfile-[# th:text="${mp_version}"/]</feature>
+        [# th:if="${mp_graphql}"]
+        <feature>mpGraphQL-1.0</feature>
+        [/]
     </featureManager>
+    [# th:if="${mp_graphql}"]
+    <variable name="io.openliberty.enableGraphQLUI" value="true" />
+    [/]
 
     <httpEndpoint id="defaultHttpEndpoint"
                   httpPort="[# th:text="${port_service_a}"/]"

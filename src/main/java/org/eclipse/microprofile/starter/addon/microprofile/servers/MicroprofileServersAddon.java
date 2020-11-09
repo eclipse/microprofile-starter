@@ -24,6 +24,7 @@ import org.apache.maven.model.Activation;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Profile;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
+import org.eclipse.microprofile.starter.addon.microprofile.servers.model.StandaloneMPSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
 import org.eclipse.microprofile.starter.core.artifacts.MavenCreator;
 import org.eclipse.microprofile.starter.core.exception.JessieConfigurationException;
@@ -56,6 +57,7 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
     private Model serverPomModel;
 
     private List<MicroprofileSpec> microprofileSpecs;
+    private List<StandaloneMPSpec> microprofileStandaloneSpecs;
 
     private static final String VERTX_JWT_VERSION = "3.9.2";
 
@@ -74,6 +76,7 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
         checkServerValue(model);
 
         handleSpecOptions(model);
+        handleStandaloneSpecOptions(model);
     }
 
     private void handleSpecOptions(JessieModel model) {
@@ -98,6 +101,28 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
         model.addParameter(MICROPROFILESPECS, microprofileSpecs);
     }
 
+    private void handleStandaloneSpecOptions(JessieModel model) {
+        OptionValue specs = options.get("standaloneSpecs");
+
+        microprofileStandaloneSpecs = new ArrayList<>();
+        List<String> invalidSpecs = new ArrayList<>();
+        for (String spec : specs.getValues()) {
+            StandaloneMPSpec standaloneMPSpec = StandaloneMPSpec.valueFor(spec);
+            if (standaloneMPSpec == null) {
+                invalidSpecs.add(spec);
+            } else {
+                model.addVariable("mp_" + standaloneMPSpec.getCode(), "true");
+                microprofileStandaloneSpecs.add(standaloneMPSpec);
+            }
+        }
+
+        if (!invalidSpecs.isEmpty()) {
+            throw new JessieConfigurationException(invalidStandaloneSpecValue(invalidSpecs));
+        }
+
+        model.addParameter(MICROPROFILESPECS, microprofileSpecs);
+    }
+
     private void checkServerValue(JessieModel model) {
         String serverName = options.get("server").getSingleValue();
         SupportedServer supportedServer = SupportedServer.valueFor(serverName);
@@ -115,6 +140,10 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
 
     private String invalidSpecValue(List<String> invalidSpecs) {
         return "Unknown value for option 'mp.specs' : " + String.join(", ", invalidSpecs);
+    }
+
+    private String invalidStandaloneSpecValue(List<String> invalidSpecs) {
+        return "Unknown value for option 'mp.standaloneSpecs' : " + String.join(", ", invalidSpecs);
     }
 
     @Override
@@ -155,6 +184,14 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
 
         if (microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH) && mainProject) {
             mavenHelper.addDependency(pomFile, "io.vertx", "vertx-auth-jwt", VERTX_JWT_VERSION);
+        }
+
+        if (microprofileStandaloneSpecs.contains(StandaloneMPSpec.GRAPH_QL) && mainProject) {
+            mavenHelper.addDependency(pomFile,
+                    StandaloneMPSpec.GRAPH_QL.getGroupId(),
+                    StandaloneMPSpec.GRAPH_QL.getArtifactId(),
+                    StandaloneMPSpec.GRAPH_QL.getVersion(),
+                    "provided");
         }
 
         if (model.hasMainAndSecondaryProject()) {
@@ -279,6 +316,25 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
             String resourceDirectory = getResourceDirectory(model, true);
 
             processTemplateFile(resourceDirectory, "privateKey.pem", alternatives, variables);
+        }
+
+        if (microprofileStandaloneSpecs.contains(StandaloneMPSpec.GRAPH_QL)) {
+            String graphqlDirectory = model.getDirectory(true) + "/" + rootJava + "/graphql";
+            String graphqlModelDirectory = model.getDirectory(true) + "/" + rootJava + "/graphql/model";
+            String graphqlDbDirectory = model.getDirectory(true) + "/" + rootJava + "/graphql/db";
+
+            directoryCreator.createDirectory(graphqlDirectory);
+            directoryCreator.createDirectory(graphqlModelDirectory);
+            directoryCreator.createDirectory(graphqlDbDirectory);
+
+            processTemplateFile(graphqlDirectory, "HeroFinder.java", alternatives, variables);
+            processTemplateFile(graphqlModelDirectory, "SuperHero.java", alternatives, variables);
+            processTemplateFile(graphqlModelDirectory, "Team.java", alternatives, variables);
+            processTemplateFile(graphqlModelDirectory, "UnknownCharacterException.java", alternatives, variables);
+            processTemplateFile(graphqlDbDirectory, "HeroDatabase.java", alternatives, variables);
+            processTemplateFile(graphqlDbDirectory, "DuplicateSuperHeroException.java", alternatives, variables);
+            processTemplateFile(graphqlDbDirectory, "UnknownHeroException.java", alternatives, variables);
+            processTemplateFile(graphqlDbDirectory, "UnknownTeamException.java", alternatives, variables);
         }
 
         // With KumuluzEE, it properties are integrated within config.yaml

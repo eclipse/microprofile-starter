@@ -138,11 +138,11 @@
                         </p:panelGrid>
                         <h:panelGroup>
                             <p:outputLabel value="Examples for specifications" for="microprofileSpecs"/> <h:outputText value="&#160;" />
-                            <p:commandLink value="Select All" actionListener="#{generatorDataBean.selectAll}" update="microprofileSpecs"
+                            <p:commandLink value="Select All" actionListener="#{generatorDataBean.selectAll}" update="microprofileSpecs, microprofileStandaloneSpecs"
                                            ajax="true" process="@this"
                                            rendered="#{not empty generatorDataBean.engineData.mpVersion}"/>
                             <h:outputText value="&#160;" /><h:outputText value="&#160;" />
-                            <p:commandLink value="Clear All" actionListener="#{generatorDataBean.unselectAll}" update="microprofileSpecs"
+                            <p:commandLink value="Clear All" actionListener="#{generatorDataBean.unselectAll}" update="microprofileSpecs, microprofileStandaloneSpecs"
                                            ajax="true" process="@this"
                                            rendered="#{not empty generatorDataBean.engineData.mpVersion}"/>
                             <p:selectManyCheckbox id="microprofileSpecs" value="#{generatorDataBean.selectedSpecs}"
@@ -161,6 +161,26 @@
                                     <h:outputText value="#{item.description}"/>
                                 </f:facet>
                             </p:selectManyCheckbox>
+                            <h:panelGroup rendered="#{not empty generatorDataBean.standaloneSpecs}">
+                                <p:separator />
+                                <p:selectManyCheckbox id="microprofileStandaloneSpecs" value="#{generatorDataBean.selectedStandaloneSpecs}"
+                                                      layout="responsive" styleClass="specifications"
+                                                      columns="2" >
+                                    <f:selectItems value="#{generatorDataBean.standaloneSpecs}" var="spec" itemLabel="#{spec}"
+                                                   itemValue="#{spec}" />
+                                    <p:ajax process="@this" />
+                                    <f:facet name="label">
+                                        <h:outputText value="#{item.label}"/>
+                                        <a href="#{generatorDataBean.getSpecificationStandaloneLink(item)}" target="blank">
+                                            <i class="pi pi-external-link"></i>
+                                        </a>
+                                    </f:facet>
+                                    <f:facet name="tooltip">
+                                        <h:outputText value="#{item.description}"/>
+                                    </f:facet>
+
+                                </p:selectManyCheckbox>
+                            </h:panelGroup>
                         </h:panelGroup>
 
 

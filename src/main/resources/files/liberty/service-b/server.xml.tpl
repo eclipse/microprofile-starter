@@ -3,6 +3,7 @@
 
     <featureManager>
         <feature>microProfile-[# th:text="${mp_version}"/]</feature>
+
     </featureManager>
 
     <httpEndpoint id="defaultHttpEndpoint"

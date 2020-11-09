@@ -108,3 +108,11 @@ A type safe invocation of HTTP rest endpoints. Specification [here](https://micr
 
 The example calls one endpoint from another JAX-RS resource where generated Rest Client is injected as CDI bean.
 [/]
+
+[# th:if="${mp_graphql}"]
+### GraphQL
+
+GraphQL is a query language for APIs and a library for fulfilling those queries with your existing data. Specification [here](https://microprofile.io/project/eclipse/microprofile-graphql)
+
+The example contains a limited version of the SuperHero example from the TCK and shows the Schema file for it.
+[/]

@@ -26,8 +26,10 @@ import org.eclipse.microprofile.starter.Version;
 import org.eclipse.microprofile.starter.ZipFileCreator;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.JDKSelector;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
+import org.eclipse.microprofile.starter.addon.microprofile.servers.model.StandaloneMPSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.VersionSpecMatrix;
+import org.eclipse.microprofile.starter.addon.microprofile.servers.model.ServerMPVersion;
 import org.eclipse.microprofile.starter.core.artifacts.Creator;
 import org.eclipse.microprofile.starter.core.exception.JessieUnexpectedException;
 import org.eclipse.microprofile.starter.core.model.BeansXMLMode;
@@ -95,6 +97,8 @@ public class GeneratorDataBean implements Serializable {
     private List<SelectItem> supportedServerItems;
     private List<String> selectedSpecs = new ArrayList<>();
     private List<SelectItem> specs;
+    private List<SelectItem> standaloneSpecs;
+    private List<String> selectedStandaloneSpecs = new ArrayList<>();
     private List<SelectItem> javaSEItems;
     private boolean javaSEEnabled = false;
 
@@ -108,6 +112,7 @@ public class GeneratorDataBean implements Serializable {
         microProfileVersion = MicroProfileVersion.valueFor(engineData.getMpVersion());
         defineExampleSpecs(microProfileVersion);
         defineSupportedServerItems(microProfileVersion);
+        defineStandaloneExampleSpecs();
         defineJavaSEVersion();
     }
 
@@ -117,6 +122,7 @@ public class GeneratorDataBean implements Serializable {
             onMPVersionSelected();  // So that example specs are filled and shown on screen.
             // This also limit the supportedServers as the MPVersion is now filled with a value.
         }
+        defineStandaloneExampleSpecs();  // Make sure to update the enabled status of the standalone specs
         defineJavaSEVersion();
     }
 
@@ -162,9 +168,67 @@ public class GeneratorDataBean implements Serializable {
 
     }
 
+    private void defineStandaloneExampleSpecs() {
+        standaloneSpecs = new ArrayList<>();
+        List<String> currentSelected = new ArrayList<>(selectedStandaloneSpecs);
+        selectedStandaloneSpecs.clear();
+
+        for (StandaloneMPSpec standaloneMPSpec : StandaloneMPSpec.values()) {
+            if (standaloneSpecForVersion(standaloneMPSpec.getServerRestrictions())) {
+                boolean standaloneSpecEnabled = isStandaloneSpecEnabled(standaloneMPSpec);
+                if (standaloneSpecEnabled) {
+                    standaloneSpecs.add(new SelectItem(standaloneMPSpec.getCode(), standaloneMPSpec.getLabel()));
+                    if (currentSelected.contains(standaloneMPSpec.getCode())) {
+                        selectedStandaloneSpecs.add(standaloneMPSpec.getCode());
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean standaloneSpecForVersion(List<ServerMPVersion> serverRestrictions) {
+        boolean result = false;
+        for (ServerMPVersion serverRestriction : serverRestrictions) {
+            if (serverRestriction.getMinimalMPVersion() == null) {
+                result = true;  // When runtime has no MP version restriction, show it always.
+            } else {
+                if (microProfileVersion != null && serverRestriction.getMinimalMPVersion().ordinal() > microProfileVersion.ordinal()) {
+                    result = true;
+                }
+            }
+        }
+        return result;
+    }
+
     public String getSpecificationLink(MicroprofileSpec spec) {
         Map<MicroprofileSpec, String> specData = VersionSpecMatrix.getInstance().getSpecData(microProfileVersion);
         return String.format(spec.getTagURL(), specData.get(spec) );
+    }
+
+    public String getSpecificationStandaloneLink(StandaloneMPSpec spec) {
+
+        return spec.getTagURL();
+    }
+
+    public boolean isStandaloneSpecEnabled(StandaloneMPSpec spec) {
+        if (engineData.getSupportedServer() == null) {
+            // If no runtime specified, standalone spec can never be enabled as we can't determine if runtime has support for it.
+            return false;
+        }
+        boolean result = false;
+        for (ServerMPVersion serverRestriction : spec.getServerRestrictions()) {
+            if (serverRestriction.getSupportedServer().getCode().equals(engineData.getSupportedServer())) {
+                // This restriction is for the selected runtime
+                if (serverRestriction.getMinimalMPVersion() == null) {
+                    // No restriction on MP version -> enabled
+                    result = true;
+                } else {
+                    // Current selected version more recenter as MP version defined in restriction.
+                    result = serverRestriction.getMinimalMPVersion().ordinal() >= microProfileVersion.ordinal();
+                }
+            }
+        }
+        return result;
     }
 
     private void defineSupportedServerItems(MicroProfileVersion version) {
@@ -232,8 +296,12 @@ public class GeneratorDataBean implements Serializable {
 
         model.getOptions().put("mp.server", new OptionValue(engineData.getSupportedServer()));
         model.getOptions().put("mp.specs", new OptionValue(selectedSpecs));
+        model.getOptions().put("mp.standaloneSpecs", new OptionValue(selectedStandaloneSpecs));
 
-        engineData.setSelectedSpecs(selectedSpecs);
+        List<String> allSpecs = new ArrayList<>();
+        allSpecs.addAll(selectedSpecs);
+        allSpecs.addAll(selectedStandaloneSpecs);
+        engineData.setSelectedSpecs(allSpecs);
 
         model.setSpecification(specifications);
 
@@ -304,14 +372,28 @@ public class GeneratorDataBean implements Serializable {
 
     public void selectAll() {
         selectedSpecs = specs.stream().map(si -> si.getValue().toString()).collect(Collectors.toList());
+        selectedStandaloneSpecs = standaloneSpecs.stream().map(si -> si.getValue().toString()).collect(Collectors.toList());
     }
 
     public void unselectAll() {
         selectedSpecs.clear();
+        selectedStandaloneSpecs.clear();
     }
 
     public boolean getJavaSEEnabled() {
         return javaSEEnabled;
+    }
+
+    public List<SelectItem> getStandaloneSpecs() {
+        return standaloneSpecs;
+    }
+
+    public List<String> getSelectedStandaloneSpecs() {
+        return selectedStandaloneSpecs;
+    }
+
+    public void setSelectedStandaloneSpecs(List<String> selectedStandaloneSpecs) {
+        this.selectedStandaloneSpecs = selectedStandaloneSpecs;
     }
 
     public List<SelectItem> getJavaSEItems() {
