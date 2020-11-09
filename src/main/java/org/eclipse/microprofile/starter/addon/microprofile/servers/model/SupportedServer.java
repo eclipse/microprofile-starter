@@ -36,8 +36,7 @@ public enum SupportedServer {
             , "-Dswarm.port.offset=100" //jarParameters
             , "8080" //portServiceA
             , "8180" //portServiceB
-            , null, // MP Spec for Java 11 support
-            "https://github.com/wildfly-swarm")
+            ,"https://github.com/wildfly-swarm")
     , THORNTAIL_V2("thorntail-v2", "Thorntail V2",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP21,
                     MicroProfileVersion.MP22, MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33)
@@ -45,24 +44,21 @@ public enum SupportedServer {
             , "-Dswarm.port.offset=100" //jarParameters
             , "8080" //portServiceA
             , "8180" //portServiceB
-            , MicroProfileVersion.MP22, // MP Spec for Java 11 support
-            "https://thorntail.io/")
+            ,"https://thorntail.io/")
     , QUARKUS("quarkus", "Quarkus",
             Collections.singletonList(MicroProfileVersion.MP32)
             , "%s-runner.jar" //jarFileName
             , "-Dquarkus.http.port=8180" //jarParameters; these are env props, e.g. java -D... or mvn -D...
             , "8080" //portServiceA
             , "8180" //portServiceB
-            , null, // MP Spec for Java 11 support
-            "https://quarkus.io/")
+            , "https://quarkus.io/")
     , WILDFLY("wildfly", "WildFly",
             Arrays.asList(MicroProfileVersion.MP32, MicroProfileVersion.MP33)
             , "%s-wildfly.jar" //jarFileName
             , "-Djboss.socket.binding.port-offset=100" //jarParameters
             , "8080" //portServiceA
             , "8180" //portServiceB
-            , MicroProfileVersion.MP32,  // MP Spec for Java 11 support
-            "https://www.wildfly.org/")
+            , "https://www.wildfly.org/")
     , LIBERTY("liberty", "Open Liberty",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22,
@@ -71,8 +67,7 @@ public enum SupportedServer {
             , "" //jarParameters // Hard coded in server.xml since no way of overriding a default.
             , "9080" //portServiceA
             , "9081" //portServiceB
-            , MicroProfileVersion.MP30, // MP Spec for Java 11 support
-            "https://openliberty.io/")
+            , "https://openliberty.io/")
     , KUMULUZEE("kumuluzEE", "KumuluzEE",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22,
@@ -81,8 +76,7 @@ public enum SupportedServer {
             , "" //jarParameters // Hard coded in config.xml since we needed a specific version for secondary app.
             , "8080" //portServiceA
             , "8180" //portServiceB // This need to match with port value from secondary/config.yaml
-            , null, // MP Spec for Java 11 support
-            "https://ee.kumuluz.com/")
+            , "https://ee.kumuluz.com/")
     , PAYARA_MICRO("payara-micro", "Payara Micro",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22
@@ -91,8 +85,7 @@ public enum SupportedServer {
             , "--port 8180" //jarParameters
             , "8080" //portServiceA
             , "8180" //portServiceB // This need to match with port value from defineJarParameters()
-            , MicroProfileVersion.MP32, // MP Spec for Java 11 support
-            "https://www.payara.fish/enterprise/enterprise-vs-community/payara-micro/")
+            , "https://www.payara.fish/enterprise/enterprise-vs-community/payara-micro/")
     , TOMEE("tomee", "Apache TomEE 8.0.0-M3",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21)
@@ -100,8 +93,7 @@ public enum SupportedServer {
             , "" //jarParameters // Done by TomeeServer.adaptMavenModel
             , "8080" // portServiceA
             , "8180" //portServiceB // This need to match with Port value from TomeeServer.adjustPOM
-            , null, // MP Spec for Java 11 support
-            "https://tomee.apache.org/")
+            , "https://tomee.apache.org/")
     , HELIDON("helidon", "Helidon",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP22, MicroProfileVersion.MP30
                     , MicroProfileVersion.MP32)
@@ -109,8 +101,7 @@ public enum SupportedServer {
             , "" //jarParameters // Done by secondary/helidon/microprofile-config.properties
             , "8080" //portServiceA
             , "8180" //portServiceB  // This need to match Port vcalue from secondary/microprofile-config.proeprties
-            , MicroProfileVersion.MP32, // MP Spec for Java 11 support
-            "https://helidon.io/");
+            , "https://helidon.io/");
     // @formatter:on
 
     private String code;
@@ -120,11 +111,10 @@ public enum SupportedServer {
     private String jarParameters;
     private String portServiceA;
     private String portServiceB;
-    private MicroProfileVersion firstJava11SupportedVersion; // Determines which MP version should activate Java11 selection for this Implementation.
     private String homePage;
 
     SupportedServer(String code, String displayName, List<MicroProfileVersion> mpVersions, String jarFileName
-            , String jarParameters, String portServiceA, String portServiceB, MicroProfileVersion firstJava11SupportedVersion, String homePage) {
+            , String jarParameters, String portServiceA, String portServiceB, String homePage) {
         this.code = code;
         this.displayName = displayName;
         this.mpVersions = mpVersions;
@@ -132,7 +122,6 @@ public enum SupportedServer {
         this.jarParameters = jarParameters;
         this.portServiceA = portServiceA;
         this.portServiceB = portServiceB;
-        this.firstJava11SupportedVersion = firstJava11SupportedVersion;
         this.homePage = homePage;
     }
 
@@ -162,10 +151,6 @@ public enum SupportedServer {
 
     public String getPortServiceB() {
         return portServiceB;
-    }
-
-    public MicroProfileVersion getFirstJava11SupportedVersion() {
-        return firstJava11SupportedVersion;
     }
 
     public String getHomePage() {

@@ -22,28 +22,29 @@ jobs:
           curl -X POST -i -H "Content-Type: application/json" -H "Accept: application/json" -H "Authorization: Bearer $GITTER_TOKEN" \
           "https://api.gitter.im/v1/rooms/$GITTER_ROOM_ID/chatMessages" -d \
           "{\"text\":\"Automatic message: Hello, new [build]($CIRCLE_BUILD_URL) has started.\"}"
-    - run: if [[ ! -d ${HOME}/jdk-11.0.4+11 ]];then wget https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.4%2B11/OpenJDK11U-jdk_x64_linux_hotspot_11.0.4_11.tar.gz;fi;
-    - run: if [[ ! -d ${HOME}/jdk-11.0.4+11 ]];then tar -xvf OpenJDK11U-jdk_x64_linux_hotspot_11.0.4_11.tar.gz -C ${HOME}/;fi;
+    - run: if [[ ! -d ${HOME}/jdk-11.0.9+11 ]];then wget https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.9%2B11/OpenJDK11U-jdk_x64_linux_hotspot_11.0.9_11.tar.gz;fi;
+    - run: if [[ ! -d ${HOME}/jdk-11.0.9+11 ]];then tar -xvf OpenJDK11U-jdk_x64_linux_hotspot_11.0.9_11.tar.gz -C ${HOME}/;fi;
     - run: if [[ ! -d ${HOME}/apache-maven-3.6.3 ]];then wget https://archive.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz;fi;
     - run: if [[ ! -d ${HOME}/apache-maven-3.6.3 ]];then tar -xvf apache-maven-3.6.3-bin.tar.gz -C ${HOME}/;fi;
     - run:
          name: build-fetch
          command: |
-           export PATH=${HOME}/apache-maven-3.6.3/bin:${HOME}/jdk-11.0.4+11/bin:${PATH}; \
-           export JAVA_HOME=${HOME}/jdk-11.0.4+11/; \
+           export PATH=${HOME}/apache-maven-3.6.3/bin:${HOME}/jdk-11.0.9+11/bin:${PATH}; \
+           export JAVA_HOME=${HOME}/jdk-11.0.9+11/; \
            mvn -Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2 dependency:go-offline -Pthorntail -Dskip.integration.tests=false
     - save_cache:
         paths:
         - ${HOME}/.m2
         - ${HOME}/apache-maven-3.6.3
-        - ${HOME}/jdk-11.0.4+11
+        - ${HOME}/jdk-11.0.9+11
         key: v1-dependencies-{{ checksum "pom.xml" }}
     - run:
         name: package-tests
         no_output_timeout: 120000
         command: |
-           export PATH=${HOME}/apache-maven-3.6.3/bin:${HOME}/jdk-11.0.4+11/bin:${PATH}; \
-           export JAVA_HOME=${HOME}/jdk-11.0.4+11/; \
+           export PATH=${HOME}/apache-maven-3.6.3/bin:${HOME}/jdk-11.0.9+11/bin:${PATH}; \
+           export JAVA_HOME=${HOME}/jdk-11.0.9+11/; \
+           export WLP_JAR_EXTRACT_DIR=${HOME}; \
            mvn -Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2 clean package -Pthorntail -Dskip.integration.tests=false -DSTARTER_TS_WORKSPACE=/dev/shm/
     - persist_to_workspace:
         root: .

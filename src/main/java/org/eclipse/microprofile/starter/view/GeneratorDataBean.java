@@ -24,6 +24,7 @@ package org.eclipse.microprofile.starter.view;
 
 import org.eclipse.microprofile.starter.Version;
 import org.eclipse.microprofile.starter.ZipFileCreator;
+import org.eclipse.microprofile.starter.addon.microprofile.servers.model.JDKSelector;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.StandaloneMPSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
@@ -69,6 +70,9 @@ import java.util.stream.IntStream;
 public class GeneratorDataBean implements Serializable {
 
     @Inject
+    private JDKSelector jdkSelector;
+
+    @Inject
     private ModelManager modelManager;
 
     @Inject
@@ -95,6 +99,7 @@ public class GeneratorDataBean implements Serializable {
     private List<SelectItem> specs;
     private List<SelectItem> standaloneSpecs;
     private List<String> selectedStandaloneSpecs = new ArrayList<>();
+    private List<SelectItem> javaSEItems;
     private boolean javaSEEnabled = false;
 
     @PostConstruct
@@ -108,7 +113,7 @@ public class GeneratorDataBean implements Serializable {
         defineExampleSpecs(microProfileVersion);
         defineSupportedServerItems(microProfileVersion);
         defineStandaloneExampleSpecs();
-        defineJavaSEVersionEnabled();
+        defineJavaSEVersion();
     }
 
     public void onMPRuntimeSelected() {
@@ -118,23 +123,23 @@ public class GeneratorDataBean implements Serializable {
             // This also limit the supportedServers as the MPVersion is now filled with a value.
         }
         defineStandaloneExampleSpecs();  // Make sure to update the enabled status of the standalone specs
-        defineJavaSEVersionEnabled();
+        defineJavaSEVersion();
     }
 
-    private void defineJavaSEVersionEnabled() {
+    private void defineJavaSEVersion() {
         javaSEEnabled = false;
         if (engineData.getMpVersion() != null && engineData.getSupportedServer() != null) {
             SupportedServer supportedServer = SupportedServer.valueFor(engineData.getSupportedServer());
             MicroProfileVersion mpVersion = MicroProfileVersion.valueFor(engineData.getMpVersion());
-            javaSEEnabled = isSameOrMoreRecentVersion(supportedServer.getFirstJava11SupportedVersion(), mpVersion);
-        }
-    }
+            List<JavaSEVersion> versions = jdkSelector.getSupportedVersion(supportedServer, mpVersion);
+            javaSEEnabled = versions.size() > 1;
 
-    private boolean isSameOrMoreRecentVersion(MicroProfileVersion firstJava11SupportedVersion, MicroProfileVersion mpVersion) {
-        if (firstJava11SupportedVersion == null) {
-            return false;  // No Java 11 support for Implementation defined.
+            javaSEItems = new ArrayList<>();
+            for (JavaSEVersion javaSEVersion : versions) {
+                javaSEItems.add(new SelectItem(javaSEVersion.getCode(), javaSEVersion.getLabel()));
+            }
+
         }
-        return firstJava11SupportedVersion.ordinal() >= mpVersion.ordinal();
     }
 
     private void defineMPVersionValue() {
@@ -390,4 +395,9 @@ public class GeneratorDataBean implements Serializable {
     public void setSelectedStandaloneSpecs(List<String> selectedStandaloneSpecs) {
         this.selectedStandaloneSpecs = selectedStandaloneSpecs;
     }
+
+    public List<SelectItem> getJavaSEItems() {
+        return javaSEItems;
+    }
+
 }
