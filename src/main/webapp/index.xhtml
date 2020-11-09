@@ -105,7 +105,7 @@
 
                         <p:selectOneMenu id="javaSEVersion" value="#{generatorDataBean.engineData.javaSEVersion}"
                                          disabled="#{not generatorDataBean.javaSEEnabled}">
-                            <f:selectItems value="${dataBean.javaSEItems}"/>
+                            <f:selectItems value="${generatorDataBean.javaSEItems}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:tooltip id="groupIdToolTipFocus" for="groupId" showEvent="focus" hideEvent="blur" position="bottom"/>

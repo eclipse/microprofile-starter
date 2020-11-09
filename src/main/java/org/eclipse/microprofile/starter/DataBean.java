@@ -23,7 +23,6 @@
 package org.eclipse.microprofile.starter;
 
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
-import org.eclipse.microprofile.starter.core.model.JavaSEVersion;
 import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
 
 import javax.annotation.PostConstruct;
@@ -38,13 +37,10 @@ import java.util.List;
 @Named
 public class DataBean {
 
-    private List<SelectItem> javaSEItems;
     private List<SelectItem> mpItems;
 
     @PostConstruct
     public void init() {
-        defineJavaSEItems();
-
         defineMPVersions();
     }
 
@@ -61,17 +57,6 @@ public class DataBean {
         return Arrays.stream(SupportedServer.values())
                 .anyMatch(server -> server.getMpVersions().contains(microProfileVersion));
 
-    }
-
-    private void defineJavaSEItems() {
-        javaSEItems = new ArrayList<>();
-        for (JavaSEVersion javaSEVersion : JavaSEVersion.values()) {
-            javaSEItems.add(new SelectItem(javaSEVersion.getCode(), javaSEVersion.getLabel()));
-        }
-    }
-
-    public List<SelectItem> getJavaSEItems() {
-        return javaSEItems;
     }
 
     public List<SelectItem> getMpItems() {

@@ -22,6 +22,7 @@ package org.eclipse.microprofile.starter.rest;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.starter.Version;
 import org.eclipse.microprofile.starter.ZipFileCreator;
+import org.eclipse.microprofile.starter.addon.microprofile.servers.model.JDKSelector;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
 import org.eclipse.microprofile.starter.core.artifacts.Creator;
@@ -83,6 +84,9 @@ public class APIService {
     private EntityTag readmeEtag;
 
     @Inject
+    private JDKSelector selector;
+
+    @Inject
     private Version version;
 
     @Inject
@@ -113,13 +117,9 @@ public class APIService {
             s.getMpVersions().forEach(mpv -> {
                 List<MicroprofileSpec> mpSpec = Stream.of(MicroprofileSpec.values())
                         .filter(v -> v.getMpVersions().contains(mpv)).collect(Collectors.toList());
-                List<JavaSEVersion> supportedJavaVersions = new ArrayList<>(JavaSEVersion.values().length);
-                if (s.getFirstJava11SupportedVersion() == null || s.getFirstJava11SupportedVersion().compareTo(mpv) < 0) {
-                    supportedJavaVersions.add(JavaSEVersion.SE8);
-                } else {
-                    supportedJavaVersions.add(JavaSEVersion.SE8);
-                    supportedJavaVersions.add(JavaSEVersion.SE11);
-                }
+
+                List<JavaSEVersion> supportedJavaVersions = selector.getSupportedVersion(s, mpv);
+
                 serverOptions.add(new ServerOptions(mpv, mpSpec, supportedJavaVersions));
             });
             serversToOptions.put(s, serverOptions);
