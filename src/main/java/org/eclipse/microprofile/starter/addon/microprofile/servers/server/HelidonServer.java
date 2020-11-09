@@ -34,7 +34,6 @@ import javax.inject.Inject;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 
 @ApplicationScoped
@@ -118,7 +117,6 @@ public class HelidonServer extends AbstractMicroprofileAddon {
 
         String helidonVersion = "";
         String mpVersion = "";
-        String javaVersionForCompile = "";
         switch (model.getSpecification().getMicroProfileVersion()) {
 
             case NONE:
@@ -126,12 +124,10 @@ public class HelidonServer extends AbstractMicroprofileAddon {
             case MP33:
                 helidonVersion = "2.1.0";
                 mpVersion = "3.3";
-                javaVersionForCompile = "11";
                 break;
             case MP32:
                 helidonVersion = "2.0.2";
                 mpVersion = "3.2";
-                javaVersionForCompile = "11";
                 break;
             case MP30:
                 helidonVersion = "1.3.1";
@@ -164,12 +160,5 @@ public class HelidonServer extends AbstractMicroprofileAddon {
         parent.setVersion(helidonVersion);
         parent.setRelativePath("");
         pomFile.setParent(parent);
-
-        if (!javaVersionForCompile.isEmpty()) {
-            Properties pomProps = pomFile.getProperties();
-            pomProps.setProperty("maven.compiler.release", javaVersionForCompile);
-            pomProps.setProperty("maven.compiler.target", javaVersionForCompile);
-            pomProps.setProperty("maven.compiler.source", javaVersionForCompile);
-        }
     }
 }
