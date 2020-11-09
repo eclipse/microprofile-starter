@@ -162,7 +162,7 @@ public class HelidonServer extends AbstractMicroprofileAddon {
         }
     }
 
-    private void setApplicationsParentPom(Model pomFile, String helidonVersion) {
+    private static void setApplicationsParentPom(Model pomFile, String helidonVersion) {
         Parent parent = new Parent();
         parent.setGroupId("io.helidon.applications");
         parent.setArtifactId("helidon-mp");
