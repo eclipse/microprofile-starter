@@ -117,6 +117,7 @@ public class HelidonServer extends AbstractMicroprofileAddon {
 
         String helidonVersion = "";
         String mpVersion = "";
+        boolean useApplicationsParentPom = true;
         switch (model.getSpecification().getMicroProfileVersion()) {
 
             case NONE:
@@ -132,10 +133,12 @@ public class HelidonServer extends AbstractMicroprofileAddon {
             case MP30:
                 helidonVersion = "1.3.1";
                 mpVersion = "3.0";
+                useApplicationsParentPom = false;
                 break;
             case MP22:
                 helidonVersion = "1.2.0";
                 mpVersion = "2.2";
+                useApplicationsParentPom = false;
                 break;
             case MP21:
                 break;
@@ -148,12 +151,18 @@ public class HelidonServer extends AbstractMicroprofileAddon {
             case MP12:
                 helidonVersion = "1.0.1";
                 mpVersion = "1.2";
+                useApplicationsParentPom = false;
                 break;
             default:
         }
         pomFile.addProperty("helidonVersion", helidonVersion);
         pomFile.addProperty("mpVersion", mpVersion);
+        if (useApplicationsParentPom) {
+            setApplicationsParentPom(pomFile, helidonVersion);
+        }
+    }
 
+    private void setApplicationsParentPom(Model pomFile, String helidonVersion) {
         Parent parent = new Parent();
         parent.setGroupId("io.helidon.applications");
         parent.setArtifactId("helidon-mp");
