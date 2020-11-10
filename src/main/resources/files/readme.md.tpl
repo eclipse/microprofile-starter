@@ -112,7 +112,19 @@ The example calls one endpoint from another JAX-RS resource where generated Rest
 [# th:if="${mp_graphql}"]
 ### GraphQL
 
-GraphQL is a query language for APIs and a library for fulfilling those queries with your existing data. Specification [here](https://microprofile.io/project/eclipse/microprofile-graphql)
+GraphQL is a remote data query language initially invented by Facebook and now evolving under it's own specification and community. MicroProfile GraphQL provides annotation-based APIs for building GraphQL services in Java. The specification is available [here](https://microprofile.io/project/eclipse/microprofile-graphql).
 
-The example contains a limited version of the SuperHero example from the TCK and shows the Schema file for it.
+The example contains a limited version of the SuperHero example from the TCK and shows the Schema file for it. You can think of it as something a comic-book government agency might use to keep track of Super Heroes.
+
+To get started, run the sample, then browse to: http://localhost:9080/graphql-ui - you can then issue a query of all known super heroes like this:
+```
+query allHeroes {
+    allHeroes {
+        name
+        primaryLocation
+        superPowers
+        realName
+    }
+}
+```
 [/]
