@@ -244,6 +244,7 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
         variables.put("artifact_id", artifactId);
         variables.put("wf_main_url", "http://localhost:" + SupportedServer.WILDFLY.getPortServiceA());
         variables.put("wf_manage_url", "http://localhost:9990");
+        variables.put("mp_servername", serverName);
 
         String rootJava = getJavaApplicationRootPackage(model);
 

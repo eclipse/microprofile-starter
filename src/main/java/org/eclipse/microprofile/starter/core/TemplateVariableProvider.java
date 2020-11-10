@@ -46,6 +46,7 @@ public class TemplateVariableProvider {
         result.put("application", StringUtils.capitalize(artifactId.replaceAll("-", "")));
 
         result.put("mp_version", model.getSpecification().getMicroProfileVersion().getCode());
+        result.put("secondary_project", model.hasMainAndSecondaryProject() ? "true" : "false");
 
         return result;
 
