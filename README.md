@@ -31,3 +31,5 @@ Information about adding
 * a new MicroProfile Specification
 
 is found in the [how to document](https://github.com/eclipse/microprofile-starter/blob/master/how-to.md).
+
+It is also possible to build and deploy to Open Liberty using the Liberty profile. To build the MP Starter app, use: `mvn package -Pliberty liberty:run` and then browse to http://localhost:9080/mp-starter/ to test the app.
