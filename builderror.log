@@ -1,0 +1,130 @@
+% mvn clean package
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------< org.eclipse.microprofile:starter >------------------
+[INFO] Building starter 1.0-SNAPSHOT
+[INFO] --------------------------------[ war ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ starter ---
+[INFO] Deleting /Users/tjquinn/mic/j4c/microprofile-starter/target
+[INFO] 
+[INFO] --- exec-maven-plugin:1.6.0:exec (generate-configs) @ starter ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ starter ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 69 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ starter ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 92 source files to /Users/tjquinn/mic/j4c/microprofile-starter/target/classes
+[WARNING] /Users/tjquinn/mic/j4c/microprofile-starter/src/main/java/org/eclipse/microprofile/starter/core/model/JessieModel.java: Some input files use unchecked or unsafe operations.
+[WARNING] /Users/tjquinn/mic/j4c/microprofile-starter/src/main/java/org/eclipse/microprofile/starter/core/model/JessieModel.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- maven-checkstyle-plugin:2.17:check (verify-style) @ starter ---
+[INFO] Starting audit...
+Audit done.
+[INFO] 
+[INFO] --- build-helper-maven-plugin:3.0.0:add-test-source (add-integration-test-source-as-test-sources) @ starter ---
+[INFO] Test Source directory: /Users/tjquinn/mic/j4c/microprofile-starter/src/it/java added.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ starter ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 13 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ starter ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 14 source files to /Users/tjquinn/mic/j4c/microprofile-starter/target/test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ starter ---
+[INFO] Surefire report directory: /Users/tjquinn/mic/j4c/microprofile-starter/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running org.eclipse.microprofile.starter.TestMatrixTest
+Resolving 0 out of 538 artifacts
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by __redirected.__SAXParserFactory (file:/private/var/folders/s0/xcbgzpgn6vs5b1t0hbntnwt00000gn/T/wfswarmarquillian17933285463468571167-swarm.jar) to constructor com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl()
+WARNING: Please consider reporting this to the maintainers of __redirected.__SAXParserFactory
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+Tue Oct 20 16:36:45 CDT 2020 INFO [org.wildfly.swarm.bootstrap] (main) Dependencies not bundled; resolving from M2REPO.
+2020-10-20 16:36:59,474 INFO  [org.wildfly.swarm] (main) WFSWARM0013: Installed fraction:                 Undertow - STABLE          org.wildfly.swarm:undertow:2018.5.0
+2020-10-20 16:36:59,560 INFO  [org.wildfly.swarm] (main) WFSWARM0013: Installed fraction:                  Logging - STABLE          org.wildfly.swarm:logging:2018.5.0
+2020-10-20 16:36:59,564 INFO  [org.wildfly.swarm] (main) WFSWARM0013: Installed fraction:                   JAX-RS - STABLE          org.wildfly.swarm:jaxrs:2018.5.0
+2020-10-20 16:36:59,565 INFO  [org.wildfly.swarm] (main) WFSWARM0013: Installed fraction:               Arquillian - STABLE          org.wildfly.swarm:arquillian:2018.5.0
+2020-10-20 16:36:59,566 INFO  [org.wildfly.swarm] (main) WFSWARM0013: Installed fraction:                  Elytron - STABLE          org.wildfly.swarm:elytron:2018.5.0
+2020-10-20 16:37:04,473 INFO  [org.jboss.msc] (main) JBoss MSC version 1.2.7.SP1
+2020-10-20 16:37:04,783 INFO  [org.jboss.as] (MSC service thread 1-7) WFLYSRV0049: WildFly Swarm 2018.5.0 (WildFly Core 3.0.8.Final) starting
+2020-10-20 16:37:04,869 INFO  [org.wildfly.swarm] (MSC service thread 1-7) WFSWARM0019: Install MSC service for command line args: []
+2020-10-20 16:37:05,189 INFO  [org.wildfly.swarm.arquillian.daemon.server.Server] (MSC service thread 1-3) Arquillian Daemon server started on localhost:12345
+2020-10-20 16:37:05,877 INFO  [org.wildfly.security] (ServerService Thread Pool -- 7) ELY00001: WildFly Elytron version 1.1.6.Final
+2020-10-20 16:37:05,932 INFO  [org.jboss.as.jaxrs] (ServerService Thread Pool -- 13) WFLYRS0016: RESTEasy version 3.0.24.Final
+2020-10-20 16:37:05,935 INFO  [org.jboss.as.security] (ServerService Thread Pool -- 12) WFLYSEC0002: Activating Security Subsystem
+2020-10-20 16:37:05,943 INFO  [org.jboss.as.security] (MSC service thread 1-6) WFLYSEC0001: Current PicketBox version=5.0.2.Final
+2020-10-20 16:37:05,967 INFO  [org.wildfly.extension.undertow] (MSC service thread 1-5) WFLYUT0003: Undertow 1.4.18.Final starting
+2020-10-20 16:37:05,983 INFO  [org.xnio] (ServerService Thread Pool -- 14) XNIO version 3.5.4.Final
+2020-10-20 16:37:05,994 INFO  [org.jboss.as.naming] (ServerService Thread Pool -- 17) WFLYNAM0001: Activating Naming Subsystem
+2020-10-20 16:37:06,020 INFO  [org.xnio.nio] (ServerService Thread Pool -- 14) XNIO NIO Implementation Version 3.5.4.Final
+2020-10-20 16:37:06,042 INFO  [org.wildfly.extension.io] (ServerService Thread Pool -- 14) WFLYIO001: Worker 'default' has auto-configured to 8 core threads with 64 task threads based on your 4 available processors
+2020-10-20 16:37:06,043 INFO  [org.jboss.as.naming] (MSC service thread 1-7) WFLYNAM0003: Starting Naming Service
+2020-10-20 16:37:06,341 INFO  [org.wildfly.extension.undertow] (MSC service thread 1-4) WFLYUT0012: Started server default-server.
+2020-10-20 16:37:06,412 INFO  [org.wildfly.extension.undertow] (MSC service thread 1-4) WFLYUT0006: Undertow HTTP listener default listening on 0.0.0.0:8080
+2020-10-20 16:37:06,493 INFO  [org.jboss.as.server] (Controller Boot Thread) WFLYSRV0212: Resuming server
+2020-10-20 16:37:06,496 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0025: WildFly Swarm 2018.5.0 (WildFly Core 3.0.8.Final) started in 2291ms - Started 100 of 117 services (27 services are lazy, passive or on-demand)
+2020-10-20 16:37:07,057 ERROR [stderr] (main) java.lang.reflect.InvocationTargetException
+2020-10-20 16:37:07,059 ERROR [stderr] (main) 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+2020-10-20 16:37:07,059 ERROR [stderr] (main) 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+2020-10-20 16:37:07,059 ERROR [stderr] (main) 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+2020-10-20 16:37:07,060 ERROR [stderr] (main) 	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+2020-10-20 16:37:07,061 ERROR [stderr] (main) 	at org.wildfly.swarm.bootstrap.MainInvoker.invoke(MainInvoker.java:53)
+2020-10-20 16:37:07,061 ERROR [stderr] (main) 	at org.wildfly.swarm.bootstrap.Main.run(Main.java:132)
+2020-10-20 16:37:07,061 ERROR [stderr] (main) 	at org.wildfly.swarm.bootstrap.Main.main(Main.java:85)
+2020-10-20 16:37:07,062 ERROR [stderr] (main) Caused by: java.lang.RuntimeException: java.lang.IllegalArgumentException
+2020-10-20 16:37:07,063 ERROR [stderr] (main) 	at org.wildfly.swarm.container.runtime.deployments.DefaultDeploymentCreator.createDefaultDeployment(DefaultDeploymentCreator.java:71)
+2020-10-20 16:37:07,063 ERROR [stderr] (main) 	at org.wildfly.swarm.container.runtime.deployments.DefaultDeploymentCreator$Proxy$_$$_WeldClientProxy.createDefaultDeployment(Unknown Source)
+2020-10-20 16:37:07,064 ERROR [stderr] (main) 	at org.wildfly.swarm.container.runtime.RuntimeDeployer.createDefaultDeployment(RuntimeDeployer.java:134)
+2020-10-20 16:37:07,064 ERROR [stderr] (main) 	at org.wildfly.swarm.container.runtime.RuntimeDeployer.deploy(RuntimeDeployer.java:99)
+2020-10-20 16:37:07,064 ERROR [stderr] (main) 	at org.wildfly.swarm.container.runtime.RuntimeDeployer$Proxy$_$$_WeldClientProxy.deploy(Unknown Source)
+2020-10-20 16:37:07,065 ERROR [stderr] (main) 	at org.wildfly.swarm.Swarm.deploy(Swarm.java:473)
+2020-10-20 16:37:07,068 ERROR [stderr] (main) 	at org.wildfly.swarm.Swarm.main(Swarm.java:744)
+2020-10-20 16:37:07,071 ERROR [stderr] (main) 	... 7 more
+2020-10-20 16:37:07,072 ERROR [stderr] (main) Caused by: java.lang.IllegalArgumentException
+2020-10-20 16:37:07,073 ERROR [stderr] (main) 	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:160)
+2020-10-20 16:37:07,074 ERROR [stderr] (main) 	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:143)
+2020-10-20 16:37:07,075 ERROR [stderr] (main) 	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:418)
+2020-10-20 16:37:07,076 ERROR [stderr] (main) 	at org.wildfly.swarm.jaxrs.internal.JAXRSArchiveImpl.isJAXRS(JAXRSArchiveImpl.java:117)
+2020-10-20 16:37:07,078 ERROR [stderr] (main) 	at org.wildfly.swarm.jaxrs.internal.JAXRSArchiveImpl.isJAXRS(JAXRSArchiveImpl.java:96)
+2020-10-20 16:37:07,078 ERROR [stderr] (main) 	at org.wildfly.swarm.jaxrs.JAXRSArchive.isJAXRS(JAXRSArchive.java:55)
+2020-10-20 16:37:07,080 ERROR [stderr] (main) 	at org.wildfly.swarm.jaxrs.internal.DefaultJAXRSWarDeploymentFactory.create(DefaultJAXRSWarDeploymentFactory.java:46)
+2020-10-20 16:37:07,087 ERROR [stderr] (main) 	at org.wildfly.swarm.jaxrs.internal.DefaultJAXRSWarDeploymentFactory$Proxy$_$$_WeldClientProxy.create(Unknown Source)
+2020-10-20 16:37:07,087 ERROR [stderr] (main) 	at org.wildfly.swarm.container.runtime.deployments.DefaultDeploymentCreator.createDefaultDeployment(DefaultDeploymentCreator.java:69)
+2020-10-20 16:37:07,088 ERROR [stderr] (main) 	... 13 more
+2020-10-20 16:37:07,089 ERROR [stderr] (main) Exception in thread "main" java.lang.reflect.InvocationTargetException
+2020-10-20 16:37:07,090 ERROR [stderr] (main) 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+2020-10-20 16:37:07,091 ERROR [stderr] (main) 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+2020-10-20 16:37:07,098 ERROR [stderr] (main) 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+2020-10-20 16:37:07,103 ERROR [stderr] (main) 	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+2020-10-20 16:37:07,104 ERROR [stderr] (main) 	at org.wildfly.swarm.bootstrap.MainInvoker.invoke(MainInvoker.java:53)
+2020-10-20 16:37:07,104 ERROR [stderr] (main) 	at org.wildfly.swarm.bootstrap.Main.run(Main.java:132)
+2020-10-20 16:37:07,106 ERROR [stderr] (main) 	at org.wildfly.swarm.bootstrap.Main.main(Main.java:85)
+2020-10-20 16:37:07,107 ERROR [stderr] (main) Caused by: java.lang.RuntimeException: java.lang.IllegalArgumentException
+2020-10-20 16:37:07,108 ERROR [stderr] (main) 	at org.wildfly.swarm.container.runtime.deployments.DefaultDeploymentCreator.createDefaultDeployment(DefaultDeploymentCreator.java:71)
+2020-10-20 16:37:07,110 ERROR [stderr] (main) 	at org.wildfly.swarm.container.runtime.deployments.DefaultDeploymentCreator$Proxy$_$$_WeldClientProxy.createDefaultDeployment(Unknown Source)
+2020-10-20 16:37:07,110 ERROR [stderr] (main) 	at org.wildfly.swarm.container.runtime.RuntimeDeployer.createDefaultDeployment(RuntimeDeployer.java:134)
+2020-10-20 16:37:07,110 ERROR [stderr] (main) 	at org.wildfly.swarm.container.runtime.RuntimeDeployer.deploy(RuntimeDeployer.java:99)
+2020-10-20 16:37:07,111 ERROR [stderr] (main) 	at org.wildfly.swarm.container.runtime.RuntimeDeployer$Proxy$_$$_WeldClientProxy.deploy(Unknown Source)
+2020-10-20 16:37:07,111 ERROR [stderr] (main) 	at org.wildfly.swarm.Swarm.deploy(Swarm.java:473)
+2020-10-20 16:37:07,111 ERROR [stderr] (main) 	at org.wildfly.swarm.Swarm.main(Swarm.java:744)
+2020-10-20 16:37:07,112 ERROR [stderr] (main) 	... 7 more
+2020-10-20 16:37:07,113 ERROR [stderr] (main) Caused by: java.lang.IllegalArgumentException
+2020-10-20 16:37:07,113 ERROR [stderr] (main) 	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:160)
+2020-10-20 16:37:07,114 ERROR [stderr] (main) 	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:143)
+2020-10-20 16:37:07,114 ERROR [stderr] (main) 	at org.objectweb.asm.ClassReader.<init>(ClassReader.java:418)
+2020-10-20 16:37:07,114 ERROR [stderr] (main) 	at org.wildfly.swarm.jaxrs.internal.JAXRSArchiveImpl.isJAXRS(JAXRSArchiveImpl.java:117)
+2020-10-20 16:37:07,115 ERROR [stderr] (main) 	at org.wildfly.swarm.jaxrs.internal.JAXRSArchiveImpl.isJAXRS(JAXRSArchiveImpl.java:96)
+2020-10-20 16:37:07,115 ERROR [stderr] (main) 	at org.wildfly.swarm.jaxrs.JAXRSArchive.isJAXRS(JAXRSArchive.java:55)
+2020-10-20 16:37:07,116 ERROR [stderr] (main) 	at org.wildfly.swarm.jaxrs.internal.DefaultJAXRSWarDeploymentFactory.create(DefaultJAXRSWarDeploymentFactory.java:46)
+2020-10-20 16:37:07,117 ERROR [stderr] (main) 	at org.wildfly.swarm.jaxrs.internal.DefaultJAXRSWarDeploymentFactory$Proxy$_$$_WeldClientProxy.create(Unknown Source)
+2020-10-20 16:37:07,117 ERROR [stderr] (main) 	at org.wildfly.swarm.container.runtime.deployments.DefaultDeploymentCreator.createDefaultDeployment(DefaultDeploymentCreator.java:69)
+2020-10-20 16:37:07,118 ERROR [stderr] (main) 	... 13 more

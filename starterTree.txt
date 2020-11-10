@@ -1,0 +1,150 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------< org.eclipse.microprofile:starter >------------------
+[INFO] Building starter 1.0-SNAPSHOT
+[INFO] --------------------------------[ war ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ starter ---
+[INFO] org.eclipse.microprofile:starter:war:1.0-SNAPSHOT
+[INFO] +- javax:javaee-api:jar:7.0:provided
+[INFO] |  \- com.sun.mail:javax.mail:jar:1.5.0:provided
+[INFO] |     \- javax.activation:activation:jar:1.1:provided
+[INFO] +- org.primefaces:primefaces:jar:7.0:compile
+[INFO] +- org.apache.maven:maven-model-builder:jar:3.3.9:compile
+[INFO] |  +- org.codehaus.plexus:plexus-utils:jar:3.0.22:compile
+[INFO] |  +- org.codehaus.plexus:plexus-interpolation:jar:1.21:compile
+[INFO] |  +- org.codehaus.plexus:plexus-component-annotations:jar:1.6:compile
+[INFO] |  +- org.apache.maven:maven-model:jar:3.3.9:compile
+[INFO] |  +- org.apache.maven:maven-artifact:jar:3.3.9:compile
+[INFO] |  +- org.apache.maven:maven-builder-support:jar:3.3.9:compile
+[INFO] |  +- com.google.guava:guava:jar:18.0:compile
+[INFO] |  \- org.apache.commons:commons-lang3:jar:3.4:compile
+[INFO] +- com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:jar:2.10.5:compile
+[INFO] |  +- org.yaml:snakeyaml:jar:1.26:compile
+[INFO] |  \- com.fasterxml.jackson.core:jackson-core:jar:2.10.5:compile
+[INFO] +- com.fasterxml.jackson.core:jackson-databind:jar:2.10.5:compile
+[INFO] |  \- com.fasterxml.jackson.core:jackson-annotations:jar:2.10.5:compile
+[INFO] +- org.thymeleaf:thymeleaf:jar:3.0.10.RELEASE:compile
+[INFO] |  +- ognl:ognl:jar:3.1.12:compile
+[INFO] |  |  \- org.javassist:javassist:jar:3.20.0-GA:compile
+[INFO] |  +- org.attoparser:attoparser:jar:2.0.5.RELEASE:compile
+[INFO] |  +- org.unbescape:unbescape:jar:1.1.6.RELEASE:compile
+[INFO] |  \- org.slf4j:slf4j-api:jar:1.7.25:compile
+[INFO] +- junit:junit:jar:4.12:test
+[INFO] |  \- org.hamcrest:hamcrest-core:jar:1.3:test
+[INFO] +- org.apache.commons:commons-io:jar:1.3.2:test
+[INFO] +- org.jboss.arquillian.container:arquillian-container-test-api:jar:1.4.1.Final:test
+[INFO] |  +- org.jboss.shrinkwrap:shrinkwrap-api:jar:1.2.6:compile
+[INFO] |  \- org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-api-base:jar:2.0.0:compile
+[INFO] +- org.jboss.arquillian.junit:arquillian-junit-core:jar:1.1.11.Final:test
+[INFO] |  \- org.jboss.arquillian.test:arquillian-test-spi:jar:1.1.11.Final:compile
+[INFO] |     +- org.jboss.arquillian.core:arquillian-core-spi:jar:1.1.11.Final:compile
+[INFO] |     |  \- org.jboss.arquillian.core:arquillian-core-api:jar:1.1.11.Final:compile
+[INFO] |     \- org.jboss.arquillian.test:arquillian-test-api:jar:1.1.11.Final:compile
+[INFO] \- org.wildfly.swarm:arquillian:jar:2018.5.0:compile
+[INFO]    +- org.wildfly.swarm:arquillian-daemon:jar:2018.5.0:compile
+[INFO]    |  +- org.wildfly.swarm:container:jar:2018.5.0:compile
+[INFO]    |  |  +- org.wildfly.swarm:bootstrap:jar:2018.5.0:compile
+[INFO]    |  |  +- org.wildfly.swarm:config-api:jar:1.3.1:compile
+[INFO]    |  |  |  \- org.wildfly.swarm:config-api-runtime:jar:1.3.1:compile
+[INFO]    |  |  +- org.ow2.asm:asm:jar:6.0:compile
+[INFO]    |  |  \- org.jboss.logging:jboss-logging:jar:3.3.1.Final:compile
+[INFO]    |  +- org.wildfly.core:wildfly-server:jar:3.0.8.Final:compile
+[INFO]    |  |  +- org.wildfly.core:wildfly-controller:jar:3.0.8.Final:compile
+[INFO]    |  |  |  +- org.wildfly.core:wildfly-controller-client:jar:3.0.8.Final:compile
+[INFO]    |  |  |  +- org.wildfly.core:wildfly-core-security:jar:3.0.8.Final:compile
+[INFO]    |  |  |  |  \- org.wildfly.core:wildfly-core-security-api:jar:3.0.8.Final:compile
+[INFO]    |  |  |  +- org.jboss:staxmapper:jar:1.3.0.Final:compile
+[INFO]    |  |  |  \- org.projectodd.vdx:vdx-wildfly:jar:1.1.6:compile
+[INFO]    |  |  |     \- org.projectodd.vdx:vdx-core:jar:1.1.6:compile
+[INFO]    |  |  +- org.wildfly.core:wildfly-core-management-client:jar:3.0.8.Final:compile
+[INFO]    |  |  +- org.wildfly.core:wildfly-domain-http-interface:jar:3.0.8.Final:compile
+[INFO]    |  |  |  +- org.wildfly.core:wildfly-domain-management:jar:3.0.8.Final:compile
+[INFO]    |  |  |  |  +- org.picketbox:picketbox:jar:5.0.2.Final:compile
+[INFO]    |  |  |  |  \- org.wildfly.openssl:wildfly-openssl-java:jar:1.0.2.Final:compile
+[INFO]    |  |  |  \- org.wildfly.security.elytron-web:undertow-server:jar:1.0.1.Final:compile
+[INFO]    |  |  +- org.wildfly.core:wildfly-deployment-repository:jar:3.0.8.Final:compile
+[INFO]    |  |  |  \- org.wildfly.core:wildfly-protocol:jar:3.0.8.Final:compile
+[INFO]    |  |  +- org.wildfly.core:wildfly-platform-mbean:jar:3.0.8.Final:compile
+[INFO]    |  |  +- org.wildfly.core:wildfly-process-controller:jar:3.0.8.Final:compile
+[INFO]    |  |  +- org.wildfly.core:wildfly-remoting:jar:3.0.8.Final:compile
+[INFO]    |  |  |  +- org.wildfly.core:wildfly-io:jar:3.0.8.Final:compile
+[INFO]    |  |  |  \- org.jboss.xnio:xnio-api:jar:3.5.4.Final:compile
+[INFO]    |  |  +- org.wildfly.core:wildfly-network:jar:3.0.8.Final:compile
+[INFO]    |  |  +- org.wildfly.security:wildfly-elytron:jar:1.1.6.Final:compile
+[INFO]    |  |  +- org.wildfly.core:wildfly-version:jar:3.0.8.Final:compile
+[INFO]    |  |  +- org.jboss:jandex:jar:2.0.3.Final:compile
+[INFO]    |  |  +- org.jboss:jboss-dmr:jar:1.4.1.Final:compile
+[INFO]    |  |  +- org.jboss.invocation:jboss-invocation:jar:1.5.0.Final:compile
+[INFO]    |  |  +- org.jboss.marshalling:jboss-marshalling:jar:2.0.2.Final:compile
+[INFO]    |  |  +- org.jboss.modules:jboss-modules:jar:1.6.1.Final:compile
+[INFO]    |  |  +- org.jboss.remoting:jboss-remoting:jar:5.0.5.Final:compile
+[INFO]    |  |  |  \- org.wildfly.client:wildfly-client-config:jar:1.0.0.CR2:compile
+[INFO]    |  |  +- org.jboss.stdio:jboss-stdio:jar:1.0.2.GA:compile
+[INFO]    |  |  +- org.jboss.threads:jboss-threads:jar:2.2.1.Final:compile
+[INFO]    |  |  +- org.jboss:jboss-vfs:jar:3.2.12.Final:compile
+[INFO]    |  |  +- io.undertow:undertow-core:jar:1.4.18.Final:compile
+[INFO]    |  |  |  \- org.jboss.xnio:xnio-nio:jar:3.3.8.Final:compile
+[INFO]    |  |  \- org.wildfly.common:wildfly-common:jar:1.2.0.Final:compile
+[INFO]    |  +- org.jboss.msc:jboss-msc:jar:1.2.7.SP1:compile
+[INFO]    |  +- org.jboss.arquillian.container:arquillian-container-test-spi:jar:1.1.15.Final:compile
+[INFO]    |  \- org.jboss.arquillian.junit:arquillian-junit-container:jar:1.1.15.Final:compile
+[INFO]    |     +- org.jboss.arquillian.core:arquillian-core-impl-base:jar:1.1.15.Final:compile
+[INFO]    |     +- org.jboss.arquillian.test:arquillian-test-impl-base:jar:1.1.15.Final:compile
+[INFO]    |     +- org.jboss.arquillian.container:arquillian-container-impl-base:jar:1.1.15.Final:compile
+[INFO]    |     \- org.jboss.shrinkwrap:shrinkwrap-impl-base:jar:1.2.6:compile
+[INFO]    \- org.wildfly.swarm:arquillian-adapter:jar:2018.5.0:compile
+[INFO]       +- org.wildfly.swarm:arquillian-resolver:jar:2018.5.0:compile
+[INFO]       |  \- org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-impl-maven:jar:2.2.6:compile
+[INFO]       |     +- org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-api-maven:jar:2.2.6:compile
+[INFO]       |     |  \- org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-api:jar:2.2.6:compile
+[INFO]       |     +- org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-spi-maven:jar:2.2.6:compile
+[INFO]       |     |  \- org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-spi:jar:2.2.6:compile
+[INFO]       |     +- org.eclipse.aether:aether-api:jar:1.0.0.v20140518:compile
+[INFO]       |     +- org.eclipse.aether:aether-impl:jar:1.0.0.v20140518:compile
+[INFO]       |     +- org.eclipse.aether:aether-spi:jar:1.0.0.v20140518:compile
+[INFO]       |     +- org.eclipse.aether:aether-util:jar:1.0.0.v20140518:compile
+[INFO]       |     +- org.eclipse.aether:aether-connector-basic:jar:1.0.0.v20140518:compile
+[INFO]       |     +- org.eclipse.aether:aether-transport-wagon:jar:1.0.0.v20140518:compile
+[INFO]       |     +- org.apache.maven:maven-aether-provider:jar:3.2.5:compile
+[INFO]       |     +- org.apache.maven:maven-repository-metadata:jar:3.2.5:compile
+[INFO]       |     +- org.apache.maven:maven-settings:jar:3.2.5:compile
+[INFO]       |     +- org.apache.maven:maven-settings-builder:jar:3.2.5:compile
+[INFO]       |     +- org.sonatype.plexus:plexus-sec-dispatcher:jar:1.3:compile
+[INFO]       |     |  \- org.sonatype.plexus:plexus-cipher:jar:1.4:compile
+[INFO]       |     +- org.apache.maven.wagon:wagon-provider-api:jar:2.6:compile
+[INFO]       |     +- org.apache.maven.wagon:wagon-file:jar:2.6:compile
+[INFO]       |     |  \- commons-lang:commons-lang:jar:2.6:compile
+[INFO]       |     \- org.apache.maven.wagon:wagon-http-lightweight:jar:2.6:compile
+[INFO]       |        \- org.apache.maven.wagon:wagon-http-shared:jar:2.6:compile
+[INFO]       |           +- org.jsoup:jsoup:jar:1.7.2:compile
+[INFO]       |           \- commons-io:commons-io:jar:2.2:compile
+[INFO]       +- org.wildfly.swarm:fraction-metadata:jar:2018.5.0:compile
+[INFO]       |  +- org.wildfly.swarm:meta-spi:jar:2018.5.0:compile
+[INFO]       |  |  \- org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-impl-javaee:jar:2.0.0:compile
+[INFO]       |  |     \- org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-impl-base:jar:2.0.0:compile
+[INFO]       |  \- com.eclipsesource.minimal-json:minimal-json:jar:0.9.4:compile
+[INFO]       +- org.wildfly.swarm:spi:jar:2018.5.0:compile
+[INFO]       |  +- org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-api-jboss:jar:2.0.0:compile
+[INFO]       |  |  \- org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-api-javaee:jar:2.0.0:compile
+[INFO]       |  \- org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-impl-jboss:jar:2.0.0:compile
+[INFO]       +- org.wildfly.swarm:tools:jar:2018.5.0:compile
+[INFO]       |  +- org.jboss.shrinkwrap:shrinkwrap-spi:jar:1.2.6:compile
+[INFO]       |  \- net.lingala.zip4j:zip4j:jar:1.3.2:compile
+[INFO]       +- org.wildfly.swarm:msc:jar:2018.5.0:compile
+[INFO]       |  \- org.wildfly.swarm:logging:jar:2018.5.0:compile
+[INFO]       +- org.jboss.arquillian.container:arquillian-container-spi:jar:1.1.15.Final:compile
+[INFO]       |  \- org.jboss.arquillian.config:arquillian-config-api:jar:1.1.15.Final:compile
+[INFO]       +- org.jboss.arquillian.container:arquillian-container-test-impl-base:jar:1.1.15.Final:compile
+[INFO]       +- org.jboss.arquillian.testenricher:arquillian-testenricher-cdi:jar:1.1.15.Final:compile
+[INFO]       +- org.jboss.arquillian.testenricher:arquillian-testenricher-ejb:jar:1.1.15.Final:compile
+[INFO]       +- org.jboss.arquillian.testenricher:arquillian-testenricher-resource:jar:1.1.15.Final:compile
+[INFO]       +- org.jboss.arquillian.testenricher:arquillian-testenricher-initialcontext:jar:1.1.15.Final:compile
+[INFO]       \- org.jboss.arquillian.config:arquillian-config-impl-base:jar:1.1.15.Final:compile
+[INFO]          \- org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-spi:jar:2.0.0:compile
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  3.476 s
+[INFO] Finished at: 2020-09-17T16:14:38-05:00
+[INFO] ------------------------------------------------------------------------
