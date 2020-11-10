@@ -116,7 +116,8 @@ GraphQL is a remote data query language initially invented by Facebook and now e
 
 The example contains a limited version of the SuperHero example from the TCK and shows the Schema file for it. You can think of it as something a comic-book government agency might use to keep track of Super Heroes.
 
-To get started, run the sample, then browse to: http://localhost:9080/graphql-ui - you can then issue a query of all known super heroes like this:
+[# th:if="${mp_servername} == 'liberty'"]
+To get started, run the sample, then browse to: http://localhost:[# th:text="${port_service_a}"/]/graphql-ui - you can then issue a query of all known super heroes like this:
 ```
 query allHeroes {
     allHeroes {
@@ -127,4 +128,5 @@ query allHeroes {
     }
 }
 ```
+[/]
 [/]
