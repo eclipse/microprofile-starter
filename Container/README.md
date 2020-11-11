@@ -14,6 +14,10 @@ mvn thorntail:run -Pthorntail
 
 Navigate to 127.0.0.1:8080 or http://127.0.0.1:8080/index.xhtml to see the app.
 
+It is also possible to build and deploy to Open Liberty using the Liberty profile. To build the MP Starter
+app, use: `mvn package liberty:run -Pliberty ` and then browse to http://localhost:9080/mp-starter/ to test
+the app.
+
 Docker build
 ------------
 With at least Docker 17.05, one can build an image and either run it locally or push it to a registry.
