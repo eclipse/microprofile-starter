@@ -41,12 +41,34 @@ public class ServerMPVersion {
         return minimalMPVersion;
     }
 
-    public static ServerMPVersion of (SupportedServer supportedServer) {
+    public static ServerMPVersion of(SupportedServer supportedServer) {
         return new ServerMPVersion(supportedServer, null);
     }
 
-    public static ServerMPVersion of (SupportedServer supportedServer, MicroProfileVersion microProfileVersion) {
+    public static ServerMPVersion of(SupportedServer supportedServer, MicroProfileVersion microProfileVersion) {
         return new ServerMPVersion(supportedServer, microProfileVersion);
+    }
+
+    public static boolean isEnabled(StandaloneMPSpec spec, String supportedServerCode, MicroProfileVersion microProfileVersion) {
+
+        if (supportedServerCode == null) {
+            // If no runtime specified, standalone spec can never be enabled as we can't determine if runtime has support for it.
+            return false;
+        }
+        boolean result = false;
+        for (ServerMPVersion serverRestriction : spec.getServerRestrictions()) {
+            if (serverRestriction.getSupportedServer().getCode().equals(supportedServerCode)) {
+                // This restriction is for the selected runtime
+                if (serverRestriction.getMinimalMPVersion() == null) {
+                    // No restriction on MP version -> enabled
+                    result = true;
+                } else {
+                    // Current selected version more recenter as MP version defined in restriction.
+                    result = serverRestriction.getMinimalMPVersion().ordinal() >= microProfileVersion.ordinal();
+                }
+            }
+        }
+        return result;
     }
 
 }

@@ -24,6 +24,8 @@ import org.eclipse.microprofile.starter.Version;
 import org.eclipse.microprofile.starter.ZipFileCreator;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.JDKSelector;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
+import org.eclipse.microprofile.starter.addon.microprofile.servers.model.StandaloneMPSpec;
+import org.eclipse.microprofile.starter.addon.microprofile.servers.model.ServerMPVersion;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
 import org.eclipse.microprofile.starter.core.artifacts.Creator;
 import org.eclipse.microprofile.starter.core.files.FilesLocator;
@@ -51,14 +53,7 @@ import javax.inject.Inject;
 import javax.ws.rs.core.EntityTag;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -99,6 +94,8 @@ public class APIService {
     public void init() {
         specsDescriptions = Stream.of(MicroprofileSpec.values())
                 .collect(Collectors.toMap(MicroprofileSpec::toString, MicroprofileSpec::getDescription));
+        specsDescriptions.putAll(Stream.of(StandaloneMPSpec.values())
+                .collect(Collectors.toMap(StandaloneMPSpec::toString, StandaloneMPSpec::getDescription)));
         // Keys are MP versions and values are servers and specs
         mpvToOptions = new TreeMap<>();
         Stream.of(MicroProfileVersion.values()).filter(mpv -> mpv != MicroProfileVersion.NONE).sorted().forEach(mpv -> {
@@ -108,6 +105,8 @@ public class APIService {
                     .filter(v -> v.getMpVersions().contains(mpv)).collect(Collectors.toList());
             mpvToOptions.put(mpv, new MPOptionsAvailable(supportedServers, specs));
         });
+        // Add possible standalone specs for each MP Version
+        mpvToOptions.forEach((key, value) -> value.setStandaloneSpecs(defineStandaloneSpecs(key, null)));
         mpvToOptionsEtag = new EntityTag(Integer.toHexString(
                 31 * version.getGit().hashCode() + mpvToOptions.hashCode() + specsDescriptions.hashCode()));
         // Keys are servers and values are MP versions and specs
@@ -119,8 +118,8 @@ public class APIService {
                         .filter(v -> v.getMpVersions().contains(mpv)).collect(Collectors.toList());
 
                 List<JavaSEVersion> supportedJavaVersions = selector.getSupportedVersion(s, mpv);
-
-                serverOptions.add(new ServerOptions(mpv, mpSpec, supportedJavaVersions));
+                List<StandaloneMPSpec> mpStandaloneSpecs = defineStandaloneSpecs(mpv, s);
+                serverOptions.add(new ServerOptions(mpv, mpSpec, mpStandaloneSpecs, supportedJavaVersions));
             });
             serversToOptions.put(s, serverOptions);
         }
@@ -135,6 +134,33 @@ public class APIService {
         }
     }
 
+    private List<StandaloneMPSpec> defineStandaloneSpecs(MicroProfileVersion version, SupportedServer supportedServer) {
+        List<StandaloneMPSpec> result = new ArrayList<>();
+        for (StandaloneMPSpec standaloneMPSpec : StandaloneMPSpec.values()) {
+            boolean toAdd = false;
+            for (ServerMPVersion serverRestriction : standaloneMPSpec.getServerRestrictions()) {
+                if (supportedServer != null && !serverRestriction.getSupportedServer().equals(supportedServer)) {
+                    // if not for supportedServer, don't consider
+                    // supportedServer can be null (when we define list for MP Version, in that case, continue)
+                    break;
+                }
+                if (serverRestriction.getMinimalMPVersion() == null) {
+                    // Implemented in all MP Versions
+                    toAdd = true;
+                } else {
+                    // The parameter is more recent (or same) as the version it is implemented at the runtime.
+                    if (serverRestriction.getMinimalMPVersion().ordinal() >= version.ordinal()) {
+                        toAdd = true;
+                    }
+                }
+            }
+            if (toAdd) {
+                result.add(standaloneMPSpec);
+            }
+        }
+        return result;
+    }
+
     public static final String ERROR001 =
             "{\"error\":\"supportedServer query parameter is mandatory\",\"code\":\"ERROR001\"}";
     public static final String ERROR002 =
@@ -147,6 +173,8 @@ public class APIService {
     public static final String ERROR005 =
             "{\"error\":\"artifactId contains illegal characters, does not start with a word or is longer than " +
                     PackageNameValidator.MAX_LENGTH + "\",\"code\":\"ERROR005\"}";
+    public static final String ERROR006 =
+            "{\"error\":\"selectedSpec contains an illegal value, %s \",\"code\":\"ERROR006\"}";
 
     @Inject
     private ModelManager modelManager;
@@ -199,13 +227,13 @@ public class APIService {
         return Response.ok(mpvToOptionsAndSpecsDescriptions, MediaType.APPLICATION_JSON_TYPE).tag(mpvToOptionsEtag).build();
     }
 
-    public Map<SupportedServer, Map<MicroProfileVersion, List<MicroprofileSpec>>> transformToLegacy() {
+    public Map<SupportedServer, Map<MicroProfileVersion, List<String>>> transformToLegacy() {
         List<SupportedServer> servers = new ArrayList<>(serversToOptions.keySet());
         Collections.shuffle(servers);
-        Map<SupportedServer, Map<MicroProfileVersion, List<MicroprofileSpec>>> rndServersToOptions = new LinkedHashMap<>(servers.size());
+        Map<SupportedServer, Map<MicroProfileVersion, List<String>>> rndServersToOptions = new LinkedHashMap<>(servers.size());
         for (SupportedServer s : servers) {
             List<ServerOptions> so = serversToOptions.get(s);
-            Map<MicroProfileVersion, List<MicroprofileSpec>> mpvSpecs = new HashMap<>(so.size());
+            Map<MicroProfileVersion, List<String>> mpvSpecs = new HashMap<>(so.size());
             so.forEach(soo -> mpvSpecs.put(soo.mpVersion, soo.mpSpecs));
             rndServersToOptions.put(s, mpvSpecs);
         }
@@ -262,7 +290,15 @@ public class APIService {
                                  String groupId, String artifactId,
                                  MicroProfileVersion mpVersion,
                                  JavaSEVersion javaSEVersion,
-                                 List<MicroprofileSpec> selectedSpecs) {
+                                 List<String> selectedSpecCodes) {
+        List<MicroprofileSpec> selectedSpecs = new ArrayList<>();
+        List<StandaloneMPSpec> selectedStandaloneSpecs = new ArrayList<>();
+
+        List<String> errors = determineSpecCodes(selectedSpecCodes, selectedSpecs, selectedStandaloneSpecs);
+        if (!errors.isEmpty()) {
+            return invalidSpecCodes(errors);
+        }
+
         Project project = new Project();
         project.setSupportedServer(supportedServer);
         project.setGroupId(groupId);
@@ -270,6 +306,7 @@ public class APIService {
         project.setMpVersion(mpVersion);
         project.setJavaSEVersion(javaSEVersion);
         project.setSelectedSpecs(selectedSpecs);
+        project.setSelectedStandaloneSpecs(selectedStandaloneSpecs);
 
         setDefaultsV1(project);
 
@@ -286,8 +323,19 @@ public class APIService {
                                String groupId, String artifactId,
                                MicroProfileVersion mpVersion,
                                JavaSEVersion javaSEVersion,
-                               List<MicroprofileSpec> selectedSpecs,
+                               List<String> selectedSpecCodes,
                                boolean selectAllSpecs) {
+
+        List<MicroprofileSpec> selectedSpecs = new ArrayList<>();
+        List<StandaloneMPSpec> selectedStandaloneSpecs = new ArrayList<>();
+
+        List<String> errors = determineSpecCodes(selectedSpecCodes, selectedSpecs, selectedStandaloneSpecs);
+        if (!errors.isEmpty()) {
+            return invalidSpecCodes(errors);
+        }
+
+        removeIncorrectStandaloneSpecs(selectedStandaloneSpecs, supportedServer, mpVersion);
+
         Project project = new Project();
         project.setSupportedServer(supportedServer);
         project.setGroupId(groupId);
@@ -295,11 +343,52 @@ public class APIService {
         project.setMpVersion(mpVersion);
         project.setJavaSEVersion(javaSEVersion);
         project.setSelectedSpecs(selectedSpecs);
+        project.setSelectedStandaloneSpecs(selectedStandaloneSpecs);
         project.setSelectAllSpecs(selectAllSpecs);
 
         setDefaults(project);
 
         return processProject(ifNoneMatch, project);
+    }
+
+    private void removeIncorrectStandaloneSpecs(List<StandaloneMPSpec> selectedStandaloneSpecs,
+                                                SupportedServer supportedServer,
+                                                MicroProfileVersion mpVersion) {
+
+        // From the API point of view, a standalone spec can be added when not available on the runtime.
+        // So this will filter out the codes.
+        List<StandaloneMPSpec> actualStandaloneSpecs = defineStandaloneSpecs(mpVersion, supportedServer);
+        selectedStandaloneSpecs.removeIf(standaloneMPSpec -> !actualStandaloneSpecs.contains(standaloneMPSpec));
+    }
+
+    private Response invalidSpecCodes(List<String> errors) {
+        String msg = String.format(ERROR006, String.join(",", errors));
+        return Response.status(Response.Status.BAD_REQUEST)
+                .entity(msg)
+                .type("application/json")
+                .header("Content-Length", msg.length())
+                .header("Content-Disposition", "attachment; filename=\"error.json\"")
+                .build();
+    }
+
+    private List<String> determineSpecCodes(List<String> selectedSpecCodes,
+                                            List<MicroprofileSpec> selectedSpec,
+                                            List<StandaloneMPSpec> selectedStandaloneSpecs) {
+        List<String> result = new ArrayList<>();
+        for (String code : selectedSpecCodes) {
+            MicroprofileSpec microprofileSpec = MicroprofileSpec.valueFor(code);
+            if (microprofileSpec == null) {
+                StandaloneMPSpec standaloneMPSpec = StandaloneMPSpec.valueFor(code);
+                if (standaloneMPSpec == null) {
+                    result.add(code);
+                } else {
+                    selectedStandaloneSpecs.add(standaloneMPSpec);
+                }
+            } else {
+                selectedSpec.add(microprofileSpec);
+            }
+        }
+        return result;
     }
 
     public Response getProject(String ifNoneMatch, Project body) {
@@ -321,8 +410,14 @@ public class APIService {
         if (p.getJavaSEVersion() == null || p.getJavaSEVersion() == JavaSEVersion.NONE) {
             p.setJavaSEVersion(EngineData.DEFAULT_JAVA_SE_VERSION);
         }
-        if (p.getSelectedSpecs() == null || p.getSelectedSpecs().isEmpty()) {
+        if (p.getSelectedSpecs() == null) {
+            p.setSelectedStandaloneSpecs(Collections.emptyList());
+        }
+        if (p.getSelectedSpecs().isEmpty() && p.isSelectAllSpecs()) {
             p.setSelectedSpecs(mpvToOptions.get(p.getMpVersion()).getSpecs());
+        }
+        if (p.getSelectedStandaloneSpecs().isEmpty() && p.isSelectAllSpecs()) {
+            p.setSelectedStandaloneSpecs(getStandaloneSpecsForServerRestriction(p));
         }
     }
 
@@ -343,9 +438,25 @@ public class APIService {
         if (p.getSelectedSpecs() == null) {
             p.setSelectedSpecs(Collections.emptyList());
         }
+        if (p.getSelectedSpecs() == null) {
+            p.setSelectedStandaloneSpecs(Collections.emptyList());
+        }
         if (p.getSelectedSpecs().isEmpty() && p.isSelectAllSpecs()) {
             p.setSelectedSpecs(mpvToOptions.get(p.getMpVersion()).getSpecs());
         }
+        if (p.getSelectedStandaloneSpecs().isEmpty() && p.isSelectAllSpecs()) {
+            p.setSelectedStandaloneSpecs(getStandaloneSpecsForServerRestriction(p));
+        }
+    }
+
+    private List<StandaloneMPSpec> getStandaloneSpecsForServerRestriction(Project project) {
+        List<StandaloneMPSpec> result = new ArrayList<>();
+        for (StandaloneMPSpec standaloneMPSpec : StandaloneMPSpec.values()) {
+            if (ServerMPVersion.isEnabled(standaloneMPSpec, project.getSupportedServer().getCode(), project.getMpVersion())) {
+                result.add(standaloneMPSpec);
+            }
+        }
+        return result;
     }
 
     private Response validate(Project p) {
@@ -408,7 +519,7 @@ public class APIService {
 
     private Response processProject(String ifNoneMatch, Project p) {
         Response validatorResponse = validate(p);
-        if (validatorResponse.getStatusInfo() != Response.Status.OK) {
+        if (validatorResponse.getStatusInfo().getStatusCode() != Response.Status.OK.getStatusCode()) {
             return validatorResponse;
         }
 
@@ -437,7 +548,14 @@ public class APIService {
         specifications.setMicroProfileVersion(p.getMpVersion());
 
         model.getOptions().put("mp.server", new OptionValue(ed.getSupportedServer()));
-        model.getOptions().put("mp.specs", new OptionValue(ed.getSelectedSpecs()));
+        model.getOptions().put("mp.specs", new OptionValue(p.getSelectedSpecs()
+                .stream()
+                .map(MicroprofileSpec::getCode)
+                .collect(Collectors.toList())));
+        model.getOptions().put("mp.standaloneSpecs", new OptionValue(p.getSelectedStandaloneSpecs()
+                .stream()
+                .map(StandaloneMPSpec::getCode)
+                .collect(Collectors.toList())));
 
         model.setSpecification(specifications);
 

@@ -20,6 +20,7 @@
 package org.eclipse.microprofile.starter.rest.model;
 
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
+import org.eclipse.microprofile.starter.addon.microprofile.servers.model.StandaloneMPSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
 import org.eclipse.microprofile.starter.core.model.JavaSEVersion;
 import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
@@ -37,6 +38,7 @@ public class Project {
     private JavaSEVersion javaSEVersion = null;
     private SupportedServer supportedServer = null;
     private List<MicroprofileSpec> selectedSpecs = null;
+    private List<StandaloneMPSpec> selectedStandaloneSpecs = null;
     private boolean selectAllSpecs = false;
 
     public String getGroupId() {
@@ -85,6 +87,14 @@ public class Project {
 
     public void setSelectedSpecs(List<MicroprofileSpec> selectedSpecs) {
         this.selectedSpecs = selectedSpecs;
+    }
+
+    public List<StandaloneMPSpec> getSelectedStandaloneSpecs() {
+        return selectedStandaloneSpecs;
+    }
+
+    public void setSelectedStandaloneSpecs(List<StandaloneMPSpec> selectedStandaloneSpecs) {
+        this.selectedStandaloneSpecs = selectedStandaloneSpecs;
     }
 
     public boolean isSelectAllSpecs() {

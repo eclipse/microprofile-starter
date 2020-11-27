@@ -56,12 +56,7 @@ import javax.inject.Named;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -178,7 +173,7 @@ public class GeneratorDataBean implements Serializable {
 
         for (StandaloneMPSpec standaloneMPSpec : StandaloneMPSpec.values()) {
             if (standaloneSpecForVersion(standaloneMPSpec.getServerRestrictions())) {
-                boolean standaloneSpecEnabled = isStandaloneSpecEnabled(standaloneMPSpec);
+                boolean standaloneSpecEnabled = ServerMPVersion.isEnabled(standaloneMPSpec, engineData.getSupportedServer(), microProfileVersion);
                 if (standaloneSpecEnabled) {
                     standaloneSpecs.add(new SelectItem(standaloneMPSpec.getCode(), standaloneMPSpec.getLabel()));
                     if (currentSelected.contains(standaloneMPSpec.getCode())) {
@@ -211,27 +206,6 @@ public class GeneratorDataBean implements Serializable {
     public String getSpecificationStandaloneLink(StandaloneMPSpec spec) {
 
         return spec.getTagURL();
-    }
-
-    public boolean isStandaloneSpecEnabled(StandaloneMPSpec spec) {
-        if (engineData.getSupportedServer() == null) {
-            // If no runtime specified, standalone spec can never be enabled as we can't determine if runtime has support for it.
-            return false;
-        }
-        boolean result = false;
-        for (ServerMPVersion serverRestriction : spec.getServerRestrictions()) {
-            if (serverRestriction.getSupportedServer().getCode().equals(engineData.getSupportedServer())) {
-                // This restriction is for the selected runtime
-                if (serverRestriction.getMinimalMPVersion() == null) {
-                    // No restriction on MP version -> enabled
-                    result = true;
-                } else {
-                    // Current selected version more recenter as MP version defined in restriction.
-                    result = serverRestriction.getMinimalMPVersion().ordinal() >= microProfileVersion.ordinal();
-                }
-            }
-        }
-        return result;
     }
 
     private void defineSupportedServerItems(MicroProfileVersion version) {
