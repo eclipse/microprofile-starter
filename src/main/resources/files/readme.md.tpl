@@ -22,11 +22,9 @@ unit and integration tests are run on pressing Enter in the command terminal; yo
     mvn liberty:dev
 [/]
 
-[# th:unless="${secondary_project}"]
 To launch the test page, open your browser at the following URL
 
-    http://localhost:[# th:text="${port_service_a}"/]/index.html
-[/]    
+    http://localhost:[# th:text="${port_service_a}"/]/index.html  
 
 [# th:if="${mp_rest_client}"]
 ## Next Step
