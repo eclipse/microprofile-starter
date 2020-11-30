@@ -24,7 +24,6 @@ import org.eclipse.microprofile.starter.view.EngineData;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.enterprise.context.ApplicationScoped;
-import javax.xml.bind.DatatypeConverter;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -49,6 +48,7 @@ import java.util.stream.Stream;
 @ApplicationScoped
 public class DynamoDBLogger {
 
+    private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
     private static final Logger LOG = Logger.getLogger(DynamoDBLogger.class.getName());
     private static final String ACCESS_KEY = System.getProperty("AWS_ACCESS_KEY_ID");
     private static final String SECRET_KEY = System.getProperty("AWS_SECRET_ACCESS_KEY");
@@ -94,7 +94,7 @@ public class DynamoDBLogger {
                 engineData.getSelectedSpecs().stream()
         ).collect(Collectors.joining());
         sha1Hash.update(logmark.getBytes());
-        final String hashedLogmark = DatatypeConverter.printHexBinary(sha1Hash.digest());
+        final String hashedLogmark = bytesToHex(sha1Hash.digest());
 
         final StringBuilder s = new StringBuilder(1024)
                 .append("{\"TableName\":\"")
@@ -147,7 +147,7 @@ public class DynamoDBLogger {
             return null;
         }
         digest.update(StandardCharsets.UTF_8.encode(dynamoDBJSON));
-        final String payloadHash = DatatypeConverter.printHexBinary(digest.digest()).toLowerCase();
+        final String payloadHash = bytesToHex(digest.digest()).toLowerCase();
         digest.reset();
         final String canonicalUri = "/";
         final String canonicalQuerystring = "";
@@ -163,7 +163,7 @@ public class DynamoDBLogger {
         return "AWS4-HMAC-SHA256" + '\n' +
                 amzDate + '\n' +
                 credentialScope + '\n' +
-                DatatypeConverter.printHexBinary(digest.digest()).toLowerCase();
+                bytesToHex(digest.digest()).toLowerCase();
     }
 
     private static String createAuthHeader(final Date date, final String amzDate, final String dynamoDBJSON) {
@@ -189,7 +189,7 @@ public class DynamoDBLogger {
             return null;
         }
         final byte[] signatureBytes = mac.doFinal(stringToSign.getBytes(StandardCharsets.US_ASCII));
-        final String signature = DatatypeConverter.printHexBinary(signatureBytes).toLowerCase();
+        final String signature = bytesToHex(signatureBytes).toLowerCase();
 
         return "AWS4-HMAC-SHA256" + ' ' + "Credential=" + ACCESS_KEY + '/' + credentialScope + ", "
                 + "SignedHeaders=" + "content-type;host;x-amz-date;x-amz-target" + ", " + "Signature=" + signature;
@@ -301,4 +301,15 @@ public class DynamoDBLogger {
 
         sendPayload(amzDate, authorizationHeader, dynamoDBJSON);
     }
+
+    private static String bytesToHex(byte[] bytes) {
+        char[] hexChars = new char[bytes.length * 2];
+        for (int j = 0; j < bytes.length; j++) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = HEX_ARRAY[v >>> 4];
+            hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
+        }
+        return new String(hexChars);
+    }
+
 }

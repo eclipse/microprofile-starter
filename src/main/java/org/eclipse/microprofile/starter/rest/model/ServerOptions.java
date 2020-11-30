@@ -20,10 +20,12 @@
 package org.eclipse.microprofile.starter.rest.model;
 
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
+import org.eclipse.microprofile.starter.addon.microprofile.servers.model.StandaloneMPSpec;
 import org.eclipse.microprofile.starter.core.model.JavaSEVersion;
 import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Michal Karm Babacek <karm@redhat.com>
@@ -31,12 +33,16 @@ import java.util.List;
 public class ServerOptions {
 
     public final MicroProfileVersion mpVersion;
-    public final List<MicroprofileSpec> mpSpecs;
+    public final List<String> mpSpecs;
     public final List<JavaSEVersion> javaSEVersions;
 
-    public ServerOptions(MicroProfileVersion mpVersion, List<MicroprofileSpec> mpSpecs, List<JavaSEVersion> javaSEVersions) {
+    public ServerOptions(MicroProfileVersion mpVersion,
+                         List<MicroprofileSpec> mpSpecs,
+                         List<StandaloneMPSpec> mpStandaloneSpecs,
+                         List<JavaSEVersion> javaSEVersions) {
         this.mpVersion = mpVersion;
-        this.mpSpecs = mpSpecs;
+        this.mpSpecs =  mpSpecs.stream().map(spec -> spec.getCode().toUpperCase()).collect(Collectors.toList());
+        this.mpSpecs.addAll(mpStandaloneSpecs.stream().map(spec -> spec.getCode().toUpperCase()).collect(Collectors.toList()));
         this.javaSEVersions = javaSEVersions;
     }
 }
