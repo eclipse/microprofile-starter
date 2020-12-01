@@ -1,4 +1,4 @@
 #!/bin/sh
 
-git describe --tags > ./version.txt
+git describe --tags --always > ./version.txt
 
