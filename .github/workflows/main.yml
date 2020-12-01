@@ -60,7 +60,7 @@ jobs:
         ${JAVA_HOME}/bin/java --version
     - name: Build and run tests for Starter
       run: |
-        cd ${{ github.workspace }}/starter
+        cd ${{ github.workspace }}
         mvn clean verify -Pthorntail  
     - name: Prepare failure archive (if maven failed)
       if: failure()
