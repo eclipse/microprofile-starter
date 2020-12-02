@@ -67,7 +67,9 @@ public class Commands {
     }
 
     public static void download(Client client, String supportedServer, String artifactId, SpecSelection specSelection, String location) {
-        Response response = client.target(API_URL + "/project?supportedServer=" + supportedServer + specSelection.queryParam + "&artifactId=" + artifactId).request().get();
+        String uri = API_URL + "/project?supportedServer=" + supportedServer + specSelection.queryParam + "&artifactId=" + artifactId;
+        LOGGER.info("from " + uri);
+        Response response = client.target(uri).request().get();
         assertEquals("Download failed.", Response.Status.OK.getStatusCode(), response.getStatus());
         try (FileOutputStream out = new FileOutputStream(location); InputStream in = (InputStream) response.getEntity()) {
             in.transferTo(out);

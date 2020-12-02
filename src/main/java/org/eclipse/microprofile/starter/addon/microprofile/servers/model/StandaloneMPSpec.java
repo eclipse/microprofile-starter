@@ -96,7 +96,7 @@ public enum StandaloneMPSpec {
     public static StandaloneMPSpec valueFor(String data) {
         StandaloneMPSpec result = null;
         for (StandaloneMPSpec spec : StandaloneMPSpec.values()) {
-            if (spec.code.equals(data)) {
+            if (spec.code.equalsIgnoreCase(data)) {
                 result = spec;
             }
         }

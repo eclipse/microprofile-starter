@@ -118,7 +118,7 @@ public enum MicroprofileSpec {
     public static MicroprofileSpec valueFor(String data) {
         MicroprofileSpec result = null;
         for (MicroprofileSpec spec : MicroprofileSpec.values()) {
-            if (spec.code.equals(data)) {
+            if (spec.code.equalsIgnoreCase(data)) {
                 result = spec;
             }
         }
