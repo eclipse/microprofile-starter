@@ -433,7 +433,12 @@ public class APIService {
                     p.getSupportedServer().getMpVersions().get(p.getSupportedServer().getMpVersions().size() - 1));
         }
         if (p.getJavaSEVersion() == null || p.getJavaSEVersion() == JavaSEVersion.NONE) {
-            p.setJavaSEVersion(EngineData.DEFAULT_JAVA_SE_VERSION);
+            List<JavaSEVersion> versions = selector.getSupportedVersion(p.getSupportedServer(), p.getMpVersion());
+            if (versions.size() == 1) {
+                p.setJavaSEVersion(versions.get(0));
+            } else {
+                p.setJavaSEVersion(EngineData.DEFAULT_JAVA_SE_VERSION);
+            }
         }
         if (p.getSelectedSpecs() == null) {
             p.setSelectedSpecs(Collections.emptyList());

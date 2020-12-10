@@ -40,6 +40,7 @@ public class TemplateVariableProviderTest {
         maven.setArtifactId("demo-service");
         model.setMaven(maven);
         model.setSpecification(specification);
+        model.generateMainAndSecondaryProject();
 
         Map<String, String> variables = provider.determineVariables(model);
 

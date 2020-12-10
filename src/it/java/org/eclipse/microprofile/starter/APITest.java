@@ -71,7 +71,7 @@ public class APITest {
             scanner.useDelimiter("\n");
             while (scanner.hasNext()) {
                 String l = scanner.nextLine();
-                assertTrue("Response \n" + response + "\n should have contained the string: " + l, response.contains(l));
+                assertTrue("Response of " + uri + " \n" + response + "\n should have contained the string: " + l, response.contains(l));
             }
         }
     }
