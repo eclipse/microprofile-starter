@@ -370,7 +370,6 @@ public class TestMatrixTest {
     @Test
     @RunAsClient
     @InSequence(9)
-    @Ignore
     public void libertyEmpty() throws IOException, InterruptedException {
         testRuntime("LIBERTY", "liberty",
                 SpecSelection.EMPTY, new int[]{8181, 9080, 8543, 9443});
@@ -379,7 +378,6 @@ public class TestMatrixTest {
     @Test
     @RunAsClient
     @InSequence(10)
-    @Ignore
     public void libertyAll() throws IOException, InterruptedException {
         testRuntime("LIBERTY", "liberty",
                 SpecSelection.ALL, new int[]{8181, 9080, 8543, 9443, 9444, 8281, 9081});
@@ -388,7 +386,6 @@ public class TestMatrixTest {
     @Test
     @RunAsClient
     @InSequence(11)
-    @Ignore
     public void libertyAllButJWTRest() throws IOException, InterruptedException {
         testRuntime("LIBERTY", "liberty",
                 SpecSelection.ALL_BUT_JWT_REST, new int[]{8181, 9080, 8543, 9443});
@@ -397,7 +394,6 @@ public class TestMatrixTest {
     @Test
     @RunAsClient
     @InSequence(12)
-    @Ignore
     public void libertyJWTRest() throws IOException, InterruptedException {
         testRuntime("LIBERTY", "liberty",
                 SpecSelection.JWT_REST, new int[]{8181, 9080, 8543, 9443, 9444, 8281, 9081});
