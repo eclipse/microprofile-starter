@@ -401,6 +401,7 @@
                             <serverName>${final.name}</serverName>
                             <bootstrapProperties>
                                 <project.name>${final.name}</project.name>
+                                <osgi.bundlefile.limit>0</osgi.bundlefile.limit>
                             </bootstrapProperties>
                         </configuration>
                     </plugin>
