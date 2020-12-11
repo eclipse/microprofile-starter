@@ -36,7 +36,7 @@ public enum Whitelist {
             Pattern.compile(".*com.hazelcast.nio.tcp.TcpIpConnectionErrorHandler.*"),
     }),
     LIBERTY("liberty", new Pattern[]{
-        Pattern.compile(".*!MESSAGE FrameworkEvent ERROR.*"),
+        Pattern.compile(".*FrameworkEvent ERROR.*"),
     }),
     HELIDON("helidon", new Pattern[]{}),
     KUMULUZEE("kumuluzee", new Pattern[]{
