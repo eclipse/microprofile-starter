@@ -37,6 +37,7 @@ public enum Whitelist {
     }),
     LIBERTY("liberty", new Pattern[]{
         Pattern.compile(".*FrameworkEvent ERROR.*"),
+        Pattern.compile(".*CWWKE0701E.*"),
     }),
     HELIDON("helidon", new Pattern[]{}),
     KUMULUZEE("kumuluzee", new Pattern[]{
