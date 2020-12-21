@@ -25,9 +25,7 @@ import org.eclipse.microprofile.starter.utils.MPSpec;
 import org.eclipse.microprofile.starter.utils.SpecSelection;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.junit.InSequence;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
@@ -297,7 +295,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(0)
     public void apiAccessibleSanity() {
         Response response = target.request().get();
         assertEquals("MicroProfile Starter REST API should be available", Response.Status.OK.getStatusCode(), response.getStatus());
@@ -305,7 +302,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(1)
     public void thorntailEmpty() throws IOException, InterruptedException {
         testRuntime("THORNTAIL_V2", "thorntail",
                 SpecSelection.EMPTY, new int[]{9990});
@@ -313,7 +309,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(2)
     public void thorntailAll() throws IOException, InterruptedException {
         testRuntime("THORNTAIL_V2", "thorntail",
                 SpecSelection.ALL, new int[]{9990, 8180, 10090});
@@ -321,7 +316,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(3)
     public void thorntailAllButJWTRest() throws IOException, InterruptedException {
         testRuntime("THORNTAIL_V2", "thorntail",
                 SpecSelection.ALL_BUT_JWT_REST, new int[]{9990});
@@ -329,7 +323,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(4)
     public void thorntailJWTRest() throws IOException, InterruptedException {
         testRuntime("THORNTAIL_V2", "thorntail",
                 SpecSelection.JWT_REST, new int[]{9990, 8180, 10090});
@@ -337,7 +330,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(5)
     public void payaraEmpty() throws IOException, InterruptedException {
         testRuntime("PAYARA_MICRO", "payara",
                 SpecSelection.EMPTY, new int[]{6900});
@@ -345,7 +337,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(6)
     public void payaraAll() throws IOException, InterruptedException {
         testRuntime("PAYARA_MICRO", "payara",
                 SpecSelection.ALL, new int[]{6900, 6901, 8180});
@@ -353,7 +344,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(7)
     public void payaraAllButJWTRest() throws IOException, InterruptedException {
         testRuntime("PAYARA_MICRO", "payara",
                 SpecSelection.ALL_BUT_JWT_REST, new int[]{6900});
@@ -361,7 +351,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(8)
     public void payaraJWTRest() throws IOException, InterruptedException {
         testRuntime("PAYARA_MICRO", "payara",
                 SpecSelection.JWT_REST, new int[]{6900, 6901, 8180});
@@ -369,7 +358,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(9)
     public void libertyEmpty() throws IOException, InterruptedException {
         testRuntime("LIBERTY", "liberty",
                 SpecSelection.EMPTY, new int[]{8181, 9080, 8543, 9443});
@@ -377,7 +365,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(10)
     public void libertyAll() throws IOException, InterruptedException {
         testRuntime("LIBERTY", "liberty",
                 SpecSelection.ALL, new int[]{8181, 9080, 8543, 9443, 9444, 8281, 9081});
@@ -385,7 +372,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(11)
     public void libertyAllButJWTRest() throws IOException, InterruptedException {
         testRuntime("LIBERTY", "liberty",
                 SpecSelection.ALL_BUT_JWT_REST, new int[]{8181, 9080, 8543, 9443});
@@ -393,7 +379,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(12)
     public void libertyJWTRest() throws IOException, InterruptedException {
         testRuntime("LIBERTY", "liberty",
                 SpecSelection.JWT_REST, new int[]{8181, 9080, 8543, 9443, 9444, 8281, 9081});
@@ -401,7 +386,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(13)
     public void helidonEmpty() throws IOException, InterruptedException {
         testRuntime("HELIDON", "helidon",
                 SpecSelection.EMPTY, new int[]{});
@@ -409,7 +393,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(14)
     public void helidonAll() throws IOException, InterruptedException {
         testRuntime("HELIDON", "helidon",
                 SpecSelection.ALL, new int[]{8180});
@@ -417,7 +400,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(15)
     public void helidonAllButJWTRest() throws IOException, InterruptedException {
         testRuntime("HELIDON", "helidon",
                 SpecSelection.ALL_BUT_JWT_REST, new int[]{});
@@ -425,7 +407,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(16)
     public void helidonJWTRest() throws IOException, InterruptedException {
         testRuntime("HELIDON", "helidon",
                 SpecSelection.JWT_REST, new int[]{8180});
@@ -433,7 +414,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(17)
     public void kumuluzeeEmpty() throws IOException, InterruptedException {
         testRuntime("KUMULUZEE", "kumuluzee",
                 SpecSelection.EMPTY, new int[]{});
@@ -441,7 +421,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(18)
     public void kumuluzeeAll() throws IOException, InterruptedException {
         testRuntime("KUMULUZEE", "kumuluzee",
                 SpecSelection.ALL, new int[]{8180});
@@ -449,7 +428,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(19)
     public void kumuluzeeAllButJWTRest() throws IOException, InterruptedException {
         testRuntime("KUMULUZEE", "kumuluzee",
                 SpecSelection.ALL_BUT_JWT_REST, new int[]{});
@@ -457,7 +435,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(20)
     public void kumuluzeeJWTRest() throws IOException, InterruptedException {
         testRuntime("KUMULUZEE", "kumuluzee",
                 SpecSelection.JWT_REST, new int[]{8180});
@@ -465,7 +442,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(21)
     public void tomeeEmpty() throws IOException, InterruptedException {
         testRuntime("TOMEE", "tomee",
                 SpecSelection.EMPTY, new int[]{8009, 8005});
@@ -473,7 +449,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(22)
     public void tomeeAll() throws IOException, InterruptedException {
         testRuntime("TOMEE", "tomee",
                 SpecSelection.ALL, new int[]{8009, 8005, 8180, 8109, 8105});
@@ -481,7 +456,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(23)
     public void tomeeAllButJWTRest() throws IOException, InterruptedException {
         testRuntime("TOMEE", "tomee",
                 SpecSelection.ALL_BUT_JWT_REST, new int[]{8009, 8005});
@@ -489,7 +463,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(24)
     public void tomeeJWTRest() throws IOException, InterruptedException {
         testRuntime("TOMEE", "tomee",
                 SpecSelection.JWT_REST, new int[]{8009, 8005, 8180, 8109, 8105});
@@ -497,7 +470,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(25)
     public void quarkusEmpty() throws IOException, InterruptedException {
         testRuntime("QUARKUS", "quarkus",
                 SpecSelection.EMPTY, new int[]{9990});
@@ -505,7 +477,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(26)
     public void quarkusAll() throws IOException, InterruptedException {
         testRuntime("QUARKUS", "quarkus",
                 SpecSelection.ALL, new int[]{9990, 8180, 10090});
@@ -513,7 +484,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(27)
     public void quarkusAllButJWTRest() throws IOException, InterruptedException {
         testRuntime("QUARKUS", "quarkus",
                 SpecSelection.ALL_BUT_JWT_REST, new int[]{9990});
@@ -521,7 +491,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(28)
     public void quarkusJWTRest() throws IOException, InterruptedException {
         testRuntime("QUARKUS", "quarkus",
                 SpecSelection.JWT_REST, new int[]{9990, 8180, 10090});
@@ -529,7 +498,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(29)
     public void wildflyEmpty() throws IOException, InterruptedException {
         testRuntime("WILDFLY", "wildfly",
                 SpecSelection.EMPTY, new int[]{9990});
@@ -537,7 +505,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(30)
     public void wildflyAll() throws IOException, InterruptedException {
         testRuntime("WILDFLY", "wildfly",
                 SpecSelection.ALL, new int[]{9990, 8180, 10090});
@@ -545,7 +512,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(31)
     public void wildflyAllButJWTRest() throws IOException, InterruptedException {
         testRuntime("WILDFLY", "wildfly",
                 SpecSelection.ALL_BUT_JWT_REST, new int[]{9990});
@@ -553,7 +519,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(32)
     public void wildflyJWTRest() throws IOException, InterruptedException {
         testRuntime("WILDFLY", "wildfly",
                 SpecSelection.JWT_REST, new int[]{9990, 8180, 10090});
@@ -561,7 +526,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(33)
     public void wildflyConfig() throws IOException, InterruptedException {
         testRuntime("WILDFLY", "wildfly",
                 SpecSelection.CONFIG, new int[]{9990});
@@ -569,7 +533,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(34)
     public void wildflyFaultTolerance() throws IOException, InterruptedException {
         testRuntime("WILDFLY", "wildfly",
                 SpecSelection.FAULT_TOLERANCE, new int[]{9990});
@@ -577,7 +540,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(35)
     public void wildflyHealthchecks() throws IOException, InterruptedException {
         testRuntime("WILDFLY", "wildfly",
                 SpecSelection.HEALTH_CHECKS, new int[]{9990});
@@ -585,7 +547,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(36)
     public void wildflyJWTAuth() throws IOException, InterruptedException {
         testRuntime("WILDFLY", "wildfly",
                 SpecSelection.JWT_AUTH, new int[]{9990, 8180, 10090});
@@ -593,7 +554,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(37)
     public void wildflyMetrics() throws IOException, InterruptedException {
         testRuntime("WILDFLY", "wildfly",
                 SpecSelection.METRICS, new int[]{9990});
@@ -601,7 +561,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(38)
     public void wildflyOpenAPI() throws IOException, InterruptedException {
         testRuntime("WILDFLY", "wildfly",
                 SpecSelection.OPEN_API, new int[]{9990});
@@ -609,7 +568,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(39)
     public void wildflyOpenTracing() throws IOException, InterruptedException {
         testRuntime("WILDFLY", "wildfly",
                 SpecSelection.OPEN_TRACING, new int[]{9990});
@@ -617,7 +575,6 @@ public class TestMatrixTest {
 
     @Test
     @RunAsClient
-    @InSequence(40)
     public void wildflyRestClient() throws IOException, InterruptedException {
         testRuntime("WILDFLY", "wildfly",
                 SpecSelection.REST_CLIENT, new int[]{9990, 8180, 10090});
