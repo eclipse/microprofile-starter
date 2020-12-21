@@ -45,7 +45,7 @@ jobs:
            export PATH=${HOME}/apache-maven-3.6.3/bin:${HOME}/jdk-11.0.9+11/bin:${PATH}; \
            export JAVA_HOME=${HOME}/jdk-11.0.9+11/; \
            export WLP_JAR_EXTRACT_DIR=${HOME}; \
-           mvn -Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2 clean package -Pthorntail -Dskip.integration.tests=false -DSTARTER_TS_WORKSPACE=/dev/shm/
+           mvn -Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2 clean package -Pthorntail -Dit.test='!TestMatrixTest#liberty*' -Dskip.integration.tests=false -DSTARTER_TS_WORKSPACE=/dev/shm/
     - persist_to_workspace:
         root: .
         paths:
