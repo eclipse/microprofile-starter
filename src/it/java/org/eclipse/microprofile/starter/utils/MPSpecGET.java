@@ -22,7 +22,7 @@ package org.eclipse.microprofile.starter.utils;
 /**
  * @author Michal Karm Babacek <karm@redhat.com>
  */
-public enum MPSpec {
+public enum MPSpecGET {
     DEFAULT(new String[][]{
             new String[]{"data/hello", "Hello World"}
     }),
@@ -65,7 +65,7 @@ public enum MPSpec {
 
     public final String[][] urlContent;
 
-    MPSpec(String[][] urlContent) {
+    MPSpecGET(String[][] urlContent) {
         this.urlContent = urlContent;
     }
 }

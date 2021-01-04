@@ -21,7 +21,8 @@ package org.eclipse.microprofile.starter;
 
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
 import org.eclipse.microprofile.starter.utils.Commands;
-import org.eclipse.microprofile.starter.utils.MPSpec;
+import org.eclipse.microprofile.starter.utils.MPSpecGET;
+import org.eclipse.microprofile.starter.utils.MPSpecPOST;
 import org.eclipse.microprofile.starter.utils.SpecSelection;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
@@ -224,68 +225,70 @@ public class TestMatrixTest {
         // Spec by spec test
         if (specSelection == SpecSelection.EMPTY) {
             // Verify that links are present on the index.html page
-            testWeb(homePage, 10, MPSpec.DEFAULT.urlContent[0][0]);
+            testWeb(homePage, 10, MPSpecGET.DEFAULT.urlContent[0][0]);
             // Verify content
-            testWeb(urlBase + MPSpec.DEFAULT.urlContent[0][0], 5, MPSpec.DEFAULT.urlContent[0][1]);
+            testWeb(urlBase + MPSpecGET.DEFAULT.urlContent[0][0], 5, MPSpecGET.DEFAULT.urlContent[0][1]);
         } else if (specSelection == SpecSelection.ALL) {
             // Verify content
-            testWeb(urlBase + MPSpec.DEFAULT.urlContent[0][0], 5, MPSpec.DEFAULT.urlContent[0][1]);
-            testWeb(urlBase + MPSpec.CONFIG.urlContent[0][0], 5, MPSpec.CONFIG.urlContent[0][1]);
-            testWeb(urlBase + MPSpec.CONFIG.urlContent[1][0], 5, MPSpec.CONFIG.urlContent[1][1]);
-            testWeb(urlBase + MPSpec.FAULT_TOLERANCE.urlContent[0][0], 5, MPSpec.FAULT_TOLERANCE.urlContent[0][1]);
-            testWeb(specialUrlBase + MPSpec.HEALTH_CHECKS.urlContent[0][0], 5, MPSpec.HEALTH_CHECKS.urlContent[0][1]);
-            testWeb(urlBase + MPSpec.METRICS.urlContent[0][0], 5, MPSpec.METRICS.urlContent[0][1]);
-            testWeb(specialUrlBase + MPSpec.METRICS.urlContent[1][0], 10, MPSpec.METRICS.urlContent[1][1]);
-            testWeb(urlBase + MPSpec.JWT_AUTH.urlContent[0][0], 5, MPSpec.JWT_AUTH.urlContent[0][1]);
+            testWeb(urlBase + MPSpecGET.DEFAULT.urlContent[0][0], 5, MPSpecGET.DEFAULT.urlContent[0][1]);
+            testWeb(urlBase + MPSpecGET.CONFIG.urlContent[0][0], 5, MPSpecGET.CONFIG.urlContent[0][1]);
+            testWeb(urlBase + MPSpecGET.CONFIG.urlContent[1][0], 5, MPSpecGET.CONFIG.urlContent[1][1]);
+            testWeb(urlBase + MPSpecGET.FAULT_TOLERANCE.urlContent[0][0], 5, MPSpecGET.FAULT_TOLERANCE.urlContent[0][1]);
+            testWeb(specialUrlBase + MPSpecGET.HEALTH_CHECKS.urlContent[0][0], 5, MPSpecGET.HEALTH_CHECKS.urlContent[0][1]);
+            testWeb(urlBase + MPSpecGET.METRICS.urlContent[0][0], 5, MPSpecGET.METRICS.urlContent[0][1]);
+            testWeb(specialUrlBase + MPSpecGET.METRICS.urlContent[1][0], 10, MPSpecGET.METRICS.urlContent[1][1]);
+            testWeb(urlBase + MPSpecGET.JWT_AUTH.urlContent[0][0], 5, MPSpecGET.JWT_AUTH.urlContent[0][1]);
             if (supportedServer.equalsIgnoreCase("TOMEE")) {
-                testWeb(specialUrlBase + MPSpec.OPEN_API.urlContent[0][0], 5, MPSpec.OPEN_API.urlContent[0][1]);
+                testWeb(specialUrlBase + MPSpecGET.OPEN_API.urlContent[0][0], 5, MPSpecGET.OPEN_API.urlContent[0][1]);
             } else {
-                testWeb(urlBase + MPSpec.OPEN_API.urlContent[0][0], 5, MPSpec.OPEN_API.urlContent[0][1]);
+                testWeb(urlBase + MPSpecGET.OPEN_API.urlContent[0][0], 5, MPSpecGET.OPEN_API.urlContent[0][1]);
             }
-            testWeb(urlBase + MPSpec.REST_CLIENT.urlContent[0][0], 5, MPSpec.REST_CLIENT.urlContent[0][1]);
+            testWeb(urlBase + MPSpecGET.REST_CLIENT.urlContent[0][0], 5, MPSpecGET.REST_CLIENT.urlContent[0][1]);
         } else if (specSelection == SpecSelection.ALL_BUT_JWT_REST) {
             // Verify content
-            testWeb(urlBase + MPSpec.DEFAULT.urlContent[0][0], 5, MPSpec.DEFAULT.urlContent[0][1]);
-            testWeb(urlBase + MPSpec.CONFIG.urlContent[0][0], 5, MPSpec.CONFIG.urlContent[0][1]);
-            testWeb(urlBase + MPSpec.CONFIG.urlContent[1][0], 5, MPSpec.CONFIG.urlContent[1][1]);
-            testWeb(urlBase + MPSpec.FAULT_TOLERANCE.urlContent[0][0], 5, MPSpec.FAULT_TOLERANCE.urlContent[0][1]);
-            testWeb(specialUrlBase + MPSpec.HEALTH_CHECKS.urlContent[0][0], 5, MPSpec.HEALTH_CHECKS.urlContent[0][1]);
-            testWeb(urlBase + MPSpec.METRICS.urlContent[0][0], 5, MPSpec.METRICS.urlContent[0][1]);
-            testWeb(specialUrlBase + MPSpec.METRICS.urlContent[1][0], 5, MPSpec.METRICS.urlContent[1][1]);
+            testWeb(urlBase + MPSpecGET.DEFAULT.urlContent[0][0], 5, MPSpecGET.DEFAULT.urlContent[0][1]);
+            testWeb(urlBase + MPSpecGET.CONFIG.urlContent[0][0], 5, MPSpecGET.CONFIG.urlContent[0][1]);
+            testWeb(urlBase + MPSpecGET.CONFIG.urlContent[1][0], 5, MPSpecGET.CONFIG.urlContent[1][1]);
+            testWeb(urlBase + MPSpecGET.FAULT_TOLERANCE.urlContent[0][0], 5, MPSpecGET.FAULT_TOLERANCE.urlContent[0][1]);
+            testWeb(specialUrlBase + MPSpecGET.HEALTH_CHECKS.urlContent[0][0], 5, MPSpecGET.HEALTH_CHECKS.urlContent[0][1]);
+            testWeb(urlBase + MPSpecGET.METRICS.urlContent[0][0], 5, MPSpecGET.METRICS.urlContent[0][1]);
+            testWeb(specialUrlBase + MPSpecGET.METRICS.urlContent[1][0], 5, MPSpecGET.METRICS.urlContent[1][1]);
             if (supportedServer.equalsIgnoreCase("TOMEE")) {
-                testWeb(specialUrlBase + MPSpec.OPEN_API.urlContent[0][0], 5, MPSpec.OPEN_API.urlContent[0][1]);
+                testWeb(specialUrlBase + MPSpecGET.OPEN_API.urlContent[0][0], 5, MPSpecGET.OPEN_API.urlContent[0][1]);
             } else {
-                testWeb(urlBase + MPSpec.OPEN_API.urlContent[0][0], 5, MPSpec.OPEN_API.urlContent[0][1]);
+                testWeb(urlBase + MPSpecGET.OPEN_API.urlContent[0][0], 5, MPSpecGET.OPEN_API.urlContent[0][1]);
             }
         } else if (specSelection == SpecSelection.JWT_REST) {
             // Verify content
-            testWeb(urlBase + MPSpec.DEFAULT.urlContent[0][0], 5, MPSpec.DEFAULT.urlContent[0][1]);
-            testWeb(urlBase + MPSpec.JWT_AUTH.urlContent[0][0], 5, MPSpec.JWT_AUTH.urlContent[0][1]);
-            testWeb(urlBase + MPSpec.REST_CLIENT.urlContent[0][0], 5, MPSpec.REST_CLIENT.urlContent[0][1]);
+            testWeb(urlBase + MPSpecGET.DEFAULT.urlContent[0][0], 5, MPSpecGET.DEFAULT.urlContent[0][1]);
+            testWeb(urlBase + MPSpecGET.JWT_AUTH.urlContent[0][0], 5, MPSpecGET.JWT_AUTH.urlContent[0][1]);
+            testWeb(urlBase + MPSpecGET.REST_CLIENT.urlContent[0][0], 5, MPSpecGET.REST_CLIENT.urlContent[0][1]);
         } else if (specSelection == SpecSelection.CONFIG) {
-            testWeb(urlBase + MPSpec.DEFAULT.urlContent[0][0], 5, MPSpec.DEFAULT.urlContent[0][1]);
-            testWeb(urlBase + MPSpec.CONFIG.urlContent[0][0], 5, MPSpec.CONFIG.urlContent[0][1]);
-            testWeb(urlBase + MPSpec.CONFIG.urlContent[1][0], 5, MPSpec.CONFIG.urlContent[1][1]);
+            testWeb(urlBase + MPSpecGET.DEFAULT.urlContent[0][0], 5, MPSpecGET.DEFAULT.urlContent[0][1]);
+            testWeb(urlBase + MPSpecGET.CONFIG.urlContent[0][0], 5, MPSpecGET.CONFIG.urlContent[0][1]);
+            testWeb(urlBase + MPSpecGET.CONFIG.urlContent[1][0], 5, MPSpecGET.CONFIG.urlContent[1][1]);
         } else if (specSelection == SpecSelection.FAULT_TOLERANCE) {
-            testWeb(urlBase + MPSpec.FAULT_TOLERANCE.urlContent[0][0], 5, MPSpec.FAULT_TOLERANCE.urlContent[0][1]);
+            testWeb(urlBase + MPSpecGET.FAULT_TOLERANCE.urlContent[0][0], 5, MPSpecGET.FAULT_TOLERANCE.urlContent[0][1]);
         } else if (specSelection == SpecSelection.HEALTH_CHECKS) {
-            testWeb(specialUrlBase + MPSpec.HEALTH_CHECKS.urlContent[0][0], 5, MPSpec.HEALTH_CHECKS.urlContent[0][1]);
+            testWeb(specialUrlBase + MPSpecGET.HEALTH_CHECKS.urlContent[0][0], 5, MPSpecGET.HEALTH_CHECKS.urlContent[0][1]);
         } else if (specSelection == SpecSelection.JWT_AUTH) {
-            testWeb(urlBase + MPSpec.JWT_AUTH.urlContent[0][0], 5, MPSpec.JWT_AUTH.urlContent[0][1]);
+            testWeb(urlBase + MPSpecGET.JWT_AUTH.urlContent[0][0], 5, MPSpecGET.JWT_AUTH.urlContent[0][1]);
         } else if (specSelection == SpecSelection.METRICS) {
-            testWeb(urlBase + MPSpec.METRICS.urlContent[0][0], 5, MPSpec.METRICS.urlContent[0][1]);
-            testWeb(specialUrlBase + MPSpec.METRICS.urlContent[1][0], 5, MPSpec.METRICS.urlContent[1][1]);
+            testWeb(urlBase + MPSpecGET.METRICS.urlContent[0][0], 5, MPSpecGET.METRICS.urlContent[0][1]);
+            testWeb(specialUrlBase + MPSpecGET.METRICS.urlContent[1][0], 5, MPSpecGET.METRICS.urlContent[1][1]);
         } else if (specSelection == SpecSelection.OPEN_API) {
             if (supportedServer.equalsIgnoreCase("TOMEE")) {
-                testWeb(specialUrlBase + MPSpec.OPEN_API.urlContent[0][0], 5, MPSpec.OPEN_API.urlContent[0][1]);
+                testWeb(specialUrlBase + MPSpecGET.OPEN_API.urlContent[0][0], 5, MPSpecGET.OPEN_API.urlContent[0][1]);
             } else {
-                testWeb(urlBase + MPSpec.OPEN_API.urlContent[0][0], 5, MPSpec.OPEN_API.urlContent[0][1]);
+                testWeb(urlBase + MPSpecGET.OPEN_API.urlContent[0][0], 5, MPSpecGET.OPEN_API.urlContent[0][1]);
             }
         } else if (specSelection == SpecSelection.OPEN_TRACING) {
             // No example for this one. Would need Jeger etc.
-            testWeb(urlBase + MPSpec.DEFAULT.urlContent[0][0], 5, MPSpec.DEFAULT.urlContent[0][1]);
+            testWeb(urlBase + MPSpecGET.DEFAULT.urlContent[0][0], 5, MPSpecGET.DEFAULT.urlContent[0][1]);
         } else if (specSelection == SpecSelection.REST_CLIENT) {
-            testWeb(urlBase + MPSpec.REST_CLIENT.urlContent[0][0], 5, MPSpec.REST_CLIENT.urlContent[0][1]);
+            testWeb(urlBase + MPSpecGET.REST_CLIENT.urlContent[0][0], 5, MPSpecGET.REST_CLIENT.urlContent[0][1]);
+        } else if (specSelection == SpecSelection.GRAPHQL) {
+            testWeb(urlBase + MPSpecPOST.GRAPHQL.url, 5, MPSpecPOST.GRAPHQL.expectedContent, MPSpecPOST.GRAPHQL.payload);
         } else {
             throw new IllegalArgumentException(
                     "Unexpected SpecSelection enum value. Have you updated SpecSelection?");
@@ -361,6 +364,13 @@ public class TestMatrixTest {
     public void libertyEmpty() throws IOException, InterruptedException {
         testRuntime("LIBERTY", "liberty",
                 SpecSelection.EMPTY, new int[]{8181, 9080, 8543, 9443});
+    }
+
+    @Test
+    @RunAsClient
+    public void libertyGraphQL() throws IOException, InterruptedException {
+        testRuntime("LIBERTY", "liberty",
+                SpecSelection.GRAPHQL, new int[]{8181, 9080, 8543, 9443});
     }
 
     @Test

@@ -36,8 +36,11 @@ public enum Whitelist {
             Pattern.compile(".*com.hazelcast.nio.tcp.TcpIpConnectionErrorHandler.*"),
     }),
     LIBERTY("liberty", new Pattern[]{
-        Pattern.compile(".*FrameworkEvent ERROR.*"),
-        Pattern.compile(".*CWWKE0701E.*"),
+            Pattern.compile(".*FrameworkEvent ERROR.*"),
+            Pattern.compile(".*CWWKE0701E.*"),
+            // An exception occurred while stopping the application liberty. The exception message was: java.lang.NoClassDefFoundError: com/ibm/ws/threading/internal/ImmediateFutureImpl
+            Pattern.compile(".*CWWKZ0010E:.*"),
+            Pattern.compile(".*Could not load service class com.ibm.ws.io.smallrye.graphql.component.GraphQLExtension.*")
     }),
     HELIDON("helidon", new Pattern[]{}),
     KUMULUZEE("kumuluzee", new Pattern[]{
