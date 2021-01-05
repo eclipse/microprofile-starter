@@ -40,6 +40,8 @@ public enum Whitelist {
             Pattern.compile(".*CWWKE0701E.*"),
             // An exception occurred while stopping the application liberty. The exception message was: java.lang.NoClassDefFoundError: com/ibm/ws/threading/internal/ImmediateFutureImpl
             Pattern.compile(".*CWWKZ0010E:.*"),
+            // [ERROR   ] CWWKL0002E: The system could not read class [io.jaegertracing.internal.reporters.RemoteReporter$Command] as resource [io/jaegertracing/internal/reporters/RemoteReporter$Command.class].
+            Pattern.compile(".*CWWKL0002E:.*"),
             Pattern.compile(".*Could not load service class com.ibm.ws.io.smallrye.graphql.component.GraphQLExtension.*")
     }),
     HELIDON("helidon", new Pattern[]{}),
