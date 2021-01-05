@@ -186,11 +186,11 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
             mavenHelper.addDependency(pomFile, "io.vertx", "vertx-auth-jwt", VERTX_JWT_VERSION);
         }
 
-        if (microprofileStandaloneSpecs.contains(StandaloneMPSpec.GRAPH_QL) && mainProject) {
+        if (microprofileStandaloneSpecs.contains(StandaloneMPSpec.GRAPHQL) && mainProject) {
             mavenHelper.addDependency(pomFile,
-                    StandaloneMPSpec.GRAPH_QL.getGroupId(),
-                    StandaloneMPSpec.GRAPH_QL.getArtifactId(),
-                    StandaloneMPSpec.GRAPH_QL.getVersion(),
+                    StandaloneMPSpec.GRAPHQL.getGroupId(),
+                    StandaloneMPSpec.GRAPHQL.getArtifactId(),
+                    StandaloneMPSpec.GRAPHQL.getVersion(),
                     "provided");
         }
 
@@ -319,7 +319,7 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
             processTemplateFile(resourceDirectory, "privateKey.pem", alternatives, variables);
         }
 
-        if (microprofileStandaloneSpecs.contains(StandaloneMPSpec.GRAPH_QL)) {
+        if (microprofileStandaloneSpecs.contains(StandaloneMPSpec.GRAPHQL)) {
             String graphqlDirectory = model.getDirectory(true) + "/" + rootJava + "/graphql";
             String graphqlModelDirectory = model.getDirectory(true) + "/" + rootJava + "/graphql/model";
             String graphqlDbDirectory = model.getDirectory(true) + "/" + rootJava + "/graphql/db";

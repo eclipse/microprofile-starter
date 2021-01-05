@@ -56,6 +56,9 @@ If you have a tracer running, you can open it now.
 [# th:if="${mp_graphql}"]
 <h3>GraphQL</h3>
 <a href="graphql/schema.graphql" target="_blank" >GraphQL schema</a> <br/>
+[# th:if="${mp_servername} == 'liberty'"]
+<a href="graphql-ui" target="_blank" >GraphQL UI</a> <br/>
+[/]
 [/]
 
 </body>
