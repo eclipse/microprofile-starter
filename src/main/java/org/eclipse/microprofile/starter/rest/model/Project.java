@@ -22,6 +22,7 @@ package org.eclipse.microprofile.starter.rest.model;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.StandaloneMPSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
+import org.eclipse.microprofile.starter.core.model.BuildTool;
 import org.eclipse.microprofile.starter.core.model.JavaSEVersion;
 import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
 
@@ -39,6 +40,7 @@ public class Project {
     private SupportedServer supportedServer = null;
     private List<MicroprofileSpec> selectedSpecs = null;
     private List<StandaloneMPSpec> selectedStandaloneSpecs = null;
+    private BuildTool buildTool = BuildTool.MAVEN;
     private boolean selectAllSpecs = false;
 
     public String getGroupId() {
@@ -105,6 +107,14 @@ public class Project {
         this.selectAllSpecs = selectAllSpecs;
     }
 
+    public BuildTool getBuildTool() {
+        return buildTool;
+    }
+
+    public void setBuildTool(BuildTool buildTool) {
+        this.buildTool = buildTool;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -119,12 +129,13 @@ public class Project {
                 mpVersion == project.mpVersion &&
                 javaSEVersion == project.javaSEVersion &&
                 supportedServer == project.supportedServer &&
+                buildTool == project.buildTool &&
                 selectAllSpecs == project.selectAllSpecs &&
                 Objects.equals(selectedSpecs, project.selectedSpecs);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(groupId, artifactId, mpVersion, javaSEVersion, supportedServer, selectedSpecs, selectAllSpecs);
+        return Objects.hash(groupId, artifactId, mpVersion, javaSEVersion, supportedServer, buildTool, selectedSpecs, selectAllSpecs);
     }
 }

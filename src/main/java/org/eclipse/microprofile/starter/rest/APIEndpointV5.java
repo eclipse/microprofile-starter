@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -23,65 +23,25 @@ import org.eclipse.microprofile.starter.addon.microprofile.servers.model.Support
 import org.eclipse.microprofile.starter.core.model.BuildTool;
 import org.eclipse.microprofile.starter.core.model.JavaSEVersion;
 import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
-import org.eclipse.microprofile.starter.rest.model.Project;
 
 import javax.inject.Inject;
-import javax.validation.constraints.NotNull;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import java.util.List;
 
 /**
- * @author Michal Karm Babacek <karm@redhat.com>
+ *
  */
-@Path("/")
-public class APIEndpointLatest {
+@Path("/5")
+public class APIEndpointV5 extends APIEndpointLatest {
 
     @Inject
     private APIService api;
-
-    @Path("/")
-    @GET
-    @Produces({"text/x-markdown"})
-    public Response readme(@HeaderParam(HttpHeaders.IF_NONE_MATCH) String ifNoneMatch) {
-        return api.readme(ifNoneMatch);
-    }
-
-    @Path("/mpVersion")
-    @GET
-    @Produces({"application/json"})
-    public Response listMPVersions() {
-        return api.listMPVersions();
-    }
-
-    @Path("/supportMatrix")
-    @GET
-    @Produces({"application/json"})
-    public Response supportMatrix(@HeaderParam(HttpHeaders.IF_NONE_MATCH) String ifNoneMatch) {
-        return api.supportMatrix(ifNoneMatch);
-    }
-
-    @Path("/supportMatrix/servers")
-    @GET
-    @Produces({"application/json"})
-    public Response supportMatrixServers(@HeaderParam(HttpHeaders.IF_NONE_MATCH) String ifNoneMatch) {
-        return api.supportMatrixServers(ifNoneMatch);
-    }
-
-    @Path("/mpVersion/{mpVersion}")
-    @GET
-    @Produces({"application/json"})
-    public Response listOptions(@NotNull @PathParam("mpVersion") MicroProfileVersion mpVersion) {
-        return api.listOptions(mpVersion);
-    }
 
     @Path("/project")
     @GET
@@ -92,7 +52,6 @@ public class APIEndpointLatest {
                                @QueryParam("artifactId") String artifactId,
                                @QueryParam("mpVersion") MicroProfileVersion mpVersion,
                                @QueryParam("javaSEVersion") JavaSEVersion javaSEVersion,
-                               @QueryParam("buildTool")BuildTool buildTool,
                                @QueryParam("selectedSpecs") List<String> selectedSpecCodes,
                                @QueryParam("selectAllSpecs") boolean selectAllSpecs) {
         return api.getProject(ifNoneMatch,
@@ -101,16 +60,10 @@ public class APIEndpointLatest {
                 artifactId,
                 mpVersion,
                 javaSEVersion,
-                buildTool,
+                BuildTool.MAVEN,
                 selectedSpecCodes,
                 selectAllSpecs);
     }
 
-    @Path("/project")
-    @POST
-    @Consumes({"application/json"})
-    @Produces({"application/zip", "application/json"})
-    public Response projectPost(@HeaderParam(HttpHeaders.IF_NONE_MATCH) String ifNoneMatch, @NotNull Project body) {
-        return api.getProject(ifNoneMatch, body);
-    }
+
 }

@@ -121,7 +121,7 @@ curl -v -O -J -L -H 'If-None-Match: "dd085c81"' 'https://start.microprofile.io/a
 ## Example with all attributes
 
 ```
-$ curl -O -J -L 'https://start.microprofile.io/api/project?supportedServer=LIBERTY&groupId=com.example&artifactId=myapp&mpVersion=MP22&javaSEVersion=SE8&selectedSpecs=CONFIG&selectedSpecs=FAULT_TOLERANCE&selectedSpecs=JWT_AUTH&selectedSpecs=METRICS&selectedSpecs=HEALTH_CHECKS&selectedSpecs=OPEN_API&selectedSpecs=OPEN_TRACING&selectedSpecs=REST_CLIENT'
+$ curl -O -J -L 'https://start.microprofile.io/api/project?supportedServer=LIBERTY&groupId=com.example&artifactId=myapp&mpVersion=MP22&javaSEVersion=SE8&buildTool=MAVEN&selectedSpecs=CONFIG&selectedSpecs=FAULT_TOLERANCE&selectedSpecs=JWT_AUTH&selectedSpecs=METRICS&selectedSpecs=HEALTH_CHECKS&selectedSpecs=OPEN_API&selectedSpecs=OPEN_TRACING&selectedSpecs=REST_CLIENT'
 
 curl: Saved to filename 'myapp.zip'
 ```
@@ -158,6 +158,7 @@ $ cat all.json
   "mpVersion": "MP22",
   "javaSEVersion": "SE8",
   "supportedServer": "THORNTAIL_V2",
+  "buildTool": "MAVEN",
   "selectedSpecs": [
     "CONFIG",
     "FAULT_TOLERANCE",

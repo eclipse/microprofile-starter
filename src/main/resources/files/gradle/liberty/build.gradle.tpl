@@ -4,6 +4,8 @@ apply plugin: 'liberty'
 group = '[# th:text="${maven_groupid}"/]'
 version = '1.0-SNAPSHOT'
 
+description = "MicroProfile Starter example"
+
 sourceCompatibility = [# th:text="${se_version}"/]
 targetCompatibility = [# th:text="${se_version}"/]
 

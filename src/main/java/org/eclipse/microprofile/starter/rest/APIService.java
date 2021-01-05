@@ -32,6 +32,7 @@ import org.eclipse.microprofile.starter.core.files.FilesLocator;
 import org.eclipse.microprofile.starter.core.model.BeansXMLMode;
 import org.eclipse.microprofile.starter.core.model.JavaSEVersion;
 import org.eclipse.microprofile.starter.core.model.JessieMaven;
+import org.eclipse.microprofile.starter.core.model.BuildTool;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 import org.eclipse.microprofile.starter.core.model.JessieSpecification;
 import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
@@ -323,6 +324,7 @@ public class APIService {
                                String groupId, String artifactId,
                                MicroProfileVersion mpVersion,
                                JavaSEVersion javaSEVersion,
+                               BuildTool buildTool,
                                List<String> selectedSpecCodes,
                                boolean selectAllSpecs) {
 
@@ -339,6 +341,7 @@ public class APIService {
         Project project = new Project();
         project.setSupportedServer(supportedServer);
         project.setGroupId(groupId);
+        project.setBuildTool(buildTool);
         project.setArtifactId(artifactId);
         project.setMpVersion(mpVersion);
         project.setJavaSEVersion(javaSEVersion);
@@ -452,6 +455,10 @@ public class APIService {
         if (p.getSelectedStandaloneSpecs().isEmpty() && p.isSelectAllSpecs()) {
             p.setSelectedStandaloneSpecs(getStandaloneSpecsForServerRestriction(p));
         }
+
+        if (p.getBuildTool() == null) {
+            p.setBuildTool(BuildTool.MAVEN);
+        }
     }
 
     private List<StandaloneMPSpec> getStandaloneSpecsForServerRestriction(Project project) {
@@ -551,6 +558,7 @@ public class APIService {
         JessieSpecification specifications = new JessieSpecification();
         specifications.setJavaSEVersion(p.getJavaSEVersion());
         specifications.setMicroProfileVersion(p.getMpVersion());
+        specifications.setBuildTool(p.getBuildTool());
 
         model.getOptions().put("mp.server", new OptionValue(ed.getSupportedServer()));
         model.getOptions().put("mp.specs", new OptionValue(p.getSelectedSpecs()
