@@ -24,6 +24,7 @@ import org.apache.maven.model.Parent;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.AbstractMicroprofileAddon;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
+import org.eclipse.microprofile.starter.core.artifacts.BuildToolCreator;
 import org.eclipse.microprofile.starter.core.artifacts.CDICreator;
 import org.eclipse.microprofile.starter.core.artifacts.MavenCreator;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
@@ -31,10 +32,7 @@ import org.eclipse.microprofile.starter.core.model.JessieModel;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @ApplicationScoped
 public class HelidonServer extends AbstractMicroprofileAddon {
@@ -60,7 +58,7 @@ public class HelidonServer extends AbstractMicroprofileAddon {
         // Helidon's html files reside in resources/WEB; we can delete webapp dir.
         String webHtmlDir = model.getDirectory(true) + "/" + MavenCreator.SRC_MAIN_RESOURCES + "/" + "WEB";
         directoryCreator.createDirectory(webHtmlDir);
-        processTemplateFile(webHtmlDir, "index.html", alternatives, variables);
+        templateEngine.processTemplateFile(webHtmlDir, "index.html", alternatives, variables);
         directoryCreator.removeDirectory(model.getDirectory(true) + "/" + MavenCreator.SRC_MAIN_WEBAPP);
         if (model.hasMainAndSecondaryProject()) {
             directoryCreator.removeDirectory(model.getDirectory(false) + "/" + MavenCreator.SRC_MAIN_WEBAPP);
@@ -76,13 +74,13 @@ public class HelidonServer extends AbstractMicroprofileAddon {
         String webDirectory = model.getDirectory(true) + "/" + MavenCreator.SRC_MAIN_WEBAPP + "/WEB-INF";
         directoryCreator.removeDirectory(webDirectory);
 
-        String rootJava = MavenCreator.SRC_MAIN_JAVA + "/" + directoryCreator.createPathForGroupAndArtifact(model.getMaven());
+        String rootJava = BuildToolCreator.SRC_MAIN_JAVA + "/" + directoryCreator.createPathForGroupAndArtifact(model.getMaven());
 
         String resourcesDirectory = model.getDirectory(true) + "/" + MavenCreator.SRC_MAIN_RESOURCES;
         directoryCreator.createDirectory(resourcesDirectory);
 
-        processTemplateFile(resourcesDirectory, "logging.properties", alternatives, variables);
-        processTemplateFile(resourcesDirectory, "privateKey.pem", alternatives, variables);
+        templateEngine.processTemplateFile(resourcesDirectory, "logging.properties", alternatives, variables);
+        templateEngine.processTemplateFile(resourcesDirectory, "privateKey.pem", alternatives, variables);
 
         List<MicroprofileSpec> microprofileSpecs = model.getParameter(JessieModel.Parameter.MICROPROFILESPECS);
 
@@ -91,19 +89,18 @@ public class HelidonServer extends AbstractMicroprofileAddon {
             directoryCreator.createDirectory(viewDirectory);
             Set<String> tempAlternative = new HashSet<>(alternatives);
             tempAlternative.add(JessieModel.SECONDARY_INDICATOR);
-            String javaFile = thymeleafEngine.processFile("RestApplication.java", tempAlternative, variables);
-            fileCreator.writeContents(viewDirectory, variables.get("application") + "RestApplication.java", javaFile);
+            templateEngine.processTemplateFile(viewDirectory,
+                    "RestApplication.java",variables.get("application") + "RestApplication.java", tempAlternative, variables);
 
             String bResourcesDir = model.getDirectory(false) + "/" + MavenCreator.SRC_MAIN_RESOURCES;
             String bResourcesMETAINFDir = bResourcesDir + "/META-INF";
             directoryCreator.createDirectory(bResourcesMETAINFDir);
 
             if (microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH)) {
-                processTemplateFile(bResourcesDir, "publicKey.pem", alternatives, variables);
+                templateEngine.processTemplateFile(bResourcesDir, "publicKey.pem", alternatives, variables);
             }
 
-            String configFile = thymeleafEngine.processFile("microprofile-config.properties", tempAlternative, variables);
-            fileCreator.writeContents(bResourcesMETAINFDir, "microprofile-config.properties", configFile);
+            templateEngine.processTemplateFile(bResourcesMETAINFDir, "microprofile-config.properties", tempAlternative, variables);
         }
     }
 
@@ -170,4 +167,12 @@ public class HelidonServer extends AbstractMicroprofileAddon {
         parent.setRelativePath("");
         pomFile.setParent(parent);
     }
+
+    @Override
+    public Map<String, String> defineAdditionalVariables(JessieModel model, boolean mainProject) {
+        // For customization of the build.gradle file
+        Map<String, String> result = new HashMap<>();
+        return result;
+    }
+
 }

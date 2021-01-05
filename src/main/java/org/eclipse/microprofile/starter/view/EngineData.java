@@ -38,6 +38,8 @@ public class EngineData {
     private String beansxmlMode = "all";
     private List<String> selectedSpecs;
 
+    private String buildTool = "Maven";
+
     private TrafficSource trafficSource = TrafficSource.WEB;
 
     public enum TrafficSource {
@@ -97,6 +99,14 @@ public class EngineData {
 
     public void setSelectedSpecs(List<String> selectedSpecs) {
         this.selectedSpecs = selectedSpecs;
+    }
+
+    public String getBuildTool() {
+        return buildTool;
+    }
+
+    public void setBuildTool(String buildTool) {
+        this.buildTool = buildTool;
     }
 
     public TrafficSource getTrafficSource() {

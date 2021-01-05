@@ -32,7 +32,7 @@ import java.util.Map;
  *
  */
 
-public interface JessieAddon extends JessieAlternativesProvider, JessieMavenAdapter {
+public interface JessieAddon extends JessieAlternativesProvider, JessieMavenAdapter, JessieGradleAdapter {
 
     String addonName();
 

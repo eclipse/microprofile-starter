@@ -39,7 +39,7 @@ public class JavaCreator extends AbstractCreator {
         Set<String> alternatives = model.getParameter(JessieModel.Parameter.ALTERNATIVES);
         Map<String, String> variables = model.getVariables();
 
-        String rootJava = MavenCreator.SRC_MAIN_JAVA + "/" + directoryCreator.createPathForGroupAndArtifact(model.getMaven());
+        String rootJava = BuildToolCreator.SRC_MAIN_JAVA + "/" + directoryCreator.createPathForGroupAndArtifact(model.getMaven());
         String viewDirectory = model.getDirectory(true) + "/" + rootJava;
         directoryCreator.createDirectory(viewDirectory);
 

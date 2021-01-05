@@ -23,6 +23,7 @@
 package org.eclipse.microprofile.starter.core;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.starter.core.model.JavaSEVersion;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -39,6 +40,8 @@ public class TemplateVariableProvider {
         Map<String, String> result = new HashMap<>();
 
         result.put("java_package", model.getMaven().getGroupId() + '.' + model.getMaven().getPackage());
+        result.put("build_tool", model.getSpecification().getBuildTool().name());
+        result.put("maven_groupid", model.getMaven().getGroupId());
         result.put("maven_artifactid", model.getMaven().getArtifactId());
 
         String artifactId = model.getMaven().getArtifactId().replaceAll("\\.", "");
@@ -48,6 +51,8 @@ public class TemplateVariableProvider {
         result.put("mp_version", model.getSpecification().getMicroProfileVersion().getCode());
         result.put("secondary_project", model.hasMainAndSecondaryProject() ? "true" : "false");
 
+        JavaSEVersion seVersion = model.getSpecification().getJavaSEVersion();
+        result.put("se_version", seVersion.getCode());
         return result;
 
     }

@@ -6,11 +6,31 @@ MicroProfile Starter has generated this MicroProfile application for you.
 
 The generation of the executable jar file can be performed by issuing the following command
 
+[# th:if="${build_tool} == 'MAVEN'"]
     mvn clean package
+[/]
+[# th:if="${build_tool} == 'GRADLE'"]
+[# th:if="${mp_servername} == 'payara-micro'"]
+    ./gradlew microBundle
+[/]
+[# th:if="${mp_servername} == 'liberty'"]
+    ./gradlew libertyCreate
+[/]
+[/]
 
 This will create an executable jar file **[# th:text="${jar_file}"/]** within the _target_ maven folder. This can be started by executing the following command
 
+[# th:if="${build_tool} == 'MAVEN'"]
     java -jar target/[# th:text="${jar_file}"/]
+[/]
+[# th:if="${build_tool} == 'GRADLE'"]
+[# th:if="${mp_servername} == 'payara-micro'"]
+    ./gradlew microStart
+[/]
+[# th:if="${mp_servername} == 'payara-micro'"]
+    ./gradlew libertyRun
+[/]
+[/]
 
 [# th:if="${mp_servername} == 'liberty'"]
 ### Liberty Dev Mode

@@ -33,6 +33,7 @@ import org.eclipse.microprofile.starter.addon.microprofile.servers.model.ServerM
 import org.eclipse.microprofile.starter.core.artifacts.Creator;
 import org.eclipse.microprofile.starter.core.exception.JessieUnexpectedException;
 import org.eclipse.microprofile.starter.core.model.BeansXMLMode;
+import org.eclipse.microprofile.starter.core.model.BuildTool;
 import org.eclipse.microprofile.starter.core.model.JavaSEVersion;
 import org.eclipse.microprofile.starter.core.model.JessieMaven;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
@@ -270,6 +271,7 @@ public class GeneratorDataBean implements Serializable {
         specifications.setJavaSEVersion(JavaSEVersion.valueFor(engineData.getJavaSEVersion()));
 
         specifications.setMicroProfileVersion(MicroProfileVersion.valueFor(engineData.getMpVersion()));
+        specifications.setBuildTool(BuildTool.forValue(engineData.getBuildTool()));
 
         model.getOptions().put("mp.server", new OptionValue(engineData.getSupportedServer()));
         model.getOptions().put("mp.specs", new OptionValue(selectedSpecs));

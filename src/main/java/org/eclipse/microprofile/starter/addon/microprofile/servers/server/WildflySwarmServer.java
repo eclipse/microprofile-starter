@@ -28,6 +28,7 @@ import org.eclipse.microprofile.starter.core.model.JessieModel;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -56,20 +57,19 @@ public class WildflySwarmServer extends AbstractMicroprofileAddon {
             // Specific files for Auth-JWT
             String resourceDirectory = getResourceDirectory(model, false);
             directoryCreator.createDirectory(resourceDirectory);
-            processTemplateFile(resourceDirectory, "project-defaults.yml", alternatives, variables);
-            processTemplateFile(resourceDirectory, "jwt-roles.properties", alternatives, variables);
+            templateEngine.processTemplateFile(resourceDirectory, "project-defaults.yml", alternatives, variables);
+            templateEngine.processTemplateFile(resourceDirectory, "jwt-roles.properties", alternatives, variables);
 
             String metaInfDirectory = getResourceDirectory(model, false) + "/META-INF";
 
             directoryCreator.createDirectory(metaInfDirectory);
-            processTemplateFile(metaInfDirectory, "publicKey.pem", "MP-JWT-SIGNER", alternatives, variables);
+            templateEngine.processTemplateFile(metaInfDirectory, "publicKey.pem", "MP-JWT-SIGNER", alternatives, variables);
 
             /// web.xml required for WildFly swarm
             String webInfDirectory = model.getDirectory(true) + "/" + MavenCreator.SRC_MAIN_WEBAPP + "/WEB-INF";
             directoryCreator.createDirectory(webInfDirectory);
 
-            String webXMLContents = thymeleafEngine.processFile("web.xml", alternatives, variables);
-            fileCreator.writeContents(webInfDirectory, "web.xml", webXMLContents);
+            templateEngine.processTemplateFile(webInfDirectory, "web.xml",alternatives, variables);
         }
     }
 
@@ -77,4 +77,12 @@ public class WildflySwarmServer extends AbstractMicroprofileAddon {
     public void adaptMavenModel(Model pomFile, JessieModel model, boolean mainProject) {
 
     }
+
+    @Override
+    public Map<String, String> defineAdditionalVariables(JessieModel model, boolean mainProject) {
+        // For customization of the build.gradle file
+        Map<String, String> result = new HashMap<>();
+        return result;
+    }
+
 }

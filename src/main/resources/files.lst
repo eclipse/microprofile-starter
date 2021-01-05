@@ -38,6 +38,13 @@ src/main/resources/files/liberty/server.xml.tpl
 src/main/resources/files/liberty/public.jks.tpl
 src/main/resources/files/liberty/service-b/server.xml.tpl
 src/main/resources/files/index.html.tpl
+src/main/resources/files/gradle/gradle-wrapper.properties.tpl
+src/main/resources/files/gradle/settings.gradle.tpl
+src/main/resources/files/gradle/gradlew.tpl
+src/main/resources/files/gradle/payara-micro/build.gradle.tpl
+src/main/resources/files/gradle/liberty/build.gradle.tpl
+src/main/resources/files/gradle/gradlew.bat.tpl
+src/main/resources/files/gradle/gradle-wrapper.jar.tpl
 src/main/resources/files/readme.md.tpl
 src/main/resources/files/TestSecureController.java.tpl
 src/main/resources/files/UnknownCharacterException.java.tpl

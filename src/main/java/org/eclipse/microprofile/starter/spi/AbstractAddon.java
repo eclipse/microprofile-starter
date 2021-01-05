@@ -22,17 +22,15 @@
  */
 package org.eclipse.microprofile.starter.spi;
 
+import org.eclipse.microprofile.starter.core.artifacts.BuildToolCreator;
 import org.eclipse.microprofile.starter.core.artifacts.DirectoryCreator;
-import org.eclipse.microprofile.starter.core.artifacts.FileCreator;
 import org.eclipse.microprofile.starter.core.artifacts.MavenCreator;
-import org.eclipse.microprofile.starter.core.files.FileCopyEngine;
-import org.eclipse.microprofile.starter.core.files.ThymeleafEngine;
+import org.eclipse.microprofile.starter.core.artifacts.TemplateEngine;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 import org.eclipse.microprofile.starter.core.model.OptionValue;
 
 import javax.inject.Inject;
 import java.util.Map;
-import java.util.Set;
 
 /**
  *
@@ -44,16 +42,10 @@ public abstract class AbstractAddon implements JessieAddon {
     protected Map<String, String> defaultOptions;
 
     @Inject
-    protected ThymeleafEngine thymeleafEngine;
-
-    @Inject
-    protected FileCopyEngine fileCopyEngine;
-
-    @Inject
     protected DirectoryCreator directoryCreator;
 
     @Inject
-    protected FileCreator fileCreator;
+    protected TemplateEngine templateEngine;
 
     @Override
     public final void addonOptions(Map<String, OptionValue> options) {
@@ -74,23 +66,7 @@ public abstract class AbstractAddon implements JessieAddon {
     }
 
     protected final String getJavaApplicationRootPackage(JessieModel model) {
-        return MavenCreator.SRC_MAIN_JAVA + "/" + directoryCreator.createPathForGroupAndArtifact(model.getMaven());
-    }
-
-    protected final void processTemplateFile(String directory, String templateFileName, String fileName,
-                                             Set<String> alternatives, Map<String, String> variables) {
-        String javaFile = thymeleafEngine.processFile(templateFileName, alternatives, variables);
-        fileCreator.writeContents(directory, fileName, javaFile);
-    }
-
-    protected final void processTemplateFile(String directory, String fileName, Set<String> alternatives, Map<String, String> variables) {
-        String javaFile = thymeleafEngine.processFile(fileName, alternatives, variables);
-        fileCreator.writeContents(directory, fileName, javaFile);
-    }
-
-    protected final void processFile(String directory, String fileName, Set<String> alternatives) {
-        byte[] fileContent = fileCopyEngine.processFile(fileName, alternatives);
-        fileCreator.writeContents(directory, fileName, fileContent);
+        return BuildToolCreator.SRC_MAIN_JAVA + "/" + directoryCreator.createPathForGroupAndArtifact(model.getMaven());
     }
 
 }

@@ -31,11 +31,7 @@ import org.eclipse.microprofile.starter.core.model.JessieModel;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Michal Karm Babacek <karm@redhat.com>
@@ -66,24 +62,24 @@ public class QuarkusServer extends AbstractMicroprofileAddon {
         List<MicroprofileSpec> microprofileSpecs = model.getParameter(JessieModel.Parameter.MICROPROFILESPECS);
 
         Set<String> bAlternatives = new HashSet<>(alternatives);
-        processTemplateFile(getResourceDirectory(model, true),
+        templateEngine.processTemplateFile(getResourceDirectory(model, true),
                 "application.properties", alternatives, variables);
 
         if (model.hasMainAndSecondaryProject()) {
             bAlternatives.add(JessieModel.SECONDARY_INDICATOR);
-            processTemplateFile(getResourceDirectory(model, false),
+            templateEngine.processTemplateFile(getResourceDirectory(model, false),
                     "application.properties", bAlternatives, variables);
         }
 
         String webDirectory = getResourceDirectory(model, true) + "/META-INF/resources";
         directoryCreator.createDirectory(webDirectory);
-        processTemplateFile(webDirectory, "index.html", alternatives, variables);
+        templateEngine.processTemplateFile(webDirectory, "index.html", alternatives, variables);
 
         if (model.hasMainAndSecondaryProject() && microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH)) {
             // Specific files for Auth-JWT
             String metaInfDirectory = getResourceDirectory(model, false) + "/META-INF/resources";
             directoryCreator.createDirectory(metaInfDirectory);
-            processTemplateFile(metaInfDirectory, "publicKey.pem", alternatives, variables);
+            templateEngine.processTemplateFile(metaInfDirectory, "publicKey.pem", alternatives, variables);
         }
     }
 
@@ -174,4 +170,12 @@ public class QuarkusServer extends AbstractMicroprofileAddon {
             mavenHelper.addDependency(pomFile, "io.quarkus", "quarkus-rest-client", "${version.quarkus}");
         }
     }
+
+    @Override
+    public Map<String, String> defineAdditionalVariables(JessieModel model, boolean mainProject) {
+        // For customization of the build.gradle file
+        Map<String, String> result = new HashMap<>();
+        return result;
+    }
+
 }

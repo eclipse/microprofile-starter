@@ -44,17 +44,7 @@ import java.util.List;
  *
  */
 @ApplicationScoped
-public class MavenCreator {
-
-    public static final String SRC_MAIN_JAVA = "src/main/java";
-    public static final String SRC_MAIN_RESOURCES = "src/main/resources";
-    public static final String SRC_MAIN_WEBAPP = "src/main/webapp";
-
-    @Inject
-    private DirectoryCreator directoryCreator;
-
-    @Inject
-    private FileCreator fileCreator;
+public class MavenCreator extends BuildToolCreator {
 
     @Inject
     private AddonManager addonManager;
@@ -106,24 +96,6 @@ public class MavenCreator {
 
         for (JessieMavenAdapter mavenAdapter : addonManager.getMavenAdapters()) {
             mavenAdapter.adaptMavenModel(pomFile, model, mainProject);
-        }
-    }
-
-    private void createDefaultDirectories(JessieModel model, boolean mainProject) {
-
-        String directory = model.getDirectory(mainProject);
-
-        String javaDirectory = directory + "/" + SRC_MAIN_JAVA;
-        directoryCreator.createDirectory(javaDirectory);
-
-        String resourcesDirectory = directory + "/" + SRC_MAIN_RESOURCES;
-        directoryCreator.createDirectory(resourcesDirectory);
-        fileCreator.createEmptyFile(resourcesDirectory, ".gitkeep");
-
-        if (mainProject) {
-            String webappDirectory = directory + "/" + SRC_MAIN_WEBAPP;
-            directoryCreator.createDirectory(webappDirectory);
-            fileCreator.createEmptyFile(webappDirectory, ".gitkeep");
         }
     }
 
