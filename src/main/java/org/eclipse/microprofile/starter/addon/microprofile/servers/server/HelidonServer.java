@@ -120,7 +120,7 @@ public class HelidonServer extends AbstractMicroprofileAddon {
             case NONE:
                 break;
             case MP33:
-                helidonVersion = "2.1.0";
+                helidonVersion = "2.2.0";
                 mpVersion = "3.3";
                 break;
             case MP32:

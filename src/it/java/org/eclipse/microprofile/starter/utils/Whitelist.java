@@ -35,7 +35,15 @@ public enum Whitelist {
     PAYARA_MICRO("payara", new Pattern[]{
             Pattern.compile(".*com.hazelcast.nio.tcp.TcpIpConnectionErrorHandler.*"),
     }),
-    LIBERTY("liberty", new Pattern[]{}),
+    LIBERTY("liberty", new Pattern[]{
+            Pattern.compile(".*FrameworkEvent ERROR.*"),
+            Pattern.compile(".*CWWKE0701E.*"),
+            // An exception occurred while stopping the application liberty. The exception message was: java.lang.NoClassDefFoundError: com/ibm/ws/threading/internal/ImmediateFutureImpl
+            Pattern.compile(".*CWWKZ0010E:.*"),
+            // [ERROR   ] CWWKL0002E: The system could not read class [io.jaegertracing.internal.reporters.RemoteReporter$Command] as resource [io/jaegertracing/internal/reporters/RemoteReporter$Command.class].
+            Pattern.compile(".*CWWKL0002E:.*"),
+            Pattern.compile(".*Could not load service class com.ibm.ws.io.smallrye.graphql.component.GraphQLExtension.*")
+    }),
     HELIDON("helidon", new Pattern[]{}),
     KUMULUZEE("kumuluzee", new Pattern[]{
             Pattern.compile(".*error_prone_annotations.*"),

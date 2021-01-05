@@ -40,7 +40,8 @@ public enum SpecSelection {
     METRICS("&selectedSpecs=METRICS", false),
     OPEN_API("&selectedSpecs=OPEN_API", false),
     OPEN_TRACING("&selectedSpecs=OPEN_TRACING", false),
-    REST_CLIENT("&selectedSpecs=REST_CLIENT", true);
+    REST_CLIENT("&selectedSpecs=REST_CLIENT", true),
+    GRAPHQL("&selectedSpecs=GRAPHQL", false);
 
     public final String queryParam;
     public final boolean hasServiceB;

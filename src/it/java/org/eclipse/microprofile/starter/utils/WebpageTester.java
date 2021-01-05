@@ -22,8 +22,9 @@ package org.eclipse.microprofile.starter.utils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import java.util.logging.Logger;
@@ -44,6 +45,18 @@ public class WebpageTester {
      * @param stringToLookFor string must be present on the page
      */
     public static void testWeb(String url, long timeoutS, String stringToLookFor) throws InterruptedException, IOException {
+        testWeb(url, timeoutS, stringToLookFor, null);
+    }
+
+    /**
+     * Patiently try to wait for a web page and examine it
+     *
+     * @param url             address
+     * @param timeoutS        in seconds
+     * @param stringToLookFor string must be present on the page
+     * @patam postPaylaod     when used, POST this payload
+     */
+    public static void testWeb(String url, long timeoutS, String stringToLookFor, String postPayload) throws InterruptedException, IOException {
         if (StringUtils.isBlank(url)) {
             throw new IllegalArgumentException("url must not be empty");
         }
@@ -53,6 +66,7 @@ public class WebpageTester {
         if (StringUtils.isBlank(stringToLookFor)) {
             throw new IllegalArgumentException("stringToLookFor must contain a non-empty string");
         }
+
         String webPage = "";
         long now = System.currentTimeMillis();
         long startTime = now;
@@ -60,15 +74,26 @@ public class WebpageTester {
         // Some runtimes give you HTTP 404 or even HTTP 200 with empty response
         // the very moment the web app is being deployed. We patiently wait for the correct result here.
         while (now - startTime < 1000 * timeoutS) {
-            URLConnection c = new URL(url).openConnection();
+            HttpURLConnection c = (HttpURLConnection) (new URL(url).openConnection());
             // Server returned HTTP response code: 406 for URL: http://localhost:8080/metrics
             c.setRequestProperty("Accept", "*/*");
             c.setConnectTimeout(500);
+            // POST Payload...
+            if (postPayload != null) {
+                c.setRequestMethod("POST");
+                c.setDoOutput(true);
+                try (OutputStreamWriter w = new OutputStreamWriter(c.getOutputStream())) {
+                    w.write(postPayload);
+                    w.flush();
+                }
+            } else {
+                c.setRequestMethod("GET");
+            }
             try (Scanner scanner = new Scanner(c.getInputStream(), StandardCharsets.UTF_8.toString())) {
                 scanner.useDelimiter("\\A");
                 webPage = scanner.hasNext() ? scanner.next() : "";
             } catch (Exception e) {
-                LOGGER.fine("Waiting `" + stringToLookFor + "' to appear on " + url);
+                LOGGER.info("Waiting `" + stringToLookFor + "' to appear on " + url);
             }
             if (webPage.contains(stringToLookFor)) {
                 found = true;
