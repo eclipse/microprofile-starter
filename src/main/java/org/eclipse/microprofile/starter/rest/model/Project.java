@@ -27,6 +27,7 @@ import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author Michal Karm Babacek <karm@redhat.com>
@@ -37,7 +38,8 @@ public class Project {
     private MicroProfileVersion mpVersion = null;
     private JavaSEVersion javaSEVersion = null;
     private SupportedServer supportedServer = null;
-    private List<MicroprofileSpec> selectedSpecs = null;
+    private List<String> selectedSpecs = null;
+    private List<MicroprofileSpec> selectedSpecEnums;
     private List<StandaloneMPSpec> selectedStandaloneSpecs = null;
     private boolean selectAllSpecs = false;
 
@@ -81,12 +83,21 @@ public class Project {
         this.supportedServer = supportedServer;
     }
 
-    public List<MicroprofileSpec> getSelectedSpecs() {
+    public List<String> getSelectedSpecs() {
         return selectedSpecs;
     }
 
-    public void setSelectedSpecs(List<MicroprofileSpec> selectedSpecs) {
+    public List<MicroprofileSpec> getSelectedSpecEnums() {
+        return selectedSpecEnums;
+    }
+
+    public void setSelectedSpecs(List<String> selectedSpecs) {
         this.selectedSpecs = selectedSpecs;
+    }
+
+    public void setSelectedSpecEnums(List<MicroprofileSpec> selectedSpecs) {
+        this.selectedSpecEnums = selectedSpecs;
+        this.selectedSpecs = selectedSpecs.stream().map(MicroprofileSpec::getCode).collect(Collectors.toList());
     }
 
     public List<StandaloneMPSpec> getSelectedStandaloneSpecs() {
