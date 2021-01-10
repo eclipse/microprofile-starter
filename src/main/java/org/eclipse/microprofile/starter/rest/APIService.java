@@ -291,13 +291,6 @@ public class APIService {
                                  MicroProfileVersion mpVersion,
                                  JavaSEVersion javaSEVersion,
                                  List<String> selectedSpecCodes) {
-        List<MicroprofileSpec> selectedSpecs = new ArrayList<>();
-        List<StandaloneMPSpec> selectedStandaloneSpecs = new ArrayList<>();
-
-        List<String> errors = determineSpecCodes(selectedSpecCodes, selectedSpecs, selectedStandaloneSpecs);
-        if (!errors.isEmpty()) {
-            return invalidSpecCodes(errors);
-        }
 
         Project project = new Project();
         project.setSupportedServer(supportedServer);
@@ -305,8 +298,7 @@ public class APIService {
         project.setArtifactId(artifactId);
         project.setMpVersion(mpVersion);
         project.setJavaSEVersion(javaSEVersion);
-        project.setSelectedSpecs(selectedSpecs);
-        project.setSelectedStandaloneSpecs(selectedStandaloneSpecs);
+        project.setSelectedSpecs(selectedSpecCodes);
 
         setDefaultsV1(project);
 
@@ -326,24 +318,13 @@ public class APIService {
                                List<String> selectedSpecCodes,
                                boolean selectAllSpecs) {
 
-        List<MicroprofileSpec> selectedSpecs = new ArrayList<>();
-        List<StandaloneMPSpec> selectedStandaloneSpecs = new ArrayList<>();
-
-        List<String> errors = determineSpecCodes(selectedSpecCodes, selectedSpecs, selectedStandaloneSpecs);
-        if (!errors.isEmpty()) {
-            return invalidSpecCodes(errors);
-        }
-
-        removeIncorrectStandaloneSpecs(selectedStandaloneSpecs, supportedServer, mpVersion);
-
         Project project = new Project();
         project.setSupportedServer(supportedServer);
         project.setGroupId(groupId);
         project.setArtifactId(artifactId);
         project.setMpVersion(mpVersion);
         project.setJavaSEVersion(javaSEVersion);
-        project.setSelectedSpecs(selectedSpecs);
-        project.setSelectedStandaloneSpecs(selectedStandaloneSpecs);
+        project.setSelectedSpecs(selectedSpecCodes);
         project.setSelectAllSpecs(selectAllSpecs);
 
         setDefaults(project);
@@ -351,14 +332,12 @@ public class APIService {
         return processProject(ifNoneMatch, project);
     }
 
-    private void removeIncorrectStandaloneSpecs(List<StandaloneMPSpec> selectedStandaloneSpecs,
-                                                SupportedServer supportedServer,
-                                                MicroProfileVersion mpVersion) {
+    private void removeIncorrectStandaloneSpecs(Project project) {
 
         // From the API point of view, a standalone spec can be added when not available on the runtime.
         // So this will filter out the codes.
-        List<StandaloneMPSpec> actualStandaloneSpecs = defineStandaloneSpecs(mpVersion, supportedServer);
-        selectedStandaloneSpecs.removeIf(standaloneMPSpec -> !actualStandaloneSpecs.contains(standaloneMPSpec));
+        List<StandaloneMPSpec> actualStandaloneSpecs = defineStandaloneSpecs(project.getMpVersion(), project.getSupportedServer());
+        project.getSelectedStandaloneSpecs().removeIf(standaloneMPSpec -> !actualStandaloneSpecs.contains(standaloneMPSpec));
     }
 
     private Response invalidSpecCodes(List<String> errors) {
@@ -369,26 +348,6 @@ public class APIService {
                 .header("Content-Length", msg.length())
                 .header("Content-Disposition", "attachment; filename=\"error.json\"")
                 .build();
-    }
-
-    private List<String> determineSpecCodes(List<String> selectedSpecCodes,
-                                            List<MicroprofileSpec> selectedSpec,
-                                            List<StandaloneMPSpec> selectedStandaloneSpecs) {
-        List<String> result = new ArrayList<>();
-        for (String code : selectedSpecCodes) {
-            MicroprofileSpec microprofileSpec = MicroprofileSpec.valueFor(code);
-            if (microprofileSpec == null) {
-                StandaloneMPSpec standaloneMPSpec = StandaloneMPSpec.valueFor(code);
-                if (standaloneMPSpec == null) {
-                    result.add(code);
-                } else {
-                    selectedStandaloneSpecs.add(standaloneMPSpec);
-                }
-            } else {
-                selectedSpec.add(microprofileSpec);
-            }
-        }
-        return result;
     }
 
     public Response getProject(String ifNoneMatch, Project body) {
@@ -414,7 +373,7 @@ public class APIService {
             p.setSelectedStandaloneSpecs(Collections.emptyList());
         }
         if (p.getSelectedSpecs().isEmpty() && p.isSelectAllSpecs()) {
-            p.setSelectedSpecs(mpvToOptions.get(p.getMpVersion()).getSpecs());
+            p.setSelectedSpecEnums(mpvToOptions.get(p.getMpVersion()).getSpecs());
         }
         if (p.getSelectedStandaloneSpecs().isEmpty() && p.isSelectAllSpecs()) {
             p.setSelectedStandaloneSpecs(getStandaloneSpecsForServerRestriction(p));
@@ -447,7 +406,7 @@ public class APIService {
             p.setSelectedStandaloneSpecs(Collections.emptyList());
         }
         if (p.getSelectedSpecs().isEmpty() && p.isSelectAllSpecs()) {
-            p.setSelectedSpecs(mpvToOptions.get(p.getMpVersion()).getSpecs());
+            p.setSelectedSpecEnums(mpvToOptions.get(p.getMpVersion()).getSpecs());
         }
         if (p.getSelectedStandaloneSpecs().isEmpty() && p.isSelectAllSpecs()) {
             p.setSelectedStandaloneSpecs(getStandaloneSpecsForServerRestriction(p));
@@ -497,7 +456,13 @@ public class APIService {
                     .entity(ERROR002)
                     .build();
         }
-        if (!mpvToOptions.get(p.getMpVersion()).getSpecs().containsAll(p.getSelectedSpecs())) {
+
+        List<String> errors = defineIncorrectSpecCodes(p);
+        if (!errors.isEmpty()) {
+            return invalidSpecCodes(errors);
+        }
+
+        if (!mpvToOptions.get(p.getMpVersion()).getSpecs().containsAll(p.getSelectedSpecEnums())) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .type("application/json")
                     .header("Content-Length", ERROR003.length())
@@ -509,30 +474,60 @@ public class APIService {
         return Response.ok().build();
     }
 
+    /**
+     * Determines the invalid spec codes. Side effect of this method is that stand alone spec codes in
+     * MicroProfileSpec codes are correctly moved to the StandaloneMPSpec property.
+     *
+     * @param project
+     * @return
+     */
+    private List<String> defineIncorrectSpecCodes(Project project) {
+        List<String> result = new ArrayList<>();
+        List<MicroprofileSpec> microprofileSpecs = new ArrayList<>();
+        List<StandaloneMPSpec> standaloneMPSpecs = new ArrayList<>(project.getSelectedStandaloneSpecs());
+        for (String code : project.getSelectedSpecs()) {
+            MicroprofileSpec microprofileSpec = MicroprofileSpec.valueFor(code);
+            if (microprofileSpec == null) {
+                StandaloneMPSpec standaloneMPSpec = StandaloneMPSpec.valueFor(code);
+                if (standaloneMPSpec == null) {
+                    result.add(code);
+                } else {
+                    standaloneMPSpecs.add(standaloneMPSpec);
+                }
+            } else {
+                microprofileSpecs.add(microprofileSpec);
+            }
+        }
+        project.setSelectedSpecEnums(microprofileSpecs);
+        project.setSelectedStandaloneSpecs(standaloneMPSpecs);
+
+        removeIncorrectStandaloneSpecs(project);
+
+        return result;
+    }
+
     private EngineData getEngineData(Project p) {
-        List<String> selectedSpecs = p.getSelectedSpecs().stream()
-                .map(MicroprofileSpec::getCode).collect(Collectors.toList());
         EngineData engineData = new EngineData();
         engineData.getMavenData().setGroupId(p.getGroupId());
         engineData.getMavenData().setArtifactId(p.getArtifactId());
         engineData.setTrafficSource(EngineData.TrafficSource.REST);
-        engineData.setSelectedSpecs(selectedSpecs);
+        engineData.setSelectedSpecs(p.getSelectedSpecs());
         engineData.setSupportedServer(p.getSupportedServer().getCode());
         engineData.setMpVersion(p.getMpVersion().getCode());
         return engineData;
     }
 
-    private Response processProject(String ifNoneMatch, Project p) {
-        Response validatorResponse = validate(p);
+    private Response processProject(String ifNoneMatch, Project project) {
+        Response validatorResponse = validate(project);
         if (validatorResponse.getStatusInfo().getStatusCode() != Response.Status.OK.getStatusCode()) {
             return validatorResponse;
         }
 
-        EngineData ed = getEngineData(p);
+        EngineData ed = getEngineData(project);
 
         managedExecutorService.submit(new LoggingTask(ed));
 
-        EntityTag etag = new EntityTag(Integer.toHexString(31 * version.getGit().hashCode() + p.hashCode()));
+        EntityTag etag = new EntityTag(Integer.toHexString(31 * version.getGit().hashCode() + project.hashCode()));
 
         if (ifNoneMatch != null) {
             if (etag.toString().equals(ifNoneMatch)) {
@@ -549,15 +544,12 @@ public class APIService {
         model.setMaven(mavenModel);
 
         JessieSpecification specifications = new JessieSpecification();
-        specifications.setJavaSEVersion(p.getJavaSEVersion());
-        specifications.setMicroProfileVersion(p.getMpVersion());
+        specifications.setJavaSEVersion(project.getJavaSEVersion());
+        specifications.setMicroProfileVersion(project.getMpVersion());
 
         model.getOptions().put("mp.server", new OptionValue(ed.getSupportedServer()));
-        model.getOptions().put("mp.specs", new OptionValue(p.getSelectedSpecs()
-                .stream()
-                .map(MicroprofileSpec::getCode)
-                .collect(Collectors.toList())));
-        model.getOptions().put("mp.standaloneSpecs", new OptionValue(p.getSelectedStandaloneSpecs()
+        model.getOptions().put("mp.specs", new OptionValue(project.getSelectedSpecs()));
+        model.getOptions().put("mp.standaloneSpecs", new OptionValue(project.getSelectedStandaloneSpecs()
                 .stream()
                 .map(StandaloneMPSpec::getCode)
                 .collect(Collectors.toList())));
