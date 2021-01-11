@@ -37,6 +37,18 @@ public class SuperHero {
         return superPowers;
     }
 
+    public void setTeamAffiliations(List<Team> teamAffiliations) {
+        this.teamAffiliations = teamAffiliations;
+    }
+
+    public void setSuperPowers(List<String> superPowers) {
+        this.superPowers = superPowers;
+    }
+
+    public void setPrimaryLocation(String primaryLocation) {
+        this.primaryLocation = primaryLocation;
+    }
+
     @Description("Location where you are most likely to find this hero")
     public String getPrimaryLocation() {
         return primaryLocation;
