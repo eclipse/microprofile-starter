@@ -176,6 +176,8 @@ public class APIService {
                     PackageNameValidator.MAX_LENGTH + "\",\"code\":\"ERROR005\"}";
     public static final String ERROR006 =
             "{\"error\":\"selectedSpec contains an illegal value, %s \",\"code\":\"ERROR006\"}";
+    public static final String ERROR007 =
+            "{\"error\":\"Selected runtime has no Gradle support \",\"code\":\"ERROR007\"}";
 
     @Inject
     private ModelManager modelManager;
@@ -337,6 +339,15 @@ public class APIService {
         }
 
         removeIncorrectStandaloneSpecs(selectedStandaloneSpecs, supportedServer, mpVersion);
+
+        if (!supportedServer.hasGradleSupport() && buildTool == BuildTool.GRADLE) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(ERROR007)
+                    .type("application/json")
+                    .header("Content-Length", ERROR007.length())
+                    .header("Content-Disposition", "attachment; filename=\"error.json\"")
+                    .build();
+        }
 
         Project project = new Project();
         project.setSupportedServer(supportedServer);

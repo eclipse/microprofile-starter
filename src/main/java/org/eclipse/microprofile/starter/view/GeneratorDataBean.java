@@ -120,6 +120,16 @@ public class GeneratorDataBean implements Serializable {
         }
         defineStandaloneExampleSpecs();  // Make sure to update the enabled status of the standalone specs
         defineJavaSEVersion();
+        handleGradleSupport();
+    }
+
+    private void handleGradleSupport() {
+        if (engineData.getSupportedServer() != null ) {
+            SupportedServer supportedServer = SupportedServer.valueFor(engineData.getSupportedServer());
+            if (!supportedServer.hasGradleSupport()) {
+                engineData.setBuildTool("Maven");
+            }
+        }
     }
 
     private void defineJavaSEVersion() {
@@ -255,6 +265,14 @@ public class GeneratorDataBean implements Serializable {
             }
         }
         return result;
+    }
+
+    public boolean hasGradleSupport() {
+        if (engineData.getSupportedServer() == null ||engineData.getSupportedServer().isBlank()) {
+            return true;
+        }
+        SupportedServer supportedServer = SupportedServer.valueFor(engineData.getSupportedServer());
+        return supportedServer.hasGradleSupport();
     }
 
     public void generateProject() {

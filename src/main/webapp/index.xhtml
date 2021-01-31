@@ -119,7 +119,8 @@
                         <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid"
                                      styleClass="ui-panelgrid-blank ui-fluid nested">
                             <p:outputLabel value="Build Tool" for="buildTool"/>
-                            <p:selectOneRadio id="buildTool" value="#{generatorDataBean.engineData.buildTool}" layout="responsive" columns="2">
+                            <p:selectOneRadio id="buildTool" value="#{generatorDataBean.engineData.buildTool}" layout="responsive" columns="2"
+                                disabled="#{not generatorDataBean.hasGradleSupport()}">
                                 <f:selectItem itemLabel="Maven" itemValue="Maven" />
                                 <f:selectItem itemLabel="Gradle" itemValue="Gradle" />
                                 <p:ajax process="@this" />
@@ -131,7 +132,7 @@
                                              required="true" var="item">
                                 <f:selectItem noSelectionOption="true" itemLabel=" "/>
                                 <f:selectItems value="${generatorDataBean.supportedServerItems}"/>
-                                <p:ajax listener="#{generatorDataBean.onMPRuntimeSelected}" update="options, mpVersion, javaSEVersion"/>
+                                <p:ajax listener="#{generatorDataBean.onMPRuntimeSelected}" update="options, mpVersion, javaSEVersion, buildTool"/>
 
                                 <p:column>
                                     <h:outputText value="#{dataBean.getRuntimeName(item)}" rendered="#{not empty item}"/>
