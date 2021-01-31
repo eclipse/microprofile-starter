@@ -14,7 +14,7 @@ The generation of the executable jar file can be performed by issuing the follow
     ./gradlew microBundle
 [/]
 [# th:if="${mp_servername} == 'liberty'"]
-    ./gradlew libertyCreate
+    ./gradlew libertyPackage
 [/]
 [/]
 
@@ -27,8 +27,8 @@ This will create an executable jar file **[# th:text="${jar_file}"/]** within th
 [# th:if="${mp_servername} == 'payara-micro'"]
     ./gradlew microStart
 [/]
-[# th:if="${mp_servername} == 'payara-micro'"]
-    ./gradlew libertyRun
+[# th:if="${mp_servername} == 'liberty'"]
+    ./gradlew libertyRun  --no-daemon
 [/]
 [/]
 

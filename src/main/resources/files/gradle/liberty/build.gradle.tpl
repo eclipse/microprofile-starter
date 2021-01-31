@@ -19,7 +19,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'io.openliberty.tools:liberty-gradle-plugin:3.0'
+        classpath 'io.openliberty.tools:liberty-gradle-plugin:3.1.1'
     }
 }
 
@@ -34,6 +34,6 @@ dependencies {
 ext  {
     liberty.server.var.'default.http.port' = '9080'
     liberty.server.var.'default.https.port' = '9443'
-    liberty.server.var.'app.context.root' = /
+    liberty.server.var.'app.context.root' = '/'
 }
 
