@@ -16,6 +16,9 @@ The generation of the executable jar file can be performed by issuing the follow
 [# th:if="${mp_servername} == 'liberty'"]
     ./gradlew libertyPackage
 [/]
+[# th:if="${mp_servername} == 'helidon'"]
+    ./gradlew assemble
+[/]
 [/]
 
 This will create an executable jar file **[# th:text="${jar_file}"/]** within the _target_ maven folder. This can be started by executing the following command
@@ -29,6 +32,9 @@ This will create an executable jar file **[# th:text="${jar_file}"/]** within th
 [/]
 [# th:if="${mp_servername} == 'liberty'"]
     ./gradlew libertyRun  --no-daemon
+[/]
+[# th:if="${mp_servername} == 'helidon'"]
+    java -jar build/libs/[# th:text="${jar_file}"/]
 [/]
 [/]
 

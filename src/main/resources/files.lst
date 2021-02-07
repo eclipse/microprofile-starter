@@ -44,6 +44,7 @@ src/main/resources/files/gradle/settings.gradle.tpl
 src/main/resources/files/gradle/gradlew.tpl
 src/main/resources/files/gradle/payara-micro/build.gradle.tpl
 src/main/resources/files/gradle/liberty/build.gradle.tpl
+src/main/resources/files/gradle/helidon/build.gradle.tpl
 src/main/resources/files/gradle/gradlew.bat.tpl
 src/main/resources/files/gradle/gradle-wrapper.jar.tpl
 src/main/resources/files/readme.md.tpl
