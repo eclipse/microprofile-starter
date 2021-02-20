@@ -215,8 +215,7 @@ public class GeneratorDataBean implements Serializable {
     }
 
     public String getSpecificationStandaloneLink(StandaloneMPSpec spec) {
-
-        return spec.getTagURL();
+        return String.format(spec.getTagURL(), spec.getVersion());
     }
 
     private void defineSupportedServerItems(MicroProfileVersion version) {

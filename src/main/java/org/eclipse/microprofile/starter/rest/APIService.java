@@ -457,7 +457,7 @@ public class APIService {
         if (p.getSelectedSpecs() == null) {
             p.setSelectedSpecs(Collections.emptyList());
         }
-        if (p.getSelectedSpecs() == null) {
+        if (p.getSelectedStandaloneSpecs() == null) {
             p.setSelectedStandaloneSpecs(Collections.emptyList());
         }
         if (p.getSelectedSpecs().isEmpty() && p.isSelectAllSpecs()) {
