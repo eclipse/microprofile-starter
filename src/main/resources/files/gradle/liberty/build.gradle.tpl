@@ -32,8 +32,7 @@ dependencies {
 }
 
 ext  {
-    liberty.server.var.'default.http.port' = '9080'
-    liberty.server.var.'default.https.port' = '9443'
+    liberty.server.var.'default.http.port' = '[# th:text="${port_service}"/]'
     liberty.server.var.'app.context.root' = '/'
 }
 

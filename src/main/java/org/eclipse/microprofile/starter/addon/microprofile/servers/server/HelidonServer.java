@@ -32,7 +32,11 @@ import org.eclipse.microprofile.starter.core.model.JessieModel;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 
 @ApplicationScoped
 public class HelidonServer extends AbstractMicroprofileAddon {
@@ -172,6 +176,13 @@ public class HelidonServer extends AbstractMicroprofileAddon {
     public Map<String, String> defineAdditionalVariables(JessieModel model, boolean mainProject) {
         // For customization of the build.gradle file
         Map<String, String> result = new HashMap<>();
+
+        if (mainProject) {
+            result.put("port_service", SupportedServer.HELIDON.getPortServiceA());
+        } else {
+            result.put("port_service", SupportedServer.HELIDON.getPortServiceB());
+        }
+
         return result;
     }
 

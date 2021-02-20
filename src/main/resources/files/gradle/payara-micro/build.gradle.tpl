@@ -15,7 +15,7 @@ payaraMicro {
     deployWar = true
     useUberJar = true
     daemon = false
-    commandLineOptions = [port: 8888, contextroot : '/']
+    commandLineOptions = [port: [# th:text="${port_service}"/], contextroot : '/']
 }
 
 dependencies {

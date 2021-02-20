@@ -27,7 +27,11 @@ import org.eclipse.microprofile.starter.core.model.JessieModel;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 
 @ApplicationScoped
 public class LibertyServer extends AbstractMicroprofileAddon {
@@ -95,6 +99,13 @@ public class LibertyServer extends AbstractMicroprofileAddon {
     public Map<String, String> defineAdditionalVariables(JessieModel model, boolean mainProject) {
         // For customization of the build.gradle file
         Map<String, String> result = new HashMap<>();
+
+        if (mainProject) {
+            result.put("port_service", SupportedServer.LIBERTY.getPortServiceA());
+        } else {
+            result.put("port_service", SupportedServer.LIBERTY.getPortServiceB());
+        }
+
         return result;
     }
 

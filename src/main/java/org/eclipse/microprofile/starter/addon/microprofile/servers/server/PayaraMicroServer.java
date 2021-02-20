@@ -112,6 +112,12 @@ public class PayaraMicroServer extends AbstractMicroprofileAddon {
         // For customization of the build.gradle file
         Map<String, String> result = new HashMap<>();
         result.put("payara_version", definePayaraVersion(model));
+        if (mainProject) {
+            result.put("port_service", SupportedServer.PAYARA_MICRO.getPortServiceA());
+        } else {
+            result.put("port_service", SupportedServer.PAYARA_MICRO.getPortServiceB());
+        }
+
         return result;
     }
 }
