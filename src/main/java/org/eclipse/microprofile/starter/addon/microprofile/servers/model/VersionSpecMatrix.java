@@ -128,7 +128,7 @@ public final class VersionSpecMatrix {
                 .add(MicroprofileSpec.JWT_AUTH, "1.1")
                 .add(MicroprofileSpec.HEALTH_CHECKS, "2.2")
                 .add(MicroprofileSpec.OPEN_API, "1.1")
-                .add(MicroprofileSpec.REST_CLIENT, "1.4")
+                .add(MicroprofileSpec.REST_CLIENT, "1.4.0")
                 .add(MicroprofileSpec.OPEN_TRACING, "1.3")
                 .add(MicroprofileSpec.METRICS, "2.3"));
     }
