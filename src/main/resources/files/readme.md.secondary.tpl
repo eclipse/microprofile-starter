@@ -52,7 +52,7 @@ unit and integration tests are run on pressing Enter in the command terminal; yo
 [/]
 
 [# th:if="${build_tool} == 'GRADLE'"]
-    ./gradlew libertyDev
+   ./gradlew libertyDev
 [/]
 [/]
 ## Specification examples
@@ -66,7 +66,6 @@ The **ProtectedController** contains the protected endpoint since it contains th
 The _TestSecureController_ code creates a JWT based on the private key found within the resource directory.
 However, any method to send a REST request with an appropriate header will work of course. Please feel free to change this code to your needs.
 [/]
-
 
 [# th:if="${mp_rest_client}"]
 ### Rest Client

@@ -3,7 +3,6 @@ plugins {
     id 'org.kordamp.gradle.jandex' version '0.6.0'
 }
 
-
 group = '[# th:text="${maven_groupid}"/]'
 version = '1.0-SNAPSHOT'
 
@@ -34,7 +33,9 @@ dependencies {
 
     runtimeOnly 'org.jboss:jandex'
     runtimeOnly 'jakarta.activation:jakarta.activation-api'
-
+    [# th:if="${mainProject and mp_JWT_auth}"]
+    implementation 'io.vertx:vertx-auth-jwt:3.9.2'
+    [/]
 }
 
 // define a custom task to copy all dependencies in the runtime classpath

@@ -32,7 +32,11 @@ public abstract class FileCreator {
 
     public abstract void writeContents(String directory, String fileName, byte[] contents);
 
+    public abstract void writeContents(String directory, String fileName, String contents, Boolean executable);
+
+    public abstract void writeContents(String directory, String fileName, byte[] contents, Boolean executable);
+
     public void createEmptyFile(String directory, String fileName) {
-        writeContents(directory, fileName, "");
+        writeContents(directory, fileName, "", false);
     }
 }
