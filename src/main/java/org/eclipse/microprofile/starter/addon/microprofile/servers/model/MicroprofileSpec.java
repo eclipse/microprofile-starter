@@ -34,49 +34,57 @@ public enum MicroprofileSpec {
             "https://github.com/eclipse/microprofile-config/releases/tag/%s",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22,
-                    MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33))
+                    MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33,
+                    MicroProfileVersion.MP40))
     , FAULT_TOLERANCE("fault_tolerance", "Fault Tolerance",
             "Fault Tolerance - all about bulkheads, timeouts, circuit breakers, retries, etc. for your microservices",
             "https://github.com/eclipse/microprofile-fault-tolerance/releases/tag/%s",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22,
-                    MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33))
+                    MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33,
+                    MicroProfileVersion.MP40))
     , JWT_AUTH("JWT_auth", "JWT Auth",
             "JWT Propagation - propagate security across your microservices",
             "https://github.com/eclipse/microprofile-jwt-auth/releases/tag/%s",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22,
-                    MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33))
+                    MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33,
+                    MicroProfileVersion.MP40))
     , METRICS("metrics", "Metrics",
             "Metrics - Gather and create operational and business measurements for your microservices",
             "https://github.com/eclipse/microprofile-metrics/releases/tag/%s",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22,
-                    MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33))
+                    MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33,
+                    MicroProfileVersion.MP40))
     , HEALTH_CHECKS("health_checks", "Health",
             "Health - Verify the health of your microservices with custom verifications",
             "https://github.com/eclipse/microprofile-metrics/releases/tag/%s",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22,
-                    MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33))
+                    MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33,
+                    MicroProfileVersion.MP40))
     , OPEN_API("open_API", "OpenAPI",
             "Open API - Generate OpenAPI-compliant API documentation for your microservices",
             "https://github.com/eclipse/microprofile-open-api/releases/tag/%s",
             Arrays.asList(MicroProfileVersion.MP13, MicroProfileVersion.MP14, MicroProfileVersion.MP20,
                     MicroProfileVersion.MP21, MicroProfileVersion.MP22,
-                    MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33))
+                    MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33,
+                    MicroProfileVersion.MP40))
     , OPEN_TRACING("open_tracing", "OpenTracing",
             "Open Tracing - trace the flow of requests as they traverse your microservices",
             "https://github.com/eclipse/microprofile-opentracing/releases/tag/%s",
             Arrays.asList(MicroProfileVersion.MP13, MicroProfileVersion.MP14, MicroProfileVersion.MP20,
                     MicroProfileVersion.MP21, MicroProfileVersion.MP22,
-                    MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33))
+                    MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33,
+                    MicroProfileVersion.MP40))
     , REST_CLIENT("rest_client", "TypeSafe Rest Client",
             "Rest Client - Invoke RESTful services in a type-safe manner",
             "https://github.com/eclipse/microprofile-rest-client/releases/tag/%s",
             Arrays.asList(MicroProfileVersion.MP13, MicroProfileVersion.MP14, MicroProfileVersion.MP20,
                     MicroProfileVersion.MP21, MicroProfileVersion.MP22,
-                    MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33))
+                    MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33,
+                    MicroProfileVersion.MP40))
     ;
     // @formatter:on
 
