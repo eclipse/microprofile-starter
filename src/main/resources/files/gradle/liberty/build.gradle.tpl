@@ -29,6 +29,9 @@ repositories {
 
 dependencies {
     providedCompile 'org.eclipse.microprofile:microprofile:[# th:text="${mp_version}"/]'
+    [# th:if="${mainProject and mp_JWT_auth}"]
+    implementation 'io.vertx:vertx-auth-jwt:3.9.2'
+    [/]
 }
 
 ext  {

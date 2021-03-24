@@ -29,7 +29,12 @@ import org.eclipse.microprofile.starter.spi.JessieGradleAdapter;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import static org.eclipse.microprofile.starter.core.model.JessieModel.MAIN_INDICATOR;
 
 /**
  *
@@ -64,8 +69,8 @@ public class GradleCreator extends BuildToolCreator {
         }
 
         String rootDirectory = model.getDirectory(mainProject);
-        templateEngine.processFile(rootDirectory, "gradlew", alternatives);
-        templateEngine.processFile(rootDirectory, "gradlew.bat", alternatives);
+        templateEngine.processFile(rootDirectory, "gradlew", alternatives, true);
+        templateEngine.processFile(rootDirectory, "gradlew.bat", alternatives, true);
 
         String gradleWrapperDirectory = rootDirectory + "/gradle/wrapper";
         directoryCreator.createDirectory(gradleWrapperDirectory);
@@ -76,6 +81,11 @@ public class GradleCreator extends BuildToolCreator {
         Map<String, String> variables = model.getVariables();
         variables.putAll(defineVariablesFromAdapters(model, mainProject));
 
+        if (rootDirectory.contains(MAIN_INDICATOR)) {
+            variables.put("mainProject", "true");
+        } else {
+            variables.put("mainProject", "false");
+        }
         templateEngine.processTemplateFile(rootDirectory, "build.gradle", alternatives, variables);
         templateEngine.processTemplateFile(rootDirectory, "settings.gradle", alternatives, variables);
     }
@@ -83,14 +93,14 @@ public class GradleCreator extends BuildToolCreator {
     private Map<String, String> defineVariablesFromAdapters(JessieModel model, boolean mainProject) {
         List<JessieAddon> allAddons = model.getParameter(JessieModel.Parameter.ADDONS);
 
-        Map<String, String> result  = new HashMap<>();
+        Map<String, String> result = new HashMap<>();
 
         for (JessieAddon addon : allAddons) {
             result.putAll(addon.defineAdditionalVariables(model, mainProject));
         }
 
         for (JessieGradleAdapter gradleAdapter : addonManager.getGradleAdapters()) {
-            result.putAll(gradleAdapter.defineAdditionalVariables( model, mainProject));
+            result.putAll(gradleAdapter.defineAdditionalVariables(model, mainProject));
         }
         return result;
     }

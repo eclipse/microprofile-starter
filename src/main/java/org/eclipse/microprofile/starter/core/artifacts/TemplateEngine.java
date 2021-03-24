@@ -21,18 +21,23 @@ public class TemplateEngine {
     protected FileCreator fileCreator;
 
     public void processTemplateFile(String directory, String templateFileName, String fileName,
-                                             Set<String> alternatives, Map<String, String> variables) {
+                                    Set<String> alternatives, Map<String, String> variables) {
         String javaFile = thymeleafEngine.processFile(templateFileName, alternatives, variables);
-        fileCreator.writeContents(directory, fileName, javaFile);
+        fileCreator.writeContents(directory, fileName, javaFile, false);
     }
 
     public void processTemplateFile(String directory, String fileName, Set<String> alternatives, Map<String, String> variables) {
         String javaFile = thymeleafEngine.processFile(fileName, alternatives, variables);
-        fileCreator.writeContents(directory, fileName, javaFile);
+        fileCreator.writeContents(directory, fileName, javaFile, false);
     }
 
     public void processFile(String directory, String fileName, Set<String> alternatives) {
         byte[] fileContent = fileCopyEngine.processFile(fileName, alternatives);
-        fileCreator.writeContents(directory, fileName, fileContent);
+        fileCreator.writeContents(directory, fileName, fileContent, false);
+    }
+
+    public void processFile(String directory, String fileName, Set<String> alternatives, Boolean executable) {
+        byte[] fileContent = fileCopyEngine.processFile(fileName, alternatives);
+        fileCreator.writeContents(directory, fileName, fileContent, executable);
     }
 }
