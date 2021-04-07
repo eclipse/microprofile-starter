@@ -32,6 +32,7 @@ public enum MicroProfileVersion {
     // Order is important as it determines the order in the Dropdown on the screen.
     // @formatter:off
     NONE(null, "")
+    , MP40("4.0", "MP 4.0", "4.0.1", Collections.singletonList(Constants.MP3X_ALTERNATIVE))
     , MP33("3.3", "MP 3.3", Collections.singletonList(Constants.MP3X_ALTERNATIVE))
     , MP32("3.2", "MP 3.2", Collections.singletonList(Constants.MP3X_ALTERNATIVE))
     , MP30("3.0", "MP 3.0", Collections.singletonList(Constants.MP3X_ALTERNATIVE))
@@ -49,23 +50,23 @@ public enum MicroProfileVersion {
     private Set<String> alternatives;
 
     MicroProfileVersion(String code, String label) {
-        this.code = code;
-        this.label = label;
-        alternatives = new HashSet<>();
-        mavenVersion = code;
+        this(code, label, code, new HashSet<>());
     }
 
     MicroProfileVersion(String code, String label, Collection<String> alternatives) {
-        this.code = code;
-        this.label = label;
-        this.alternatives = new HashSet<>(alternatives);
-        mavenVersion = code;
+        this(code, label, code, alternatives);
     }
 
     MicroProfileVersion(String code, String label, String mavenVersion) {
-        this(code, label);
-        this.mavenVersion = mavenVersion;
+        this(code, label, mavenVersion, new HashSet<>());
 
+    }
+
+    MicroProfileVersion(String code, String label, String mavenVersion, Collection<String> alternatives) {
+        this.code = code;
+        this.label = label;
+        this.alternatives = new HashSet<>(alternatives);
+        this.mavenVersion = mavenVersion;
     }
 
     public String getCode() {

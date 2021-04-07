@@ -53,7 +53,7 @@ public enum SupportedServer {
             , "8180" //portServiceB
             , "https://quarkus.io/")
     , WILDFLY("wildfly", "WildFly",
-            Arrays.asList(MicroProfileVersion.MP32, MicroProfileVersion.MP33)
+            Arrays.asList(MicroProfileVersion.MP32, MicroProfileVersion.MP33, MicroProfileVersion.MP40)
             , "%s-wildfly.jar" //jarFileName
             , "-Djboss.socket.binding.port-offset=100" //jarParameters
             , "8080" //portServiceA
@@ -62,7 +62,8 @@ public enum SupportedServer {
     , LIBERTY("liberty", "Open Liberty",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22,
-                    MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33)
+                    MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33,
+                    MicroProfileVersion.MP40)
             , "%s.jar" //jarFileName
             , "" //jarParameters // Hard coded in server.xml since no way of overriding a default.
             , "9080" //portServiceA
@@ -80,7 +81,7 @@ public enum SupportedServer {
     , PAYARA_MICRO("payara-micro", "Payara Micro",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22
-                    , MicroProfileVersion.MP32, MicroProfileVersion.MP33)
+                    , MicroProfileVersion.MP32, MicroProfileVersion.MP33, MicroProfileVersion.MP40)
             , "%s-microbundle.jar" //jarFileName
             , "--port 8180" //jarParameters
             , "8080" //portServiceA

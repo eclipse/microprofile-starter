@@ -34,6 +34,7 @@ public enum Whitelist {
     }),
     PAYARA_MICRO("payara", new Pattern[]{
             Pattern.compile(".*com.hazelcast.nio.tcp.TcpIpConnectionErrorHandler.*"),
+            Pattern.compile(".*com.hazelcast.internal.server.tcp.TcpServerConnectionErrorHandler.*"),
     }),
     LIBERTY("liberty", new Pattern[]{
             Pattern.compile(".*FrameworkEvent ERROR.*"),
@@ -42,7 +43,8 @@ public enum Whitelist {
             Pattern.compile(".*CWWKZ0010E:.*"),
             // [ERROR   ] CWWKL0002E: The system could not read class [io.jaegertracing.internal.reporters.RemoteReporter$Command] as resource [io/jaegertracing/internal/reporters/RemoteReporter$Command.class].
             Pattern.compile(".*CWWKL0002E:.*"),
-            Pattern.compile(".*Could not load service class com.ibm.ws.io.smallrye.graphql.component.GraphQLExtension.*")
+            Pattern.compile(".*Could not load service class com.ibm.ws.io.smallrye.graphql.component.GraphQLExtension.*"),
+            Pattern.compile(".*CWWKO1650E.*")
     }),
     HELIDON("helidon", new Pattern[]{}),
     KUMULUZEE("kumuluzee", new Pattern[]{
