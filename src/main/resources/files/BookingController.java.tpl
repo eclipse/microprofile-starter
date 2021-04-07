@@ -27,7 +27,6 @@ public class BookingController {
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON,
                             schema = @Schema(
-                                    ref = "Booking",
                                     implementation = Booking.class))
             ),
             @APIResponse(
