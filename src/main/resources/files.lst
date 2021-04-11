@@ -34,6 +34,7 @@ src/main/resources/files/ServiceHealthCheck.java.tpl
 src/main/resources/files/payara-micro/RestApplication.java.tpl
 src/main/resources/files/payara-micro/payara-mp-jwt.properties.tpl
 src/main/resources/files/payara-micro/service-b/RestApplication.java.tpl
+src/main/resources/files/liberty/BookingController.java.tpl
 src/main/resources/files/liberty/server.xml.tpl
 src/main/resources/files/liberty/public.jks.tpl
 src/main/resources/files/liberty/service-b/server.xml.tpl
