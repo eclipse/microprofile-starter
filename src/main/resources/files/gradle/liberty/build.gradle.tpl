@@ -1,6 +1,7 @@
 apply plugin: 'war'
 apply plugin: 'liberty'
 
+def projectName = '[# th:text="${maven_artifactid}"/]'
 group = '[# th:text="${maven_groupid}"/]'
 version = '1.0-SNAPSHOT'
 
@@ -11,6 +12,10 @@ targetCompatibility = [# th:text="${se_version}"/]
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+}
+
+war {
+    archiveName = projectName + '.war'
 }
 
 // configure liberty-gradle-plugin
@@ -36,6 +41,7 @@ dependencies {
 
 ext  {
     liberty.server.var.'default.http.port' = '[# th:text="${port_service}"/]'
+    liberty.server.var.'project.name' = projectName
     liberty.server.var.'app.context.root' = '/'
 }
 

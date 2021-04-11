@@ -10,7 +10,7 @@
                   httpPort="[# th:text="${port_service_b}"/]"
                   httpsPort="9444"/>
 
-    <webApplication location="${project.name}.war" contextRoot="/">
+    <webApplication location="${project.name}.war" contextRoot="${app.context.root}">
         <classloader apiTypeVisibility="+third-party" />
     </webApplication>
     <mpMetrics authentication="false"/>
