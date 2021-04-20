@@ -79,8 +79,9 @@ If a specific one for the MP version exists, the `thorntail-2.2` profile is used
 
 * Add the enum value for the new version to the **org.eclipse.microprofile.starter.core.model.MicroProfileVersion**. The third parameter is only required when the maven MicroProfile version is not the same as _version value_ (as for example with version 2.0)
 * Add to each MicroProfile specification this new enum value in the class **org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec**. (since existing specifications will also be part of the new MicroProfile version)
+* Add the version number for each specification for the new MicroProfile Umbrella version in the file **org.eclipse.microprofile.starter.addon.microprofile.servers.model.VersionSpecMatrix**
 
-As long as there are no MicroProfile implementations assigned to this new MicroProfile version, the version isn't shown in the dropdown.
+As long as there are no MicroProfile implementations assigned to this new MicroProfile version, the version isn't visible in the dropdown.
 
 ## Add new template file
 
