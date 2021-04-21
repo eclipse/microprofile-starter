@@ -27,7 +27,7 @@ public class BookingController {
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON,
                             schema = @Schema(
-                                    implementation = Booking.class))
+                                    ref = "Booking"))
             ),
             @APIResponse(
                     responseCode = "404",
