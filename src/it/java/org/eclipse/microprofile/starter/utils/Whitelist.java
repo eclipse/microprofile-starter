@@ -44,7 +44,7 @@ public enum Whitelist {
             // [ERROR   ] CWWKL0002E: The system could not read class [io.jaegertracing.internal.reporters.RemoteReporter$Command] as resource [io/jaegertracing/internal/reporters/RemoteReporter$Command.class].
             Pattern.compile(".*CWWKL0002E:.*"),
             Pattern.compile(".*Could not load service class com.ibm.ws.io.smallrye.graphql.component.GraphQLExtension.*"),
-            Pattern.compile(".*CWWKO1650E.*")
+            
     }),
     HELIDON("helidon", new Pattern[]{}),
     KUMULUZEE("kumuluzee", new Pattern[]{

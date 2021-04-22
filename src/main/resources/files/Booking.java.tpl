@@ -2,7 +2,7 @@ package [# th:text="${java_package}"/].openapi;
 
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-
+@Schema(name="Booking")
 public class Booking {
     @Schema(required = true, description = "Booking id")
     private String id;
