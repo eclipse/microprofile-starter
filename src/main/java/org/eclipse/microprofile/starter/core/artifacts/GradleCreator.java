@@ -30,6 +30,7 @@ import org.eclipse.microprofile.starter.spi.JessieGradleAdapter;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -60,7 +61,7 @@ public class GradleCreator extends BuildToolCreator {
     protected void createDefaultDirectories(JessieModel model, boolean mainProject) {
         super.createDefaultDirectories(model, mainProject);
 
-        Set<String> alternatives = model.getParameter(JessieModel.Parameter.ALTERNATIVES);
+        Set<String> alternatives = new HashSet<>(model.getParameter(JessieModel.Parameter.ALTERNATIVES));
         alternatives.add("gradle");  // So that files can be placed in a separate directory
 
         if (!mainProject) {
