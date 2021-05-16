@@ -29,7 +29,6 @@ import org.eclipse.microprofile.starter.core.model.JessieModel;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -139,13 +138,6 @@ public class KumuluzeeServer extends AbstractMicroprofileAddon {
         pomFile.addProperty("kumuluzee-config-mp.version", kumuluzeeConfigVersion);
         pomFile.addProperty("kumuluzee-microprofile.version", artifactId);
 
-    }
-
-    @Override
-    public Map<String, String> defineAdditionalVariables(JessieModel model, boolean mainProject) {
-        // For customization of the build.gradle file
-        Map<String, String> result = new HashMap<>();
-        return result;
     }
 
 }

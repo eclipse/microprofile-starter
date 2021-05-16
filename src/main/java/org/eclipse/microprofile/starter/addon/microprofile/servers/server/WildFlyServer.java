@@ -28,7 +28,10 @@ import org.eclipse.microprofile.starter.core.model.JessieModel;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Michal Karm Babacek <karm@redhat.com>
@@ -161,12 +164,4 @@ public class WildFlyServer extends AbstractMicroprofileAddon {
         }
         configuration.addChild(layers);
     }
-
-    @Override
-    public Map<String, String> defineAdditionalVariables(JessieModel model, boolean mainProject) {
-        // For customization of the build.gradle file
-        Map<String, String> result = new HashMap<>();
-        return result;
-    }
-
 }

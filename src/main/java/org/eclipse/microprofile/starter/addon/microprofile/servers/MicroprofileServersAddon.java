@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2019-2021 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -41,7 +41,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.Set;
 
 import static org.eclipse.microprofile.starter.core.model.JessieModel.Parameter.MICROPROFILESPECS;
@@ -371,13 +370,6 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
 
     private String defineJarParameters(SupportedServer supportedServer) {
         return supportedServer.getJarParameters();
-    }
-
-    @Override
-    public Map<String, String> defineAdditionalVariables(JessieModel model, boolean mainProject) {
-        // For customization of the build.gradle file
-        Map<String, String> result = new HashMap<>();
-        return result;
     }
 
 }

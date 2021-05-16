@@ -50,4 +50,23 @@ public class TemplateVariableProviderTest {
 
         Assert.assertEquals("Demoservice", variables.get("application"));
     }
+
+    @Test
+    public void shouldStoreValidApplicationName_gradle() {
+        TemplateVariableProvider provider = new TemplateVariableProvider();
+        JessieModel model = new JessieModel();
+        JessieMaven maven = new JessieMaven();
+        JessieSpecification specification = new JessieSpecification();
+        specification.setMicroProfileVersion(MicroProfileVersion.MP22);
+        specification.setBuildTool(BuildTool.GRADLE);
+        specification.setJavaSEVersion(JavaSEVersion.SE8);
+        maven.setArtifactId("demo-service");
+        model.setMaven(maven);
+        model.setSpecification(specification);
+        model.generateMainAndSecondaryProject();
+
+        Map<String, String> variables = provider.determineVariables(model);
+
+        Assert.assertEquals("Demoservice", variables.get("application"));
+    }
 }

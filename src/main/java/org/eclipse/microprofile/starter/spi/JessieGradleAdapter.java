@@ -21,6 +21,7 @@ package org.eclipse.microprofile.starter.spi;
 
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -29,6 +30,9 @@ import java.util.Map;
 
 public interface JessieGradleAdapter {
 
-    Map<String, String> defineAdditionalVariables(JessieModel model, boolean mainProject);
+    default Map<String, String> defineAdditionalVariables(JessieModel model, boolean mainProject) {
+        // override when needed for the Gradle support
+        return new HashMap<>();
+    }
 
 }
