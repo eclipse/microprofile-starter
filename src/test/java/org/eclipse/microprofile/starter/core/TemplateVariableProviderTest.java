@@ -52,7 +52,7 @@ public class TemplateVariableProviderTest {
     }
 
     @Test
-    public void shouldStoreValidApplicationName_gradle() {
+    public void shouldStoreValidApplicationNameGradle() {
         TemplateVariableProvider provider = new TemplateVariableProvider();
         JessieModel model = new JessieModel();
         JessieMaven maven = new JessieMaven();
