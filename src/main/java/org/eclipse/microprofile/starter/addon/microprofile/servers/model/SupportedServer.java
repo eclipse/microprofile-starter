@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2021 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -36,7 +36,8 @@ public enum SupportedServer {
             , "-Dswarm.port.offset=100" //jarParameters
             , "8080" //portServiceA
             , "8180" //portServiceB
-            ,"https://github.com/wildfly-swarm")
+            ,"https://github.com/wildfly-swarm"
+            , false)  // GradleSupport
     , THORNTAIL_V2("thorntail-v2", "Thorntail V2",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP21,
                     MicroProfileVersion.MP22, MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33)
@@ -44,21 +45,24 @@ public enum SupportedServer {
             , "-Dswarm.port.offset=100" //jarParameters
             , "8080" //portServiceA
             , "8180" //portServiceB
-            ,"https://thorntail.io/")
+            ,"https://thorntail.io/"
+            , false)  // GradleSupport
     , QUARKUS("quarkus", "Quarkus",
             Collections.singletonList(MicroProfileVersion.MP32)
             , "%s-runner.jar" //jarFileName
             , "-Dquarkus.http.port=8180" //jarParameters; these are env props, e.g. java -D... or mvn -D...
             , "8080" //portServiceA
             , "8180" //portServiceB
-            , "https://quarkus.io/")
+            , "https://quarkus.io/"
+            , true)  // GradleSupport
     , WILDFLY("wildfly", "WildFly",
             Arrays.asList(MicroProfileVersion.MP32, MicroProfileVersion.MP33, MicroProfileVersion.MP40)
             , "%s-wildfly.jar" //jarFileName
             , "-Djboss.socket.binding.port-offset=100" //jarParameters
             , "8080" //portServiceA
             , "8180" //portServiceB
-            , "https://www.wildfly.org/")
+            , "https://www.wildfly.org/"
+            , true)  // GradleSupport
     , LIBERTY("liberty", "Open Liberty",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22,
@@ -68,7 +72,8 @@ public enum SupportedServer {
             , "" //jarParameters // Hard coded in server.xml since no way of overriding a default.
             , "9080" //portServiceA
             , "9081" //portServiceB
-            , "https://openliberty.io/")
+            , "https://openliberty.io/"
+            , true)  // GradleSupport
     , KUMULUZEE("kumuluzEE", "KumuluzEE",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22,
@@ -77,7 +82,8 @@ public enum SupportedServer {
             , "" //jarParameters // Hard coded in config.xml since we needed a specific version for secondary app.
             , "8080" //portServiceA
             , "8180" //portServiceB // This need to match with port value from secondary/config.yaml
-            , "https://ee.kumuluz.com/")
+            , "https://ee.kumuluz.com/"
+            , false)  // GradleSupport
     , PAYARA_MICRO("payara-micro", "Payara Micro",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22
@@ -86,7 +92,8 @@ public enum SupportedServer {
             , "--port 8180" //jarParameters
             , "8080" //portServiceA
             , "8180" //portServiceB // This need to match with port value from defineJarParameters()
-            , "https://www.payara.fish/enterprise/enterprise-vs-community/payara-micro/")
+            , "https://www.payara.fish/enterprise/enterprise-vs-community/payara-micro/"
+            , true)  // GradleSupport
     , TOMEE("tomee", "Apache TomEE 8.0.0-M3",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21)
@@ -94,15 +101,18 @@ public enum SupportedServer {
             , "" //jarParameters // Done by TomeeServer.adaptMavenModel
             , "8080" // portServiceA
             , "8180" //portServiceB // This need to match with Port value from TomeeServer.adjustPOM
-            , "https://tomee.apache.org/")
+            , "https://tomee.apache.org/"
+            , true)  // GradleSupport
     , HELIDON("helidon", "Helidon",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP22, MicroProfileVersion.MP30
                     , MicroProfileVersion.MP32, MicroProfileVersion.MP33)
             , "%s.jar" //jarFileName
             , "" //jarParameters // Done by secondary/helidon/microprofile-config.properties
             , "8080" //portServiceA
-            , "8180" //portServiceB  // This need to match Port vcalue from secondary/microprofile-config.proeprties
-            , "https://helidon.io/");
+            , "8180" //portServiceB  // This need to match Port value from secondary/microprofile-config.proeprties
+            , "https://helidon.io/"
+            , true)  // GradleSupport
+    ;
     // @formatter:on
 
     private String code;
@@ -113,9 +123,10 @@ public enum SupportedServer {
     private String portServiceA;
     private String portServiceB;
     private String homePage;
+    private boolean gradleSupport;
 
     SupportedServer(String code, String displayName, List<MicroProfileVersion> mpVersions, String jarFileName
-            , String jarParameters, String portServiceA, String portServiceB, String homePage) {
+            , String jarParameters, String portServiceA, String portServiceB, String homePage, boolean gradleSupport) {
         this.code = code;
         this.displayName = displayName;
         this.mpVersions = mpVersions;
@@ -124,6 +135,7 @@ public enum SupportedServer {
         this.portServiceA = portServiceA;
         this.portServiceB = portServiceB;
         this.homePage = homePage;
+        this.gradleSupport = gradleSupport;
     }
 
     public String getCode() {
@@ -156,6 +168,10 @@ public enum SupportedServer {
 
     public String getHomePage() {
         return homePage;
+    }
+
+    public boolean hasGradleSupport() {
+        return gradleSupport;
     }
 
     public static SupportedServer valueFor(String data) {

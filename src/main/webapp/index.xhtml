@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
+    Copyright (c) 2017-2021 Contributors to the Eclipse Foundation
 
     See the NOTICE file(s) distributed with this work for additional
     information regarding copyright ownership.
@@ -118,13 +118,21 @@
                                  styleClass="ui-panelgrid-blank ui-fluid" id="options">
                         <p:panelGrid columns="1" columnClasses="ui-grid-col-12" layout="grid"
                                      styleClass="ui-panelgrid-blank ui-fluid nested">
+                            <p:outputLabel value="Build Tool" for="buildTool"/>
+                            <p:selectOneRadio id="buildTool" value="#{generatorDataBean.engineData.buildTool}" layout="responsive" columns="2"
+                                disabled="#{not generatorDataBean.hasGradleSupport()}">
+                                <f:selectItem itemLabel="Maven" itemValue="Maven" />
+                                <f:selectItem itemLabel="Gradle" itemValue="Gradle" />
+                                <p:ajax process="@this" />
+                            </p:selectOneRadio>
+
                             <p:outputLabel value="MicroProfile Runtime" for="supportedServer"/>
 
                             <p:selectOneMenu id="supportedServer" value="#{generatorDataBean.engineData.supportedServer}"
                                              required="true" var="item">
                                 <f:selectItem noSelectionOption="true" itemLabel=" "/>
                                 <f:selectItems value="${generatorDataBean.supportedServerItems}"/>
-                                <p:ajax listener="#{generatorDataBean.onMPRuntimeSelected}" update="options, mpVersion, javaSEVersion"/>
+                                <p:ajax listener="#{generatorDataBean.onMPRuntimeSelected}" update="options, mpVersion, javaSEVersion, buildTool"/>
 
                                 <p:column>
                                     <h:outputText value="#{dataBean.getRuntimeName(item)}" rendered="#{not empty item}"/>

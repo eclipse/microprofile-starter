@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2019-2021 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -27,6 +27,7 @@ import org.eclipse.microprofile.starter.core.model.JessieModel;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -55,8 +56,8 @@ public class PayaraMicroServer extends AbstractMicroprofileAddon {
             // Specific files for Auth-JWT
             String resourceDirectory = getResourceDirectory(model, false);
             directoryCreator.createDirectory(resourceDirectory);
-            processTemplateFile(resourceDirectory, "publicKey.pem", alternatives, variables);
-            processTemplateFile(resourceDirectory, "payara-mp-jwt.properties", alternatives, variables);
+            templateEngine.processTemplateFile(resourceDirectory, "publicKey.pem", alternatives, variables);
+            templateEngine.processTemplateFile(resourceDirectory, "payara-mp-jwt.properties", alternatives, variables);
         }
 
         String metaInfDirectory = getResourceDirectory(model, true) + "/META-INF";
@@ -67,6 +68,11 @@ public class PayaraMicroServer extends AbstractMicroprofileAddon {
 
     @Override
     public void adaptMavenModel(Model pomFile, JessieModel model, boolean mainProject) {
+        String payaraVersion = definePayaraVersion(model);
+        pomFile.addProperty("payaraVersion", payaraVersion);
+    }
+
+    private String definePayaraVersion(JessieModel model) {
         String payaraVersion = "";
         switch (model.getSpecification().getMicroProfileVersion()) {
 
@@ -101,6 +107,20 @@ public class PayaraMicroServer extends AbstractMicroprofileAddon {
                 break;
             default:
         }
-        pomFile.addProperty("payaraVersion", payaraVersion);
+        return payaraVersion;
+    }
+
+    @Override
+    public Map<String, String> defineAdditionalVariables(JessieModel model, boolean mainProject) {
+        // For customization of the build.gradle file
+        Map<String, String> result = new HashMap<>();
+        result.put("payara_version", definePayaraVersion(model));
+        if (mainProject) {
+            result.put("port_service", SupportedServer.PAYARA_MICRO.getPortServiceA());
+        } else {
+            result.put("port_service", SupportedServer.PAYARA_MICRO.getPortServiceB());
+        }
+
+        return result;
     }
 }

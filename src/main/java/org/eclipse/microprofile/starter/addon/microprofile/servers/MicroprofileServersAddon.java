@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2019-2021 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -253,10 +253,10 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
             directoryCreator.createDirectory(healthDirectory);
 
             if (alternatives.contains(MicroProfileVersion.Constants.MP3X_ALTERNATIVE)) {
-                processTemplateFile(healthDirectory, "ServiceLiveHealthCheck.java", alternatives, variables);
-                processTemplateFile(healthDirectory, "ServiceReadyHealthCheck.java", alternatives, variables);
+                templateEngine.processTemplateFile(healthDirectory, "ServiceLiveHealthCheck.java", alternatives, variables);
+                templateEngine.processTemplateFile(healthDirectory, "ServiceReadyHealthCheck.java", alternatives, variables);
             } else {
-                processTemplateFile(healthDirectory, "ServiceHealthCheck.java", alternatives, variables);
+                templateEngine.processTemplateFile(healthDirectory, "ServiceHealthCheck.java", alternatives, variables);
             }
         }
 
@@ -264,30 +264,30 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
             String configDirectory = model.getDirectory(true) + "/" + rootJava + "/config";
             directoryCreator.createDirectory(configDirectory);
 
-            processTemplateFile(configDirectory, "ConfigTestController.java", alternatives, variables);
+            templateEngine.processTemplateFile(configDirectory, "ConfigTestController.java", alternatives, variables);
         }
 
         if (microprofileSpecs.contains(MicroprofileSpec.METRICS)) {
             String metricDirectory = model.getDirectory(true) + "/" + rootJava + "/metric";
             directoryCreator.createDirectory(metricDirectory);
 
-            processTemplateFile(metricDirectory, "MetricController.java", alternatives, variables);
+            templateEngine.processTemplateFile(metricDirectory, "MetricController.java", alternatives, variables);
         }
 
         if (microprofileSpecs.contains(MicroprofileSpec.OPEN_API)) {
             String openapiDirectory = model.getDirectory(true) + "/" + rootJava + "/openapi";
             directoryCreator.createDirectory(openapiDirectory);
 
-            processTemplateFile(openapiDirectory, "BookingController.java", alternatives, variables);
-            processTemplateFile(openapiDirectory, "Booking.java", alternatives, variables);
-            processTemplateFile(openapiDirectory, "Destination.java", alternatives, variables);
+            templateEngine.processTemplateFile(openapiDirectory, "BookingController.java", alternatives, variables);
+            templateEngine.processTemplateFile(openapiDirectory, "Booking.java", alternatives, variables);
+            templateEngine.processTemplateFile(openapiDirectory, "Destination.java", alternatives, variables);
         }
 
         if (microprofileSpecs.contains(MicroprofileSpec.FAULT_TOLERANCE)) {
             String faultDirectory = model.getDirectory(true) + "/" + rootJava + "/resilient";
             directoryCreator.createDirectory(faultDirectory);
 
-            processTemplateFile(faultDirectory, "ResilienceController.java", alternatives, variables);
+            templateEngine.processTemplateFile(faultDirectory, "ResilienceController.java", alternatives, variables);
         }
 
         if (microprofileSpecs.contains(MicroprofileSpec.REST_CLIENT)) {
@@ -297,26 +297,26 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
             String clientSecondaryDirectory = model.getDirectory(false) + "/" + rootJava + "/client";
             directoryCreator.createDirectory(clientSecondaryDirectory);
 
-            processTemplateFile(clientSecondaryDirectory, "ServiceController.java", bAlternatives, variables);
-            processTemplateFile(clientMainDirectory, "Service.java", alternatives, variables);
-            processTemplateFile(clientMainDirectory, "ClientController.java", alternatives, variables);
+            templateEngine.processTemplateFile(clientSecondaryDirectory, "ServiceController.java", bAlternatives, variables);
+            templateEngine.processTemplateFile(clientMainDirectory, "Service.java", alternatives, variables);
+            templateEngine.processTemplateFile(clientMainDirectory, "ClientController.java", alternatives, variables);
         }
 
         if (microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH)) {
             if (model.hasMainAndSecondaryProject()) {
                 String bSecureDirectory = model.getDirectory(false) + "/" + rootJava + "/secure";
                 directoryCreator.createDirectory(bSecureDirectory);
-                processTemplateFile(bSecureDirectory, "ProtectedController.java", bAlternatives, variables);
+                templateEngine.processTemplateFile(bSecureDirectory, "ProtectedController.java", bAlternatives, variables);
             }
 
             String aSecureDirectory = model.getDirectory(true) + "/" + rootJava + "/secure";
 
-            processTemplateFile(aSecureDirectory, "TestSecureController.java", alternatives, variables);
-            processTemplateFile(aSecureDirectory, "MPJWTToken.java", alternatives, variables);
+            templateEngine.processTemplateFile(aSecureDirectory, "TestSecureController.java", alternatives, variables);
+            templateEngine.processTemplateFile(aSecureDirectory, "MPJWTToken.java", alternatives, variables);
 
             String resourceDirectory = getResourceDirectory(model, true);
 
-            processTemplateFile(resourceDirectory, "privateKey.pem", alternatives, variables);
+            templateEngine.processTemplateFile(resourceDirectory, "privateKey.pem", alternatives, variables);
         }
 
         if (microprofileStandaloneSpecs.contains(StandaloneMPSpec.GRAPHQL)) {
@@ -328,14 +328,14 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
             directoryCreator.createDirectory(graphqlModelDirectory);
             directoryCreator.createDirectory(graphqlDbDirectory);
 
-            processTemplateFile(graphqlDirectory, "HeroFinder.java", alternatives, variables);
-            processTemplateFile(graphqlModelDirectory, "SuperHero.java", alternatives, variables);
-            processTemplateFile(graphqlModelDirectory, "Team.java", alternatives, variables);
-            processTemplateFile(graphqlModelDirectory, "UnknownCharacterException.java", alternatives, variables);
-            processTemplateFile(graphqlDbDirectory, "HeroDatabase.java", alternatives, variables);
-            processTemplateFile(graphqlDbDirectory, "DuplicateSuperHeroException.java", alternatives, variables);
-            processTemplateFile(graphqlDbDirectory, "UnknownHeroException.java", alternatives, variables);
-            processTemplateFile(graphqlDbDirectory, "UnknownTeamException.java", alternatives, variables);
+            templateEngine.processTemplateFile(graphqlDirectory, "HeroFinder.java", alternatives, variables);
+            templateEngine.processTemplateFile(graphqlModelDirectory, "SuperHero.java", alternatives, variables);
+            templateEngine.processTemplateFile(graphqlModelDirectory, "Team.java", alternatives, variables);
+            templateEngine.processTemplateFile(graphqlModelDirectory, "UnknownCharacterException.java", alternatives, variables);
+            templateEngine.processTemplateFile(graphqlDbDirectory, "HeroDatabase.java", alternatives, variables);
+            templateEngine.processTemplateFile(graphqlDbDirectory, "DuplicateSuperHeroException.java", alternatives, variables);
+            templateEngine.processTemplateFile(graphqlDbDirectory, "UnknownHeroException.java", alternatives, variables);
+            templateEngine.processTemplateFile(graphqlDbDirectory, "UnknownTeamException.java", alternatives, variables);
         }
 
         // With KumuluzEE, it properties are integrated within config.yaml
@@ -345,7 +345,7 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
                 supportedServer != SupportedServer.WILDFLY) {
             String metaInfDirectory = getResourceDirectory(model, true) + "/META-INF";
             directoryCreator.createDirectory(metaInfDirectory);
-            processTemplateFile(metaInfDirectory, "microprofile-config.properties", alternatives, variables);
+            templateEngine.processTemplateFile(metaInfDirectory, "microprofile-config.properties", alternatives, variables);
         }
 
         // Helidon should have it in src/main/resources/WEB
@@ -354,13 +354,13 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
             // Demo index file to all endpoints
             String webDirectory = model.getDirectory(true) + "/" + MavenCreator.SRC_MAIN_WEBAPP;
             directoryCreator.createDirectory(webDirectory);
-            processTemplateFile(webDirectory, "index.html", alternatives, variables);
+            templateEngine.processTemplateFile(webDirectory, "index.html", alternatives, variables);
         }
 
-        processTemplateFile(model.getDirectory(true), "readme.md", alternatives, variables);
+        templateEngine.processTemplateFile(model.getDirectory(true), "readme.md", alternatives, variables);
         if (model.hasMainAndSecondaryProject()) {
-            processTemplateFile(model.getTopLevelDirectory(), "readme.md.top", "readme.md", alternatives, variables);
-            processTemplateFile(model.getDirectory(false), "readme.md.secondary", "readme.md", alternatives, variables);
+            templateEngine.processTemplateFile(model.getTopLevelDirectory(), "readme.md.top", "readme.md", alternatives, variables);
+            templateEngine.processTemplateFile(model.getDirectory(false), "readme.md.secondary", "readme.md", alternatives, variables);
         }
     }
 
@@ -371,4 +371,5 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
     private String defineJarParameters(SupportedServer supportedServer) {
         return supportedServer.getJarParameters();
     }
+
 }

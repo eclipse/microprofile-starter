@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2021 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -22,6 +22,9 @@
  */
 package org.eclipse.microprofile.starter;
 
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
+import org.apache.commons.lang3.tuple.Pair;
 import org.eclipse.microprofile.starter.core.artifacts.FileCreator;
 
 import javax.enterprise.context.SessionScoped;
@@ -31,46 +34,56 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 @SessionScoped
 public class ZipFileCreator extends FileCreator implements Serializable {
 
-    private Map<String, byte[]> archiveContent = new HashMap<>();
+    // <Filename : isExecutable> : File contents
+    private final Map<Pair<String, Boolean>, byte[]> archiveContent = new HashMap<>();
+
+    @Override
+    public void writeContents(String directory, String fileName, String contents, Boolean executable) {
+        archiveContent.put(Pair.of(directory + File.separator + fileName, executable), contents.getBytes());
+    }
+
+    @Override
+    public void writeContents(String directory, String fileName, byte[] contents, Boolean executable) {
+        archiveContent.put(Pair.of(directory + File.separator + fileName, executable), contents);
+    }
 
     @Override
     public void writeContents(String directory, String fileName, String contents) {
-        archiveContent.put(directory + File.separator + fileName, contents.getBytes());
+        archiveContent.put(Pair.of(directory + File.separator + fileName, false), contents.getBytes());
     }
 
     @Override
     public void writeContents(String directory, String fileName, byte[] contents) {
-        archiveContent.put(directory + File.separator + fileName, contents);
+        archiveContent.put(Pair.of(directory + File.separator + fileName, false), contents);
     }
 
     public byte[] createArchive() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try (ZipOutputStream zos = new ZipOutputStream(baos)) {
-
-            for (Map.Entry<String, byte[]> entry : archiveContent.entrySet()) {
-
-                ZipEntry zipEntry = new ZipEntry(entry.getKey());
-
-                zos.putNextEntry(zipEntry);
-                zos.write(entry.getValue());
-                zos.closeEntry();
-
+        try (ZipArchiveOutputStream archive = new ZipArchiveOutputStream(baos)) {
+            for (Map.Entry<Pair<String, Boolean>, byte[]> entry : archiveContent.entrySet()) {
+                ZipArchiveEntry zipEntry = new ZipArchiveEntry(entry.getKey().getLeft());
+                if (entry.getKey().getRight()) {
+                    zipEntry.setUnixMode(0755);
+                }
+                archive.putArchiveEntry(zipEntry);
+                archive.write(entry.getValue());
+                archive.closeArchiveEntry();
             }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+            archive.finish();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            archiveContent.clear();
         }
 
-        archiveContent.clear();
         return baos.toByteArray();
     }
 
     public void removeFilesFrom(String directoryPath) {
-        archiveContent.entrySet().removeIf(entry -> entry.getKey().startsWith(directoryPath));
+        archiveContent.entrySet().removeIf(entry -> entry.getKey().getLeft().startsWith(directoryPath));
     }
 }

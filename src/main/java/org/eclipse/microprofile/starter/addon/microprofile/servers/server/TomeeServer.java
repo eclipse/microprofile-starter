@@ -57,7 +57,7 @@ public class TomeeServer extends AbstractMicroprofileAddon {
 
             String resourceDirectory = getResourceDirectory(model, false);
             directoryCreator.createDirectory(resourceDirectory);
-            processTemplateFile(resourceDirectory, "publicKey.pem", alternatives, variables);
+            templateEngine.processTemplateFile(resourceDirectory, "publicKey.pem", alternatives, variables);
         }
     }
 
@@ -136,4 +136,5 @@ public class TomeeServer extends AbstractMicroprofileAddon {
         }
         return result;
     }
+
 }

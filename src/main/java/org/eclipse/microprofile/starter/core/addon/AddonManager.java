@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2021 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -24,6 +24,7 @@ package org.eclipse.microprofile.starter.core.addon;
 
 import org.eclipse.microprofile.starter.spi.JessieAddon;
 import org.eclipse.microprofile.starter.spi.JessieAlternativesProvider;
+import org.eclipse.microprofile.starter.spi.JessieGradleAdapter;
 import org.eclipse.microprofile.starter.spi.JessieMavenAdapter;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -48,6 +49,9 @@ public class AddonManager {
     @Inject
     private Instance<JessieMavenAdapter> mavenAdapters;
 
+    @Inject
+    private Instance<JessieGradleAdapter> gradleAdapters;
+
     public List<JessieAddon> getAddons(String addonName) {
         List<JessieAddon> result = new ArrayList<>();
 
@@ -70,6 +74,12 @@ public class AddonManager {
     public List<JessieMavenAdapter> getMavenAdapters() {
 
         Iterator<JessieMavenAdapter> mavenAdapterIterator = mavenAdapters.iterator();
+        return getProviders(mavenAdapterIterator);
+    }
+
+    public List<JessieGradleAdapter> getGradleAdapters() {
+
+        Iterator<JessieGradleAdapter> mavenAdapterIterator = gradleAdapters.iterator();
         return getProviders(mavenAdapterIterator);
     }
 

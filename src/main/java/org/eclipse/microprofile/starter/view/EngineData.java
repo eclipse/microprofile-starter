@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2019-2021 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -37,6 +37,8 @@ public class EngineData {
     private String supportedServer;
     private String beansxmlMode = "all";
     private List<String> selectedSpecs;
+
+    private String buildTool = "Maven";
 
     private TrafficSource trafficSource = TrafficSource.WEB;
 
@@ -97,6 +99,14 @@ public class EngineData {
 
     public void setSelectedSpecs(List<String> selectedSpecs) {
         this.selectedSpecs = selectedSpecs;
+    }
+
+    public String getBuildTool() {
+        return buildTool;
+    }
+
+    public void setBuildTool(String buildTool) {
+        this.buildTool = buildTool;
     }
 
     public TrafficSource getTrafficSource() {

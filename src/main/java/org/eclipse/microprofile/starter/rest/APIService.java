@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2019-2021 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -32,6 +32,7 @@ import org.eclipse.microprofile.starter.core.files.FilesLocator;
 import org.eclipse.microprofile.starter.core.model.BeansXMLMode;
 import org.eclipse.microprofile.starter.core.model.JavaSEVersion;
 import org.eclipse.microprofile.starter.core.model.JessieMaven;
+import org.eclipse.microprofile.starter.core.model.BuildTool;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 import org.eclipse.microprofile.starter.core.model.JessieSpecification;
 import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
@@ -175,6 +176,8 @@ public class APIService {
                     PackageNameValidator.MAX_LENGTH + "\",\"code\":\"ERROR005\"}";
     public static final String ERROR006 =
             "{\"error\":\"selectedSpec contains an illegal value, %s \",\"code\":\"ERROR006\"}";
+    public static final String ERROR007 =
+            "{\"error\":\"Selected runtime has no Gradle support \",\"code\":\"ERROR007\"}";
 
     @Inject
     private ModelManager modelManager;
@@ -315,12 +318,14 @@ public class APIService {
                                String groupId, String artifactId,
                                MicroProfileVersion mpVersion,
                                JavaSEVersion javaSEVersion,
+                               BuildTool buildTool,
                                List<String> selectedSpecCodes,
                                boolean selectAllSpecs) {
 
         Project project = new Project();
         project.setSupportedServer(supportedServer);
         project.setGroupId(groupId);
+        project.setBuildTool(buildTool);
         project.setArtifactId(artifactId);
         project.setMpVersion(mpVersion);
         project.setJavaSEVersion(javaSEVersion);
@@ -411,6 +416,10 @@ public class APIService {
         if (p.getSelectedStandaloneSpecs().isEmpty() && p.isSelectAllSpecs()) {
             p.setSelectedStandaloneSpecs(getStandaloneSpecsForServerRestriction(p));
         }
+
+        if (p.getBuildTool() == null) {
+            p.setBuildTool(BuildTool.MAVEN);
+        }
     }
 
     private List<StandaloneMPSpec> getStandaloneSpecsForServerRestriction(Project project) {
@@ -448,6 +457,15 @@ public class APIService {
                     .header("Content-Disposition", "attachment; filename=\"error.json\"")
                     .build();
         }
+        if (!p.getSupportedServer().hasGradleSupport() && p.getBuildTool() == BuildTool.GRADLE) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(ERROR007)
+                    .type("application/json")
+                    .header("Content-Length", ERROR007.length())
+                    .header("Content-Disposition", "attachment; filename=\"error.json\"")
+                    .build();
+        }
+
         if (!mpvToOptions.get(p.getMpVersion()).getSupportedServers().contains(p.getSupportedServer())) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .type("application/json")
@@ -546,6 +564,7 @@ public class APIService {
         JessieSpecification specifications = new JessieSpecification();
         specifications.setJavaSEVersion(project.getJavaSEVersion());
         specifications.setMicroProfileVersion(project.getMpVersion());
+        specifications.setBuildTool(project.getBuildTool());
 
         model.getOptions().put("mp.server", new OptionValue(ed.getSupportedServer()));
         model.getOptions().put("mp.specs", new OptionValue(project.getSelectedSpecs()));

@@ -1,0 +1,1 @@
+rootProject.name = '[# th:text="${maven_artifactid}"/]'

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2019-2021 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -27,10 +27,11 @@ import org.eclipse.microprofile.starter.core.model.JessieModel;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.HashSet;
 
 @ApplicationScoped
 public class LibertyServer extends AbstractMicroprofileAddon {
@@ -53,7 +54,7 @@ public class LibertyServer extends AbstractMicroprofileAddon {
         String resourceDirectory = model.getDirectory(true)  + "/src/main/liberty/config";
         directoryCreator.createDirectory(resourceDirectory);
 
-        processTemplateFile(resourceDirectory, "server.xml", alternatives, variables);
+        templateEngine.processTemplateFile(resourceDirectory, "server.xml", alternatives, variables);
 
         List<MicroprofileSpec> microprofileSpecs = model.getParameter(JessieModel.Parameter.MICROPROFILESPECS);
         if (model.hasMainAndSecondaryProject()) {
@@ -63,13 +64,13 @@ public class LibertyServer extends AbstractMicroprofileAddon {
             resourceDirectory = model.getDirectory(false)  + "/src/main/liberty/config";
             directoryCreator.createDirectory(resourceDirectory);
 
-            processTemplateFile(resourceDirectory, "server.xml", tempAlternative, variables);
+            templateEngine.processTemplateFile(resourceDirectory, "server.xml", tempAlternative, variables);
             if  (microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH)) {
 
                 resourceDirectory = resourceDirectory + "/resources/security";
                 directoryCreator.createDirectory(resourceDirectory);
     
-                processFile(resourceDirectory, "public.jks", alternatives);
+                templateEngine.processFile(resourceDirectory, "public.jks", alternatives);
             }
         }
 
@@ -80,7 +81,7 @@ public class LibertyServer extends AbstractMicroprofileAddon {
 
             directoryCreator.createDirectory(resourceDirectory);
 
-            processFile(resourceDirectory, "public.jks", alternatives);
+            templateEngine.processFile(resourceDirectory, "public.jks", alternatives);
         }
 
     }
@@ -91,4 +92,19 @@ public class LibertyServer extends AbstractMicroprofileAddon {
         pomFile.addProperty("openliberty.maven.version", openLibertyMavenVersion);
 
     }
+
+    @Override
+    public Map<String, String> defineAdditionalVariables(JessieModel model, boolean mainProject) {
+        // For customization of the build.gradle file
+        Map<String, String> result = new HashMap<>();
+
+        if (mainProject) {
+            result.put("port_service", SupportedServer.LIBERTY.getPortServiceA());
+        } else {
+            result.put("port_service", SupportedServer.LIBERTY.getPortServiceB());
+        }
+
+        return result;
+    }
+
 }

@@ -61,12 +61,14 @@ public class WildFlyServer extends AbstractMicroprofileAddon {
             bAlternatives.add(JessieModel.SECONDARY_INDICATOR);
             String metaInfDirectory = getResourceDirectory(model, false) + "/META-INF";
             directoryCreator.createDirectory(metaInfDirectory);
-            processTemplateFile(metaInfDirectory, "microprofile-config.properties", "microprofile-config.properties", bAlternatives, variables);
+            templateEngine.processTemplateFile(metaInfDirectory, "microprofile-config.properties",
+                    "microprofile-config.properties", bAlternatives, variables);
         }
 
         String metaInfDirectory = getResourceDirectory(model, true) + "/META-INF";
         directoryCreator.createDirectory(metaInfDirectory);
-        processTemplateFile(metaInfDirectory, "microprofile-config.properties", "microprofile-config.properties", alternatives, variables);
+        templateEngine.processTemplateFile(metaInfDirectory, "microprofile-config.properties",
+                "microprofile-config.properties", alternatives, variables);
 
         if (model.hasMainAndSecondaryProject() && microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH)) {
             // Specific files for Auth-JWT
@@ -74,7 +76,7 @@ public class WildFlyServer extends AbstractMicroprofileAddon {
             directoryCreator.createDirectory(resourceDirectory);
             metaInfDirectory = getResourceDirectory(model, false) + "/META-INF";
             directoryCreator.createDirectory(metaInfDirectory);
-            processTemplateFile(metaInfDirectory, "publicKey.pem", "publicKey.pem", bAlternatives, variables);
+            templateEngine.processTemplateFile(metaInfDirectory, "publicKey.pem", "publicKey.pem", bAlternatives, variables);
         }
     }
 

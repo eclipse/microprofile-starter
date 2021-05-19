@@ -71,7 +71,7 @@ public class KumuluzeeServer extends AbstractMicroprofileAddon {
         directoryCreator.removeDirectory(webDirectory);
 
         String resourceDirectory = getResourceDirectory(model, mainProject);
-        processTemplateFile(resourceDirectory, "config.yaml", alternatives, variables);
+        templateEngine.processTemplateFile(resourceDirectory, "config.yaml", alternatives, variables);
     }
 
     @Override
@@ -139,4 +139,5 @@ public class KumuluzeeServer extends AbstractMicroprofileAddon {
         pomFile.addProperty("kumuluzee-microprofile.version", artifactId);
 
     }
+
 }

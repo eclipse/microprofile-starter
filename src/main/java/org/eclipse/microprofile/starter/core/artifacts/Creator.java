@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2021 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -22,6 +22,7 @@
  */
 package org.eclipse.microprofile.starter.core.artifacts;
 
+import org.eclipse.microprofile.starter.core.model.BuildTool;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 import org.eclipse.microprofile.starter.spi.JessieAddon;
 
@@ -39,6 +40,9 @@ public class Creator {
     private MavenCreator mavenCreator;
 
     @Inject
+    private GradleCreator gradleCreator;
+
+    @Inject
     private CDICreator cdiCreator;
 
     @Inject
@@ -46,7 +50,11 @@ public class Creator {
 
     public void createArtifacts(JessieModel model) {
 
-        mavenCreator.createMavenFiles(model);
+        if (model.getSpecification().getBuildTool() == BuildTool.MAVEN) {
+            mavenCreator.createMavenFiles(model);
+        } else {
+            gradleCreator.createGradleFiles(model);
+        }
 
         cdiCreator.createCDIFilesForWeb(model);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2021 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -32,7 +32,11 @@ public abstract class FileCreator {
 
     public abstract void writeContents(String directory, String fileName, byte[] contents);
 
+    public abstract void writeContents(String directory, String fileName, String contents, Boolean executable);
+
+    public abstract void writeContents(String directory, String fileName, byte[] contents, Boolean executable);
+
     public void createEmptyFile(String directory, String fileName) {
-        writeContents(directory, fileName, "");
+        writeContents(directory, fileName, "", false);
     }
 }

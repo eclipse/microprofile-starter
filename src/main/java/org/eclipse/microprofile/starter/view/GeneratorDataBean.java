@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2021 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -33,6 +33,7 @@ import org.eclipse.microprofile.starter.addon.microprofile.servers.model.ServerM
 import org.eclipse.microprofile.starter.core.artifacts.Creator;
 import org.eclipse.microprofile.starter.core.exception.JessieUnexpectedException;
 import org.eclipse.microprofile.starter.core.model.BeansXMLMode;
+import org.eclipse.microprofile.starter.core.model.BuildTool;
 import org.eclipse.microprofile.starter.core.model.JavaSEVersion;
 import org.eclipse.microprofile.starter.core.model.JessieMaven;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
@@ -119,6 +120,16 @@ public class GeneratorDataBean implements Serializable {
         }
         defineStandaloneExampleSpecs();  // Make sure to update the enabled status of the standalone specs
         defineJavaSEVersion();
+        handleGradleSupport();
+    }
+
+    private void handleGradleSupport() {
+        if (engineData.getSupportedServer() != null ) {
+            SupportedServer supportedServer = SupportedServer.valueFor(engineData.getSupportedServer());
+            if (!supportedServer.hasGradleSupport()) {
+                engineData.setBuildTool("Maven");
+            }
+        }
     }
 
     private void defineJavaSEVersion() {
@@ -255,6 +266,14 @@ public class GeneratorDataBean implements Serializable {
         return result;
     }
 
+    public boolean hasGradleSupport() {
+        if (engineData.getSupportedServer() == null ||engineData.getSupportedServer().isBlank()) {
+            return true;
+        }
+        SupportedServer supportedServer = SupportedServer.valueFor(engineData.getSupportedServer());
+        return supportedServer.hasGradleSupport();
+    }
+
     public void generateProject() {
 
         JessieModel model = new JessieModel();
@@ -269,6 +288,7 @@ public class GeneratorDataBean implements Serializable {
         specifications.setJavaSEVersion(JavaSEVersion.valueFor(engineData.getJavaSEVersion()));
 
         specifications.setMicroProfileVersion(MicroProfileVersion.valueFor(engineData.getMpVersion()));
+        specifications.setBuildTool(BuildTool.forValue(engineData.getBuildTool()));
 
         model.getOptions().put("mp.server", new OptionValue(engineData.getSupportedServer()));
         model.getOptions().put("mp.specs", new OptionValue(selectedSpecs));

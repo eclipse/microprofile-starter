@@ -257,6 +257,7 @@
                             <bootstrapProperties>
                                 <project.name>${final.name}</project.name>
                                 <jwt.issuer>https://server.example.com</jwt.issuer>
+                                <app.context.root>/</app.context.root>
                             </bootstrapProperties>
                         </configuration>
                     </plugin>

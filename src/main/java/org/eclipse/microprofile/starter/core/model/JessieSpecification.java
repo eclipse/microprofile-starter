@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2021 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -44,6 +44,9 @@ public class JessieSpecification {
     @JsonDeserialize(using = JavaSEVersionDeserializer.class)
     private JavaSEVersion javaSEVersion;
 
+    @JsonProperty(value = "buildTool")
+    private BuildTool buildTool = BuildTool.MAVEN;
+
     @JsonDeserialize(using = ViewTypeDeserializer.class)
     private List<ViewType> views;
 
@@ -61,6 +64,14 @@ public class JessieSpecification {
 
     public void setJavaSEVersion(JavaSEVersion javaSEVersion) {
         this.javaSEVersion = javaSEVersion;
+    }
+
+    public BuildTool getBuildTool() {
+        return buildTool;
+    }
+
+    public void setBuildTool(BuildTool buildTool) {
+        this.buildTool = buildTool;
     }
 
     public List<ViewType> getViews() {

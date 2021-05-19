@@ -21,6 +21,8 @@ package org.eclipse.microprofile.starter.core;
 
 import org.eclipse.microprofile.starter.core.model.JessieMaven;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
+import org.eclipse.microprofile.starter.core.model.BuildTool;
+import org.eclipse.microprofile.starter.core.model.JavaSEVersion;
 import org.eclipse.microprofile.starter.core.model.JessieSpecification;
 import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
 import org.junit.Assert;
@@ -37,6 +39,27 @@ public class TemplateVariableProviderTest {
         JessieMaven maven = new JessieMaven();
         JessieSpecification specification = new JessieSpecification();
         specification.setMicroProfileVersion(MicroProfileVersion.MP22);
+        specification.setBuildTool(BuildTool.MAVEN);
+        specification.setJavaSEVersion(JavaSEVersion.SE8);
+        maven.setArtifactId("demo-service");
+        model.setMaven(maven);
+        model.setSpecification(specification);
+        model.generateMainAndSecondaryProject();
+
+        Map<String, String> variables = provider.determineVariables(model);
+
+        Assert.assertEquals("Demoservice", variables.get("application"));
+    }
+
+    @Test
+    public void shouldStoreValidApplicationNameGradle() {
+        TemplateVariableProvider provider = new TemplateVariableProvider();
+        JessieModel model = new JessieModel();
+        JessieMaven maven = new JessieMaven();
+        JessieSpecification specification = new JessieSpecification();
+        specification.setMicroProfileVersion(MicroProfileVersion.MP22);
+        specification.setBuildTool(BuildTool.GRADLE);
+        specification.setJavaSEVersion(JavaSEVersion.SE8);
         maven.setArtifactId("demo-service");
         model.setMaven(maven);
         model.setSpecification(specification);
