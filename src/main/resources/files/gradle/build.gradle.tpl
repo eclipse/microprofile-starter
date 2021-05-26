@@ -15,12 +15,7 @@ repositories {
 }
 
 dependencies {
-    [# th:if="${mp_version} eq '4.0'"]
-    providedCompile 'org.eclipse.microprofile:microprofile:[# th:text="4.0.1"/]'
-    [/]
-    [# th:if="${mp_version} eq '2.0'"]
-    providedCompile 'org.eclipse.microprofile:microprofile:[# th:text="2.0.1"/]'
-    [/]
+    providedCompile 'org.eclipse.microprofile:microprofile:[# th:text="${mp_depversion}"/]'
     [# th:if="${mainProject and mp_JWT_auth}"]
     implementation 'io.vertx:vertx-auth-jwt:3.9.2'
     [/]

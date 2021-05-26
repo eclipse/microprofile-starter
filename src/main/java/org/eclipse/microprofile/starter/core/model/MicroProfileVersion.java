@@ -45,7 +45,7 @@ public enum MicroProfileVersion {
     // @formatter:on
 
     private String code;
-    private String mavenVersion;
+    private String depVersion;
     private String label;
     private Set<String> alternatives;
 
@@ -66,15 +66,15 @@ public enum MicroProfileVersion {
         this.code = code;
         this.label = label;
         this.alternatives = new HashSet<>(alternatives);
-        this.mavenVersion = mavenVersion;
+        this.depVersion = mavenVersion;
     }
 
     public String getCode() {
         return code;
     }
 
-    public String getMavenVersion() {
-        return mavenVersion;
+    public String getDepVersion() {
+        return depVersion;
     }
 
     public String getLabel() {
