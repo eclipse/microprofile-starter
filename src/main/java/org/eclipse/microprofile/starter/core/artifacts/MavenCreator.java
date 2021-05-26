@@ -136,7 +136,7 @@ public class MavenCreator extends BuildToolCreator {
          */
         if (!SupportedServer.QUARKUS.getCode().equals(model.getOptions().get("mp.server").getSingleValue())) {
             mavenHelper.addDependency(pomFile, "org.eclipse.microprofile", "microprofile",
-                    model.getSpecification().getMicroProfileVersion().getMavenVersion(), "provided", "pom");
+                    model.getSpecification().getMicroProfileVersion().getDepVersion(), "provided", "pom");
         }
     }
 
