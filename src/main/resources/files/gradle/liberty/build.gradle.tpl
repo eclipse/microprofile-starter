@@ -33,10 +33,19 @@ repositories {
 }
 
 dependencies {
-    providedCompile 'org.eclipse.microprofile:microprofile:[# th:text="${mp_version}"/]'
+    [# th:if="${mp_version} eq '4.0'"]
+    providedCompile 'org.eclipse.microprofile:microprofile:[# th:text="4.0.1"/]'
+    [/]
+    [# th:if="${mp_version} eq '2.0'"]
+    providedCompile 'org.eclipse.microprofile:microprofile:[# th:text="2.0.1"/]'
+    [/]
     [# th:if="${mainProject and mp_JWT_auth}"]
     implementation 'io.vertx:vertx-auth-jwt:3.9.2'
     [/]
+    [# th:if="${mainProject and mp_graphql}"]
+    providedCompile 'org.eclipse.microprofile.graphql:microprofile-graphql-api:1.0.2'
+    [/]
+
 }
 
 ext  {
