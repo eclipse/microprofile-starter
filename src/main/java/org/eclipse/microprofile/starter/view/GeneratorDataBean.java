@@ -112,6 +112,11 @@ public class GeneratorDataBean implements Serializable {
         defineJavaSEVersion();
     }
 
+    public void onBuildToolSelected() {
+        microProfileVersion = MicroProfileVersion.valueFor(engineData.getMpVersion());
+        defineSupportedServerItems(microProfileVersion);
+    }
+
     public void onMPRuntimeSelected() {
         if (engineData.getMpVersion() == null || engineData.getMpVersion().trim().isEmpty()) {
             defineMPVersionValue();
@@ -221,9 +226,16 @@ public class GeneratorDataBean implements Serializable {
     private void defineSupportedServerItems(MicroProfileVersion version) {
 
         supportedServerItems = new ArrayList<>();
+        BuildTool buildTool = BuildTool.forValue(engineData.getBuildTool());
         for (SupportedServer supportedServer : SupportedServer.values()) {
             if (version == null || supportedServer.getMpVersions().contains(version)) {
-                supportedServerItems.add(new SelectItem(supportedServer.getCode(), supportedServer.getDisplayName()));
+                boolean add = true;
+                if (buildTool == BuildTool.GRADLE) {
+                    add = supportedServer.hasGradleSupport();
+                }
+                if (add) {
+                    supportedServerItems.add(new SelectItem(supportedServer.getCode(), supportedServer.getDisplayName()));
+                }
             }
         }
         if (!supportedServerListContainsCurrentSelection()) {
