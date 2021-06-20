@@ -92,7 +92,7 @@ public class APIEndpointLatest {
                                @QueryParam("artifactId") String artifactId,
                                @QueryParam("mpVersion") MicroProfileVersion mpVersion,
                                @QueryParam("javaSEVersion") JavaSEVersion javaSEVersion,
-                               @QueryParam("buildTool")BuildTool buildTool,
+                               @QueryParam("buildTool") BuildTool buildTool,
                                @QueryParam("selectedSpecs") List<String> selectedSpecCodes,
                                @QueryParam("selectAllSpecs") boolean selectAllSpecs) {
         return api.getProject(ifNoneMatch,

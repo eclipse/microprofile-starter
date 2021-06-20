@@ -26,10 +26,10 @@ import org.eclipse.microprofile.starter.Version;
 import org.eclipse.microprofile.starter.ZipFileCreator;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.JDKSelector;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
+import org.eclipse.microprofile.starter.addon.microprofile.servers.model.ServerMPVersion;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.StandaloneMPSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.VersionSpecMatrix;
-import org.eclipse.microprofile.starter.addon.microprofile.servers.model.ServerMPVersion;
 import org.eclipse.microprofile.starter.core.artifacts.Creator;
 import org.eclipse.microprofile.starter.core.exception.JessieUnexpectedException;
 import org.eclipse.microprofile.starter.core.model.BeansXMLMode;
@@ -57,10 +57,16 @@ import javax.inject.Named;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+@SuppressWarnings("unused") // Used in index.xhtml
 @ViewScoped
 @Named
 public class GeneratorDataBean implements Serializable {
@@ -129,7 +135,7 @@ public class GeneratorDataBean implements Serializable {
     }
 
     private void handleGradleSupport() {
-        if (engineData.getSupportedServer() != null ) {
+        if (engineData.getSupportedServer() != null) {
             SupportedServer supportedServer = SupportedServer.valueFor(engineData.getSupportedServer());
             if (!supportedServer.hasGradleSupport()) {
                 engineData.setBuildTool("Maven");
@@ -214,11 +220,13 @@ public class GeneratorDataBean implements Serializable {
         return result;
     }
 
+    @SuppressWarnings("unused") // Used in index.xhtml
     public String getSpecificationLink(MicroprofileSpec spec) {
         Map<MicroprofileSpec, String> specData = VersionSpecMatrix.getInstance().getSpecData(microProfileVersion);
-        return String.format(spec.getTagURL(), specData.get(spec) );
+        return String.format(spec.getTagURL(), specData.get(spec));
     }
 
+    @SuppressWarnings("unused") // Used in index.xhtml
     public String getSpecificationStandaloneLink(StandaloneMPSpec spec) {
         return String.format(spec.getTagURL(), spec.getVersion());
     }
@@ -278,14 +286,16 @@ public class GeneratorDataBean implements Serializable {
         return result;
     }
 
+    @SuppressWarnings("unused") // Used in index.xhtml
     public boolean hasGradleSupport() {
-        if (engineData.getSupportedServer() == null ||engineData.getSupportedServer().isBlank()) {
+        if (engineData.getSupportedServer() == null || engineData.getSupportedServer().isBlank()) {
             return true;
         }
         SupportedServer supportedServer = SupportedServer.valueFor(engineData.getSupportedServer());
         return supportedServer.hasGradleSupport();
     }
 
+    @SuppressWarnings("unused") // Used in index.xhtml
     public void generateProject() {
 
         JessieModel model = new JessieModel();
@@ -358,6 +368,7 @@ public class GeneratorDataBean implements Serializable {
         return version;
     }
 
+    @SuppressWarnings("unused") // Used in index.xhtml
     public EngineData getEngineData() {
         return engineData;
     }
@@ -378,11 +389,13 @@ public class GeneratorDataBean implements Serializable {
         this.selectedSpecs = selectedSpecs;
     }
 
+    @SuppressWarnings("unused") // Used in index.xhtml
     public void selectAll() {
         selectedSpecs = specs.stream().map(si -> si.getValue().toString()).collect(Collectors.toList());
         selectedStandaloneSpecs = standaloneSpecs.stream().map(si -> si.getValue().toString()).collect(Collectors.toList());
     }
 
+    @SuppressWarnings("unused") // Used in index.xhtml
     public void unselectAll() {
         selectedSpecs.clear();
         selectedStandaloneSpecs.clear();
@@ -404,6 +417,7 @@ public class GeneratorDataBean implements Serializable {
         this.selectedStandaloneSpecs = selectedStandaloneSpecs;
     }
 
+    @SuppressWarnings("unused") // Used in index.xhtml
     public List<SelectItem> getJavaSEItems() {
         return javaSEItems;
     }

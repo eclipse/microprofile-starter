@@ -54,7 +54,7 @@ public enum SupportedServer {
             , "8080" //portServiceA
             , "8180" //portServiceB
             , "https://quarkus.io/"
-            , true)  // GradleSupport
+            , false)  // GradleSupport
     , WILDFLY("wildfly", "WildFly",
             Arrays.asList(MicroProfileVersion.MP32, MicroProfileVersion.MP33, MicroProfileVersion.MP40)
             , "%s-wildfly.jar" //jarFileName
@@ -62,7 +62,7 @@ public enum SupportedServer {
             , "8080" //portServiceA
             , "8180" //portServiceB
             , "https://www.wildfly.org/"
-            , true)  // GradleSupport
+            , false)  // GradleSupport
     , LIBERTY("liberty", "Open Liberty",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22,
@@ -102,7 +102,7 @@ public enum SupportedServer {
             , "8080" // portServiceA
             , "8180" //portServiceB // This need to match with Port value from TomeeServer.adjustPOM
             , "https://tomee.apache.org/"
-            , true)  // GradleSupport
+            , false)  // GradleSupport
     , HELIDON("helidon", "Helidon",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP22, MicroProfileVersion.MP30
                     , MicroProfileVersion.MP32, MicroProfileVersion.MP33)
