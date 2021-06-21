@@ -46,5 +46,8 @@ ext  {
     liberty.server.var.'default.http.port' = '[# th:text="${port_service}"/]'
     liberty.server.var.'project.name' = projectName
     liberty.server.var.'app.context.root' = '/'
+    [# th:if="${secondary_project and mp_JWT_auth}"]
+    liberty.server.var.'jwt.issuer' = 'https://server.example.com'
+    [/]
 }
 
