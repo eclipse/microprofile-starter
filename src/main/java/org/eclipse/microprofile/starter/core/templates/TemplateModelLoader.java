@@ -60,6 +60,7 @@ public class TemplateModelLoader {
         }
 
         InputStream resource = this.getClass().getClassLoader().getResourceAsStream("templates/templates.yaml");
+        @SuppressWarnings("unchecked")
         List<String> templateFiles = yamlReader.readYAML(resource, List.class);
         try {
             resource.close();  // Should never be null as we have checked if .getResource return something useful.

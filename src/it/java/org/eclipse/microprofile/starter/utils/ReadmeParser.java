@@ -37,11 +37,13 @@ public class ReadmeParser {
                     break;
                 }
                 String line = sc.nextLine();
-                if (buildCommand == null && line.startsWith("    mvn")) {
+                if (buildCommand == null && (line.startsWith("    mvn") || line.startsWith("    ./gradlew"))) {
                     buildCommand = line.trim().split(" ");
+                    continue;
                 }
-                if (runCommand == null && line.startsWith("    java")) {
+                if (runCommand == null && (line.startsWith("    java") || line.startsWith("    ./gradlew"))) {
                     runCommand = line.trim().split(" ");
+                    continue;
                 }
                 if (webAddress == null && isServiceA && line.startsWith("    http://")) {
                     webAddress = line.trim().split(" ");

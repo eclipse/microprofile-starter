@@ -20,6 +20,7 @@
 package org.eclipse.microprofile.starter;
 
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
+import org.eclipse.microprofile.starter.core.model.BuildTool;
 import org.eclipse.microprofile.starter.utils.Commands;
 import org.eclipse.microprofile.starter.utils.MPSpecGET;
 import org.eclipse.microprofile.starter.utils.MPSpecPOST;
@@ -86,9 +87,9 @@ public class TestMatrixTest {
         target = client.target(API_URL);
     }
 
-    public void testRuntime(String supportedServer, String artifactId, SpecSelection specSelection, int[] additionalPotsToCheck) throws IOException, InterruptedException {
-        LOGGER.info("Testing server: " + supportedServer + ", config: " + specSelection.toString());
-
+    public void testRuntime(String supportedServer, String artifactId, SpecSelection specSelection, int[] additionalPortsToCheck, BuildTool buildTool)
+            throws IOException, InterruptedException {
+        LOGGER.info("Testing server: " + supportedServer + ", config: " + specSelection.toString() + ", buildTool: " + buildTool.toString());
         Process pB = null;
         Process pA = null;
         File unzipLog = null;
@@ -104,7 +105,7 @@ public class TestMatrixTest {
             // Download
             LOGGER.info("Downloading...");
             String location = TMP + File.separator + artifactId + ".zip";
-            download(client, supportedServer, artifactId, specSelection, location);
+            download(client, supportedServer, artifactId, specSelection, buildTool, location);
 
             // Unzip
             unzipLog = unzip(location, artifactId);
@@ -168,8 +169,14 @@ public class TestMatrixTest {
             }
 
             processStopper(pA, artifactId);
+            if (buildTool == BuildTool.GRADLE && supportedServer.equalsIgnoreCase("LIBERTY")) {
+                Commands.runCommand(new String[]{"./gradlew", "libertyStop"}, directoryA, runLogA);
+            }
             if (specSelection.hasServiceB) {
                 processStopper(pB, artifactId);
+                if (buildTool == BuildTool.GRADLE && supportedServer.equalsIgnoreCase("LIBERTY")) {
+                    Commands.runCommand(new String[]{"./gradlew", "libertyStop"}, directoryB, runLogB);
+                }
             }
 
             checkLog(this.getClass().getCanonicalName(), testName.getMethodName(), "Runtime log", runLogA);
@@ -180,8 +187,8 @@ public class TestMatrixTest {
             // Release ports
             assertTrue("Main ports are still open",
                     Commands.waitForTcpClosed("localhost", Commands.parsePort(urlBase), 60));
-            if (additionalPotsToCheck != null) {
-                for (int port : additionalPotsToCheck) {
+            if (additionalPortsToCheck != null) {
+                for (int port : additionalPortsToCheck) {
                     assertTrue("Ports are still open",
                             Commands.waitForTcpClosed("localhost", port, 30));
                 }
@@ -307,286 +314,307 @@ public class TestMatrixTest {
     @RunAsClient
     public void thorntailEmpty() throws IOException, InterruptedException {
         testRuntime("THORNTAIL_V2", "thorntail",
-                SpecSelection.EMPTY, new int[]{9990});
+                SpecSelection.EMPTY, new int[]{9990}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void thorntailAll() throws IOException, InterruptedException {
         testRuntime("THORNTAIL_V2", "thorntail",
-                SpecSelection.ALL, new int[]{9990, 8180, 10090});
+                SpecSelection.ALL, new int[]{9990, 8180, 10090}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void thorntailAllButJWTRest() throws IOException, InterruptedException {
         testRuntime("THORNTAIL_V2", "thorntail",
-                SpecSelection.ALL_BUT_JWT_REST, new int[]{9990});
+                SpecSelection.ALL_BUT_JWT_REST, new int[]{9990}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void thorntailJWTRest() throws IOException, InterruptedException {
         testRuntime("THORNTAIL_V2", "thorntail",
-                SpecSelection.JWT_REST, new int[]{9990, 8180, 10090});
+                SpecSelection.JWT_REST, new int[]{9990, 8180, 10090}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void payaraEmpty() throws IOException, InterruptedException {
         testRuntime("PAYARA_MICRO", "payara",
-                SpecSelection.EMPTY, new int[]{6900});
+                SpecSelection.EMPTY, new int[]{6900}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void payaraAll() throws IOException, InterruptedException {
         testRuntime("PAYARA_MICRO", "payara",
-                SpecSelection.ALL, new int[]{6900, 6901, 8180});
+                SpecSelection.ALL, new int[]{6900, 6901, 8180}, BuildTool.MAVEN);
+    }
+
+    @Test
+    @RunAsClient
+    public void payaraAllGradle() throws IOException, InterruptedException {
+        testRuntime("PAYARA_MICRO", "payara",
+                SpecSelection.ALL, new int[]{6900, 6901, 8180}, BuildTool.GRADLE);
     }
 
     @Test
     @RunAsClient
     public void payaraAllButJWTRest() throws IOException, InterruptedException {
         testRuntime("PAYARA_MICRO", "payara",
-                SpecSelection.ALL_BUT_JWT_REST, new int[]{6900});
+                SpecSelection.ALL_BUT_JWT_REST, new int[]{6900}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void payaraJWTRest() throws IOException, InterruptedException {
         testRuntime("PAYARA_MICRO", "payara",
-                SpecSelection.JWT_REST, new int[]{6900, 6901, 8180});
+                SpecSelection.JWT_REST, new int[]{6900, 6901, 8180}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void libertyEmpty() throws IOException, InterruptedException {
         testRuntime("LIBERTY", "liberty",
-                SpecSelection.EMPTY, new int[]{8181, 9080, 8543, 9443});
+                SpecSelection.EMPTY, new int[]{8181, 9080, 8543, 9443}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void libertyGraphQL() throws IOException, InterruptedException {
         testRuntime("LIBERTY", "liberty",
-                SpecSelection.GRAPHQL, new int[]{8181, 9080, 8543, 9443});
+                SpecSelection.GRAPHQL, new int[]{8181, 9080, 8543, 9443}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void libertyAll() throws IOException, InterruptedException {
         testRuntime("LIBERTY", "liberty",
-                SpecSelection.ALL, new int[]{8181, 9080, 8543, 9443, 9444, 8281, 9081});
+                SpecSelection.ALL, new int[]{8181, 9080, 8543, 9443, 9444, 8281, 9081}, BuildTool.MAVEN);
+    }
+
+    @Test
+    @RunAsClient
+    public void libertyAllGradle() throws IOException, InterruptedException {
+        testRuntime("LIBERTY", "liberty",
+                SpecSelection.ALL, new int[]{8181, 9080, 8543, 9443, 9444, 8281, 9081}, BuildTool.GRADLE);
     }
 
     @Test
     @RunAsClient
     public void libertyAllButJWTRest() throws IOException, InterruptedException {
         testRuntime("LIBERTY", "liberty",
-                SpecSelection.ALL_BUT_JWT_REST, new int[]{8181, 9080, 8543, 9443});
+                SpecSelection.ALL_BUT_JWT_REST, new int[]{8181, 9080, 8543, 9443}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void libertyJWTRest() throws IOException, InterruptedException {
         testRuntime("LIBERTY", "liberty",
-                SpecSelection.JWT_REST, new int[]{8181, 9080, 8543, 9443, 9444, 8281, 9081});
+                SpecSelection.JWT_REST, new int[]{8181, 9080, 8543, 9443, 9444, 8281, 9081}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void helidonEmpty() throws IOException, InterruptedException {
         testRuntime("HELIDON", "helidon",
-                SpecSelection.EMPTY, new int[]{});
+                SpecSelection.EMPTY, new int[]{}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void helidonAll() throws IOException, InterruptedException {
         testRuntime("HELIDON", "helidon",
-                SpecSelection.ALL, new int[]{8180});
+                SpecSelection.ALL, new int[]{8180}, BuildTool.MAVEN);
+    }
+
+    @Test
+    @RunAsClient
+    public void helidonAllGradle() throws IOException, InterruptedException {
+        testRuntime("HELIDON", "helidon",
+                SpecSelection.ALL, new int[]{8180}, BuildTool.GRADLE);
     }
 
     @Test
     @RunAsClient
     public void helidonAllButJWTRest() throws IOException, InterruptedException {
         testRuntime("HELIDON", "helidon",
-                SpecSelection.ALL_BUT_JWT_REST, new int[]{});
+                SpecSelection.ALL_BUT_JWT_REST, new int[]{}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void helidonJWTRest() throws IOException, InterruptedException {
         testRuntime("HELIDON", "helidon",
-                SpecSelection.JWT_REST, new int[]{8180});
+                SpecSelection.JWT_REST, new int[]{8180}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void kumuluzeeEmpty() throws IOException, InterruptedException {
         testRuntime("KUMULUZEE", "kumuluzee",
-                SpecSelection.EMPTY, new int[]{});
+                SpecSelection.EMPTY, new int[]{}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void kumuluzeeAll() throws IOException, InterruptedException {
         testRuntime("KUMULUZEE", "kumuluzee",
-                SpecSelection.ALL, new int[]{8180});
+                SpecSelection.ALL, new int[]{8180}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void kumuluzeeAllButJWTRest() throws IOException, InterruptedException {
         testRuntime("KUMULUZEE", "kumuluzee",
-                SpecSelection.ALL_BUT_JWT_REST, new int[]{});
+                SpecSelection.ALL_BUT_JWT_REST, new int[]{}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void kumuluzeeJWTRest() throws IOException, InterruptedException {
         testRuntime("KUMULUZEE", "kumuluzee",
-                SpecSelection.JWT_REST, new int[]{8180});
+                SpecSelection.JWT_REST, new int[]{8180}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void tomeeEmpty() throws IOException, InterruptedException {
         testRuntime("TOMEE", "tomee",
-                SpecSelection.EMPTY, new int[]{8009, 8005});
+                SpecSelection.EMPTY, new int[]{8009, 8005}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void tomeeAll() throws IOException, InterruptedException {
         testRuntime("TOMEE", "tomee",
-                SpecSelection.ALL, new int[]{8009, 8005, 8180, 8109, 8105});
+                SpecSelection.ALL, new int[]{8009, 8005, 8180, 8109, 8105}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void tomeeAllButJWTRest() throws IOException, InterruptedException {
         testRuntime("TOMEE", "tomee",
-                SpecSelection.ALL_BUT_JWT_REST, new int[]{8009, 8005});
+                SpecSelection.ALL_BUT_JWT_REST, new int[]{8009, 8005}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void tomeeJWTRest() throws IOException, InterruptedException {
         testRuntime("TOMEE", "tomee",
-                SpecSelection.JWT_REST, new int[]{8009, 8005, 8180, 8109, 8105});
+                SpecSelection.JWT_REST, new int[]{8009, 8005, 8180, 8109, 8105}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void quarkusEmpty() throws IOException, InterruptedException {
         testRuntime("QUARKUS", "quarkus",
-                SpecSelection.EMPTY, new int[]{9990});
+                SpecSelection.EMPTY, new int[]{9990}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void quarkusAll() throws IOException, InterruptedException {
         testRuntime("QUARKUS", "quarkus",
-                SpecSelection.ALL, new int[]{9990, 8180, 10090});
+                SpecSelection.ALL, new int[]{9990, 8180, 10090}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void quarkusAllButJWTRest() throws IOException, InterruptedException {
         testRuntime("QUARKUS", "quarkus",
-                SpecSelection.ALL_BUT_JWT_REST, new int[]{9990});
+                SpecSelection.ALL_BUT_JWT_REST, new int[]{9990}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void quarkusJWTRest() throws IOException, InterruptedException {
         testRuntime("QUARKUS", "quarkus",
-                SpecSelection.JWT_REST, new int[]{9990, 8180, 10090});
+                SpecSelection.JWT_REST, new int[]{9990, 8180, 10090}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void wildflyEmpty() throws IOException, InterruptedException {
         testRuntime("WILDFLY", "wildfly",
-                SpecSelection.EMPTY, new int[]{9990});
+                SpecSelection.EMPTY, new int[]{9990}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void wildflyAll() throws IOException, InterruptedException {
         testRuntime("WILDFLY", "wildfly",
-                SpecSelection.ALL, new int[]{9990, 8180, 10090});
+                SpecSelection.ALL, new int[]{9990, 8180, 10090}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void wildflyAllButJWTRest() throws IOException, InterruptedException {
         testRuntime("WILDFLY", "wildfly",
-                SpecSelection.ALL_BUT_JWT_REST, new int[]{9990});
+                SpecSelection.ALL_BUT_JWT_REST, new int[]{9990}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void wildflyJWTRest() throws IOException, InterruptedException {
         testRuntime("WILDFLY", "wildfly",
-                SpecSelection.JWT_REST, new int[]{9990, 8180, 10090});
+                SpecSelection.JWT_REST, new int[]{9990, 8180, 10090}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void wildflyConfig() throws IOException, InterruptedException {
         testRuntime("WILDFLY", "wildfly",
-                SpecSelection.CONFIG, new int[]{9990});
+                SpecSelection.CONFIG, new int[]{9990}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void wildflyFaultTolerance() throws IOException, InterruptedException {
         testRuntime("WILDFLY", "wildfly",
-                SpecSelection.FAULT_TOLERANCE, new int[]{9990});
+                SpecSelection.FAULT_TOLERANCE, new int[]{9990}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void wildflyHealthchecks() throws IOException, InterruptedException {
         testRuntime("WILDFLY", "wildfly",
-                SpecSelection.HEALTH_CHECKS, new int[]{9990});
+                SpecSelection.HEALTH_CHECKS, new int[]{9990}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void wildflyJWTAuth() throws IOException, InterruptedException {
         testRuntime("WILDFLY", "wildfly",
-                SpecSelection.JWT_AUTH, new int[]{9990, 8180, 10090});
+                SpecSelection.JWT_AUTH, new int[]{9990, 8180, 10090}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void wildflyMetrics() throws IOException, InterruptedException {
         testRuntime("WILDFLY", "wildfly",
-                SpecSelection.METRICS, new int[]{9990});
+                SpecSelection.METRICS, new int[]{9990}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void wildflyOpenAPI() throws IOException, InterruptedException {
         testRuntime("WILDFLY", "wildfly",
-                SpecSelection.OPEN_API, new int[]{9990});
+                SpecSelection.OPEN_API, new int[]{9990}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void wildflyOpenTracing() throws IOException, InterruptedException {
         testRuntime("WILDFLY", "wildfly",
-                SpecSelection.OPEN_TRACING, new int[]{9990});
+                SpecSelection.OPEN_TRACING, new int[]{9990}, BuildTool.MAVEN);
     }
 
     @Test
     @RunAsClient
     public void wildflyRestClient() throws IOException, InterruptedException {
         testRuntime("WILDFLY", "wildfly",
-                SpecSelection.REST_CLIENT, new int[]{9990, 8180, 10090});
+                SpecSelection.REST_CLIENT, new int[]{9990, 8180, 10090}, BuildTool.MAVEN);
     }
 }

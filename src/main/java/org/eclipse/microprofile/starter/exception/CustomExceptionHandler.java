@@ -33,6 +33,7 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
 
     private ExceptionHandler wrapped;
 
+    @SuppressWarnings("deprecation")
     CustomExceptionHandler(ExceptionHandler exception) {
         this.wrapped = exception;
     }

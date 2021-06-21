@@ -57,13 +57,13 @@ public class JessieModel {
     private List<String> addons = new ArrayList<>();
 
     @JsonDeserialize(using = OptionsDeserializer.class)
-    private Map<String, OptionValue> options = new HashMap<>();
+    final private Map<String, OptionValue> options = new HashMap<>();
 
     @JsonIgnore
-    private Map<String, Object> parameters = new HashMap<>();
+    final private Map<String, Object> parameters = new HashMap<>();
 
     @JsonIgnore
-    private Map<String, String> variables = new HashMap<>();
+    final private Map<String, String> variables = new HashMap<>();
 
     /**
      * The root directory of the main application (containing the main/demo application)
@@ -149,6 +149,7 @@ public class JessieModel {
         parameters.put(parameter.name(), value);
     }
 
+    @SuppressWarnings("unchecked")
     public <T extends Serializable> T getParameter(Parameter parameter) {
         return (T) parameters.get(parameter.name());
     }

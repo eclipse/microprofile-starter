@@ -22,6 +22,7 @@ package org.eclipse.microprofile.starter.utils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.starter.core.model.BuildTool;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Response;
@@ -66,8 +67,10 @@ public class Commands {
         return System.getProperty("java.io.tmpdir");
     }
 
-    public static void download(Client client, String supportedServer, String artifactId, SpecSelection specSelection, String location) {
-        String uri = API_URL + "/project?supportedServer=" + supportedServer + specSelection.queryParam + "&artifactId=" + artifactId;
+    public static void download(Client client, String supportedServer, String artifactId, SpecSelection specSelection,
+                                BuildTool buildTool, String location) {
+        String uri = API_URL + "/project?supportedServer=" +
+                supportedServer + specSelection.queryParam + "&artifactId=" + artifactId + "&buildTool=" + buildTool;
         LOGGER.info("from " + uri);
         Response response = client.target(uri).request().get();
         assertEquals("Download failed.", Response.Status.OK.getStatusCode(), response.getStatus());
@@ -117,7 +120,8 @@ public class Commands {
         (new File(path + "-unzip.log")).delete();
     }
 
-    public static boolean waitForTcpClosed(String host, int port, long loopTimeoutS) throws InterruptedException, UnknownHostException {
+    public static boolean waitForTcpClosed(String host, int port, long loopTimeoutS)
+            throws InterruptedException, UnknownHostException {
         InetAddress address = InetAddress.getByName(host);
         long now = System.currentTimeMillis();
         long startTime = now;

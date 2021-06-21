@@ -15,10 +15,31 @@ import static org.junit.Assert.assertArrayEquals;
 public class ReadmeParserTest {
 
     @Test
-    public void demoLoggingTest() {
+    public void parsingTest() {
 
         Map<String, String[][]> conf = new HashMap<>();
-
+        conf.put("he-service-a-gradle-readme.md",
+                new String[][]{
+                        new String[]{"./gradlew", "assemble"},
+                        new String[]{"java", "-jar", "build/libs/helidon.jar"},
+                        new String[]{"http://localhost:8080/index.html"}
+                });
+        conf.put("he-service-b-gradle-readme.md",
+                new String[][]{
+                        new String[]{"./gradlew", "assemble"},
+                        new String[]{"java", "-jar", "build/libs/helidon.jar"},
+                });
+        conf.put("li-service-a-gradle-readme.md",
+                new String[][]{
+                        new String[]{"./gradlew", "libertyPackage"},
+                        new String[]{"./gradlew", "libertyRun", "--no-daemon"},
+                        new String[]{"http://localhost:9080/index.html"}
+                });
+        conf.put("li-service-b-gradle-readme.md",
+                new String[][]{
+                        new String[]{"./gradlew", "libertyPackage"},
+                        new String[]{"./gradlew", "libertyRun", "--no-daemon"},
+                });
         conf.put("li-service-a-readme.md",
                 new String[][]{
                         new String[]{"mvn", "clean", "package"},
@@ -29,6 +50,17 @@ public class ReadmeParserTest {
                 new String[][]{
                         new String[]{"mvn", "clean", "package"},
                         new String[]{"java", "-jar", "target/liberty.jar"}
+                });
+        conf.put("py-service-a-gradle-readme.md",
+                new String[][]{
+                        new String[]{"./gradlew", "microBundle"},
+                        new String[]{"./gradlew", "microStart"},
+                        new String[]{"http://localhost:8080/index.html"}
+                });
+        conf.put("py-service-b-gradle-readme.md",
+                new String[][]{
+                        new String[]{"./gradlew", "microBundle"},
+                        new String[]{"./gradlew", "microStart"},
                 });
         conf.put("py-service-a-readme.md",
                 new String[][]{
