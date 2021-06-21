@@ -123,7 +123,7 @@
                                 disabled="#{not generatorDataBean.hasGradleSupport()}">
                                 <f:selectItem itemLabel="Maven" itemValue="Maven" />
                                 <f:selectItem itemLabel="Gradle" itemValue="Gradle" />
-                                <p:ajax process="@this" />
+                                <p:ajax process="@this" listener="#{generatorDataBean.onBuildToolSelected}" update="options"/>
                             </p:selectOneRadio>
 
                             <p:outputLabel value="MicroProfile Runtime" for="supportedServer"/>
