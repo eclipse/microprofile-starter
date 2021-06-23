@@ -82,37 +82,7 @@ public class WildFlyServer extends AbstractMicroprofileAddon {
 
     @Override
     public void adaptMavenModel(Model pomFile, JessieModel model, boolean mainProject) {
-        String wildflyVersion = "";
-        switch (model.getSpecification().getMicroProfileVersion()) {
-
-            case NONE:
-                break;
-            case MP40:
-                wildflyVersion = "23.0.0.Final";
-                break;
-            case MP33:
-                wildflyVersion = "19.1.0.Final";
-                break;
-            case MP32:
-                wildflyVersion = "19.0.0.Final";
-                break;
-            case MP30:
-                break;
-            case MP22:
-                break;
-            case MP21:
-                break;
-            case MP20:
-                break;
-            case MP14:
-                break;
-            case MP13:
-                break;
-            case MP12:
-                break;
-            default:
-        }
-        pomFile.addProperty("version.wildfly", wildflyVersion);
+        pomFile.addProperty("version.wildfly", defineWildFlyVersion(model));
         List<MicroprofileSpec> microprofileSpecs = model.getParameter(JessieModel.Parameter.MICROPROFILESPECS);
         Xpp3Dom configuration = (Xpp3Dom) pomFile.getProfiles().get(0).getBuild().getPlugins()
                 .get(0).getConfiguration();
@@ -158,7 +128,7 @@ public class WildFlyServer extends AbstractMicroprofileAddon {
             layer.setValue("open-tracing");
             layers.addChild(layer);
         }
-        if((microprofileSpecs.contains(MicroprofileSpec.REST_CLIENT) ||
+        if ((microprofileSpecs.contains(MicroprofileSpec.REST_CLIENT) ||
                 microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH)) &&
                 mainProject && !microprofileSpecs.contains(MicroprofileSpec.CONFIG)) {
             layer = new Xpp3Dom("layer");
@@ -166,5 +136,32 @@ public class WildFlyServer extends AbstractMicroprofileAddon {
             layers.addChild(layer);
         }
         configuration.addChild(layers);
+    }
+
+    private String defineWildFlyVersion(JessieModel model) {
+        switch (model.getSpecification().getMicroProfileVersion()) {
+            case NONE:
+                break;
+            case MP40:
+                return "23.0.2.Final";
+            case MP33:
+                return "20.0.0.Final";
+            case MP32:
+                return "20.0.0.Final";
+            case MP22:
+                break;
+            case MP21:
+                break;
+            case MP20:
+                break;
+            case MP14:
+                break;
+            case MP13:
+                break;
+            case MP12:
+                break;
+            default:
+        }
+        return null;
     }
 }

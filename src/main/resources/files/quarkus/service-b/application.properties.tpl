@@ -1,4 +1,5 @@
 quarkus.ssl.native=true
+quarkus.package.output-name=[# th:text="${maven_artifactid}"/]
 [# th:if="${mp_JWT_auth}"]
 mp.jwt.verify.publickey.location=META-INF/resources/publicKey.pem
 mp.jwt.verify.issuer=https://server.example.com

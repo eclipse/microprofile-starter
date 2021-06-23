@@ -8,8 +8,8 @@ version = '1.0-SNAPSHOT'
 
 description = "MicroProfile Starter example"
 
-sourceCompatibility = [# th:text="${se_version}"/]
-targetCompatibility = [# th:text="${se_version}"/]
+sourceCompatibility = JavaVersion.VERSION_[# th:text="${se_version}"/]
+targetCompatibility = JavaVersion.VERSION_[# th:text="${se_version}"/]
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
@@ -34,8 +34,7 @@ dependencies {
     runtimeOnly 'org.jboss:jandex'
     runtimeOnly 'jakarta.activation:jakarta.activation-api'
     [# th:if="${mainProject and mp_JWT_auth}"]
-    implementation 'io.vertx:vertx-auth-jwt:3.9.2'
-    [/]
+    implementation 'io.vertx:vertx-auth-jwt:[# th:text="${vertx_auth_jwt_version}"/]'[/]
 }
 
 // define a custom task to copy all dependencies in the runtime classpath

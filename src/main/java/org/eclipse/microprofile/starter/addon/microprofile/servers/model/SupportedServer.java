@@ -54,10 +54,10 @@ public enum SupportedServer {
             , "8080" //portServiceA
             , "8180" //portServiceB
             , "https://quarkus.io/"
-            , false)  // GradleSupport
+            , true)  // GradleSupport
     , WILDFLY("wildfly", "WildFly",
             Arrays.asList(MicroProfileVersion.MP32, MicroProfileVersion.MP33, MicroProfileVersion.MP40)
-            , "%s-wildfly.jar" //jarFileName
+            , "%s-bootable.jar" //jarFileName
             , "-Djboss.socket.binding.port-offset=100" //jarParameters
             , "8080" //portServiceA
             , "8180" //portServiceB

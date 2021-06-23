@@ -19,10 +19,7 @@
  */
 package org.eclipse.microprofile.starter.addon.microprofile.servers.server;
 
-import org.apache.maven.model.ActivationProperty;
 import org.apache.maven.model.Model;
-import org.apache.maven.model.Profile;
-import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.AbstractMicroprofileAddon;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
@@ -31,7 +28,7 @@ import org.eclipse.microprofile.starter.core.model.JessieModel;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -88,70 +85,22 @@ public class QuarkusServer extends AbstractMicroprofileAddon {
     }
 
     @Override
-    public void adaptMavenModel(Model pomFile, JessieModel model, boolean mainProject) {
-        String quarkusVersion = "";
-        switch (model.getSpecification().getMicroProfileVersion()) {
+    public Map<String, String> defineAdditionalVariables(JessieModel model, boolean mainProject) {
+        // For customization of the gradle.properties file
+        Map<String, String> result = new HashMap<>();
+        result.put("quarkus_version", defineQuarkusVersion(model));
+        return result;
+    }
 
-            case NONE:
-                break;
-            case MP32:
-                quarkusVersion = "1.7.0.Final";
-                break;
-            case MP30:
-                break;
-            case MP22:
-                break;
-            case MP21:
-                break;
-            case MP20:
-                break;
-            case MP14:
-                break;
-            case MP13:
-                break;
-            case MP12:
-                break;
-            default:
-        }
-        pomFile.addProperty("version.quarkus", quarkusVersion);
+    @Override
+    public void adaptMavenModel(Model pomFile, JessieModel model, boolean mainProject) {
+        pomFile.addProperty("version.quarkus", defineQuarkusVersion(model));
         pomFile.setPackaging("jar");
         List<MicroprofileSpec> microprofileSpecs = model.getParameter(JessieModel.Parameter.MICROPROFILESPECS);
-
-        Profile nativeProfile = pomFile.getProfiles().get(0).clone();
-        nativeProfile.setId("native");
-        nativeProfile.getActivation().setActiveByDefault(false);
-        ActivationProperty activationPropertyNative = new ActivationProperty();
-        activationPropertyNative.setName("name");
-        activationPropertyNative.setValue("native");
-        nativeProfile.getActivation().setProperty(activationPropertyNative);
-        nativeProfile.getBuild().getPlugins().get(0).getExecutions().get(0).setGoals(Collections.singletonList("native-image"));
-
-        Xpp3Dom configuration = new Xpp3Dom("configuration");
-
-        Xpp3Dom enableHttpUrlHandler = new Xpp3Dom("enableHttpUrlHandler");
-        enableHttpUrlHandler.setValue("true");
-        configuration.addChild(enableHttpUrlHandler);
-
-        if (microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH) && mainProject) {
-            Xpp3Dom additionalBuildArgsLog = new Xpp3Dom("additionalBuildArgs");
-            additionalBuildArgsLog.setValue("-H:Log=registerResource:");
-            configuration.addChild(additionalBuildArgsLog);
-
-            Xpp3Dom additionalBuildArgsResources = new Xpp3Dom("additionalBuildArgs");
-            additionalBuildArgsResources.setValue("-H:IncludeResources=privateKey.pem");
-            configuration.addChild(additionalBuildArgsResources);
-        }
-
-        nativeProfile.getBuild().getPlugins().get(0).setConfiguration(configuration);
-
-        pomFile.addProfile(nativeProfile);
 
         // We add Rest by default as all our examples use it anyway.
         mavenHelper.addDependency(pomFile, "io.quarkus", "quarkus-resteasy", "${version.quarkus}");
 
-        //if (microprofileSpecs.contains(MicroprofileSpec.CONFIG)) {
-        // Config is present by default.
-        //}
         if (microprofileSpecs.contains(MicroprofileSpec.FAULT_TOLERANCE) && mainProject) {
             mavenHelper.addDependency(pomFile, "io.quarkus", "quarkus-smallrye-fault-tolerance", "${version.quarkus}");
         }
@@ -175,4 +124,30 @@ public class QuarkusServer extends AbstractMicroprofileAddon {
         }
     }
 
+    private String defineQuarkusVersion(JessieModel model) {
+        switch (model.getSpecification().getMicroProfileVersion()) {
+            case NONE:
+                break;
+            case MP40:
+                break;
+            case MP33:
+                break;
+            case MP32:
+                return "1.7.6.Final";
+            case MP22:
+                break;
+            case MP21:
+                break;
+            case MP20:
+                break;
+            case MP14:
+                break;
+            case MP13:
+                break;
+            case MP12:
+                break;
+            default:
+        }
+        return null;
+    }
 }

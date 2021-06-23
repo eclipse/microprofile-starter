@@ -79,8 +79,8 @@ public class AddonManager {
 
     public List<JessieGradleAdapter> getGradleAdapters() {
 
-        Iterator<JessieGradleAdapter> mavenAdapterIterator = gradleAdapters.iterator();
-        return getProviders(mavenAdapterIterator);
+        Iterator<JessieGradleAdapter> gradleAdapterIterator = gradleAdapters.iterator();
+        return getProviders(gradleAdapterIterator);
     }
 
     private <T> List<T> getProviders(Iterator<T> alternativesIterator) {

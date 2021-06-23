@@ -48,9 +48,12 @@ import java.util.logging.Logger;
 import static org.eclipse.microprofile.starter.utils.Commands.cleanWorkspace;
 import static org.eclipse.microprofile.starter.utils.Commands.download;
 import static org.eclipse.microprofile.starter.utils.Commands.getWorkspaceDir;
+import static org.eclipse.microprofile.starter.utils.Commands.isThisWindows;
+import static org.eclipse.microprofile.starter.utils.Commands.linuxCmdCleaner;
 import static org.eclipse.microprofile.starter.utils.Commands.processStopper;
 import static org.eclipse.microprofile.starter.utils.Commands.runCommand;
 import static org.eclipse.microprofile.starter.utils.Commands.unzip;
+import static org.eclipse.microprofile.starter.utils.Commands.windowsCmdCleaner;
 import static org.eclipse.microprofile.starter.utils.Logs.archiveLog;
 import static org.eclipse.microprofile.starter.utils.Logs.checkLog;
 import static org.eclipse.microprofile.starter.utils.ReadmeParser.parseReadme;
@@ -178,6 +181,13 @@ public class TestMatrixTest {
                     Commands.runCommand(new String[]{"./gradlew", "libertyStop"}, directoryB, runLogB);
                 }
             }
+            if (buildTool == BuildTool.GRADLE && supportedServer.equalsIgnoreCase("LIBERTY")) {
+                if (isThisWindows()) {
+                    windowsCmdCleaner("defaultServer");
+                } else {
+                    linuxCmdCleaner("defaultServer");
+                }
+            }
 
             checkLog(this.getClass().getCanonicalName(), testName.getMethodName(), "Runtime log", runLogA);
             if (specSelection.hasServiceB) {
@@ -186,11 +196,11 @@ public class TestMatrixTest {
             LOGGER.info("Gonna wait for ports closed...");
             // Release ports
             assertTrue("Main ports are still open",
-                    Commands.waitForTcpClosed("localhost", Commands.parsePort(urlBase), 60));
+                    Commands.waitForTcpClosed("localhost", Commands.parsePort(urlBase), 90));
             if (additionalPortsToCheck != null) {
                 for (int port : additionalPortsToCheck) {
                     assertTrue("Ports are still open",
-                            Commands.waitForTcpClosed("localhost", port, 30));
+                            Commands.waitForTcpClosed("localhost", port, 60));
                 }
             }
         } finally {
@@ -226,6 +236,10 @@ public class TestMatrixTest {
         } else if (supportedServer.equalsIgnoreCase("WILDFLY")) {
             // Wildfly has a special port
             specialUrlBase = urlBase.replace(SupportedServer.WILDFLY.getPortServiceA(), "9990");
+        // Pertinent for Q 2.x+, also in index.html
+        //} else if (supportedServer.equalsIgnoreCase("QUARKUS")) {
+        //    // Quarkus prepends /q
+        //    specialUrlBase = urlBase + "q/";
         } else {
             specialUrlBase = urlBase;
         }
@@ -245,7 +259,7 @@ public class TestMatrixTest {
             testWeb(urlBase + MPSpecGET.METRICS.urlContent[0][0], 5, MPSpecGET.METRICS.urlContent[0][1]);
             testWeb(specialUrlBase + MPSpecGET.METRICS.urlContent[1][0], 10, MPSpecGET.METRICS.urlContent[1][1]);
             testWeb(urlBase + MPSpecGET.JWT_AUTH.urlContent[0][0], 5, MPSpecGET.JWT_AUTH.urlContent[0][1]);
-            if (supportedServer.equalsIgnoreCase("TOMEE")) {
+            if (supportedServer.equalsIgnoreCase("TOMEE") || supportedServer.equalsIgnoreCase("QUARKUS")) {
                 testWeb(specialUrlBase + MPSpecGET.OPEN_API.urlContent[0][0], 5, MPSpecGET.OPEN_API.urlContent[0][1]);
             } else {
                 testWeb(urlBase + MPSpecGET.OPEN_API.urlContent[0][0], 5, MPSpecGET.OPEN_API.urlContent[0][1]);
@@ -260,7 +274,7 @@ public class TestMatrixTest {
             testWeb(specialUrlBase + MPSpecGET.HEALTH_CHECKS.urlContent[0][0], 5, MPSpecGET.HEALTH_CHECKS.urlContent[0][1]);
             testWeb(urlBase + MPSpecGET.METRICS.urlContent[0][0], 5, MPSpecGET.METRICS.urlContent[0][1]);
             testWeb(specialUrlBase + MPSpecGET.METRICS.urlContent[1][0], 5, MPSpecGET.METRICS.urlContent[1][1]);
-            if (supportedServer.equalsIgnoreCase("TOMEE")) {
+            if (supportedServer.equalsIgnoreCase("TOMEE") || supportedServer.equalsIgnoreCase("QUARKUS")) {
                 testWeb(specialUrlBase + MPSpecGET.OPEN_API.urlContent[0][0], 5, MPSpecGET.OPEN_API.urlContent[0][1]);
             } else {
                 testWeb(urlBase + MPSpecGET.OPEN_API.urlContent[0][0], 5, MPSpecGET.OPEN_API.urlContent[0][1]);
@@ -511,6 +525,13 @@ public class TestMatrixTest {
     public void quarkusEmpty() throws IOException, InterruptedException {
         testRuntime("QUARKUS", "quarkus",
                 SpecSelection.EMPTY, new int[]{9990}, BuildTool.MAVEN);
+    }
+
+    @Test
+    @RunAsClient
+    public void quarkusAllGradle() throws IOException, InterruptedException {
+        testRuntime("QUARKUS", "quarkus",
+                SpecSelection.ALL, new int[]{9990, 8180, 10090}, BuildTool.GRADLE);
     }
 
     @Test
