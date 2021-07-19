@@ -236,10 +236,6 @@ public class TestMatrixTest {
         } else if (supportedServer.equalsIgnoreCase("WILDFLY")) {
             // Wildfly has a special port
             specialUrlBase = urlBase.replace(SupportedServer.WILDFLY.getPortServiceA(), "9990");
-        // Pertinent for Q 2.x+, also in index.html
-        //} else if (supportedServer.equalsIgnoreCase("QUARKUS")) {
-        //    // Quarkus prepends /q
-        //    specialUrlBase = urlBase + "q/";
         } else {
             specialUrlBase = urlBase;
         }
@@ -259,7 +255,7 @@ public class TestMatrixTest {
             testWeb(urlBase + MPSpecGET.METRICS.urlContent[0][0], 5, MPSpecGET.METRICS.urlContent[0][1]);
             testWeb(specialUrlBase + MPSpecGET.METRICS.urlContent[1][0], 10, MPSpecGET.METRICS.urlContent[1][1]);
             testWeb(urlBase + MPSpecGET.JWT_AUTH.urlContent[0][0], 5, MPSpecGET.JWT_AUTH.urlContent[0][1]);
-            if (supportedServer.equalsIgnoreCase("TOMEE") || supportedServer.equalsIgnoreCase("QUARKUS")) {
+            if (supportedServer.equalsIgnoreCase("TOMEE")) {
                 testWeb(specialUrlBase + MPSpecGET.OPEN_API.urlContent[0][0], 5, MPSpecGET.OPEN_API.urlContent[0][1]);
             } else {
                 testWeb(urlBase + MPSpecGET.OPEN_API.urlContent[0][0], 5, MPSpecGET.OPEN_API.urlContent[0][1]);
@@ -274,7 +270,7 @@ public class TestMatrixTest {
             testWeb(specialUrlBase + MPSpecGET.HEALTH_CHECKS.urlContent[0][0], 5, MPSpecGET.HEALTH_CHECKS.urlContent[0][1]);
             testWeb(urlBase + MPSpecGET.METRICS.urlContent[0][0], 5, MPSpecGET.METRICS.urlContent[0][1]);
             testWeb(specialUrlBase + MPSpecGET.METRICS.urlContent[1][0], 5, MPSpecGET.METRICS.urlContent[1][1]);
-            if (supportedServer.equalsIgnoreCase("TOMEE") || supportedServer.equalsIgnoreCase("QUARKUS")) {
+            if (supportedServer.equalsIgnoreCase("TOMEE")) {
                 testWeb(specialUrlBase + MPSpecGET.OPEN_API.urlContent[0][0], 5, MPSpecGET.OPEN_API.urlContent[0][1]);
             } else {
                 testWeb(urlBase + MPSpecGET.OPEN_API.urlContent[0][0], 5, MPSpecGET.OPEN_API.urlContent[0][1]);

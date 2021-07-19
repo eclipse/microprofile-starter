@@ -1,4 +1,4 @@
-name: MicroProfile Starter Tests
+name: Tests
 
 on:
   push:
@@ -31,7 +31,7 @@ env:
 
 jobs:
   run-starter:
-    name: MicroProfile Starter ${{ matrix.runtime }}
+    name: ${{ matrix.runtime }} MicroProfile Starter
     runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
@@ -69,14 +69,14 @@ jobs:
         check-latest: true
     - name: Build and run tests for Starter
       run: |
-        mvn clean verify -Pthorntail -Dtest=TestMatrixTest#${{ matrix.runtime }}*
+        mvn clean verify -Pthorntail -Dtest=TestMatrixTest#${{ matrix.runtime }}* -DSTARTER_TS_WORKSPACE=$RUNNER_TEMP
     - name: Prepare failure archive (if maven failed)
       if: failure()
       shell: bash
-      run: find . -type d -name '*-reports' -o -name "*.log" | tar -czf test-reports.tgz -T -
+      run: find . -type d -name '*-reports' -o -name "*.log" | tar -czf test-reports-${{ matrix.runtime }}.tgz -T -
     - name: Upload failure Archive (if maven failed)
       uses: actions/upload-artifact@v2
       if: failure()
       with:
-        name: test-reports
-        path: 'test-reports.tgz'
+        name: test-reports-${{ matrix.runtime }}
+        path: 'test-reports-${{ matrix.runtime }}.tgz'
