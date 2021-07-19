@@ -23,6 +23,7 @@
 package org.eclipse.microprofile.starter.core;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.starter.core.model.BuildTool;
 import org.eclipse.microprofile.starter.core.model.JavaSEVersion;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 
@@ -53,8 +54,14 @@ public class TemplateVariableProvider {
         result.put("secondary_project", model.hasMainAndSecondaryProject() ? "true" : "false");
 
         JavaSEVersion seVersion = model.getSpecification().getJavaSEVersion();
-        result.put("se_version", seVersion.getCode());
+        if (model.getSpecification().getBuildTool() == BuildTool.GRADLE) {
+            // Gradle:
+            // Good: sourceCompatibility = JavaVersion.VERSION_1_8
+            // No-good: sourceCompatibility = JavaVersion.VERSION_1.8
+            result.put("se_version", seVersion.getCode().replace(".", "_"));
+        } else {
+            result.put("se_version", seVersion.getCode());
+        }
         return result;
-
     }
 }

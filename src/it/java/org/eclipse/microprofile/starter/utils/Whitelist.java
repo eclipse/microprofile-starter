@@ -54,11 +54,20 @@ public enum Whitelist {
     }),
     TOMEE("tomee", new Pattern[]{}),
     QUARKUS("quarkus", new Pattern[]{
+            Pattern.compile(".*error_prone_annotations.*"),
+            Pattern.compile(".*error_prone_parent.*"),
             Pattern.compile(".*\\[org.jboss.threads.errors] Thread Thread\\[build.*"),
             Pattern.compile(".*org/jboss/threads/EnhancedQueueExecutor.*"),
+            // If there is nobody to receive traces, there is a log about it.
+            Pattern.compile(".*io.jaegertracing.internal.exceptions.SenderException.*"),
     }),
     WILDFLY("wildfly", new Pattern[]{
+            Pattern.compile(".*error_prone_annotations.*"),
+            Pattern.compile(".*error_prone_parent.*"),
             Pattern.compile(".*wildfly-domain-http-error-context.*"),
+            // Known warning, needs WF update
+            Pattern.compile(".*io/netty/util/internal/logging/Log4J2Logger.*"),
+            Pattern.compile(".*io.undertow.servlet.handlers.SendErrorPageHandler.*"),
     });
 
     public final String name;

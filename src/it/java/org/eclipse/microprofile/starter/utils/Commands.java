@@ -42,6 +42,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.eclipse.microprofile.starter.TestMatrixTest.API_URL;
 import static org.eclipse.microprofile.starter.TestMatrixTest.TMP;
@@ -54,6 +56,8 @@ public class Commands {
     private static final Logger LOGGER = Logger.getLogger(Commands.class.getName());
 
     private static final String STARTER_TS_WORKSPACE = "STARTER_TS_WORKSPACE";
+
+    private static final Pattern LINUX_PS_AUX_PID = Pattern.compile("\\w*\\s*(\\d*).*");
 
     public static String getWorkspaceDir() {
         String env = System.getenv().get(STARTER_TS_WORKSPACE);
@@ -197,11 +201,11 @@ public class Commands {
         }
     }
 
-    public static void windowsCmdCleaner(String artifactId) throws IOException, InterruptedException {
+    public static void windowsCmdCleaner(String appName) throws IOException, InterruptedException {
         List<Long> pidsToKill = new ArrayList<>(2);
         String[] wmicPIDcmd = new String[]{
                 "wmic", "process", "where", "(",
-                "commandline", "like", "\"%\\\\" + artifactId + "\\\\%\"", "and", "name", "=", "\"java.exe\"", "and",
+                "commandline", "like", "\"%\\\\" + appName + "\\\\%\"", "and", "name", "=", "\"java.exe\"", "and",
                 "not", "commandline", "like", "\"%wmic%\"", "and",
                 "not", "commandline", "like", "\"%maven%\"",
                 ")", "get", "Processid", "/format:list"};
@@ -225,6 +229,35 @@ public class Commands {
             LOGGER.warning("wmic didn't find any additional PIDs to kill.");
         } else {
             LOGGER.info(String.format("wmic found %d additional pids to kill", pidsToKill.size()));
+        }
+        pidsToKill.forEach(Commands::pidKiller);
+    }
+
+    public static void linuxCmdCleaner(String appName) throws IOException, InterruptedException {
+        List<Long> pidsToKill = new ArrayList<>(2);
+        ProcessBuilder pbA = new ProcessBuilder("ps", "aux");
+        pbA.redirectErrorStream(true);
+        Process p = pbA.start();
+        try (BufferedReader processOutputReader = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
+            String l;
+            while ((l = processOutputReader.readLine()) != null) {
+                if (l.contains(appName)) {
+                    Matcher m = LINUX_PS_AUX_PID.matcher(l);
+                    if (m.lookingAt()) {
+                        try {
+                            pidsToKill.add(Long.parseLong(m.group(1)));
+                        } catch (NumberFormatException ex) {
+                            //Silence is golden. We don't care about ps output glitches. This is a best effort.
+                        }
+                    }
+                }
+            }
+            p.waitFor();
+        }
+        if (pidsToKill.isEmpty()) {
+            LOGGER.warning("ps didn't find any additional PIDs to kill.");
+        } else {
+            LOGGER.info(String.format("ps found %d additional pids to kill", pidsToKill.size()));
         }
         pidsToKill.forEach(Commands::pidKiller);
     }

@@ -48,7 +48,7 @@ public class MetricController {
     }
 
     @Gauge(name = "counter_gauge", unit = MetricUnits.NONE)
-    private long getCustomerCount() {
+    long getCustomerCount() {
         return counter.getCount();
     }
 }

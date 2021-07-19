@@ -45,7 +45,8 @@
 
 [# th:if="${mp_open_tracing}"]
 <h3>Open Tracing</h3>
-If you have <pre>./jaeger-all-in-one</pre> running, open <a href="http://localhost:16686/">http://localhost:16686</a>
+If you have <pre>./jaeger-all-in-one</pre> running, open <a href="http://localhost:16686/">http://localhost:16686</a>. <br/>
+You can download <a href="https://www.jaegertracing.io/download/" target="_blank" >Jaeger</a> to try the tracing capability.
 [/]
 
 [# th:if="${mp_rest_client}"]

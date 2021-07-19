@@ -38,7 +38,6 @@ public class TestSecureController {
             throw new WebApplicationException("Unable to read privateKey.pem", 500);
         }
         String jwt = generateJWT(key);
-        // any method to send a REST request with an appropriate header will work of course.
         WebTarget target = ClientBuilder.newClient().target("http://localhost:[# th:text="${port_service_b}"/]/data/protected");
         Response response = target.request().header("authorization", "Bearer " + jwt).buildGet().invoke();
         return String.format("Claim value within JWT of 'custom-value' : %s", response.readEntity(String.class));
@@ -55,15 +54,11 @@ public class TestSecureController {
         token.setAud("targetService");
         token.setIss("https://server.example.com");  // Must match the expected issues configuration values
         token.setJti(UUID.randomUUID().toString());
-
         token.setSub("Jessie");  // Sub is required for WildFly Swarm
         token.setUpn("Jessie");
-
         token.setIat(System.currentTimeMillis());
         token.setExp(System.currentTimeMillis() + 30000); // 30 Seconds expiration!
-
         token.addAdditionalClaims("custom-value", "Jessie specific value");
-
         token.setGroups(Arrays.asList("user", "protected"));
 
         return provider.generateToken(new io.vertx.core.json.JsonObject().mergeIn(token.toJSONString()), new JWTOptions().setAlgorithm("RS256"));

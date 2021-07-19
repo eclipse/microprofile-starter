@@ -33,10 +33,10 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.HashSet;
 
 @ApplicationScoped
 public class HelidonServer extends AbstractMicroprofileAddon {
@@ -94,7 +94,7 @@ public class HelidonServer extends AbstractMicroprofileAddon {
             Set<String> tempAlternative = new HashSet<>(alternatives);
             tempAlternative.add(JessieModel.SECONDARY_INDICATOR);
             templateEngine.processTemplateFile(viewDirectory,
-                    "RestApplication.java",variables.get("application") + "RestApplication.java", tempAlternative, variables);
+                    "RestApplication.java", variables.get("application") + "RestApplication.java", tempAlternative, variables);
 
             String bResourcesDir = model.getDirectory(false) + "/" + MavenCreator.SRC_MAIN_RESOURCES;
             String bResourcesMETAINFDir = bResourcesDir + "/META-INF";

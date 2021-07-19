@@ -22,6 +22,7 @@
  */
 package org.eclipse.microprofile.starter.core.artifacts;
 
+import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
 import org.eclipse.microprofile.starter.core.addon.AddonManager;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 import org.eclipse.microprofile.starter.spi.JessieAddon;
@@ -35,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static org.eclipse.microprofile.starter.addon.microprofile.servers.MicroprofileServersAddon.VERTX_JWT_VERSION;
 import static org.eclipse.microprofile.starter.core.model.JessieModel.MAIN_INDICATOR;
 
 /**
@@ -65,7 +67,6 @@ public class GradleCreator extends BuildToolCreator {
         alternatives.add("gradle");  // So that files can be placed in a separate directory
 
         if (!mainProject) {
-
             alternatives.add(JessieModel.SECONDARY_INDICATOR);
         }
 
@@ -87,7 +88,11 @@ public class GradleCreator extends BuildToolCreator {
         } else {
             variables.put("mainProject", "false");
         }
+        if (variables.containsKey("mp_" + MicroprofileSpec.JWT_AUTH.getCode())) {
+            variables.put("vertx_auth_jwt_version", VERTX_JWT_VERSION);
+        }
         templateEngine.processTemplateFile(rootDirectory, "build.gradle", alternatives, variables);
+        templateEngine.processTemplateFile(rootDirectory, "gradle.properties", alternatives, variables);
         templateEngine.processTemplateFile(rootDirectory, "settings.gradle", alternatives, variables);
     }
 
