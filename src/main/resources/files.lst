@@ -13,6 +13,9 @@ src/main/resources/files/gradle/gradlew.tpl
 src/main/resources/files/gradle/helidon/build.gradle.tpl
 src/main/resources/files/gradle/liberty/build.gradle.tpl
 src/main/resources/files/gradle/payara-micro/build.gradle.tpl
+src/main/resources/files/gradle/quarkus/build.gradle.tpl
+src/main/resources/files/gradle/quarkus/gradle.properties.tpl
+src/main/resources/files/gradle/quarkus/settings.gradle.tpl
 src/main/resources/files/gradle/settings.gradle.tpl
 src/main/resources/files/helidon/logging.properties.tpl
 src/main/resources/files/helidon/microprofile-config.properties.tpl

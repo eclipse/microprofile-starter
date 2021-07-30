@@ -1,4 +1,4 @@
-name: MicroProfile Starter Tests
+name: Tests
 
 on:
   push:
@@ -27,50 +27,56 @@ on:
 
 env:
   LANG: en_US.UTF-8
-  JAVA_HOME: ${{ github.workspace }}/openjdk
-  
+  GRADLE_USER_HOME: ~/.gradle
+
 jobs:
   run-starter:
-    name: MicroProfile Starter build and test - ${{ matrix.jdk }}
-    runs-on: ubuntu-18.04
+    name: ${{ matrix.runtime }} MicroProfile Starter
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       matrix:
-        jdk: ['OpenJDK11-latest-GA']
-        include:
-          - jdk: 'OpenJDK11-latest-GA'
-            release_type: 'ga'
+        runtime: [ 'helidon',
+                   'kumuluzee',
+                   'liberty',
+                   'payara',
+                   'quarkus',
+                   'thorntail',
+                   'tomee',
+                   'wildfly' ]
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
       with:
         fetch-depth: 1
-        path: starter
-    - uses: actions/cache@v1
+    - uses: actions/cache@v2
       with:
         path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        key: ${{ runner.os }}-${{ matrix.runtime }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
-          ${{ runner.os }}-maven-
-    - name: Get OpenJDK 11
-      run: |
-        curl -sL https://api.adoptopenjdk.net/v3/binary/latest/11/${{ matrix.release_type }}/linux/x64/jdk/hotspot/normal/openjdk -o jdk.tar.gz
-        mkdir -p ${JAVA_HOME}
-        tar xf jdk.tar.gz -C ${JAVA_HOME} --strip-components=1
-        echo ${JAVA_HOME}
-        ${JAVA_HOME}/bin/java --version
+          ${{ runner.os }}-${{ matrix.runtime }}-maven-
+    - uses: actions/cache@v2
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-${{ matrix.runtime }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-${{ matrix.runtime }}-gradle-
+    - uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: '11'
+        check-latest: true
     - name: Build and run tests for Starter
       run: |
-        cd ${{ github.workspace }}
-        export PATH=${JAVA_HOME}/bin:${PATH}
-        mvn clean verify -Pthorntail
+        mvn clean verify -Pthorntail -Dtest=TestMatrixTest#${{ matrix.runtime }}* -DSTARTER_TS_WORKSPACE=$RUNNER_TEMP
     - name: Prepare failure archive (if maven failed)
       if: failure()
       shell: bash
-      run: find . -type d -name '*-reports' -o -wholename '*/build/reports/tests/functionalTest' -o -name "*.log" | tar -czf test-reports.tgz -T -
+      run: find . -type d -name '*-reports' -o -name "*.log" | tar -czf test-reports-${{ matrix.runtime }}.tgz -T -
     - name: Upload failure Archive (if maven failed)
       uses: actions/upload-artifact@v2
       if: failure()
       with:
-        name: test-reports
-        path: 'test-reports.tgz'
- 
+        name: test-reports-${{ matrix.runtime }}
+        path: 'test-reports-${{ matrix.runtime }}.tgz'

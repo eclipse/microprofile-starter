@@ -48,9 +48,12 @@ import java.util.logging.Logger;
 import static org.eclipse.microprofile.starter.utils.Commands.cleanWorkspace;
 import static org.eclipse.microprofile.starter.utils.Commands.download;
 import static org.eclipse.microprofile.starter.utils.Commands.getWorkspaceDir;
+import static org.eclipse.microprofile.starter.utils.Commands.isThisWindows;
+import static org.eclipse.microprofile.starter.utils.Commands.linuxCmdCleaner;
 import static org.eclipse.microprofile.starter.utils.Commands.processStopper;
 import static org.eclipse.microprofile.starter.utils.Commands.runCommand;
 import static org.eclipse.microprofile.starter.utils.Commands.unzip;
+import static org.eclipse.microprofile.starter.utils.Commands.windowsCmdCleaner;
 import static org.eclipse.microprofile.starter.utils.Logs.archiveLog;
 import static org.eclipse.microprofile.starter.utils.Logs.checkLog;
 import static org.eclipse.microprofile.starter.utils.ReadmeParser.parseReadme;
@@ -178,6 +181,13 @@ public class TestMatrixTest {
                     Commands.runCommand(new String[]{"./gradlew", "libertyStop"}, directoryB, runLogB);
                 }
             }
+            if (buildTool == BuildTool.GRADLE && supportedServer.equalsIgnoreCase("LIBERTY")) {
+                if (isThisWindows()) {
+                    windowsCmdCleaner("defaultServer");
+                } else {
+                    linuxCmdCleaner("defaultServer");
+                }
+            }
 
             checkLog(this.getClass().getCanonicalName(), testName.getMethodName(), "Runtime log", runLogA);
             if (specSelection.hasServiceB) {
@@ -186,11 +196,11 @@ public class TestMatrixTest {
             LOGGER.info("Gonna wait for ports closed...");
             // Release ports
             assertTrue("Main ports are still open",
-                    Commands.waitForTcpClosed("localhost", Commands.parsePort(urlBase), 60));
+                    Commands.waitForTcpClosed("localhost", Commands.parsePort(urlBase), 90));
             if (additionalPortsToCheck != null) {
                 for (int port : additionalPortsToCheck) {
                     assertTrue("Ports are still open",
-                            Commands.waitForTcpClosed("localhost", port, 30));
+                            Commands.waitForTcpClosed("localhost", port, 60));
                 }
             }
         } finally {
@@ -511,6 +521,13 @@ public class TestMatrixTest {
     public void quarkusEmpty() throws IOException, InterruptedException {
         testRuntime("QUARKUS", "quarkus",
                 SpecSelection.EMPTY, new int[]{9990}, BuildTool.MAVEN);
+    }
+
+    @Test
+    @RunAsClient
+    public void quarkusAllGradle() throws IOException, InterruptedException {
+        testRuntime("QUARKUS", "quarkus",
+                SpecSelection.ALL, new int[]{9990, 8180, 10090}, BuildTool.GRADLE);
     }
 
     @Test
