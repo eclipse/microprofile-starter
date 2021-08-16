@@ -21,6 +21,7 @@ package org.eclipse.microprofile.starter.rest.model;
 
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.StandaloneMPSpec;
+import org.eclipse.microprofile.starter.core.model.BuildTool;
 import org.eclipse.microprofile.starter.core.model.JavaSEVersion;
 import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
 
@@ -35,14 +36,26 @@ public class ServerOptions {
     public final MicroProfileVersion mpVersion;
     public final List<String> mpSpecs;
     public final List<JavaSEVersion> javaSEVersions;
+    public final List<String> buildTools;
 
     public ServerOptions(MicroProfileVersion mpVersion,
                          List<MicroprofileSpec> mpSpecs,
+                         List<BuildTool> buildTools,
                          List<StandaloneMPSpec> mpStandaloneSpecs,
                          List<JavaSEVersion> javaSEVersions) {
         this.mpVersion = mpVersion;
         this.mpSpecs =  mpSpecs.stream().map(spec -> spec.getCode().toUpperCase()).collect(Collectors.toList());
+        this.buildTools = buildTools.stream().map(Enum::name).collect(Collectors.toList());
         this.mpSpecs.addAll(mpStandaloneSpecs.stream().map(spec -> spec.getCode().toUpperCase()).collect(Collectors.toList()));
+        this.javaSEVersions = javaSEVersions;
+    }
+
+    public ServerOptions(MicroProfileVersion mpVersion,
+                         List<String> mpSpecs,
+                         List<JavaSEVersion> javaSEVersions) {
+        this.mpVersion = mpVersion;
+        this.mpSpecs =  mpSpecs;
+        this.buildTools = null;
         this.javaSEVersions = javaSEVersions;
     }
 }
