@@ -25,7 +25,7 @@ The latest mpVersion with no specs but the basic hello world JAX-RS endpoint is 
 
 # Versions
 
-There are currently 3 versions of the API to retain backward compatibility. ```/api/``` is the latest;
+There are currently 6 versions of the API to retain backward compatibility. ```/api/``` is the latest;
 use e.g. ```/api/1/``` to get the legacy behaviour.
 
 # Get available MicroProfile versions
@@ -281,6 +281,8 @@ PS C:\> Invoke-WebRequest -InFile ./all.json -OutFile project.zip -Method Post -
 If it is preferred to acquire all valid options in a one request the ```supportMatrix``` call is recommended.
 The integration code [SHOULD](https://tools.ietf.org/html/rfc2119) use [Etag](https://tools.ietf.org/html/rfc7232#section-2.3) response header
 and [If-None-Match](https://tools.ietf.org/html/rfc7232#section-3.2) request header so as to avoid unnecessary deserialization of identical responses.
+
+The ```supportMatrix/servers``` endpoint returns the support for a Build Tool (Maven and or Gradle) for each MP version and runtime combination.
 
 ## MicroProfile versions as keys
 

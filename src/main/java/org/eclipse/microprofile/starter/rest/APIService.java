@@ -120,7 +120,8 @@ public class APIService {
 
                 List<JavaSEVersion> supportedJavaVersions = selector.getSupportedVersion(s, mpv);
                 List<StandaloneMPSpec> mpStandaloneSpecs = defineStandaloneSpecs(mpv, s);
-                serverOptions.add(new ServerOptions(mpv, mpSpec, mpStandaloneSpecs, supportedJavaVersions));
+                List<BuildTool> buildTools = defineBuildTools(s);
+                serverOptions.add(new ServerOptions(mpv, mpSpec, buildTools, mpStandaloneSpecs, supportedJavaVersions));
             });
             serversToOptions.put(s, serverOptions);
         }
@@ -133,6 +134,15 @@ public class APIService {
         } catch (Exception e) {
             LOG.log(Level.SEVERE, e.getMessage());
         }
+    }
+
+    private List<BuildTool> defineBuildTools(SupportedServer supportedServer) {
+        List<BuildTool> result = new ArrayList<>();
+        result.add(BuildTool.MAVEN);
+        if (supportedServer.hasGradleSupport()) {
+            result.add(BuildTool.GRADLE);
+        }
+        return result;
     }
 
     private List<StandaloneMPSpec> defineStandaloneSpecs(MicroProfileVersion version, SupportedServer supportedServer) {
@@ -260,6 +270,30 @@ public class APIService {
         }
         Map<String, Map> serversAndSpecsDescriptions = new HashMap<>(2);
         serversAndSpecsDescriptions.put("configs", transformToLegacy());
+        serversAndSpecsDescriptions.put("descriptions", specsDescriptions);
+
+        return Response.ok(serversAndSpecsDescriptions, MediaType.APPLICATION_JSON_TYPE).tag(serversToOptionsEtag).build();
+    }
+
+    public Response supportMatrixServersv6(String ifNoneMatch) {
+        if (ifNoneMatch != null) {
+            if (serversToOptionsEtag.toString().equals(ifNoneMatch)) {
+                return Response.notModified().build();
+            }
+        }
+        List<SupportedServer> servers = new ArrayList<>(serversToOptions.keySet());
+        Collections.shuffle(servers);
+        Map<SupportedServer, List<ServerOptions>> rndServersToOptions = new LinkedHashMap<>(servers.size());
+        for (SupportedServer s : servers) {
+            List<ServerOptions> options = serversToOptions.get(s);
+            // Without the buildTool
+            List<ServerOptions> newOptions = options.stream()
+                    .map(se -> new ServerOptions(se.mpVersion, se.mpSpecs, se.javaSEVersions))
+                    .collect(Collectors.toList());
+            rndServersToOptions.put(s, newOptions);
+        }
+        Map<String, Map> serversAndSpecsDescriptions = new HashMap<>(2);
+        serversAndSpecsDescriptions.put("configs", rndServersToOptions);
         serversAndSpecsDescriptions.put("descriptions", specsDescriptions);
 
         return Response.ok(serversAndSpecsDescriptions, MediaType.APPLICATION_JSON_TYPE).tag(serversToOptionsEtag).build();
