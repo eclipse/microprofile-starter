@@ -71,4 +71,13 @@ public class APIEndpointV2 extends APIEndpointLatest {
     public Response projectPost(@HeaderParam(HttpHeaders.IF_NONE_MATCH) String ifNoneMatch, @NotNull Project body) {
         return api.getProjectV1(ifNoneMatch, body);
     }
+
+    // The same as V3
+    @Path("/supportMatrix/servers")
+    @GET
+    @Produces({"application/json"})
+    @Override
+    public Response supportMatrixServers(@HeaderParam(HttpHeaders.IF_NONE_MATCH) String ifNoneMatch) {
+        return api.supportMatrixServersV3(ifNoneMatch);
+    }
 }

@@ -19,34 +19,25 @@
  */
 package org.eclipse.microprofile.starter.rest.model;
 
-import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
-import org.eclipse.microprofile.starter.addon.microprofile.servers.model.StandaloneMPSpec;
-import org.eclipse.microprofile.starter.core.model.BuildTool;
 import org.eclipse.microprofile.starter.core.model.JavaSEVersion;
 import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Michal Karm Babacek <karm@redhat.com>
  */
-public class ServerOptions {
+public class ServerOptionsV5 {
 
     public final MicroProfileVersion mpVersion;
     public final List<String> mpSpecs;
     public final List<JavaSEVersion> javaSEVersions;
-    public final List<String> buildTools;
 
-    public ServerOptions(MicroProfileVersion mpVersion,
-                         List<MicroprofileSpec> mpSpecs,
-                         List<BuildTool> buildTools,
-                         List<StandaloneMPSpec> mpStandaloneSpecs,
-                         List<JavaSEVersion> javaSEVersions) {
+    public ServerOptionsV5(MicroProfileVersion mpVersion,
+                           List<String> mpSpecs,
+                           List<JavaSEVersion> javaSEVersions) {
         this.mpVersion = mpVersion;
-        this.mpSpecs = mpSpecs.stream().map(spec -> spec.getCode().toUpperCase()).collect(Collectors.toList());
-        this.buildTools = buildTools.stream().map(Enum::name).collect(Collectors.toList());
-        this.mpSpecs.addAll(mpStandaloneSpecs.stream().map(spec -> spec.getCode().toUpperCase()).collect(Collectors.toList()));
+        this.mpSpecs = mpSpecs;
         this.javaSEVersions = javaSEVersions;
     }
 }
