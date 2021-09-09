@@ -45,12 +45,16 @@ import static org.junit.Assert.assertTrue;
  */
 @RunWith(Arquillian.class)
 @DefaultDeployment(type = DefaultDeployment.Type.WAR)
-public class APITest {
+    public class APITest {
 
     public static final String API_URL = "http://127.0.0.1:9090/api";
     final Client client = ClientBuilder.newBuilder().build();
 
     private WebTarget target;
+    private File v6Matrix;
+    private File v6MatrixServers;
+    private File v5Matrix;
+    private File v5MatrixServers;
     private File v4Matrix;
     private File v4MatrixServers;
     private File v3Matrix;
@@ -59,6 +63,10 @@ public class APITest {
     @Before
     public void before() {
         target = client.target(API_URL);
+        v6Matrix = new File(getClass().getClassLoader().getResource("json_examples/v6/supportMatrix.json.segments").getFile());
+        v6MatrixServers = new File(getClass().getClassLoader().getResource("json_examples/v6/supportMatrix_servers.json.segments").getFile());
+        v5Matrix = new File(getClass().getClassLoader().getResource("json_examples/v5/supportMatrix.json.segments").getFile());
+        v5MatrixServers = new File(getClass().getClassLoader().getResource("json_examples/v5/supportMatrix_servers.json.segments").getFile());
         v4Matrix = new File(getClass().getClassLoader().getResource("json_examples/v4/supportMatrix.json.segments").getFile());
         v4MatrixServers = new File(getClass().getClassLoader().getResource("json_examples/v4/supportMatrix_servers.json.segments").getFile());
         v3Matrix = new File(getClass().getClassLoader().getResource("json_examples/v3/supportMatrix.json.segments").getFile());
@@ -79,6 +87,10 @@ public class APITest {
     @Test
     @RunAsClient
     public void supportMatrix() throws FileNotFoundException {
+        test(v6Matrix, "/6/supportMatrix");
+        test(v6MatrixServers, "/6/supportMatrix/servers");
+        test(v5Matrix, "/5/supportMatrix");
+        test(v5MatrixServers, "/5/supportMatrix/servers");
         test(v4Matrix, "/4/supportMatrix");
         test(v4MatrixServers, "/4/supportMatrix/servers");
         test(v3Matrix, "/3/supportMatrix");

@@ -24,15 +24,15 @@ import org.eclipse.microprofile.starter.Version;
 import org.eclipse.microprofile.starter.ZipFileCreator;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.JDKSelector;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
-import org.eclipse.microprofile.starter.addon.microprofile.servers.model.StandaloneMPSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.ServerMPVersion;
+import org.eclipse.microprofile.starter.addon.microprofile.servers.model.StandaloneMPSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
 import org.eclipse.microprofile.starter.core.artifacts.Creator;
 import org.eclipse.microprofile.starter.core.files.FilesLocator;
 import org.eclipse.microprofile.starter.core.model.BeansXMLMode;
+import org.eclipse.microprofile.starter.core.model.BuildTool;
 import org.eclipse.microprofile.starter.core.model.JavaSEVersion;
 import org.eclipse.microprofile.starter.core.model.JessieMaven;
-import org.eclipse.microprofile.starter.core.model.BuildTool;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 import org.eclipse.microprofile.starter.core.model.JessieSpecification;
 import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
@@ -44,6 +44,7 @@ import org.eclipse.microprofile.starter.log.LoggingTask;
 import org.eclipse.microprofile.starter.rest.model.MPOptionsAvailable;
 import org.eclipse.microprofile.starter.rest.model.Project;
 import org.eclipse.microprofile.starter.rest.model.ServerOptions;
+import org.eclipse.microprofile.starter.rest.model.ServerOptionsV5;
 import org.eclipse.microprofile.starter.view.EngineData;
 
 import javax.annotation.PostConstruct;
@@ -54,7 +55,14 @@ import javax.inject.Inject;
 import javax.ws.rs.core.EntityTag;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -117,7 +125,6 @@ public class APIService {
             s.getMpVersions().forEach(mpv -> {
                 List<MicroprofileSpec> mpSpec = Stream.of(MicroprofileSpec.values())
                         .filter(v -> v.getMpVersions().contains(mpv)).collect(Collectors.toList());
-
                 List<JavaSEVersion> supportedJavaVersions = selector.getSupportedVersion(s, mpv);
                 List<StandaloneMPSpec> mpStandaloneSpecs = defineStandaloneSpecs(mpv, s);
                 List<BuildTool> buildTools = defineBuildTools(s);
@@ -275,7 +282,7 @@ public class APIService {
         return Response.ok(serversAndSpecsDescriptions, MediaType.APPLICATION_JSON_TYPE).tag(serversToOptionsEtag).build();
     }
 
-    public Response supportMatrixServersv6(String ifNoneMatch) {
+    public Response supportMatrixServersV5(String ifNoneMatch) {
         if (ifNoneMatch != null) {
             if (serversToOptionsEtag.toString().equals(ifNoneMatch)) {
                 return Response.notModified().build();
@@ -283,12 +290,12 @@ public class APIService {
         }
         List<SupportedServer> servers = new ArrayList<>(serversToOptions.keySet());
         Collections.shuffle(servers);
-        Map<SupportedServer, List<ServerOptions>> rndServersToOptions = new LinkedHashMap<>(servers.size());
+        Map<SupportedServer, List<ServerOptionsV5>> rndServersToOptions = new LinkedHashMap<>(servers.size());
         for (SupportedServer s : servers) {
             List<ServerOptions> options = serversToOptions.get(s);
             // Without the buildTool
-            List<ServerOptions> newOptions = options.stream()
-                    .map(se -> new ServerOptions(se.mpVersion, se.mpSpecs, se.javaSEVersions))
+            List<ServerOptionsV5> newOptions = options.stream()
+                    .map(se -> new ServerOptionsV5(se.mpVersion, se.mpSpecs, se.javaSEVersions))
                     .collect(Collectors.toList());
             rndServersToOptions.put(s, newOptions);
         }
@@ -345,6 +352,29 @@ public class APIService {
     public Response getProjectV1(String ifNoneMatch, Project body) {
         setDefaultsV1(body);
         return processProject(ifNoneMatch, body);
+    }
+
+    public Response getProjectV5(String ifNoneMatch,
+                                 SupportedServer supportedServer,
+                                 String groupId, String artifactId,
+                                 MicroProfileVersion mpVersion,
+                                 JavaSEVersion javaSEVersion,
+                                 List<String> selectedSpecCodes,
+                                 boolean selectAllSpecs) {
+
+        Project project = new Project();
+        project.setSupportedServer(supportedServer);
+        project.setGroupId(groupId);
+        project.setBuildTool(BuildTool.MAVEN);
+        project.setArtifactId(artifactId);
+        project.setMpVersion(mpVersion);
+        project.setJavaSEVersion(javaSEVersion);
+        project.setSelectedSpecs(selectedSpecCodes);
+        project.setSelectAllSpecs(selectAllSpecs);
+
+        setDefaults(project);
+
+        return processProject(ifNoneMatch, project);
     }
 
     public Response getProject(String ifNoneMatch,

@@ -19,30 +19,12 @@
  */
 package org.eclipse.microprofile.starter.rest;
 
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
 
 /**
  *
  */
 @Path("/6")
 public class APIEndpointV6 extends APIEndpointLatest {
-
-    @Inject
-    private APIService api;
-
-    @Path("/supportMatrix/servers")
-    @GET
-    @Produces({"application/json"})
-    public Response supportMatrixServers(@HeaderParam(HttpHeaders.IF_NONE_MATCH) String ifNoneMatch) {
-        return api.supportMatrixServersv6(ifNoneMatch);
-    }
-
-
-
+    // The current latest version
 }
