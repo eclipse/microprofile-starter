@@ -56,8 +56,14 @@ jobs:
           distribution: 'adopt'
           java-version: '11'
           check-latest: true
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4.2
+        with:
+          maven-version: 3.6.3
       - name: Build and run tests for Starter
         run: |
+          mvn --version
+          java --version
           mvn clean verify -Pthorntail -Dtest=APITest -DSTARTER_TS_WORKSPACE=$RUNNER_TEMP
       - name: Prepare failure archive (if maven failed)
         if: failure()
@@ -106,8 +112,14 @@ jobs:
         distribution: 'adopt'
         java-version: '11'
         check-latest: true
+    - name: Set up Maven
+      uses: stCarolas/setup-maven@v4.2
+      with:
+        maven-version: 3.6.3
     - name: Build and run tests for Starter
       run: |
+        mvn --version
+        java --version
         mvn clean verify -Pthorntail -Dtest=TestMatrixTest#${{ matrix.runtime }}* -DSTARTER_TS_WORKSPACE=$RUNNER_TEMP
     - name: Prepare failure archive (if maven failed)
       if: failure()
