@@ -4,7 +4,7 @@ Building an image and running a container
 Development workflow
 ====================
 
-Locally without Docker
+Locally without Docker on Thorntail
 ----------------------
 
 ```
@@ -14,9 +14,17 @@ mvn thorntail:run -Pthorntail
 
 Navigate to 127.0.0.1:8080 or http://127.0.0.1:8080/index.xhtml to see the app.
 
-It is also possible to build and deploy to Open Liberty using the Liberty profile. To build the MP Starter
-app, use: `mvn package liberty:run -Pliberty ` and then browse to http://localhost:9080/mp-starter/ to test
-the app.
+Locally without Docker on Open Liberty
+----------------------
+
+Build and deploy to Open Liberty using the Liberty profile. To build the MP Starter app, use: 
+
+```
+mvn package liberty:run -Pliberty
+
+```
+
+Natigate to http://localhost:9080/mp-starter/ to test the app.
 
 Docker build
 ------------
