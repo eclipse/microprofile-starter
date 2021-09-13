@@ -78,7 +78,7 @@ public enum MicroprofileSpec {
                     MicroProfileVersion.MP21, MicroProfileVersion.MP22,
                     MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33,
                     MicroProfileVersion.MP40))
-    , REST_CLIENT("rest_client", "TypeSafe Rest Client",
+    , REST_CLIENT("rest_client", "Rest Client",
             "Rest Client - Invoke RESTful services in a type-safe manner",
             "https://github.com/eclipse/microprofile-rest-client/releases/tag/%s",
             Arrays.asList(MicroProfileVersion.MP13, MicroProfileVersion.MP14, MicroProfileVersion.MP20,
