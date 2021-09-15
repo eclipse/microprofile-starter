@@ -377,6 +377,13 @@
             <build>
                 <plugins>
                     <plugin>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>3.3.1</version>
+                        <configuration>
+                            <failOnMissingWebXml>false</failOnMissingWebXml>
+                        </configuration>
+                    </plugin>
+                    <plugin>
                         <groupId>io.openliberty.tools</groupId>
                         <artifactId>liberty-maven-plugin</artifactId>
                         <version>${openliberty.maven.version}</version>
