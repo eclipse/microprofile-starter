@@ -72,7 +72,7 @@ public class GradleCreator extends BuildToolCreator {
 
         String rootDirectory = model.getDirectory(mainProject);
         templateEngine.processFile(rootDirectory, "gradlew", alternatives, true);
-        templateEngine.processFile(rootDirectory, "gradlew.bat", alternatives, true);
+        templateEngine.processFile(rootDirectory, "gradlew.bat", alternatives, false);
 
         String gradleWrapperDirectory = rootDirectory + "/gradle/wrapper";
         directoryCreator.createDirectory(gradleWrapperDirectory);
