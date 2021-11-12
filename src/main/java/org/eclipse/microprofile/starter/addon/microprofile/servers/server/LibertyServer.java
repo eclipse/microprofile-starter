@@ -88,7 +88,7 @@ public class LibertyServer extends AbstractMicroprofileAddon {
 
     @Override
     public void adaptMavenModel(Model pomFile, JessieModel model, boolean mainProject) {
-        String openLibertyMavenVersion = "3.3.4";
+        String openLibertyMavenVersion = "3.5";
         pomFile.addProperty("openliberty.maven.version", openLibertyMavenVersion);
 
     }
