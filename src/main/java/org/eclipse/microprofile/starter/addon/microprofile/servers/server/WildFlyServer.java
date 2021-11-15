@@ -142,6 +142,8 @@ public class WildFlyServer extends AbstractMicroprofileAddon {
         switch (model.getSpecification().getMicroProfileVersion()) {
             case NONE:
                 break;
+            case MP41:
+                return "25.0.0.Final";
             case MP40:
                 return "23.0.2.Final";
             case MP33:

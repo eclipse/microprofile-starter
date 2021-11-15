@@ -43,7 +43,7 @@ public class JDKSelector {
         fillJavaSEVersion(data, SupportedServer.THORNTAIL_V2, JavaSEVersion.SE8, null, null);  // Supported for all MPVersions
         fillJavaSEVersion(data, SupportedServer.THORNTAIL_V2, JavaSEVersion.SE11, MicroProfileVersion.MP22, null);  // Supported from MP 2.2
 
-        fillJavaSEVersion(data, SupportedServer.QUARKUS, JavaSEVersion.SE8, null, null);  // Supported for all MPVersions
+        fillJavaSEVersion(data, SupportedServer.QUARKUS, JavaSEVersion.SE8, null, MicroProfileVersion.MP40);  // Supported until MP 4.1
         fillJavaSEVersion(data, SupportedServer.QUARKUS, JavaSEVersion.SE11,  MicroProfileVersion.MP32, null);  // Supported from MP 3.2
 
         fillJavaSEVersion(data, SupportedServer.WILDFLY, JavaSEVersion.SE8, null, null);  // Supported for all MPVersions
