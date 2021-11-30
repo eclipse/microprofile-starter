@@ -48,7 +48,7 @@ public enum SupportedServer {
             ,"https://thorntail.io/"
             , false)  // GradleSupport
     , QUARKUS("quarkus", "Quarkus",
-            Arrays.asList(MicroProfileVersion.MP32, MicroProfileVersion.MP41)
+            Collections.singletonList(MicroProfileVersion.MP32)
             , "%s-runner.jar" //jarFileName
             , "-Dquarkus.http.port=8180" //jarParameters; these are env props, e.g. java -D... or mvn -D...
             , "8080" //portServiceA
