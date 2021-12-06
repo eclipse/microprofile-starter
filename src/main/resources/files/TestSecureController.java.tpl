@@ -7,6 +7,7 @@ import io.vertx.ext.auth.jwt.JWTAuthOptions;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.WebApplicationException;
@@ -19,12 +20,14 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.UUID;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @Path("/secured")
 @ApplicationScoped
 public class TestSecureController {
 
     private String key;
+    @Inject @ConfigProperty(name="serviceb.url") String serviceB;
 
     @PostConstruct
     public void init() {
@@ -38,7 +41,7 @@ public class TestSecureController {
             throw new WebApplicationException("Unable to read privateKey.pem", 500);
         }
         String jwt = generateJWT(key);
-        WebTarget target = ClientBuilder.newClient().target("http://localhost:[# th:text="${port_service_b}"/]/data/protected");
+        WebTarget target = ClientBuilder.newClient().target(serviceB);
         Response response = target.request().header("authorization", "Bearer " + jwt).buildGet().invoke();
         return String.format("Claim value within JWT of 'custom-value' : %s", response.readEntity(String.class));
     }
