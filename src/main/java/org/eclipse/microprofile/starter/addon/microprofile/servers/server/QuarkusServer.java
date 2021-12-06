@@ -128,6 +128,8 @@ public class QuarkusServer extends AbstractMicroprofileAddon {
         switch (model.getSpecification().getMicroProfileVersion()) {
             case NONE:
                 break;
+            case MP41:
+                return "2.2.3.Final";
             case MP40:
                 break;
             case MP33:

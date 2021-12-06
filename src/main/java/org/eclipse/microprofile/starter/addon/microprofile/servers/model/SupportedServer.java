@@ -56,7 +56,8 @@ public enum SupportedServer {
             , "https://quarkus.io/"
             , true)  // GradleSupport
     , WILDFLY("wildfly", "WildFly",
-            Arrays.asList(MicroProfileVersion.MP32, MicroProfileVersion.MP33, MicroProfileVersion.MP40)
+            Arrays.asList(MicroProfileVersion.MP32, MicroProfileVersion.MP33, MicroProfileVersion.MP40
+                    , MicroProfileVersion.MP41)
             , "%s-bootable.jar" //jarFileName
             , "-Djboss.socket.binding.port-offset=100" //jarParameters
             , "8080" //portServiceA
@@ -67,7 +68,7 @@ public enum SupportedServer {
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22,
                     MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33,
-                    MicroProfileVersion.MP40)
+                    MicroProfileVersion.MP40, MicroProfileVersion.MP41)
             , "%s.jar" //jarFileName
             , "" //jarParameters // Hard coded in server.xml since no way of overriding a default.
             , "9080" //portServiceA

@@ -41,6 +41,8 @@ src/main/resources/files/microprofile-config.properties.tpl
 src/main/resources/files/mp3_x/index.html.tpl
 src/main/resources/files/mp3_x/ServiceLiveHealthCheck.java.tpl
 src/main/resources/files/mp3_x/ServiceReadyHealthCheck.java.tpl
+src/main/resources/files/mp4_1/index.html.tpl
+src/main/resources/files/mp4_1/ServiceStartupHealthCheck.java.tpl
 src/main/resources/files/MPJWTToken.java.tpl
 src/main/resources/files/payara-micro/payara-mp-jwt.properties.tpl
 src/main/resources/files/payara-micro/RestApplication.java.tpl
