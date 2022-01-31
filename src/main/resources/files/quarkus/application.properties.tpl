@@ -7,6 +7,7 @@ quarkus.package.output-name=[# th:text="${maven_artifactid}"/]
 quarkus.ssl.native=true
 [# th:if="${mp_JWT_auth}"]
 quarkus.smallrye-jwt.enabled=false
+serviceb.url=http://localhost:[# th:text="${port_service_b}"/]/data/protected
 [/]
 [# th:if="${mp_open_tracing}"]
 quarkus.jaeger.service-name=Demo-Service-A
