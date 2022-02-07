@@ -1,5 +1,8 @@
 package [# th:text="${java_package}"/];
 
+[# th:if="${mp_open_API}"]
+import [# th:text="${java_package}"/].openapi.BookingController;
+[/]
 [# th:if="${mp_config}"]
 import [# th:text="${java_package}"/].config.ConfigTestController;
 [/]
@@ -35,6 +38,9 @@ public class [# th:text="${application}"/]RestApplication extends Application {
 
         // resources
         classes.add(HelloController.class);
+        [# th:if="${mp_open_API}"]
+        classes.add(BookingController.class);
+        [/]
         [# th:if="${mp_config}"]
         classes.add(ConfigTestController.class);
         [/]
