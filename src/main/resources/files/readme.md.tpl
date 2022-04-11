@@ -22,6 +22,8 @@ This will create an executable jar file **[# th:text="${jar_file}"/]** within th
     ./gradlew assemble
 [/]
 
+Use gradlew.bat on Windows.
+
 This will create an executable jar file **[# th:text="${jar_file}"/]** within the _build/libs_ gradle folder. This can be started by executing the following command
 
 [# th:if="${mp_servername} == 'payara-micro'"]

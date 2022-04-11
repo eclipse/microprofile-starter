@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -30,7 +30,7 @@ public class PackageNameValidator {
 
     public static final String VALID_REGEX = "^(?:\\w+|\\w+[\\.-]\\w+)+$";
     public static final int MAX_LENGTH = 200;
-    private Pattern pattern = Pattern.compile(VALID_REGEX, Pattern.CASE_INSENSITIVE);
+    private final Pattern pattern = Pattern.compile(VALID_REGEX, Pattern.CASE_INSENSITIVE);
 
     public boolean isValidPackageName(String name) {
         return name.length() < MAX_LENGTH && pattern.matcher(name).matches();

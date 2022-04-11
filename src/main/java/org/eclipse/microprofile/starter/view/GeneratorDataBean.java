@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -22,6 +22,7 @@
  */
 package org.eclipse.microprofile.starter.view;
 
+import org.eclipse.microprofile.context.ManagedExecutor;
 import org.eclipse.microprofile.starter.Version;
 import org.eclipse.microprofile.starter.ZipFileCreator;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.JDKSelector;
@@ -45,8 +46,6 @@ import org.eclipse.microprofile.starter.log.ErrorLogger;
 import org.eclipse.microprofile.starter.log.LoggingTask;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.enterprise.concurrent.ManagedExecutorService;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -72,25 +71,25 @@ import java.util.stream.IntStream;
 public class GeneratorDataBean implements Serializable {
 
     @Inject
-    private JDKSelector jdkSelector;
+    JDKSelector jdkSelector;
 
     @Inject
-    private ModelManager modelManager;
+    ModelManager modelManager;
 
     @Inject
-    private Creator creator;
+    Creator creator;
 
     @Inject
-    private ZipFileCreator zipFileCreator;
+    ZipFileCreator zipFileCreator;
 
     @Inject
-    private Version version;
+    Version version;
 
     @Inject
-    private ErrorLogger errorLogger;
+    ErrorLogger errorLogger;
 
-    @Resource
-    private ManagedExecutorService managedExecutorService;
+    @Inject
+    ManagedExecutor executor;
 
     private EngineData engineData;
 
@@ -210,7 +209,7 @@ public class GeneratorDataBean implements Serializable {
         boolean result = false;
         for (ServerMPVersion serverRestriction : serverRestrictions) {
             if (serverRestriction.getMinimalMPVersion() == null) {
-                result = true;  // When runtime has no MP version restriction, show it always.
+                result = true;  // When runtime has no MP version restriction, always show it.
             } else {
                 if (microProfileVersion != null && serverRestriction.getMinimalMPVersion().ordinal() > microProfileVersion.ordinal()) {
                     result = true;
@@ -276,7 +275,7 @@ public class GeneratorDataBean implements Serializable {
 
     private List<Integer> generateUniqueRandomNumbers(int randomNumberSize) {
         Random rnd = new Random();
-        List<Integer> result = new ArrayList<>();
+        List<Integer> result = new ArrayList<>(randomNumberSize);
         while (result.size() < randomNumberSize) {
             int value = rnd.nextInt(500);
             if (!result.contains(value)) {
@@ -329,7 +328,7 @@ public class GeneratorDataBean implements Serializable {
             modelManager.prepareModel(model, false);
             creator.createArtifacts(model);
 
-            managedExecutorService.submit(new LoggingTask(engineData));
+            executor.submit(new LoggingTask(engineData));
 
             download(zipFileCreator.createArchive());
         } catch (Throwable e) {
@@ -359,7 +358,7 @@ public class GeneratorDataBean implements Serializable {
             throw new JessieUnexpectedException("IO Error during download of ZIP");
         }
 
-        // Important! Otherwise JSF will attempt to render the response which obviously will fail
+        // Important! Otherwise, JSF will attempt to render the response which obviously will fail
         // since it's already written with a file and closed.
         fc.responseComplete();
     }

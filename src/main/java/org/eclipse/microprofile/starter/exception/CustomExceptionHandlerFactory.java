@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2019 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -24,7 +24,7 @@ import javax.faces.context.ExceptionHandlerFactory;
 
 public class CustomExceptionHandlerFactory extends ExceptionHandlerFactory {
 
-    private ExceptionHandlerFactory parent;
+    private final ExceptionHandlerFactory parent;
 
     @SuppressWarnings("deprecation")
     public CustomExceptionHandlerFactory(ExceptionHandlerFactory parent) {

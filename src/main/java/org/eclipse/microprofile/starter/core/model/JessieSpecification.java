@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -27,7 +27,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.eclipse.microprofile.starter.core.model.deserializer.JavaSEVersionDeserializer;
 import org.eclipse.microprofile.starter.core.model.deserializer.MicroProfileVersionDeserializer;
 import org.eclipse.microprofile.starter.core.model.deserializer.ViewTypeDeserializer;
-
 
 import java.util.List;
 

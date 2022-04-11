@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -25,14 +25,15 @@ package org.eclipse.microprofile.starter.spi;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.eclipse.microprofile.starter.StarterUnexpectedException;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Objects;
 
 /**
  *
@@ -65,26 +66,16 @@ public class MavenHelper {
     }
 
     public Model readModel(String pathToPom) {
-        InputStream stream = MavenHelper.class.getResourceAsStream(pathToPom);
-
+        if (StringUtils.isBlank(pathToPom)) {
+            throw new IllegalArgumentException("pathToPom must not be blank.");
+        }
         Model model;
-        BufferedReader in = null;
-        try {
-            in = new BufferedReader(new InputStreamReader(stream));
-            MavenXpp3Reader reader = new MavenXpp3Reader();
-            model = reader.read(in);
-            in.close();
+        try (BufferedReader in = new BufferedReader(
+                new InputStreamReader(Objects.requireNonNull(MavenHelper.class.getResourceAsStream(pathToPom))))) {
+            model = new MavenXpp3Reader().read(in);
         } catch (IOException | XmlPullParserException e) {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e1) {
-
-                }
-            }
             throw new StarterUnexpectedException(e);
         }
-
         return model;
     }
 

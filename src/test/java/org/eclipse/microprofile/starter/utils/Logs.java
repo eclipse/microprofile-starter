@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -20,51 +20,55 @@
 package org.eclipse.microprofile.starter.utils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jboss.logging.Logger;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Michal Karm Babacek <karm@redhat.com>
  */
 public class Logs {
-    private static final Logger LOGGER = Logger.getLogger(Logs.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(Logs.class);
 
     private static final Pattern ERROR_DETECTION_PATTERN = Pattern.compile("(?i:.*ERROR.*)");
 
     public static void checkLog(String testClass, String testMethod, String logname, File log) throws IOException {
-        Pattern[] whiteList;
+        final List<Pattern> whiteList = new ArrayList<>();
         if (testMethod.contains(Whitelist.THORNTAIL_V2.name)) {
-            whiteList = Whitelist.THORNTAIL_V2.errs;
+            whiteList.addAll(Arrays.asList(Whitelist.THORNTAIL_V2.errs));
         } else if (testMethod.contains(Whitelist.PAYARA_MICRO.name)) {
-            whiteList = Whitelist.PAYARA_MICRO.errs;
+            whiteList.addAll(Arrays.asList(Whitelist.PAYARA_MICRO.errs));
         } else if (testMethod.contains(Whitelist.LIBERTY.name)) {
-            whiteList = Whitelist.LIBERTY.errs;
+            whiteList.addAll(Arrays.asList(Whitelist.LIBERTY.errs));
         } else if (testMethod.contains(Whitelist.HELIDON.name)) {
-            whiteList = Whitelist.HELIDON.errs;
+            whiteList.addAll(Arrays.asList(Whitelist.HELIDON.errs));
         } else if (testMethod.contains(Whitelist.KUMULUZEE.name)) {
-            whiteList = Whitelist.KUMULUZEE.errs;
+            whiteList.addAll(Arrays.asList(Whitelist.KUMULUZEE.errs));
         } else if (testMethod.contains(Whitelist.TOMEE.name)) {
-            whiteList = Whitelist.TOMEE.errs;
+            whiteList.addAll(Arrays.asList(Whitelist.TOMEE.errs));
         } else if (testMethod.contains(Whitelist.QUARKUS.name)) {
-            whiteList = Whitelist.QUARKUS.errs;
+            whiteList.addAll(Arrays.asList(Whitelist.QUARKUS.errs));
         } else if (testMethod.contains(Whitelist.WILDFLY.name)) {
-            whiteList = Whitelist.WILDFLY.errs;
+            whiteList.addAll(Arrays.asList(Whitelist.WILDFLY.errs));
         } else {
             throw new IllegalArgumentException(
                     "testMethod as matter of convention should always contain lower-case server name, e.g. thorntail");
         }
+        whiteList.addAll(Arrays.asList(Whitelist.ALL.errs));
         try (Scanner sc = new Scanner(log, UTF_8)) {
             Set<String> offendingLines = new HashSet<>();
             while (sc.hasNextLine()) {
@@ -84,16 +88,20 @@ public class Logs {
                     }
                 }
             }
-            assertTrue(logname + " " + log.getName() + " log should not contain error or warning lines that are not whitelisted. " +
-                    "See target" + File.separator + "archived-logs" +
-                    File.separator + testClass + File.separator + testMethod + File.separator + log.getName() +
-                    " and check these offending lines: \n" + String.join("\n", offendingLines), offendingLines.isEmpty());
+            assertTrue(offendingLines.isEmpty(),
+                    logname + " " + log.getName() + " log should not contain error or warning lines that are not whitelisted. " +
+                            "See target" + File.separator + "archived-logs" +
+                            File.separator + testClass + File.separator + testMethod + File.separator + log.getName() +
+                            " and check these offending lines: \n" + String.join("\n", offendingLines));
         }
     }
 
     public static void archiveLog(String testClass, String testMethod, File log) throws IOException {
-        if (log == null || !log.exists()) {
-            LOGGER.severe("log must be a valid, existing file. Skipping operation.");
+        if (log == null) {
+            return;
+        }
+        if (!log.exists()) {
+            LOGGER.error(log.getAbsolutePath() + " must be a valid, existing file. Skipping operation.");
             return;
         }
         if (StringUtils.isBlank(testClass)) {
@@ -102,7 +110,7 @@ public class Logs {
         if (StringUtils.isBlank(testMethod)) {
             throw new IllegalArgumentException("testMethod must not be blank");
         }
-        Path destDir = new File(System.getProperties().get("basedir") + File.separator + "target" + File.separator + "archived-logs" + File.separator + testClass + File.separator + testMethod).toPath();
+        Path destDir = Path.of(System.getProperties().get("basedir").toString(), "target", "archived-logs", testClass, testMethod);
         Files.createDirectories(destDir);
         String filename = log.getName();
         Files.copy(log.toPath(), Paths.get(destDir.toString(), filename));

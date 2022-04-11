@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,45 +19,45 @@
  */
 package org.eclipse.microprofile.starter.utils;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.microprofile.starter.core.model.BuildTool;
+import org.jboss.logging.Logger;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.core.Response;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.eclipse.microprofile.starter.TestMatrixTest.API_URL;
-import static org.eclipse.microprofile.starter.TestMatrixTest.TMP;
-import static org.junit.Assert.assertEquals;
+import static org.eclipse.microprofile.starter.TestMatrixITCase.WORKSPACE_DIR;
 
 /**
  * @author Michal Karm Babacek <karm@redhat.com>
  */
 public class Commands {
-    private static final Logger LOGGER = Logger.getLogger(Commands.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(Commands.class);
 
     private static final String STARTER_TS_WORKSPACE = "STARTER_TS_WORKSPACE";
 
     private static final Pattern LINUX_PS_AUX_PID = Pattern.compile("\\w*\\s*(\\d*).*");
+
+    public static final boolean IS_THIS_WINDOWS = System.getProperty("os.name").matches(".*[Ww]indows.*");
 
     public static String getWorkspaceDir() {
         String env = System.getenv().get(STARTER_TS_WORKSPACE);
@@ -71,32 +71,17 @@ public class Commands {
         return System.getProperty("java.io.tmpdir");
     }
 
-    public static void download(Client client, String supportedServer, String artifactId, SpecSelection specSelection,
-                                BuildTool buildTool, String location) {
-        String uri = API_URL + "/project?supportedServer=" +
-                supportedServer + specSelection.queryParam + "&artifactId=" + artifactId + "&buildTool=" + buildTool;
-        LOGGER.info("from " + uri);
-        Response response = client.target(uri).request().get();
-        assertEquals("Download failed.", Response.Status.OK.getStatusCode(), response.getStatus());
-        try (FileOutputStream out = new FileOutputStream(location); InputStream in = (InputStream) response.getEntity()) {
-            in.transferTo(out);
-            out.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static File unzip(String location, String artifactId) throws InterruptedException, IOException {
         ProcessBuilder pb;
-        if (isThisWindows()) {
-            pb = new ProcessBuilder("powershell", "-c", "Expand-Archive", "-Path", location, "-DestinationPath", TMP, "-Force");
+        if (IS_THIS_WINDOWS) {
+            pb = new ProcessBuilder("powershell", "-c", "Expand-Archive", "-Path", location, "-DestinationPath", WORKSPACE_DIR, "-Force");
         } else {
-            pb = new ProcessBuilder("unzip", "-o", location, "-d", TMP);
+            pb = new ProcessBuilder("unzip", "-o", location, "-d", WORKSPACE_DIR);
         }
         Map<String, String> env = pb.environment();
         env.put("PATH", System.getenv("PATH"));
-        pb.directory(new File(TMP));
-        File unzipLog = new File(TMP + File.separator + artifactId + "-unzip.log");
+        pb.directory(new File(WORKSPACE_DIR));
+        File unzipLog = new File(WORKSPACE_DIR + File.separator + artifactId + "-unzip.log");
         pb.redirectErrorStream(true);
         pb.redirectOutput(ProcessBuilder.Redirect.to(unzipLog));
         Process p = pb.start();
@@ -105,23 +90,38 @@ public class Commands {
         return unzipLog;
     }
 
+    public static void deleteRecursively(Path dir) throws IOException {
+        if (dir == null || Files.notExists(dir)) {
+            return;
+        }
+        Files.walkFileTree(dir, new SimpleFileVisitor<>() {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                Files.delete(file);
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                try {
+                    Files.delete(dir);
+                } catch (DirectoryNotEmptyException e) {
+                    LOGGER.error(dir.toAbsolutePath() + " is not empty. That means someone is still writing to it. Stray Gradle daemon? Server?");
+                }
+                return FileVisitResult.CONTINUE;
+            }
+        });
+    }
+
     /**
-     * Does not fail the TS. Makes best effort to clean up.
+     * Does not fail the TS. Makes the best effort to clean up.
      *
      * @param artifactId by convention, this is a filename friendly name of the server
      */
-    public static void cleanWorkspace(String artifactId) {
-        String path = TMP + File.separator + artifactId;
-        try {
-            FileUtils.deleteDirectory(new File(path));
-        } catch (IOException e) {
-            // Silence is golden
-        }
-        // onExit covers corner cases on Windows if a fd lock is held
-        (new File(path + ".zip")).deleteOnExit();
-        (new File(path + "-unzip.log")).deleteOnExit();
-        (new File(path + ".zip")).delete();
-        (new File(path + "-unzip.log")).delete();
+    public static void cleanWorkspace(String artifactId) throws IOException {
+        deleteRecursively(Path.of(WORKSPACE_DIR, artifactId));
+        Files.deleteIfExists(Path.of(WORKSPACE_DIR, artifactId + ".zip"));
+        Files.deleteIfExists(Path.of(WORKSPACE_DIR, artifactId + "-unzip.log"));
     }
 
     public static boolean waitForTcpClosed(String host, int port, long loopTimeoutS)
@@ -155,7 +155,7 @@ public class Commands {
 
     public static Process runCommand(String[] command, File directory, File logFile) {
         ProcessBuilder pa;
-        if (isThisWindows()) {
+        if (IS_THIS_WINDOWS) {
             pa = new ProcessBuilder(ArrayUtils.addAll(new String[]{"cmd", "/C"}, command));
         } else {
             pa = new ProcessBuilder(ArrayUtils.addAll(command));
@@ -174,16 +174,29 @@ public class Commands {
         return pA;
     }
 
-    public static void pidKiller(long pid) {
+    public static void pidKiller(Long... pids) {
         try {
-            // TODO: /F is actually -9, so we are more strict on Windows. Good/no good?
-            if (isThisWindows()) {
-                Runtime.getRuntime().exec(new String[]{"cmd", "/C", "taskkill", "/PID", Long.toString(pid), "/F", "/T"});
+            final List<String> cmd = new ArrayList<>();
+            if (IS_THIS_WINDOWS) {
+                cmd.add("cmd");
+                cmd.add("/C");
+                cmd.add("taskkill");
+                for (long pid : pids) {
+                    cmd.add("/PID");
+                    cmd.add(Long.toString(pid));
+                }
+                cmd.add("/F");
+                cmd.add("/T");
             } else {
-                Runtime.getRuntime().exec(new String[]{"kill", "-15", Long.toString(pid)});
+                cmd.add("kill");
+                cmd.add("-9");
+                for (long pid : pids) {
+                    cmd.add(Long.toString(pid));
+                }
             }
+            Runtime.getRuntime().exec(cmd.toArray(new String[0]));
         } catch (IOException e) {
-            LOGGER.severe(e.getMessage());
+            LOGGER.error(e.getMessage());
         }
     }
 
@@ -196,74 +209,74 @@ public class Commands {
         p.destroy();
         p.waitFor(3, TimeUnit.MINUTES);
         pidKiller(p.pid());
-        if (isThisWindows()) {
+        if (IS_THIS_WINDOWS) {
             windowsCmdCleaner(artifactId);
         }
     }
 
-    public static void windowsCmdCleaner(String appName) throws IOException, InterruptedException {
-        List<Long> pidsToKill = new ArrayList<>(2);
-        String[] wmicPIDcmd = new String[]{
-                "wmic", "process", "where", "(",
-                "commandline", "like", "\"%\\\\" + appName + "\\\\%\"", "and", "name", "=", "\"java.exe\"", "and",
-                "not", "commandline", "like", "\"%wmic%\"", "and",
-                "not", "commandline", "like", "\"%maven%\"",
-                ")", "get", "Processid", "/format:list"};
-        ProcessBuilder pbA = new ProcessBuilder(wmicPIDcmd);
-        pbA.redirectErrorStream(true);
-        Process p = pbA.start();
-        try (BufferedReader processOutputReader = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
-            String l;
-            while ((l = processOutputReader.readLine()) != null) {
-                if (l.contains("ProcessId=")) {
-                    try {
-                        pidsToKill.add(Long.parseLong(l.split("=")[1].trim()));
-                    } catch (NumberFormatException ex) {
-                        //Silence is golden. We don't care about wmic output glitches. This is a best effort.
-                    }
-                }
-            }
-            p.waitFor();
-        }
-        if (pidsToKill.isEmpty()) {
-            LOGGER.warning("wmic didn't find any additional PIDs to kill.");
-        } else {
-            LOGGER.info(String.format("wmic found %d additional pids to kill", pidsToKill.size()));
-        }
-        pidsToKill.forEach(Commands::pidKiller);
-    }
-
-    public static void linuxCmdCleaner(String appName) throws IOException, InterruptedException {
-        List<Long> pidsToKill = new ArrayList<>(2);
-        ProcessBuilder pbA = new ProcessBuilder("ps", "aux");
-        pbA.redirectErrorStream(true);
-        Process p = pbA.start();
-        try (BufferedReader processOutputReader = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
-            String l;
-            while ((l = processOutputReader.readLine()) != null) {
-                if (l.contains(appName)) {
-                    Matcher m = LINUX_PS_AUX_PID.matcher(l);
-                    if (m.lookingAt()) {
+    public static void windowsCmdCleaner(String... appNames) throws IOException, InterruptedException {
+        for (String appName : appNames) {
+            final List<Long> pidsToKill = new ArrayList<>(2);
+            final String[] wmicPIDcmd = new String[]{
+                    "wmic", "process", "where", "(",
+                    "commandline", "like", "\"%\\\\" + appName + "\\\\%\"", "and",
+                    "not", "commandline", "like", "\"%wmic%\"", "and",
+                    "not", "commandline", "like", "\"%maven%\"",
+                    ")", "get", "Processid", "/format:list"};
+            final ProcessBuilder pbA = new ProcessBuilder(wmicPIDcmd);
+            pbA.redirectErrorStream(true);
+            final Process p = pbA.start();
+            try (BufferedReader processOutputReader = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
+                String l;
+                while ((l = processOutputReader.readLine()) != null) {
+                    if (l.contains("ProcessId=")) {
                         try {
-                            pidsToKill.add(Long.parseLong(m.group(1)));
+                            pidsToKill.add(Long.parseLong(l.split("=")[1].trim()));
                         } catch (NumberFormatException ex) {
-                            //Silence is golden. We don't care about ps output glitches. This is a best effort.
+                            //Silence is golden. We don't care about wmic output glitches. This is a best effort.
                         }
                     }
                 }
+                p.waitFor();
             }
-            p.waitFor();
+            if (pidsToKill.isEmpty()) {
+                LOGGER.warn("wmic didn't find any additional PIDs to kill.");
+            } else {
+                LOGGER.info(String.format("wmic found %d additional pids to kill", pidsToKill.size()));
+            }
+            pidKiller(pidsToKill.toArray(new Long[0]));
         }
-        if (pidsToKill.isEmpty()) {
-            LOGGER.warning("ps didn't find any additional PIDs to kill.");
-        } else {
-            LOGGER.info(String.format("ps found %d additional pids to kill", pidsToKill.size()));
-        }
-        pidsToKill.forEach(Commands::pidKiller);
     }
 
-    public static boolean isThisWindows() {
-        return System.getProperty("os.name").matches(".*[Ww]indows.*");
+    public static void linuxCmdCleaner(String... appNames) throws IOException, InterruptedException {
+        for (String appName : appNames) {
+            final List<Long> pidsToKill = new ArrayList<>(2);
+            final ProcessBuilder pbA = new ProcessBuilder("ps", "aux");
+            pbA.redirectErrorStream(true);
+            final Process p = pbA.start();
+            try (BufferedReader processOutputReader = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
+                String l;
+                while ((l = processOutputReader.readLine()) != null) {
+                    if (l.contains(appName)) {
+                        final Matcher m = LINUX_PS_AUX_PID.matcher(l);
+                        if (m.lookingAt()) {
+                            try {
+                                pidsToKill.add(Long.parseLong(m.group(1)));
+                            } catch (NumberFormatException ex) {
+                                // Silence is golden. We don't care about ps output glitches. This is the best effort.
+                            }
+                        }
+                    }
+                }
+                p.waitFor();
+            }
+            if (pidsToKill.isEmpty()) {
+                LOGGER.warn("ps didn't find any additional PIDs to kill.");
+            } else {
+                LOGGER.info(String.format("ps found %d additional pids to kill", pidsToKill.size()));
+            }
+            pidKiller(pidsToKill.toArray(new Long[0]));
+        }
     }
 
     public static class ProcessRunner implements Runnable {
@@ -282,7 +295,7 @@ public class Commands {
         @Override
         public void run() {
             ProcessBuilder pb;
-            if (isThisWindows()) {
+            if (IS_THIS_WINDOWS) {
                 pb = new ProcessBuilder(ArrayUtils.addAll(new String[]{"cmd", "/C"}, command));
             } else {
                 pb = new ProcessBuilder(ArrayUtils.addAll(command));

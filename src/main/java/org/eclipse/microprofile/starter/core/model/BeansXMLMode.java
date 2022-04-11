@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -25,10 +25,9 @@ package org.eclipse.microprofile.starter.core.model;
 public enum BeansXMLMode {
     IMPLICIT("implicit"), ANNOTATED("annotated"), ALL("all");
 
-    private String mode;
+    private final String mode;
 
     BeansXMLMode(String mode) {
-
         this.mode = mode;
     }
 

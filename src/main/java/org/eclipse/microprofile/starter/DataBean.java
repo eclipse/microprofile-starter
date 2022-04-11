@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -70,7 +70,7 @@ public class DataBean {
     public String getRuntimeName(String value) {
 
         SupportedServer supportedServer = SupportedServer.valueFor(value);
-        return supportedServer == null ? ""  : supportedServer.getDisplayName();
+        return supportedServer == null ? "" : supportedServer.getDisplayName();
     }
 
     public String getVersionReleasePage(String value) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2019 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -22,6 +22,7 @@ package org.eclipse.microprofile.starter.log;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
+import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.io.PrintWriter;
@@ -29,6 +30,8 @@ import java.io.StringWriter;
 
 @ApplicationScoped
 public class ErrorLogger {
+
+    private static final Logger LOG = Logger.getLogger(ErrorLogger.class);
 
     public void logError(Throwable e, JessieModel model) {
         ObjectMapper mapper = new ObjectMapper();
@@ -38,8 +41,7 @@ public class ErrorLogger {
         } catch (JsonProcessingException ex) {
             ex.printStackTrace();
         }
-
-        System.err.println(String.format("Error during generation of project: \n Model : %s \n Stacktrace %s", json, stacktrace(e)));
+        LOG.errorf("Error during generation of project: \n Model : %s \n Stacktrace %s%n", json, stacktrace(e));
     }
 
     private String stacktrace(Throwable e) {

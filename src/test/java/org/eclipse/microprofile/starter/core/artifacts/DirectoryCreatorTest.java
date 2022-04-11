@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2019 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,20 +21,19 @@ package org.eclipse.microprofile.starter.core.artifacts;
 
 import org.eclipse.microprofile.starter.FakeDirectoryCreator;
 import org.eclipse.microprofile.starter.core.model.JessieMaven;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DirectoryCreatorTest {
 
     @Test
     public void shouldCreateUsingValidPackage() {
         FakeDirectoryCreator creator = new FakeDirectoryCreator();
-
         JessieMaven maven = new JessieMaven();
         maven.setGroupId("com.test");
         maven.setArtifactId(("test-service"));
         String path = creator.createPathForGroupAndArtifact(maven);
-
-        Assert.assertEquals("com/test/test/service", path);
+        assertEquals("com/test/test/service", path);
     }
 }

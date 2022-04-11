@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -44,12 +44,12 @@ import java.util.List;
 public class TemplateModelLoader {
 
     @Inject
-    private ModelReader modelReader;
+    ModelReader modelReader;
 
     @Inject
-    private YAMLReader yamlReader;
+    YAMLReader yamlReader;
 
-    private List<String> templates = new ArrayList<>();
+    private final List<String> templates = new ArrayList<>();
 
     @PostConstruct
     public void init() {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -41,7 +41,7 @@ import java.util.List;
 public class ModelValidation {
 
     @Inject
-    private TemplateModelLoader templateModelLoader;
+    TemplateModelLoader templateModelLoader;
 
     public void validate(JessieModel model) {
         if (!templateModelLoader.isValidTemplate(model.getTemplate())) {

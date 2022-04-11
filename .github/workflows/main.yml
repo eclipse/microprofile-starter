@@ -31,8 +31,12 @@ env:
 
 jobs:
   run-units:
-    name: API MicroProfile Starter
-    runs-on: ubuntu-20.04
+    name: API and WEB smoke test - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-20.04, windows-2019 ]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -61,23 +65,32 @@ jobs:
         with:
           maven-version: 3.6.3
       - name: Build and run tests for Starter
+        if: startsWith(matrix.os, 'windows')
+        run: |
+          cmd /C mvn --version
+          cmd /C mvnw.cmd --version
+          cmd /C java --version
+          copy Container\settings.xml ~\.m2\settings.xml
+          cmd /C  mvnw.cmd clean verify -Dtest=APIITCase -DSTARTER_TS_WORKSPACE=%RUNNER_TEMP%
+        shell: cmd
+      - name: Build and run tests for Starter
+        if: startsWith(matrix.os, 'ubuntu')
         run: |
           mvn --version
+          ./mvnw --version
           java --version
-          mvn clean verify -Pthorntail -Dtest=APITest -DSTARTER_TS_WORKSPACE=$RUNNER_TEMP
-      - name: Prepare failure archive (if maven failed)
-        if: failure()
-        shell: bash
-        run: find . -type d -name '*-reports' -o -name "*.log" | tar -czf test-reports-apitest.tgz -T -
-      - name: Upload failure Archive (if maven failed)
-        uses: actions/upload-artifact@v2
-        if: failure()
+          mkdir -p  ~/.m2/
+          cp ./Container/settings.xml ~/.m2/settings.xml
+          ./mvnw clean verify -Dtest=APIITCase -DSTARTER_TS_WORKSPACE=$RUNNER_TEMP
+      - uses: actions/upload-artifact@v3
+        if: always()
         with:
-          name: test-reports-apitest
-          path: 'test-reports-apitest.tgz'
+          name: test-reports-apitest-${{ matrix.os }}
+          path: |
+            target/surefire-reports
   run-starter:
-    name: ${{ matrix.runtime }} MicroProfile Starter
-    runs-on: ubuntu-20.04
+    name: ${{ matrix.runtime }} - ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
@@ -89,6 +102,7 @@ jobs:
                    'thorntail',
                    'tomee',
                    'wildfly' ]
+        os: [ ubuntu-20.04, windows-2019 ]
     steps:
     - uses: actions/checkout@v2
       with:
@@ -117,17 +131,30 @@ jobs:
       with:
         maven-version: 3.6.3
     - name: Build and run tests for Starter
+      if: startsWith(matrix.os, 'windows')
+      # We run only a subset of tests on Windows, the "All" (all examples selected variant)
+      # Due to notorious instabilities in file locking in ~/.m2 on GitHub Actions runners.
+      # It might take some of the server's processes to release those locks.
+      run: |
+        cmd /C mvn --version
+        cmd /C mvnw.cmd --version
+        cmd /C java --version
+        copy Container\settings.xml ~\.m2\settings.xml
+        cmd /C mvnw.cmd clean verify -Dtest=TestMatrixITCase#${{ matrix.runtime }}All -DSTARTER_TS_WORKSPACE=%RUNNER_TEMP%
+      shell: cmd
+    - name: Build and run tests for Starter
+      if: startsWith(matrix.os, 'ubuntu')
       run: |
         mvn --version
+        ./mvnw --version
         java --version
-        mvn clean verify -Pthorntail -Dtest=TestMatrixTest#${{ matrix.runtime }}* -DSTARTER_TS_WORKSPACE=$RUNNER_TEMP
-    - name: Prepare failure archive (if maven failed)
-      if: failure()
-      shell: bash
-      run: find . -type d -name '*-reports' -o -name "*.log" | tar -czf test-reports-${{ matrix.runtime }}.tgz -T -
-    - name: Upload failure Archive (if maven failed)
-      uses: actions/upload-artifact@v2
-      if: failure()
+        mkdir -p  ~/.m2/
+        cp ./Container/settings.xml ~/.m2/settings.xml
+        ./mvnw clean verify -Dtest=TestMatrixITCase#${{ matrix.runtime }}* -DSTARTER_TS_WORKSPACE=$RUNNER_TEMP
+    - uses: actions/upload-artifact@v3
+      if: always()
       with:
-        name: test-reports-${{ matrix.runtime }}
-        path: 'test-reports-${{ matrix.runtime }}.tgz'
+        name: test-reports-${{ matrix.runtime }}-${{ matrix.os }}
+        path: |
+          target/surefire-reports
+          target/archived-logs

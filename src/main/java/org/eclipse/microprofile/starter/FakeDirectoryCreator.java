@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -31,7 +31,7 @@ import javax.inject.Inject;
 public class FakeDirectoryCreator extends DirectoryCreator {
 
     @Inject
-    private ZipFileCreator zipFileCreator;
+    ZipFileCreator zipFileCreator;
 
     @Override
     public void createDirectory(String directoryPath) {

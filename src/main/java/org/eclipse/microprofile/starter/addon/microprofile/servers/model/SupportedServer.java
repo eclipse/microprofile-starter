@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -116,15 +116,15 @@ public enum SupportedServer {
     ;
     // @formatter:on
 
-    private String code;
-    private String displayName;
-    private List<MicroProfileVersion> mpVersions;
-    private String jarFileName;
-    private String jarParameters;
-    private String portServiceA;
-    private String portServiceB;
-    private String homePage;
-    private boolean gradleSupport;
+    private final String code;
+    private final String displayName;
+    private final List<MicroProfileVersion> mpVersions;
+    private final String jarFileName;
+    private final String jarParameters;
+    private final String portServiceA;
+    private final String portServiceB;
+    private final String homePage;
+    private final boolean gradleSupport;
 
     SupportedServer(String code, String displayName, List<MicroProfileVersion> mpVersions, String jarFileName
             , String jarParameters, String portServiceA, String portServiceB, String homePage, boolean gradleSupport) {

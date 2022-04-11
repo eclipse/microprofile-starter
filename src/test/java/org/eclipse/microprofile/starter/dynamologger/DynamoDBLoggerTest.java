@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2019 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -25,7 +25,7 @@ import org.eclipse.microprofile.starter.core.model.JessieMaven;
 import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
 import org.eclipse.microprofile.starter.log.DynamoDBLogger;
 import org.eclipse.microprofile.starter.view.EngineData;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

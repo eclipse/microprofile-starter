@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -32,8 +32,8 @@ public enum JavaSEVersion implements ComboBoxItem {
     SE11("11", "Java 11");
     // @formatter:on
 
-    private String code;
-    private String label;
+    private final String code;
+    private final String label;
 
     JavaSEVersion(String code, String label) {
         this.code = code;

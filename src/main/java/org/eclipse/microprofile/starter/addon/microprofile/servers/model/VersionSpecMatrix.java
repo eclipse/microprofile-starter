@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -38,110 +38,110 @@ public final class VersionSpecMatrix {
 
         data.put(MicroProfileVersion.MP12,
                 new EnumMapBuilder()
-                .add(MicroprofileSpec.CONFIG, "1.1")
-                .add(MicroprofileSpec.FAULT_TOLERANCE, "1.0")
-                .add(MicroprofileSpec.JWT_AUTH, "1.0")
-                .add(MicroprofileSpec.HEALTH_CHECKS, "1.0")
-                .add(MicroprofileSpec.METRICS, "1.0"));
+                        .add(MicroprofileSpec.CONFIG, "1.1")
+                        .add(MicroprofileSpec.FAULT_TOLERANCE, "1.0")
+                        .add(MicroprofileSpec.JWT_AUTH, "1.0")
+                        .add(MicroprofileSpec.HEALTH_CHECKS, "1.0")
+                        .add(MicroprofileSpec.METRICS, "1.0"));
 
         data.put(MicroProfileVersion.MP13,
                 new EnumMapBuilder()
-                .add(MicroprofileSpec.CONFIG, "1.2")
-                .add(MicroprofileSpec.FAULT_TOLERANCE, "1.0")
-                .add(MicroprofileSpec.JWT_AUTH, "1.0")
-                .add(MicroprofileSpec.HEALTH_CHECKS, "1.0")
-                .add(MicroprofileSpec.OPEN_API, "1.0")
-                .add(MicroprofileSpec.REST_CLIENT, "1.0")
-                .add(MicroprofileSpec.OPEN_TRACING, "1.0")
-                .add(MicroprofileSpec.METRICS, "1.1"));
+                        .add(MicroprofileSpec.CONFIG, "1.2")
+                        .add(MicroprofileSpec.FAULT_TOLERANCE, "1.0")
+                        .add(MicroprofileSpec.JWT_AUTH, "1.0")
+                        .add(MicroprofileSpec.HEALTH_CHECKS, "1.0")
+                        .add(MicroprofileSpec.OPEN_API, "1.0")
+                        .add(MicroprofileSpec.REST_CLIENT, "1.0")
+                        .add(MicroprofileSpec.OPEN_TRACING, "1.0")
+                        .add(MicroprofileSpec.METRICS, "1.1"));
 
         data.put(MicroProfileVersion.MP14,
                 new EnumMapBuilder()
-                .add(MicroprofileSpec.CONFIG, "1.3")
-                .add(MicroprofileSpec.FAULT_TOLERANCE, "1.1")
-                .add(MicroprofileSpec.JWT_AUTH, "1.1")
-                .add(MicroprofileSpec.HEALTH_CHECKS, "1.0")
-                .add(MicroprofileSpec.OPEN_API, "1.0")
-                .add(MicroprofileSpec.REST_CLIENT, "1.1")
-                .add(MicroprofileSpec.OPEN_TRACING, "1.1")
-                .add(MicroprofileSpec.METRICS, "1.1"));
+                        .add(MicroprofileSpec.CONFIG, "1.3")
+                        .add(MicroprofileSpec.FAULT_TOLERANCE, "1.1")
+                        .add(MicroprofileSpec.JWT_AUTH, "1.1")
+                        .add(MicroprofileSpec.HEALTH_CHECKS, "1.0")
+                        .add(MicroprofileSpec.OPEN_API, "1.0")
+                        .add(MicroprofileSpec.REST_CLIENT, "1.1")
+                        .add(MicroprofileSpec.OPEN_TRACING, "1.1")
+                        .add(MicroprofileSpec.METRICS, "1.1"));
 
         data.put(MicroProfileVersion.MP20,
                 new EnumMapBuilder()
-                .add(MicroprofileSpec.CONFIG, "1.3")
-                .add(MicroprofileSpec.FAULT_TOLERANCE, "1.1")
-                .add(MicroprofileSpec.JWT_AUTH, "1.1")
-                .add(MicroprofileSpec.HEALTH_CHECKS, "1.0")
-                .add(MicroprofileSpec.OPEN_API, "1.0")
-                .add(MicroprofileSpec.REST_CLIENT, "1.1")
-                .add(MicroprofileSpec.OPEN_TRACING, "1.1")
-                .add(MicroprofileSpec.METRICS, "1.1"));
+                        .add(MicroprofileSpec.CONFIG, "1.3")
+                        .add(MicroprofileSpec.FAULT_TOLERANCE, "1.1")
+                        .add(MicroprofileSpec.JWT_AUTH, "1.1")
+                        .add(MicroprofileSpec.HEALTH_CHECKS, "1.0")
+                        .add(MicroprofileSpec.OPEN_API, "1.0")
+                        .add(MicroprofileSpec.REST_CLIENT, "1.1")
+                        .add(MicroprofileSpec.OPEN_TRACING, "1.1")
+                        .add(MicroprofileSpec.METRICS, "1.1"));
 
         data.put(MicroProfileVersion.MP21,
                 new EnumMapBuilder()
-                .add(MicroprofileSpec.CONFIG, "1.3")
-                .add(MicroprofileSpec.FAULT_TOLERANCE, "1.1")
-                .add(MicroprofileSpec.JWT_AUTH, "1.1")
-                .add(MicroprofileSpec.HEALTH_CHECKS, "1.0")
-                .add(MicroprofileSpec.OPEN_API, "1.0")
-                .add(MicroprofileSpec.REST_CLIENT, "1.1")
-                .add(MicroprofileSpec.OPEN_TRACING, "1.2")
-                .add(MicroprofileSpec.METRICS, "1.1"));
+                        .add(MicroprofileSpec.CONFIG, "1.3")
+                        .add(MicroprofileSpec.FAULT_TOLERANCE, "1.1")
+                        .add(MicroprofileSpec.JWT_AUTH, "1.1")
+                        .add(MicroprofileSpec.HEALTH_CHECKS, "1.0")
+                        .add(MicroprofileSpec.OPEN_API, "1.0")
+                        .add(MicroprofileSpec.REST_CLIENT, "1.1")
+                        .add(MicroprofileSpec.OPEN_TRACING, "1.2")
+                        .add(MicroprofileSpec.METRICS, "1.1"));
 
         data.put(MicroProfileVersion.MP22,
                 new EnumMapBuilder()
-                .add(MicroprofileSpec.CONFIG, "1.3")
-                .add(MicroprofileSpec.FAULT_TOLERANCE, "2.0")
-                .add(MicroprofileSpec.JWT_AUTH, "1.1")
-                .add(MicroprofileSpec.HEALTH_CHECKS, "1.0")
-                .add(MicroprofileSpec.OPEN_API, "1.1")
-                .add(MicroprofileSpec.REST_CLIENT, "1.2")
-                .add(MicroprofileSpec.OPEN_TRACING, "1.3")
-                .add(MicroprofileSpec.METRICS, "1.1"));
+                        .add(MicroprofileSpec.CONFIG, "1.3")
+                        .add(MicroprofileSpec.FAULT_TOLERANCE, "2.0")
+                        .add(MicroprofileSpec.JWT_AUTH, "1.1")
+                        .add(MicroprofileSpec.HEALTH_CHECKS, "1.0")
+                        .add(MicroprofileSpec.OPEN_API, "1.1")
+                        .add(MicroprofileSpec.REST_CLIENT, "1.2")
+                        .add(MicroprofileSpec.OPEN_TRACING, "1.3")
+                        .add(MicroprofileSpec.METRICS, "1.1"));
 
         data.put(MicroProfileVersion.MP30,
                 new EnumMapBuilder()
-                .add(MicroprofileSpec.CONFIG, "1.3")
-                .add(MicroprofileSpec.FAULT_TOLERANCE, "2.0")
-                .add(MicroprofileSpec.JWT_AUTH, "1.1")
-                .add(MicroprofileSpec.HEALTH_CHECKS, "2.0")
-                .add(MicroprofileSpec.OPEN_API, "1.1")
-                .add(MicroprofileSpec.REST_CLIENT, "1.3")
-                .add(MicroprofileSpec.OPEN_TRACING, "1.3")
-                .add(MicroprofileSpec.METRICS, "2.0"));
+                        .add(MicroprofileSpec.CONFIG, "1.3")
+                        .add(MicroprofileSpec.FAULT_TOLERANCE, "2.0")
+                        .add(MicroprofileSpec.JWT_AUTH, "1.1")
+                        .add(MicroprofileSpec.HEALTH_CHECKS, "2.0")
+                        .add(MicroprofileSpec.OPEN_API, "1.1")
+                        .add(MicroprofileSpec.REST_CLIENT, "1.3")
+                        .add(MicroprofileSpec.OPEN_TRACING, "1.3")
+                        .add(MicroprofileSpec.METRICS, "2.0"));
 
         data.put(MicroProfileVersion.MP32,
                 new EnumMapBuilder()
-                .add(MicroprofileSpec.CONFIG, "1.3")
-                .add(MicroprofileSpec.FAULT_TOLERANCE, "2.0")
-                .add(MicroprofileSpec.JWT_AUTH, "1.1")
-                .add(MicroprofileSpec.HEALTH_CHECKS, "2.1")
-                .add(MicroprofileSpec.OPEN_API, "1.1")
-                .add(MicroprofileSpec.REST_CLIENT, "1.3")
-                .add(MicroprofileSpec.OPEN_TRACING, "1.3")
-                .add(MicroprofileSpec.METRICS, "2.2"));
+                        .add(MicroprofileSpec.CONFIG, "1.3")
+                        .add(MicroprofileSpec.FAULT_TOLERANCE, "2.0")
+                        .add(MicroprofileSpec.JWT_AUTH, "1.1")
+                        .add(MicroprofileSpec.HEALTH_CHECKS, "2.1")
+                        .add(MicroprofileSpec.OPEN_API, "1.1")
+                        .add(MicroprofileSpec.REST_CLIENT, "1.3")
+                        .add(MicroprofileSpec.OPEN_TRACING, "1.3")
+                        .add(MicroprofileSpec.METRICS, "2.2"));
 
         data.put(MicroProfileVersion.MP33,
                 new EnumMapBuilder()
-                .add(MicroprofileSpec.CONFIG, "1.4")
-                .add(MicroprofileSpec.FAULT_TOLERANCE, "2.1")
-                .add(MicroprofileSpec.JWT_AUTH, "1.1")
-                .add(MicroprofileSpec.HEALTH_CHECKS, "2.2")
-                .add(MicroprofileSpec.OPEN_API, "1.1")
-                .add(MicroprofileSpec.REST_CLIENT, "1.4.0")
-                .add(MicroprofileSpec.OPEN_TRACING, "1.3")
-                .add(MicroprofileSpec.METRICS, "2.3"));
+                        .add(MicroprofileSpec.CONFIG, "1.4")
+                        .add(MicroprofileSpec.FAULT_TOLERANCE, "2.1")
+                        .add(MicroprofileSpec.JWT_AUTH, "1.1")
+                        .add(MicroprofileSpec.HEALTH_CHECKS, "2.2")
+                        .add(MicroprofileSpec.OPEN_API, "1.1")
+                        .add(MicroprofileSpec.REST_CLIENT, "1.4.0")
+                        .add(MicroprofileSpec.OPEN_TRACING, "1.3")
+                        .add(MicroprofileSpec.METRICS, "2.3"));
 
         data.put(MicroProfileVersion.MP40,
                 new EnumMapBuilder()
-                .add(MicroprofileSpec.CONFIG, "2.0")
-                .add(MicroprofileSpec.FAULT_TOLERANCE, "3.0")
-                .add(MicroprofileSpec.JWT_AUTH, "1.2")
-                .add(MicroprofileSpec.HEALTH_CHECKS, "3.0")
-                .add(MicroprofileSpec.OPEN_API, "2.0")
-                .add(MicroprofileSpec.REST_CLIENT, "2.0.0")
-                .add(MicroprofileSpec.OPEN_TRACING, "2.0")
-                .add(MicroprofileSpec.METRICS, "3.0"));
+                        .add(MicroprofileSpec.CONFIG, "2.0")
+                        .add(MicroprofileSpec.FAULT_TOLERANCE, "3.0")
+                        .add(MicroprofileSpec.JWT_AUTH, "1.2")
+                        .add(MicroprofileSpec.HEALTH_CHECKS, "3.0")
+                        .add(MicroprofileSpec.OPEN_API, "2.0")
+                        .add(MicroprofileSpec.REST_CLIENT, "2.0.0")
+                        .add(MicroprofileSpec.OPEN_TRACING, "2.0")
+                        .add(MicroprofileSpec.METRICS, "3.0"));
 
         data.put(MicroProfileVersion.MP41,
                 new EnumMapBuilder()

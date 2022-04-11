@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -44,7 +44,7 @@ public class JDKSelector {
         fillJavaSEVersion(data, SupportedServer.THORNTAIL_V2, JavaSEVersion.SE11, MicroProfileVersion.MP22, null);  // Supported from MP 2.2
 
         fillJavaSEVersion(data, SupportedServer.QUARKUS, JavaSEVersion.SE8, null, MicroProfileVersion.MP40);  // Supported until MP 4.1
-        fillJavaSEVersion(data, SupportedServer.QUARKUS, JavaSEVersion.SE11,  MicroProfileVersion.MP32, null);  // Supported from MP 3.2
+        fillJavaSEVersion(data, SupportedServer.QUARKUS, JavaSEVersion.SE11, MicroProfileVersion.MP32, null);  // Supported from MP 3.2
 
         fillJavaSEVersion(data, SupportedServer.WILDFLY, JavaSEVersion.SE8, null, null);  // Supported for all MPVersions
         fillJavaSEVersion(data, SupportedServer.WILDFLY, JavaSEVersion.SE11, MicroProfileVersion.MP32, null);  // Supported from MP 3.2

@@ -1,3 +1,12 @@
-"LIBERTY":[{"mpVersion":"MP12","mpSpecs":["CONFIG","FAULT_TOLERANCE","JWT_AUTH","METRICS","HEALTH_CHECKS","GRAPHQL"],"javaSEVersions":["SE8","SE11"],"buildTools":["MAVEN","GRADLE"]}
-"WILDFLY_SWARM":[{"mpVersion":"MP12","mpSpecs":["CONFIG","FAULT_TOLERANCE","JWT_AUTH","METRICS","HEALTH_CHECKS"],"javaSEVersions":["SE8"],"buildTools":["MAVEN"]}]
-"QUARKUS":[{"mpVersion":"MP32","mpSpecs":["CONFIG","FAULT_TOLERANCE","JWT_AUTH","METRICS","HEALTH_CHECKS","OPEN_API","OPEN_TRACING","REST_CLIENT"],"javaSEVersions":["SE8","SE11"],"buildTools":["MAVEN","GRADLE"]}]
+"LIBERTY":[{
+"mpVersion":"MP12"
+"mpSpecs":["CONFIG","FAULT_TOLERANCE","JWT_AUTH","METRICS","HEALTH_CHECKS","GRAPHQL"]
+"javaSEVersions":["SE8","SE11"]
+"buildTools":["MAVEN","GRADLE"]
+"WILDFLY_SWARM"
+"mpSpecs":["CONFIG","FAULT_TOLERANCE","JWT_AUTH","METRICS","HEALTH_CHECKS"]
+"javaSEVersions":["SE8"]
+"buildTools":["MAVEN"]
+"QUARKUS"
+"mpVersion":"MP32"
+"mpSpecs":["CONFIG","FAULT_TOLERANCE","JWT_AUTH","METRICS","HEALTH_CHECKS","OPEN_API","OPEN_TRACING","REST_CLIENT"]

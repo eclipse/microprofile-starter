@@ -4,161 +4,59 @@ Building an image and running a container
 Development workflow
 ====================
 
-Locally without Docker on Thorntail
-----------------------
+Locally without Docker, with Quarkus
+------------------------------------
 
 ```
-mvn thorntail:run -Pthorntail
-
+./mvnw clean package
+java -jar target/quarkus-app/quarkus-run.jar
 ```
+Note the tests might take an hour as they download artifacts for all tested servers.
+Use ` -Dtest=APIITCase` for just a quick API check.
 
-Navigate to 127.0.0.1:8080 or http://127.0.0.1:8080/index.xhtml to see the app.
+Navigate to http://127.0.0.1:8080 to see the app.
 
-Locally without Docker on Open Liberty
-----------------------
-
-Build and deploy to Open Liberty using the Liberty profile. To build the MP Starter app, use: 
-
+Live coding available with:
 ```
-mvn package liberty:run -Pliberty
-
+ ./mvnw quarkus:dev
 ```
-
-Natigate to http://localhost:9080/mp-starter/ to test the app.
 
 Docker build
 ------------
-With at least Docker 17.05, one can build an image and either run it locally or push it to a registry.
-Please note that the first build takes time, but subsequent runs add merely ```~12M``` of the war file.
 
 ```
-mvn package -Pthorntail && unzip target/mp-starter-hollow-thorntail.jar -d target/mp-starter-hollow-thorntail
-docker build -f Container/Dockerfile -t microprofile/start.microprofile.io:1.0 .
+./mvnw clean package
+docker build -f ./Container/Dockerfile.jvm -t microprofile/start.microprofile.io:master .
 ```
 
 Run locally
 -----------
-
+e.g.
 ```
-docker run -p 127.0.0.1:8080:8080/tcp -d -i --name mp-starter microprofile/start.microprofile.io:1.0
-docker stop -t 2 mp-starter && docker rm mp-starter
+docker run --network=host -it -d -it --name starter -e AWS_ACCESS_KEY_ID=changeit \
+     -e AWS_SECRET_ACCESS_KEY=changeit -e MP_STARTER_APP_ID=local-test -e AWS_REGION=changeit \
+     -e AWS_DYNAMODB_TABLE_NAME=microprofile_test_starter_log \
+     -e JAVA_OPTS="-Xms64m -Xmx128m" microprofile/start.microprofile.io:master
 ```
 
 Push image to registry and restart service
 ------------------------------------------
 
 ```
-docker push microprofile/start.microprofile.io:1.0
-ssh ec2-user@aws-microstarter "sudo systemctl restart docker-compose@start.microprofile.io"
+docker push microprofile/start.microprofile.io:master
+ssh ec2-user@aws-microstarter "sudo systemctl restart docker-compose@test-start.microprofile.io"
 ```
-
-Subsequent pushes just upload ```~12M``` of the war file.
-
-Example flow
-------------
-
-```
-mvn package -Pthorntail && unzip target/mp-starter-hollow-thorntail.jar -d target/mp-starter-hollow-thorntail
-docker build -f Container/Dockerfile -t microprofile/start.microprofile.io:1.0 .
-docker push microprofile/start.microprofile.io:1.0
-ssh ec2-user@aws-microstarter "sudo systemctl restart docker-compose@start.microprofile.io"
-```
-
-Recorded
---------
-[![asciicast](https://asciinema.org/a/217550.svg)](https://asciinema.org/a/217550)
-
-
-Production and CI
-=================
-
-The Dockerfile is a [multi-staged build](https://docs.docker.com/develop/develop-images/multistage-build).
-The first stage downloads Maven, installs OpenJDK Devel, builds the application.
-
-The second stage installs just OpenJDK Headless JVM and adds the uberjar contents from the previous stage.
-
-Due to the application's dependency on JSF the image is very fat.
-Refactoring the app so as it runs just with a plain servlet container is a possible improvement to be made.
-
-Building an image
------------------
-Note the tag ```microprofile/start.microprofile.io:1.0``` is an example and you should use your own namespace.
-
-```
-docker build -f Container/Dockerfile.CI -t microprofile/start.microprofile.io:1.0 .
-```
-
-One can push the built image to a public DockerHub (one needs an account though):
-
-```
-docker push microprofile/start.microprofile.io:1.0
-```
-
-Running a container locally
----------------------------
-The container accepts several environment properties one should use them to tweak the server.
-
-```
-docker run -e MY_LOGLEVEL=INFO \
-              -e MY_IO_THREADS="8" \
-              -e MY_TASK_MAX_THREADS="64" \
-              -e MY_HTTP_PORT="8080" \
-              -e MY_HTTPS_PORT="8443" \
-              -e MY_MS_HEAP="64m" \
-              -e MY_MX_HEAP="512m" \
-              -e MY_META_SPACE="96M" \
-              -e MY_MAX_META_SPACE="256m" \
-   -p 127.0.0.1:8080:8080/tcp -d -i --name mp-starter microprofile/start.microprofile.io:1.0
-```
-
-One can watch the logs:
-
-```
-docker logs -f mp-starter
-```
-
-You can stop and remove it as:
-
-```
-docker stop -t 2 mp-starter && docker rm mp-starter
-```
-
-Debugging the image build
--------------------------
-One can skip the final stage of the multistage build and just do the first stage:
-
-```
-docker build --target build-env -f Container/Dockerfile.CI -t microprofile/start.microprofile.io:1.0 .
-```
-
-You can start bash and look around without starting the application:
-
-```
-docker run -i --entrypoint=/bin/bash --name mp-starter microprofile/start.microprofile.io:1.0
-```
-
-If you have the container running already and you want to examine it, you can:
-
-```
-docker exec -t -i mp-starter bash
-```
-
 
 Using Systemd and Docker Compose
 ================================
 
-If you don't need any orchestration and you would just like to play with the container on a single host,
+If you don't need any orchestration, and you would just like to play with the container on a single host,
 the following might come handy.
 
 Get a VM on the Internet
 ------------------------
 
-After you are done installing Docker (use your package manager of choice) and Docker compose, e.g.
-
-```
-curl -L https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
-```
+After you are done installing Docker (use your package manager of choice) and Docker compose:
 
 Compose
 -------
@@ -171,20 +69,17 @@ cat /etc/docker/compose/mp-starter/docker-compose.yml
 version: '3'
 services:
   mp-starter:
-    image: "microprofile/start.microprofile.io:1.0"
-    user: wildfly
+    image: "microprofile/start.microprofile.io:master"
     ports:
-      - 443:8443
       - 80:8080
     restart: always
     environment:
-      MY_LOGLEVEL:         "INFO"
-      MY_IO_THREADS:       "2"
-      MY_TASK_MAX_THREADS: "32"
-      MY_MS_HEAP:          "512m"
-      MY_MX_HEAP:          "512m"
-      MY_META_SPACE:       "96M"
-      MY_MAX_META_SPACE:   "256m"
+      AWS_ACCESS_KEY_ID:       "changeit"
+      AWS_SECRET_ACCESS_KEY:   "changeit"
+      MP_STARTER_APP_ID:       "changeit"
+      AWS_REGION:              "changeit"
+      AWS_DYNAMODB_TABLE_NAME: "microprofile_test_starter_log"
+      JAVA_OPTS:               "-Xms64m -Xmx128m"
 ```
 
 Systemd unit
@@ -235,11 +130,3 @@ Verify it is running:
 docker ps -a
 curl localhost
 ```
-
-Although one probably cannot access it from the outside due to a firewall your IaaS provider has in place, so let's configure the Security Group/Firewall/Network Security, depends on your provider.
-
-We haven't setup our own TLS infrastructure nor we have Elytron in Wildfly configured with Let's Encrypt, so let's hide
-the system behind Cloudflare's balancer. This is the list of Cloudflare's IP ranges we are going to allow inbound traffic from: https://www.cloudflare.com/ips/
-
-Now if you configure your domain and enforce HTTPS with Cloudflare you get your application running and accessible from
-the Internet on HTTPS only.

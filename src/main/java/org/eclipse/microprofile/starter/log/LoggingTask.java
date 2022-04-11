@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2019 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -25,7 +25,7 @@ import javax.enterprise.inject.spi.CDI;
 
 public class LoggingTask implements Runnable {
 
-    private EngineData engineData;
+    private final EngineData engineData;
 
     public LoggingTask(EngineData engineData) {
         this.engineData = engineData;

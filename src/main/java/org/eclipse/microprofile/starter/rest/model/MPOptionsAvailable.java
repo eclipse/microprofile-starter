@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2019 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -39,7 +39,7 @@ public class MPOptionsAvailable {
     public MPOptionsAvailable(List<SupportedServer> supportedServers, List<MicroprofileSpec> specs) {
         this.supportedServers = supportedServers;
         this.specs = specs;
-        this.specCodes = specs.stream().map(ms-> ms.getCode().toUpperCase()).collect(Collectors.toList());
+        this.specCodes = specs.stream().map(ms -> ms.getCode().toUpperCase()).collect(Collectors.toList());
     }
 
     public List<SupportedServer> getSupportedServers() {

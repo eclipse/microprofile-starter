@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -37,16 +37,16 @@ import java.util.List;
 public class Creator {
 
     @Inject
-    private MavenCreator mavenCreator;
+    MavenCreator mavenCreator;
 
     @Inject
-    private GradleCreator gradleCreator;
+    GradleCreator gradleCreator;
 
     @Inject
-    private CDICreator cdiCreator;
+    CDICreator cdiCreator;
 
     @Inject
-    private JavaCreator javaCreator;
+    JavaCreator javaCreator;
 
     public void createArtifacts(JessieModel model) {
 
