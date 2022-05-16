@@ -3,9 +3,9 @@ package [# th:text="${java_package}"/].resilient;
 import org.eclipse.microprofile.faulttolerance.Fallback;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import [# th:text="${jakarta_ee_package}"/].enterprise.context.ApplicationScoped;
+import [# th:text="${jakarta_ee_package}"/].ws.rs.GET;
+import [# th:text="${jakarta_ee_package}"/].ws.rs.Path;
 
 @Path("/resilience")
 @ApplicationScoped

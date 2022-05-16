@@ -24,7 +24,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'io.openliberty.tools:liberty-gradle-plugin:3.3.1'
+        classpath 'io.openliberty.tools:liberty-gradle-plugin:3.4.1'
     }
 }
 
@@ -37,7 +37,8 @@ dependencies {
     [# th:if="${mainProject and mp_JWT_auth}"]
     implementation 'io.vertx:vertx-auth-jwt:[# th:text="${vertx_auth_jwt_version}"/]'[/]
     [# th:if="${mainProject and mp_graphql}"]
-    providedCompile 'org.eclipse.microprofile.graphql:microprofile-graphql-api:1.0.2'[/]
+    providedCompile 'org.eclipse.microprofile.graphql:microprofile-graphql-api:[# th:text="${mp_graphql_version}"/]'[/]
+   
 }
 
 ext  {

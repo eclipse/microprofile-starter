@@ -30,6 +30,7 @@ import org.eclipse.microprofile.starter.addon.microprofile.servers.model.ServerM
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.StandaloneMPSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.VersionSpecMatrix;
+import org.eclipse.microprofile.starter.addon.microprofile.servers.model.VersionStandaloneMatrix;
 import org.eclipse.microprofile.starter.core.artifacts.Creator;
 import org.eclipse.microprofile.starter.core.exception.JessieUnexpectedException;
 import org.eclipse.microprofile.starter.core.model.BeansXMLMode;
@@ -228,7 +229,8 @@ public class GeneratorDataBean implements Serializable {
 
     @SuppressWarnings("unused") // Used in index.xhtml
     public String getSpecificationStandaloneLink(StandaloneMPSpec spec) {
-        return String.format(spec.getTagURL(), spec.getVersion());
+        Map<StandaloneMPSpec, String> specData = VersionStandaloneMatrix.getInstance().getSpecData(microProfileVersion);
+        return String.format(spec.getTagURL(), specData.get(spec));
     }
 
     private void defineSupportedServerItems(MicroProfileVersion version) {

@@ -1,8 +1,8 @@
 package [# th:text="${java_package}"/];
 
-import javax.inject.Singleton;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import [# th:text="${jakarta_ee_package}"/].inject.Singleton;
+import [# th:text="${jakarta_ee_package}"/].ws.rs.GET;
+import [# th:text="${jakarta_ee_package}"/].ws.rs.Path;
 
 /**
  *

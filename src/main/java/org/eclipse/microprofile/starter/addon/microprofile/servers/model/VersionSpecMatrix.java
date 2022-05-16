@@ -153,6 +153,17 @@ public final class VersionSpecMatrix {
                         .add(MicroprofileSpec.REST_CLIENT, "2.0.0")
                         .add(MicroprofileSpec.OPEN_TRACING, "2.0")
                         .add(MicroprofileSpec.METRICS, "3.0"));
+        
+        data.put(MicroProfileVersion.MP50,
+                new EnumMapBuilder()
+                        .add(MicroprofileSpec.CONFIG, "3.0")
+                        .add(MicroprofileSpec.FAULT_TOLERANCE, "4.0")
+                        .add(MicroprofileSpec.JWT_AUTH, "2.0")
+                        .add(MicroprofileSpec.HEALTH_CHECKS, "4.0")
+                        .add(MicroprofileSpec.OPEN_API, "3.0")
+                        .add(MicroprofileSpec.REST_CLIENT, "3.0.0")
+                        .add(MicroprofileSpec.OPEN_TRACING, "3.0")
+                        .add(MicroprofileSpec.METRICS, "4.0"));
     }
 
     public Map<MicroprofileSpec, String> getSpecData(MicroProfileVersion version) {

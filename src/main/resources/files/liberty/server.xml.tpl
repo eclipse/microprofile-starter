@@ -4,7 +4,7 @@
     <featureManager>
         <feature>microProfile-[# th:text="${mp_version}"/]</feature>
         [# th:if="${mp_graphql}"]
-        <feature>mpGraphQL-1.0</feature>
+        <feature>mpGraphQL-[# th:text="${mp_graphql_version}"/]</feature>
         [/]
     </featureManager>
     [# th:if="${mp_graphql}"]

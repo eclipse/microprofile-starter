@@ -16,8 +16,8 @@ import [# th:text="${java_package}"/].secure.TestSecureController;
 import [# th:text="${java_package}"/].client.ClientController;
 [/]
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import [# th:text="${jakarta_ee_package}"/].ws.rs.ApplicationPath;
+import [# th:text="${jakarta_ee_package}"/].ws.rs.core.Application;
 import java.util.HashSet;
 import java.util.Set;
 

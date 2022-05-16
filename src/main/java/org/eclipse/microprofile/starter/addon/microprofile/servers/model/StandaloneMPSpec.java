@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020-2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -29,8 +29,8 @@ public enum StandaloneMPSpec {
             "GraphQL - GraphQL is a query language for APIs and a library for fulfilling those queries with your existing data.",
             Arrays.asList(ServerMPVersion.of(SupportedServer.LIBERTY)),
             "org.eclipse.microprofile.graphql",
-            "microprofile-graphql-api",
-            "1.0.2")
+            "microprofile-graphql-api"
+            )
     // @formatter:off
     ;
 
@@ -41,7 +41,6 @@ public enum StandaloneMPSpec {
     private List<ServerMPVersion> serverRestrictions;
     private String groupId;
     private String artifactId;
-    private String version;
 
     StandaloneMPSpec(String code,
                      String label,
@@ -49,8 +48,7 @@ public enum StandaloneMPSpec {
                      String description,
                      List<ServerMPVersion> serverRestrictions,
                      String groupId,
-                     String artifactId,
-                     String version) {
+                     String artifactId) {
         this.code = code;
         this.label = label;
         this.tagURL = tagURL;
@@ -58,7 +56,6 @@ public enum StandaloneMPSpec {
         this.serverRestrictions = serverRestrictions;
         this.groupId = groupId;
         this.artifactId = artifactId;
-        this.version = version;
     }
 
     public String getCode() {
@@ -87,10 +84,6 @@ public enum StandaloneMPSpec {
 
     public String getArtifactId() {
         return artifactId;
-    }
-
-    public String getVersion() {
-        return version;
     }
 
     public static StandaloneMPSpec valueFor(String data) {
