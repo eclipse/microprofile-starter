@@ -17,3 +17,5 @@ kumuluzee:
 injected:
   value: Injected value
 value: lookup value
+serviceb:
+  url: http://localhost:[# th:text="${port_service_b}"/]/data/protected

@@ -24,7 +24,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'io.openliberty.tools:liberty-gradle-plugin:3.3'
+        classpath 'io.openliberty.tools:liberty-gradle-plugin:3.3.1'
     }
 }
 
