@@ -8,7 +8,7 @@ import [# th:text="${java_package}"/].graphql.model.SuperHero;
 import [# th:text="${java_package}"/].graphql.model.Team;
 import org.eclipse.microprofile.graphql.*;
 
-import javax.inject.Inject;
+import [# th:text="${jakarta_ee_package}"/].inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

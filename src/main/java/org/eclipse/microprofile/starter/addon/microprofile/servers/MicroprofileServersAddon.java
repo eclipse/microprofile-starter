@@ -253,10 +253,12 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
             directoryCreator.createDirectory(healthDirectory);
 
             if (alternatives.contains(MicroProfileVersion.Constants.MP41_ALTERNATIVE)
-                    || alternatives.contains(MicroProfileVersion.Constants.MP3X_ALTERNATIVE)) {
+                    || alternatives.contains(MicroProfileVersion.Constants.MP3X_ALTERNATIVE) || 
+                    alternatives.contains(MicroProfileVersion.Constants.MP5X_ALTERNATIVE)) {
                 templateEngine.processTemplateFile(healthDirectory, "ServiceLiveHealthCheck.java", alternatives, variables);
                 templateEngine.processTemplateFile(healthDirectory, "ServiceReadyHealthCheck.java", alternatives, variables);
-                if (alternatives.contains(MicroProfileVersion.Constants.MP41_ALTERNATIVE)) {
+                if (alternatives.contains(MicroProfileVersion.Constants.MP41_ALTERNATIVE) || 
+                    alternatives.contains(MicroProfileVersion.Constants.MP5X_ALTERNATIVE)) {
                     templateEngine.processTemplateFile(healthDirectory, "ServiceStartupHealthCheck.java", alternatives, variables);
                 }
             } else {
