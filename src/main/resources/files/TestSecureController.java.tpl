@@ -4,7 +4,6 @@ import io.vertx.ext.auth.JWTOptions;
 import io.vertx.ext.auth.PubSecKeyOptions;
 import io.vertx.ext.auth.jwt.JWTAuth;
 import io.vertx.ext.auth.jwt.JWTAuthOptions;
-
 import [# th:text="${jakarta_ee_package}"/].annotation.PostConstruct;
 import [# th:text="${jakarta_ee_package}"/].enterprise.context.ApplicationScoped;
 import [# th:text="${jakarta_ee_package}"/].ws.rs.GET;
@@ -13,18 +12,21 @@ import [# th:text="${jakarta_ee_package}"/].ws.rs.WebApplicationException;
 import [# th:text="${jakarta_ee_package}"/].ws.rs.client.ClientBuilder;
 import [# th:text="${jakarta_ee_package}"/].ws.rs.client.WebTarget;
 import [# th:text="${jakarta_ee_package}"/].ws.rs.core.Response;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.UUID;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @Path("/secured")
 @ApplicationScoped
 public class TestSecureController {
 
     private String key;
+    @Inject @ConfigProperty(name="serviceb.url") String serviceB;
 
     @PostConstruct
     public void init() {
@@ -38,7 +40,7 @@ public class TestSecureController {
             throw new WebApplicationException("Unable to read privateKey.pem", 500);
         }
         String jwt = generateJWT(key);
-        WebTarget target = ClientBuilder.newClient().target("http://localhost:[# th:text="${port_service_b}"/]/data/protected");
+        WebTarget target = ClientBuilder.newClient().target(serviceB);
         Response response = target.request().header("authorization", "Bearer " + jwt).buildGet().invoke();
         return String.format("Claim value within JWT of 'custom-value' : %s", response.readEntity(String.class));
     }
@@ -56,6 +58,7 @@ public class TestSecureController {
         token.setJti(UUID.randomUUID().toString());
         token.setSub("Jessie");  // Sub is required for WildFly Swarm
         token.setUpn("Jessie");
+        token.setPreferredUsername("Jessie");
         token.setIat(System.currentTimeMillis());
         token.setExp(System.currentTimeMillis() + 30000); // 30 Seconds expiration!
         token.addAdditionalClaims("custom-value", "Jessie specific value");
