@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017 - 2020 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -20,6 +20,7 @@
 package org.eclipse.microprofile.starter.utils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jboss.logging.Logger;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -27,15 +28,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
-import java.util.logging.Logger;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Michal Karm Babacek <karm@redhat.com>
  */
 public class WebpageTester {
-    private static final Logger LOGGER = Logger.getLogger(WebpageTester.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(WebpageTester.class);
 
     /**
      * Patiently try to wait for a web page and examine it
@@ -99,10 +99,10 @@ public class WebpageTester {
                 found = true;
                 break;
             }
-            Thread.sleep(500);
+            Thread.sleep(1000);
             now = System.currentTimeMillis();
         }
         // Test landing page
-        assertTrue(webPage + " must contain string: `" + stringToLookFor + "'", found);
+        assertTrue(found, webPage + " must contain string: `" + stringToLookFor + "'");
     }
 }

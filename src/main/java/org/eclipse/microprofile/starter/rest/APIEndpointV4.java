@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2019 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -39,7 +39,7 @@ import java.util.List;
 @Path("/4")
 public class APIEndpointV4 extends APIEndpointLatest {
     @Inject
-    private APIService api;
+    APIService api;
 
     // The same as V5
     @Path("/project")

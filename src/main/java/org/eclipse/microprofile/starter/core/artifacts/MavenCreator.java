@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -47,10 +47,10 @@ import java.util.List;
 public class MavenCreator extends BuildToolCreator {
 
     @Inject
-    private AddonManager addonManager;
+    AddonManager addonManager;
 
     @Inject
-    private MavenHelper mavenHelper;
+    MavenHelper mavenHelper;
 
     public void createMavenFiles(JessieModel model) {
         Model pomFile = createSingleModule(model);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2019 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -25,10 +25,11 @@ import org.eclipse.microprofile.starter.core.model.JessieMaven;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 import org.eclipse.microprofile.starter.core.model.JessieSpecification;
 import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TemplateVariableProviderTest {
 
@@ -48,7 +49,7 @@ public class TemplateVariableProviderTest {
 
         Map<String, String> variables = provider.determineVariables(model);
 
-        Assert.assertEquals("Demoservice", variables.get("application"));
+        assertEquals("Demoservice", variables.get("application"));
     }
 
     @Test
@@ -67,6 +68,6 @@ public class TemplateVariableProviderTest {
 
         Map<String, String> variables = provider.determineVariables(model);
 
-        Assert.assertEquals("Demoservice", variables.get("application"));
+        assertEquals("Demoservice", variables.get("application"));
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2019 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,7 +19,10 @@
  */
 package org.eclipse.microprofile.starter.log;
 
+import io.quarkus.arc.Unremovable;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.starter.view.EngineData;
+import org.jboss.logging.Logger;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -37,8 +40,6 @@ import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -46,19 +47,32 @@ import java.util.stream.Stream;
  * @author Michal Karm Babacek <karm@redhat.com>
  */
 @ApplicationScoped
+@Unremovable
 public class DynamoDBLogger {
 
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
-    private static final Logger LOG = Logger.getLogger(DynamoDBLogger.class.getName());
-    private static final String ACCESS_KEY = System.getProperty("AWS_ACCESS_KEY_ID");
-    private static final String SECRET_KEY = System.getProperty("AWS_SECRET_ACCESS_KEY");
-    private static final String WEB_APP_INSTANCE_ID = System.getProperty("MP_STARTER_APP_ID", "test-instance");
-    private static final String REGION = System.getProperty("AWS_REGION", "eu-west-1");
-    private static final String TABLE_NAME = System.getProperty("AWS_DYNAMODB_TABLE_NAME", "microprofile_starter_log");
+    private static final Logger LOG = Logger.getLogger(DynamoDBLogger.class);
+    private static final String ACCESS_KEY = getProperty("AWS_ACCESS_KEY_ID", null);
+    private static final String SECRET_KEY = getProperty("AWS_SECRET_ACCESS_KEY", null);
+    private static final String WEB_APP_INSTANCE_ID = getProperty("MP_STARTER_APP_ID", "test-instance");
+    private static final String REGION = getProperty("AWS_REGION", "eu-west-1");
+    private static final String TABLE_NAME = getProperty("AWS_DYNAMODB_TABLE_NAME", "microprofile_starter_log");
     private static final String LOG_RECORD_TIMESTAMP_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
     private static final String HOST = "dynamodb" + "." + REGION + ".amazonaws.com";
     private static final String ENDPOINT = "https://" + HOST + '/';
     private static final String AMZ_TARGET = "DynamoDB_20120810.PutItem";
+
+    public static String getProperty(String key, String def) {
+        String v = System.getProperty(key);
+        if (StringUtils.isNotBlank(v)) {
+            return v;
+        }
+        v = System.getenv().get(key);
+        if (StringUtils.isNotBlank(v)) {
+            return v;
+        }
+        return def;
+    }
 
     private static byte[] sign(final byte[] key, final byte[] message) throws NoSuchAlgorithmException, InvalidKeyException {
         final Mac mac = Mac.getInstance("HmacSHA256");
@@ -81,7 +95,7 @@ public class DynamoDBLogger {
         try {
             sha1Hash = MessageDigest.getInstance("SHA-1");
         } catch (NoSuchAlgorithmException e) {
-            LOG.log(Level.SEVERE, "SHA-1 not available.", e);
+            LOG.error("SHA-1 not available.", e);
             return null;
         }
         final String timestamp = logMessageTimeFormat.format(date);
@@ -143,7 +157,7 @@ public class DynamoDBLogger {
         try {
             digest = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException e) {
-            LOG.log(Level.SEVERE, "SHA-256 not available.", e);
+            LOG.error("SHA-256 not available.", e);
             return null;
         }
         digest.update(StandardCharsets.UTF_8.encode(dynamoDBJSON));
@@ -181,7 +195,7 @@ public class DynamoDBLogger {
             mac = Mac.getInstance("HmacSHA256");
             mac.init(new SecretKeySpec(signingKey, "HmacSHA256"));
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-            LOG.log(Level.SEVERE, "HmacSHA256 key problem:", e);
+            LOG.error("HmacSHA256 key problem:", e);
             return null;
         }
         final String stringToSign = authHeaderSignatureHash(amzDate, dynamoDBJSON, credentialScope);
@@ -209,37 +223,37 @@ public class DynamoDBLogger {
             try (OutputStream os = myURLConnection.getOutputStream()) {
                 os.write(dynamoDBJSON.getBytes(StandardCharsets.US_ASCII));
             }
-            LOG.log(Level.FINE, myURLConnection.getResponseMessage());
+            LOG.debug(myURLConnection.getResponseMessage());
         } catch (IOException e) {
-            LOG.log(Level.SEVERE, "HttpURLConnection failed.", e);
+            LOG.error("HttpURLConnection failed.", e);
             return;
         }
 
         try {
             if (myURLConnection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                if (LOG.isLoggable(Level.FINE)) {
+                if (LOG.isDebugEnabled()) {
                     try (BufferedReader reader = new BufferedReader(new InputStreamReader(myURLConnection.getErrorStream()))) {
                         String line;
                         while ((line = reader.readLine()) != null) {
-                            LOG.log(Level.FINE, line);
+                            LOG.debug(line);
                         }
                     }
                 }
                 return;
             }
         } catch (IOException e) {
-            LOG.log(Level.SEVERE, "HttpURLConnection failed while reading error stream.", e);
+            LOG.error("HttpURLConnection failed while reading error stream.", e);
             return;
         }
 
-        if (LOG.isLoggable(Level.FINE)) {
+        if (LOG.isDebugEnabled()) {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(myURLConnection.getInputStream()))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    LOG.log(Level.FINE, line);
+                    LOG.debug(line);
                 }
             } catch (IOException e) {
-                LOG.log(Level.SEVERE, "HttpURLConnection failed while reading input stream.", e);
+                LOG.error("HttpURLConnection failed while reading input stream.", e);
             }
         }
     }
@@ -272,11 +286,11 @@ public class DynamoDBLogger {
      */
     public void log(final EngineData engineData) {
         if (ACCESS_KEY == null || (ACCESS_KEY.length()) < 10) {
-            LOG.log(Level.FINE, "System property AWS_ACCESS_KEY_ID not defined. Log call dropped.");
+            LOG.warn("System property AWS_ACCESS_KEY_ID not defined. Log call dropped.");
             return;
         }
         if (SECRET_KEY == null || (SECRET_KEY.length()) < 32) {
-            LOG.log(Level.FINE, "System property AWS_SECRET_ACCESS_KEY not defined. Log call dropped.");
+            LOG.warn("System property AWS_SECRET_ACCESS_KEY not defined. Log call dropped.");
             return;
         }
 
@@ -286,7 +300,7 @@ public class DynamoDBLogger {
 
         final String dynamoDBJSON = preparePayload(engineData, date);
         if (dynamoDBJSON == null) {
-            LOG.log(Level.SEVERE, "Failed to prepare DynamoDB JSON payload.");
+            LOG.error("Failed to prepare DynamoDB JSON payload.");
             return;
         }
 
@@ -295,7 +309,7 @@ public class DynamoDBLogger {
         final String amzDate = amzDateFormat.format(date);
         final String authorizationHeader = createAuthHeader(date, amzDate, dynamoDBJSON);
         if (authorizationHeader == null) {
-            LOG.log(Level.SEVERE, "Failed to prepare authorizationHeader.");
+            LOG.error("Failed to prepare authorizationHeader.");
             return;
         }
 

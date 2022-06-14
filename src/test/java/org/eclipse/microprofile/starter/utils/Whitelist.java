@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017 - 2020 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -29,6 +29,11 @@ import java.util.regex.Pattern;
  * @author Michal Karm Babacek <karm@redhat.com>
  */
 public enum Whitelist {
+    ALL("ALL", new Pattern[]{
+            Pattern.compile(".*maven-error-diagnostics.*"),
+            Pattern.compile(".*error_prone_annotations.*"),
+            Pattern.compile(".*error_prone_parent.*"),
+    }),
     THORNTAIL_V2("thorntail", new Pattern[]{
             Pattern.compile(".*wildfly-domain-http-error-context.*"),
     }),
@@ -39,31 +44,29 @@ public enum Whitelist {
     LIBERTY("liberty", new Pattern[]{
             Pattern.compile(".*FrameworkEvent ERROR.*"),
             Pattern.compile(".*CWWKE0701E.*"),
-            // An exception occurred while stopping the application liberty. The exception message was: java.lang.NoClassDefFoundError: com/ibm/ws/threading/internal/ImmediateFutureImpl
+            // An exception occurred while stopping the application liberty. The exception message was:
+            // java.lang.NoClassDefFoundError: com/ibm/ws/threading/internal/ImmediateFutureImpl
             Pattern.compile(".*CWWKZ0010E:.*"),
-            // [ERROR   ] CWWKL0002E: The system could not read class [io.jaegertracing.internal.reporters.RemoteReporter$Command] as resource [io/jaegertracing/internal/reporters/RemoteReporter$Command.class].
+            // [ERROR   ] CWWKL0002E: The system could not read class [io.jaegertracing.internal.reporters.RemoteReporter$Command]
+            // as resource [io/jaegertracing/internal/reporters/RemoteReporter$Command.class].
             Pattern.compile(".*CWWKL0002E:.*"),
             Pattern.compile(".*Could not load service class com.ibm.ws.io.smallrye.graphql.component.GraphQLExtension.*"),
-            
     }),
-    HELIDON("helidon", new Pattern[]{}),
+    HELIDON("helidon", new Pattern[]{
+            // Windows specific. Something with a buffer?
+            Pattern.compile(".*Error intercepted before request context established.*"),
+    }),
     KUMULUZEE("kumuluzee", new Pattern[]{
-            Pattern.compile(".*error_prone_annotations.*"),
-            Pattern.compile(".*error_prone_parent.*"),
             Pattern.compile(".*underlying class loading error: Type Failure to load: com.mongodb.MongoClient not found.*"),
     }),
     TOMEE("tomee", new Pattern[]{}),
     QUARKUS("quarkus", new Pattern[]{
-            Pattern.compile(".*error_prone_annotations.*"),
-            Pattern.compile(".*error_prone_parent.*"),
             Pattern.compile(".*\\[org.jboss.threads.errors] Thread Thread\\[build.*"),
             Pattern.compile(".*org/jboss/threads/EnhancedQueueExecutor.*"),
             // If there is nobody to receive traces, there is a log about it.
             Pattern.compile(".*io.jaegertracing.internal.exceptions.SenderException.*"),
     }),
     WILDFLY("wildfly", new Pattern[]{
-            Pattern.compile(".*error_prone_annotations.*"),
-            Pattern.compile(".*error_prone_parent.*"),
             Pattern.compile(".*wildfly-domain-http-error-context.*"),
             // Known warning, needs WF update
             Pattern.compile(".*io/netty/util/internal/logging/Log4J2Logger.*"),

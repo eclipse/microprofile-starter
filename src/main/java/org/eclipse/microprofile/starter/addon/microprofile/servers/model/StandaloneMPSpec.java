@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -34,14 +34,14 @@ public enum StandaloneMPSpec {
     // @formatter:off
     ;
 
-    private String code;
-    private String label;
-    private String tagURL;
-    private String description;
-    private List<ServerMPVersion> serverRestrictions;
-    private String groupId;
-    private String artifactId;
-    private String version;
+    private final String code;
+    private final String label;
+    private final String tagURL;
+    private final String description;
+    private final List<ServerMPVersion> serverRestrictions;
+    private final String groupId;
+    private final String artifactId;
+    private final String version;
 
     StandaloneMPSpec(String code,
                      String label,

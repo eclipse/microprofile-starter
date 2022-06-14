@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -34,7 +34,7 @@ import java.util.Map;
  */
 public class JessieFileTemplateResolver extends AbstractConfigurableTemplateResolver {
 
-    private FilesLocator filesLocator;
+    private final FilesLocator filesLocator;
 
     public JessieFileTemplateResolver(FilesLocator filesLocator) {
         this.filesLocator = filesLocator;

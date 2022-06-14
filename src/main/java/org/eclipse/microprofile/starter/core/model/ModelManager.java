@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -33,7 +33,14 @@ import org.eclipse.microprofile.starter.spi.JessieAlternativesProvider;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -43,22 +50,22 @@ import java.util.stream.Collectors;
 public class ModelManager {
 
     @Inject
-    private JessieModelInitializer modelInitializer;
+    JessieModelInitializer modelInitializer;
 
     @Inject
-    private ModelValidation modelValidation;
+    ModelValidation modelValidation;
 
     @Inject
-    private TemplateModelValues templateModelValues;
+    TemplateModelValues templateModelValues;
 
     @Inject
-    private AlternativesProvider alternativesProvider;
+    AlternativesProvider alternativesProvider;
 
     @Inject
-    private TemplateVariableProvider templateVariableProvider;
+    TemplateVariableProvider templateVariableProvider;
 
     @Inject
-    private AddonManager addonManager;
+    AddonManager addonManager;
 
     /**
      * @param model
@@ -146,22 +153,17 @@ public class ModelManager {
     }
 
     private void addDependentAddons(List<JessieAddon> allAddons, JessieModel model) {
-
         Set<String> dependents = allAddons.stream()
-                .map(a ->  a.getDependentAddons(model))
+                .map(a -> a.getDependentAddons(model))
                 .flatMap(Collection::stream)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
 
-        List<String> addons = allAddons.stream().map(JessieAddon::addonName).collect(Collectors.toList());
-
-        dependents.removeAll(addons);
-
+        allAddons.stream().map(JessieAddon::addonName).forEach(dependents::remove);
         if (!dependents.isEmpty()) {
             allAddons.addAll(getAddons(dependents));
             addDependentAddons(allAddons, model);
         }
-
     }
 
     private List<JessieAddon> getAddons(Collection<String> addonList) {
@@ -201,7 +203,7 @@ public class ModelManager {
         boolean result = false;
         String optionName = addonName + ".disable";
         if (options.containsKey(optionName)) {
-            Boolean addonDisabled = Boolean.valueOf(options.get(optionName).getSingleValue());
+            boolean addonDisabled = Boolean.parseBoolean(options.get(optionName).getSingleValue());
             if (addonDisabled) {
                 result = true;
             }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2019 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -20,29 +20,29 @@
 package org.eclipse.microprofile.starter;
 
 import org.eclipse.microprofile.starter.core.files.FilesLocator;
+import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import java.util.Objects;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author Michal Karm Babacek <karm@redhat.com>
  */
 @ApplicationScoped
 public class Version {
-    private static final Logger LOG = Logger.getLogger(Version.class.getName());
+    private static final Logger LOG = Logger.getLogger(Version.class);
 
     private String git;
 
     @PostConstruct
     public void init() {
-        try (Scanner s = new Scanner(FilesLocator.class.getClassLoader()
-                .getResourceAsStream("/version.txt")).useDelimiter("\\A")) {
+        try (Scanner s = new Scanner(Objects.requireNonNull(
+                FilesLocator.class.getClassLoader().getResourceAsStream("/version.txt"))).useDelimiter("\\A")) {
             git = s.hasNext() ? s.next() : "";
         } catch (Exception e) {
-            LOG.log(Level.SEVERE, e.getMessage());
+            LOG.error(e.getMessage());
         }
     }
 

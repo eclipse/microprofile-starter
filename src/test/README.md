@@ -1,7 +1,7 @@
 # Test suite
 
-All tests are contained in a one class called TestMatrixTest, each server runtime
-has 4 identical test cases (with special tweaks only for Tomee), e.g. with Thorntail it is:
+All tests are contained in a one class called TestMatrixITCase, each server runtime
+has its test cases, e.g.:
 
     public void thorntailEmpty() {
         testRuntime("THORNTAIL_V2", "thorntail",
@@ -24,7 +24,7 @@ has 4 identical test cases (with special tweaks only for Tomee), e.g. with Thorn
     }
 
  * Empty test case does not select any examples, so only the default HelloWorld endpoint is tested.
- * All selects all examples and tests them all (expect for Open Tracing as Jaeger is on TODO list).
+ * All selects all examples and tests them all (expect for Open Tracing as Jaeger is not started).
  * AllButJWTRest selects and tests all but JWT and REST; the main purpose is to ensure that no service-a/service-b division takes place.
  * JWTRest selects and tests only JWT and REST.
  
@@ -33,7 +33,7 @@ has 4 identical test cases (with special tweaks only for Tomee), e.g. with Thorn
  
 # How does it work
 REST API is used to download a zip. The zip file is unzipped.
-README file(s) are parsed to get the first mvn command,
+README file(s) are parsed to get the first mvn (or Gradle) command,
 which is assumed to be the build one. The first java command from README is assumed to be the one to run the server.
 Multiple flavours of builds, i.e. multiple ways to build the application is an unsupported feature in the TS at the moment.
 Landing page address is also parsed from the README file as the first one beginning with http://.
@@ -50,12 +50,12 @@ Last but not least, build and runtime logs are checked for errors. See Whitelist
 
 At the very end of the execution, application(s) are terminated. There is also a loop that waits for a TCP socket to die.
 # Platforms
-The TS was tested on OpenJDK Java 11 J9 and HotSpot on Linux and with OpenJDK 11 HotSpot on Windows. It also works on Mac OS. With Windows,  ```powershell``` is used
+The TS was tested with Linux amd64 OpenJDK 11 and Windows amd64 OpenJDK. With Windows,  ```powershell``` is used
 instead of ```unzip``` and ```taskkill``` instead of ```kill```. There is also some ```wmic``` heuristics to clean hanging processes.
 
 # Logging and logs
 All logs are archived in ```target/archived-logs```. If a build or a server runtime fails, 
-this is the first place to look for clues. Both maven build logs and runtime logs are archived. Unzip log is archived too.
+this is the first place to look for clues. Both Maven build logs and runtime logs are archived. Unzip log is archived too.
 
 ## Whitelisting errors
 See Whitelist enum for currently whitelisted errors per each server runtime.
@@ -78,15 +78,11 @@ INFO: Runtime log for libertyEmpty contains whitelisted error:
 
 Run some tests for a specific runtime only:
 
-    mvn clean verify -Pthorntail -Dtest=TestMatrixTest#tomee* -Dskip.integration.tests=false -DSTARTER_TS_WORKSPACE=/dev/shm/
-    
+    mvn clean verify
+
 Debug a single test:
 
-    mvn -DfoforkCount=0 -Dmaven.surefire.debug clean verify -Pthorntail -Dtest=TestMatrixTest#tomeeAll -Dskip.integration.tests=false -DSTARTER_TS_WORKSPACE=/dev/shm/
-    
-Starting on Windows, e.g.:
-
-    mvn clean verify -Pthorntail -Dskip.integration.tests=false -DSTARTER_TS_WORKSPACE=C:\tmp\
+    mvn -DfoforkCount=0 -Dmaven.surefire.debug clean verify -Dtest=TestMatrixITCase#tomeeAll
 
 Note that if you don't specify STARTER_TS_WORKSPACE, the fallback is whatever ```java.io.tmpdir``` returns on your system.
 

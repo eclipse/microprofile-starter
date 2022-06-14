@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -30,7 +30,11 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.eclipse.microprofile.starter.core.model.OptionValue;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class OptionsDeserializer extends JsonDeserializer<Map<String, OptionValue>> {
     @Override

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2019 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -28,10 +28,10 @@ import org.eclipse.microprofile.starter.core.model.JessieModel;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.HashSet;
 
 @ApplicationScoped
 public class LibertyServer extends AbstractMicroprofileAddon {
@@ -51,7 +51,7 @@ public class LibertyServer extends AbstractMicroprofileAddon {
         Set<String> alternatives = model.getParameter(JessieModel.Parameter.ALTERNATIVES);
         Map<String, String> variables = model.getVariables();
 
-        String resourceDirectory = model.getDirectory(true)  + "/src/main/liberty/config";
+        String resourceDirectory = model.getDirectory(true) + "/src/main/liberty/config";
         directoryCreator.createDirectory(resourceDirectory);
 
         templateEngine.processTemplateFile(resourceDirectory, "server.xml", alternatives, variables);
@@ -61,20 +61,20 @@ public class LibertyServer extends AbstractMicroprofileAddon {
             Set<String> tempAlternative = new HashSet<>(alternatives);
             tempAlternative.add(JessieModel.SECONDARY_INDICATOR);
 
-            resourceDirectory = model.getDirectory(false)  + "/src/main/liberty/config";
+            resourceDirectory = model.getDirectory(false) + "/src/main/liberty/config";
             directoryCreator.createDirectory(resourceDirectory);
 
             templateEngine.processTemplateFile(resourceDirectory, "server.xml", tempAlternative, variables);
-            if  (microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH)) {
+            if (microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH)) {
 
                 resourceDirectory = resourceDirectory + "/resources/security";
                 directoryCreator.createDirectory(resourceDirectory);
-    
+
                 templateEngine.processFile(resourceDirectory, "public.jks", alternatives);
             }
         }
 
-        
+
         if (model.hasMainAndSecondaryProject() && microprofileSpecs.contains(MicroprofileSpec.JWT_AUTH)) {
 
             resourceDirectory = model.getDirectory(false) + "/src/main/liberty/server/resources/security";
@@ -90,21 +90,27 @@ public class LibertyServer extends AbstractMicroprofileAddon {
     public void adaptMavenModel(Model pomFile, JessieModel model, boolean mainProject) {
         String openLibertyMavenVersion = "3.5.1";
         pomFile.addProperty("openliberty.maven.version", openLibertyMavenVersion);
-        String jaegerClientVersion="0.34.0";
-        String slf4jApiVersion="1.7.25";
-        String slf4jJdkVersion="1.7.25";
+        String jaegerClientVersion = "0.34.0";
+        String slf4jApiVersion = "1.7.25";
+        String slf4jJdkVersion = "1.7.25";
         switch (model.getSpecification().getMicroProfileVersion()) {
 
             case NONE:
                 break;
-            case MP40: case MP41:
-                jaegerClientVersion="1.5.0";
-                slf4jApiVersion="1.7.30";
-                slf4jJdkVersion="1.7.30";
+            case MP40:
+            case MP41:
+                jaegerClientVersion = "1.5.0";
+                slf4jApiVersion = "1.7.30";
+                slf4jJdkVersion = "1.7.30";
                 break;
-            case MP33: case MP30: 
-            case MP22: case MP21: case MP20:
-            case MP14: case MP13: case MP12:
+            case MP33:
+            case MP30:
+            case MP22:
+            case MP21:
+            case MP20:
+            case MP14:
+            case MP13:
+            case MP12:
             default:
                 break;
         }

@@ -32,12 +32,13 @@ Releasing on production requires a manual step and can only be performed by thos
 
 The following commands will build and release to production the currently checked-out tag of the MicroProfile Starter:
 
-- mvn package -Pthorntail
-- unzip target/mp-starter-hollow-thorntail.jar -d target/mp-starter-hollow-thorntail
-- docker build -f Container/Dockerfile -t microprofile/start.microprofile.io:_1.0_ .
+- ./mvnw package
+- docker build -f Container/Dockerfile.jvm -t microprofile/start.microprofile.io:_1.0_ .
 - docker login (with an account which can push to https://hub.docker.com/r/microprofile/start.microprofile.io)
 - docker push microprofile/start.microprofile.io:_1.0_
 - Edit image version within _docker-compose.yml_ file at aws-microstarter server (match with the one you have pushed)
 - Restart Docker container ( ssh -i <<rsa-key-location>> ec2-user@aws-microstarter "sudo systemctl restart docker-compose@start.microprofile.io")
 
 The version _1.0_ will follow the semantic versioning rules for future releases.
+
+See also [container instructions](./Container/README.md).

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -25,7 +25,11 @@ package org.eclipse.microprofile.starter.core.files;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -89,13 +93,13 @@ public class FilesLocator {
                 if (matches.size() == 1) {
                     result = candidates.indexOf(matches.get(0)); // We have a single match, this is the one.
                 } else {
-                    multipleMatch = true; // We have multiple matches, so we can't decide which is the choosen one.
+                    multipleMatch = true; // We have multiple matches, so we can't decide which is the chosen one.
                 }
             }
         }
 
         if (result == -1 && !multipleMatch) {
-            // Didn't found anything which matches exact, but we didn't stop looking because there was a multiple match.
+            // Didn't find anything which matches exact, but we didn't stop looking because there was a multiple match.
             // Are there versions without any alternative.
             List<FileIdentification> matches = candidates.stream()
                     .filter(fi -> fi.getAlternatives().isEmpty()).collect(Collectors.toList());
@@ -103,7 +107,7 @@ public class FilesLocator {
             if (matches.size() == 1) {
                 result = candidates.indexOf(matches.get(0)); // We have a single match, this is the one.
             }
-            // In all other cases result stays on -1 because we didn't found any suitable match
+            // In all other cases result stays on -1 because we didn't find any suitable match.
         }
         return result;
     }
@@ -147,7 +151,7 @@ public class FilesLocator {
     }
 
     public String getTemplateFile(String index) {
-        return fileNames.get(Integer.valueOf(index));
+        return fileNames.get(Integer.parseInt(index));
     }
 
     private void defineResources(Pattern pattern) {
@@ -178,8 +182,8 @@ public class FilesLocator {
 
     private static class FileIdentification {
         private static final Pattern FILE_PATH_PATTERN_SPLIT = Pattern.compile("\\\\|/");
-        private Set<String> alternatives;
-        private String name;
+        private final Set<String> alternatives;
+        private final String name;
 
         public FileIdentification(String fileName, String root) {
             alternatives = new HashSet<>();

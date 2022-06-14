@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2019 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -20,6 +20,7 @@
 package org.eclipse.microprofile.starter.rest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.context.ManagedExecutor;
 import org.eclipse.microprofile.starter.Version;
 import org.eclipse.microprofile.starter.ZipFileCreator;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.JDKSelector;
@@ -39,6 +40,7 @@ import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
 import org.eclipse.microprofile.starter.core.model.ModelManager;
 import org.eclipse.microprofile.starter.core.model.OptionValue;
 import org.eclipse.microprofile.starter.core.validation.PackageNameValidator;
+import org.eclipse.microprofile.starter.log.AppContext;
 import org.eclipse.microprofile.starter.log.ErrorLogger;
 import org.eclipse.microprofile.starter.log.LoggingTask;
 import org.eclipse.microprofile.starter.rest.model.MPOptionsAvailable;
@@ -46,10 +48,9 @@ import org.eclipse.microprofile.starter.rest.model.Project;
 import org.eclipse.microprofile.starter.rest.model.ServerOptions;
 import org.eclipse.microprofile.starter.rest.model.ServerOptionsV5;
 import org.eclipse.microprofile.starter.view.EngineData;
+import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.enterprise.concurrent.ManagedExecutorService;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.core.EntityTag;
@@ -63,8 +64,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -74,7 +73,7 @@ import java.util.stream.Stream;
 @ApplicationScoped
 public class APIService {
 
-    private static final Logger LOG = Logger.getLogger(APIService.class.getName());
+    private static final Logger LOG = Logger.getLogger(APIService.class);
 
     private Map<String, String> specsDescriptions;
 
@@ -88,16 +87,16 @@ public class APIService {
     private EntityTag readmeEtag;
 
     @Inject
-    private JDKSelector selector;
+    JDKSelector selector;
 
     @Inject
-    private Version version;
+    Version version;
 
     @Inject
-    private PackageNameValidator packageNameValidator;
+    PackageNameValidator packageNameValidator;
 
     @Inject
-    private ErrorLogger errorLogger;
+    ErrorLogger errorLogger;
 
     @PostConstruct
     public void init() {
@@ -139,7 +138,7 @@ public class APIService {
             readme = (s.hasNext() ? s.next() : "") + "\n" + version.getGit() + "\n";
             readmeEtag = new EntityTag(Integer.toHexString(readme.hashCode()));
         } catch (Exception e) {
-            LOG.log(Level.SEVERE, e.getMessage());
+            LOG.error(e.getMessage());
         }
     }
 
@@ -197,16 +196,17 @@ public class APIService {
             "{\"error\":\"Selected runtime has no Gradle support \",\"code\":\"ERROR007\"}";
 
     @Inject
-    private ModelManager modelManager;
+    ModelManager modelManager;
 
     @Inject
-    private Creator creator;
+    Creator creator;
 
     @Inject
-    private ZipFileCreator zipFileCreator;
+    ZipFileCreator zipFileCreator;
 
-    @Resource
-    private ManagedExecutorService managedExecutorService;
+    @Inject
+    @AppContext
+    transient ManagedExecutor executor;
 
     public Response readme(String ifNoneMatch) {
         if (ifNoneMatch != null) {
@@ -607,7 +607,7 @@ public class APIService {
 
         EngineData ed = getEngineData(project);
 
-        managedExecutorService.submit(new LoggingTask(ed));
+        executor.submit(new LoggingTask(ed));
 
         EntityTag etag = new EntityTag(Integer.toHexString(31 * version.getGit().hashCode() + project.hashCode()));
 

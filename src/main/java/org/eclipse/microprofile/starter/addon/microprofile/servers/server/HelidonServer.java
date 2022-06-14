@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2019 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -42,7 +42,7 @@ import java.util.Set;
 public class HelidonServer extends AbstractMicroprofileAddon {
 
     @Inject
-    private CDICreator cdiCreator;
+    CDICreator cdiCreator;
 
     @PostConstruct
     public void init() {

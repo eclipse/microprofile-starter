@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2019 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -68,7 +68,7 @@ public class WildflySwarmServer extends AbstractMicroprofileAddon {
             String webInfDirectory = model.getDirectory(true) + "/" + MavenCreator.SRC_MAIN_WEBAPP + "/WEB-INF";
             directoryCreator.createDirectory(webInfDirectory);
 
-            templateEngine.processTemplateFile(webInfDirectory, "web.xml",alternatives, variables);
+            templateEngine.processTemplateFile(webInfDirectory, "web.xml", alternatives, variables);
         }
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017 - 2020 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -23,6 +23,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import static org.eclipse.microprofile.starter.utils.Commands.IS_THIS_WINDOWS;
+
 /**
  * @author Michal Karm Babacek <karm@redhat.com>
  */
@@ -39,10 +41,16 @@ public class ReadmeParser {
                 String line = sc.nextLine();
                 if (buildCommand == null && (line.startsWith("    mvn") || line.startsWith("    ./gradlew"))) {
                     buildCommand = line.trim().split(" ");
+                    if (IS_THIS_WINDOWS && buildCommand[0].contains("gradlew")) {
+                        buildCommand[0] = "gradlew.bat";
+                    }
                     continue;
                 }
                 if (runCommand == null && (line.startsWith("    java") || line.startsWith("    ./gradlew"))) {
                     runCommand = line.trim().split(" ");
+                    if (IS_THIS_WINDOWS && runCommand[0].contains("gradlew")) {
+                        runCommand[0] = "gradlew.bat";
+                    }
                     continue;
                 }
                 if (webAddress == null && isServiceA && line.startsWith("    http://")) {

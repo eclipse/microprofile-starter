@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -41,23 +41,23 @@ import java.util.List;
 public class AddonManager {
 
     @Inject
-    private Instance<JessieAddon> addons;
+    Instance<JessieAddon> addons;
 
     @Inject
-    private Instance<JessieAlternativesProvider> alternativeProviders;
+    Instance<JessieAlternativesProvider> alternativeProviders;
 
     @Inject
-    private Instance<JessieMavenAdapter> mavenAdapters;
+    Instance<JessieMavenAdapter> mavenAdapters;
 
     @Inject
-    private Instance<JessieGradleAdapter> gradleAdapters;
+    Instance<JessieGradleAdapter> gradleAdapters;
 
     public List<JessieAddon> getAddons(String addonName) {
         List<JessieAddon> result = new ArrayList<>();
 
         for (JessieAddon addon : addons) {
             if (addonName.equalsIgnoreCase(addon.addonName())) {
-                // There are not that many addons that a break (or convertion to while) improves performance.
+                // There are not that many addons that a break (or conversion to while) improves performance.
                 result.add(addon);
             }
         }

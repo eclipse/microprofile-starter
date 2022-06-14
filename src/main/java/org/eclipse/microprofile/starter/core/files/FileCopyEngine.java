@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -22,7 +22,6 @@
  */
 package org.eclipse.microprofile.starter.core.files;
 
-import com.google.common.io.ByteStreams;
 import org.eclipse.microprofile.starter.core.exception.TechnicalException;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -30,6 +29,7 @@ import javax.inject.Inject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -39,7 +39,7 @@ import java.util.Set;
 public class FileCopyEngine {
 
     @Inject
-    private FilesLocator filesLocator;
+    FilesLocator filesLocator;
 
     public byte[] processFile(String file, Set<String> alternatives) {
 
@@ -49,16 +49,15 @@ public class FileCopyEngine {
             throw new FileResolutionException(file, alternatives);
         }
 
-        String sourceFile = "/" + filesLocator.getTemplateFile(fileIndication);
+        final String sourceFile = "/" + filesLocator.getTemplateFile(fileIndication);
+        final ByteArrayOutputStream result = new ByteArrayOutputStream();
 
-        InputStream resource = FileCopyEngine.class.getResourceAsStream(sourceFile);
-        ByteArrayOutputStream result = new ByteArrayOutputStream();
-
-        try {
-            ByteStreams.copy(resource, result);
+        try (InputStream resource = FileCopyEngine.class.getResourceAsStream(sourceFile)) {
+            Objects.requireNonNull(resource).transferTo(result);
         } catch (IOException e) {
             throw new TechnicalException(e);
         }
+
         return result.toByteArray();
     }
 

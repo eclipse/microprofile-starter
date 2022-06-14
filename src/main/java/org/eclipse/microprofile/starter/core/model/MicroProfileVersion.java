@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -45,10 +45,10 @@ public enum MicroProfileVersion {
     , MP12("1.2", "MP 1.2");
     // @formatter:on
 
-    private String code;
-    private String depVersion;
-    private String label;
-    private Set<String> alternatives;
+    private final String code;
+    private final String depVersion;
+    private final String label;
+    private final Set<String> alternatives;
 
     MicroProfileVersion(String code, String label) {
         this(code, label, code, new HashSet<>());

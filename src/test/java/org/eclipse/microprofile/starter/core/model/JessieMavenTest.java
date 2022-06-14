@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2019 - 2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,17 +19,16 @@
  */
 package org.eclipse.microprofile.starter.core.model;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class JessieMavenTest {
 
     @Test
     public void shouldRelaceHypendsWithPeriodInPackageName() {
         JessieMaven maven = new JessieMaven();
-
         maven.setArtifactId("test-service");
-
-        Assert.assertEquals("test.service", maven.getPackage());
+        assertEquals("test.service", maven.getPackage());
     }
 }
