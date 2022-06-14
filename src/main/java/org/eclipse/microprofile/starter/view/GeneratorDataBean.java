@@ -42,6 +42,7 @@ import org.eclipse.microprofile.starter.core.model.JessieSpecification;
 import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
 import org.eclipse.microprofile.starter.core.model.ModelManager;
 import org.eclipse.microprofile.starter.core.model.OptionValue;
+import org.eclipse.microprofile.starter.log.AppContext;
 import org.eclipse.microprofile.starter.log.ErrorLogger;
 import org.eclipse.microprofile.starter.log.LoggingTask;
 
@@ -89,7 +90,8 @@ public class GeneratorDataBean implements Serializable {
     ErrorLogger errorLogger;
 
     @Inject
-    ManagedExecutor executor;
+    @AppContext
+    transient ManagedExecutor executor;
 
     private EngineData engineData;
 

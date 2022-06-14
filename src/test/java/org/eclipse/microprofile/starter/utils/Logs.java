@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -110,10 +111,9 @@ public class Logs {
         if (StringUtils.isBlank(testMethod)) {
             throw new IllegalArgumentException("testMethod must not be blank");
         }
-        Path destDir = Path.of(System.getProperties().get("basedir").toString(), "target", "archived-logs", testClass, testMethod);
+        final Path destDir = Path.of(System.getProperties().get("basedir").toString(), "target", "archived-logs", testClass, testMethod);
         Files.createDirectories(destDir);
-        String filename = log.getName();
-        Files.copy(log.toPath(), Paths.get(destDir.toString(), filename));
+        Files.copy(log.toPath(), Paths.get(destDir.toString(), log.getName()), StandardCopyOption.REPLACE_EXISTING);
     }
 
 }

@@ -51,80 +51,294 @@
         <myfaces.version>2.3-next-M6</myfaces.version>
         <checkstyle.version>2.17</checkstyle.version>
         <checkstyle.methodNameFormat>^_?[a-z][a-zA-Z0-9]*$</checkstyle.methodNameFormat>
+        <packaging.type>jar</packaging.type>
+
+        <!-- Liberty specific -->
+        <!-- Mind src/main/liberty/config/server.xml too -->
+        <microprofile.spec.version>4.1</microprofile.spec.version>
+        <!-- Mind src/main/liberty/config/server.xml too -->
+        <smallrye-context-propagation.version>1.2.2</smallrye-context-propagation.version>
+        <sflj4.version>1.7.36</sflj4.version>
+        <maven.war.plugin.version>3.2.2</maven.war.plugin.version>
+        <maven.resources.plugin.version>3.1.0</maven.resources.plugin.version>
+        <maven.liberty.plugin.version>3.5</maven.liberty.plugin.version>
     </properties>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>${quarkus.platform.group-id}</groupId>
-                <artifactId>${quarkus.platform.artifact-id}</artifactId>
-                <version>${quarkus.platform.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+
+    <!-- Liberty requires WAR, Quarkus JAR... -->
+    <packaging>${packaging.type}</packaging>
+
+    <profiles>
+        <profile>
+            <id>quarkus</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>${quarkus.platform.group-id}</groupId>
+                        <artifactId>${quarkus.platform.artifact-id}</artifactId>
+                        <version>${quarkus.platform.version}</version>
+                        <type>pom</type>
+                        <scope>import</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+            <dependencies>
+
+                <!-- Runtime -->
+
+                <dependency>
+                    <groupId>org.apache.myfaces.core.extensions.quarkus</groupId>
+                    <artifactId>myfaces-quarkus</artifactId>
+                    <version>${myfaces.version}</version>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
+                            <artifactId>owasp-java-html-sanitizer</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>com.github.librepdf</groupId>
+                            <artifactId>openpdf</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>commons-fileupload</groupId>
+                            <artifactId>commons-fileupload</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>org.apache.poi</groupId>
+                            <artifactId>poi</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>org.apache.poi</groupId>
+                            <artifactId>poi-ooxml</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>com.rometools</groupId>
+                            <artifactId>rome</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.myfaces.core.extensions.quarkus</groupId>
+                    <artifactId>myfaces-quarkus-deployment</artifactId>
+                    <version>${myfaces.version}</version>
+                </dependency>
+
+                <dependency>
+                    <groupId>io.quarkus</groupId>
+                    <artifactId>quarkus-resteasy-jsonb</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>io.quarkus</groupId>
+                    <artifactId>quarkus-resteasy</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>io.quarkus</groupId>
+                    <artifactId>quarkus-arc</artifactId>
+                </dependency>
+
+                <!-- Testing -->
+
+                <dependency>
+                    <groupId>io.quarkus</groupId>
+                    <artifactId>quarkus-junit5</artifactId>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>io.rest-assured</groupId>
+                    <artifactId>rest-assured</artifactId>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>${quarkus.platform.group-id}</groupId>
+                        <artifactId>quarkus-maven-plugin</artifactId>
+                        <version>${quarkus.platform.version}</version>
+                        <extensions>true</extensions>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>build</goal>
+                                    <goal>generate-code</goal>
+                                    <goal>generate-code-tests</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>liberty</id>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+                <packaging.type>war</packaging.type>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>javax</groupId>
+                    <artifactId>javaee-api</artifactId>
+                    <version>8.0</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>io.quarkus.arc</groupId>
+                    <artifactId>arc</artifactId>
+                    <version>${quarkus.platform.version}</version>
+                    <scope>compile</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.eclipse.microprofile</groupId>
+                    <artifactId>microprofile</artifactId>
+                    <version>${microprofile.spec.version}</version>
+                    <type>pom</type>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>io.smallrye</groupId>
+                    <artifactId>smallrye-context-propagation</artifactId>
+                    <version>${smallrye-context-propagation.version}</version>
+                    <type>pom</type>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                    <version>${sflj4.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-jdk14</artifactId>
+                    <version>${sflj4.version}</version>
+                </dependency>
+            </dependencies>
+            <build>
+                <finalName>starter</finalName>
+                <!-- Quarkus and Liberty structure webapp very differently... -->
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <excludes>
+                            <exclude>**/META-INF/resources/**/*</exclude>
+                            <exclude>**/META-INF/faces-config.xml</exclude>
+                            <exclude>**/META-INF/web.xml</exclude>
+                            <exclude>application.properties</exclude>
+                        </excludes>
+                        <includes>
+                            <include>**/files/**</include>
+                            <include>**/META-INF/beans.xml</include>
+                            <include>files.lst</include>
+                            <include>pom-servers.xml</include>
+                            <include>REST-README.md</include>
+                            <include>**/templates/**</include>
+                        </includes>
+                    </resource>
+                </resources>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>${maven.war.plugin.version}</version>
+                        <configuration>
+                            <failOnMissingWebXml>false</failOnMissingWebXml>
+                            <webResources>
+                                <resource>
+                                    <directory>src/main/resources/META-INF/resources</directory>
+                                    <includes>
+                                        <include>**</include>
+                                    </includes>
+                                </resource>
+                                <resource>
+                                    <directory>src/main/resources/META-INF/</directory>
+                                    <includes>
+                                        <include>**/*.xml</include>
+                                    </includes>
+                                </resource>
+                            </webResources>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <!-- Shuffling around content to please Liberty, different structure... -->
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>${maven.resources.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>WEB-INF</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${basedir}/target/starter/WEB-INF</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>src/main/resources/META-INF</directory>
+                                            <excludes>
+                                                <exclude>beans.xml</exclude>
+                                            </excludes>
+                                            <includes>
+                                                <include>*.xml</include>
+                                            </includes>
+                                            <filtering>true</filtering>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>Website</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${basedir}/target/starter</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>src/main/resources/META-INF/resources</directory>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>io.openliberty.tools</groupId>
+                        <artifactId>liberty-maven-plugin</artifactId>
+                        <version>${maven.liberty.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>package-server</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>create</goal>
+                                    <goal>install-feature</goal>
+                                    <goal>deploy</goal>
+                                    <goal>package</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>target/wlp-package</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <skipTests>true</skipTests>
+                            <skipITs>true</skipITs>
+                            <include>runnable</include>
+                            <serverName>starter</serverName>
+                            <bootstrapProperties>
+                                <project.name>starter</project.name>
+                                <app.context.root>starter</app.context.root>
+                            </bootstrapProperties>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
     <dependencies>
-
-        <!-- Runtime -->
-
-        <dependency>
-            <groupId>org.apache.myfaces.core.extensions.quarkus</groupId>
-            <artifactId>myfaces-quarkus</artifactId>
-            <version>${myfaces.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
-                    <artifactId>owasp-java-html-sanitizer</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.github.librepdf</groupId>
-                    <artifactId>openpdf</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>commons-fileupload</groupId>
-                    <artifactId>commons-fileupload</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.poi</groupId>
-                    <artifactId>poi</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.poi</groupId>
-                    <artifactId>poi-ooxml</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.rometools</groupId>
-                    <artifactId>rome</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.myfaces.core.extensions.quarkus</groupId>
-            <artifactId>myfaces-quarkus-deployment</artifactId>
-            <version>${myfaces.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.primefaces</groupId>
-            <artifactId>primefaces</artifactId>
-            <version>${primefaces.version}</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-resteasy-jsonb</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-resteasy</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-arc</artifactId>
-        </dependency>
-
         <!-- App -->
-
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-model-builder</artifactId>
@@ -150,18 +364,10 @@
             <artifactId>thymeleaf</artifactId>
             <version>${thymeleaf.version}</version>
         </dependency>
-
-        <!-- Testing -->
-
         <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-junit5</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <scope>test</scope>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>${primefaces.version}</version>
         </dependency>
     </dependencies>
     <build>
@@ -175,21 +381,6 @@
             </plugins>
         </pluginManagement>
         <plugins>
-            <plugin>
-                <groupId>${quarkus.platform.group-id}</groupId>
-                <artifactId>quarkus-maven-plugin</artifactId>
-                <version>${quarkus.platform.version}</version>
-                <extensions>true</extensions>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>build</goal>
-                            <goal>generate-code</goal>
-                            <goal>generate-code-tests</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${compiler-plugin.version}</version>

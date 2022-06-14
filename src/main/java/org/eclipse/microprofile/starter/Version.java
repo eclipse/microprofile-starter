@@ -24,8 +24,8 @@ import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import java.util.Objects;
 import java.util.Scanner;
-
 
 /**
  * @author Michal Karm Babacek <karm@redhat.com>
@@ -38,8 +38,8 @@ public class Version {
 
     @PostConstruct
     public void init() {
-        try (Scanner s = new Scanner(FilesLocator.class.getClassLoader()
-                .getResourceAsStream("/version.txt")).useDelimiter("\\A")) {
+        try (Scanner s = new Scanner(Objects.requireNonNull(
+                FilesLocator.class.getClassLoader().getResourceAsStream("/version.txt"))).useDelimiter("\\A")) {
             git = s.hasNext() ? s.next() : "";
         } catch (Exception e) {
             LOG.error(e.getMessage());

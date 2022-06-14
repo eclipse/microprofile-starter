@@ -4,6 +4,18 @@ Building an image and running a container
 Development workflow
 ====================
 
+Locally without Docker, with Liberty
+------------------------------------
+
+```
+./mvn clean package liberty:run -Pliberty
+```
+
+Open: http://localhost:9080/starter/index.xhtml
+
+Note that the test suite requires Quarkus runtime, so it is
+not supported to run tests with Liberty.
+
 Locally without Docker, with Quarkus
 ------------------------------------
 

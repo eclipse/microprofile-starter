@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="${project.name}">
+<featureManager>
+    <feature>microProfile-4.1</feature>
+    <feature>webprofile-8.0</feature>
+    <feature>mpContextPropagation-1.2</feature>
+</featureManager>
+<httpEndpoint id="defaultHttpEndpoint"
+              httpPort="9080"
+              httpsPort="9443"/>
+<webApplication location="${project.name}.war" contextRoot="${app.context.root}">
+    <classloader apiTypeVisibility="+third-party" />
+</webApplication>
+</server>

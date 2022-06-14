@@ -74,7 +74,8 @@ public class Commands {
     public static File unzip(String location, String artifactId) throws InterruptedException, IOException {
         ProcessBuilder pb;
         if (IS_THIS_WINDOWS) {
-            pb = new ProcessBuilder("powershell", "-c", "Expand-Archive", "-Path", location, "-DestinationPath", WORKSPACE_DIR, "-Force");
+            pb = new ProcessBuilder(
+                    "powershell", "-c", "Expand-Archive", "-Path", location, "-DestinationPath", WORKSPACE_DIR, "-Force");
         } else {
             pb = new ProcessBuilder("unzip", "-o", location, "-d", WORKSPACE_DIR);
         }
@@ -82,6 +83,9 @@ public class Commands {
         env.put("PATH", System.getenv("PATH"));
         pb.directory(new File(WORKSPACE_DIR));
         File unzipLog = new File(WORKSPACE_DIR + File.separator + artifactId + "-unzip.log");
+        if (unzipLog.exists()) {
+            unzipLog.delete();
+        }
         pb.redirectErrorStream(true);
         pb.redirectOutput(ProcessBuilder.Redirect.to(unzipLog));
         Process p = pb.start();
@@ -106,7 +110,8 @@ public class Commands {
                 try {
                     Files.delete(dir);
                 } catch (DirectoryNotEmptyException e) {
-                    LOGGER.error(dir.toAbsolutePath() + " is not empty. That means someone is still writing to it. Stray Gradle daemon? Server?");
+                    LOGGER.error(dir.toAbsolutePath()
+                            + " is not empty. That means someone is still writing to it. Stray Gradle daemon? Server?");
                 }
                 return FileVisitResult.CONTINUE;
             }

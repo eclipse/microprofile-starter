@@ -276,7 +276,6 @@ span.ui-icon.ui-icon-triangle-1-s.ui-c::before {
     padding: 9px 15px;
 }
 
-
 .ui-inputfield, .ui-selectonemenu.ui-widget.ui-state-default.ui-corner-all {
     border-radius: 5px;
     /* max-width: 280px; */
@@ -434,4 +433,4 @@ span.ui-chkbox-icon.ui-icon.ui-c.ui-icon-check {
 
 .social i.fa:hover {
      color: rgb(253, 183, 28);
- }
+}

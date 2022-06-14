@@ -41,8 +41,19 @@ public class HeaderFilter implements Filter {
         servletResponse.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
         servletResponse.setHeader("X-Content-Type-Options", "nosniff");
         servletResponse.setHeader("X-Frame-Options", "DENY");
-        servletResponse.setHeader("Content-Security-Policy", "default-src: https: font-src 'https://fonts.googleapis.com';" +
-                "img-src 'self' https://microprofile.io; style-src 'self'; frame-ancestors 'none';");
+        servletResponse.setHeader("Content-Security-Policy", ""
+                + "default-src 'self'; "
+                + "script-src 'self' 'unsafe-inline' 'unsafe-eval' "
+                + "     https://use.fontawesome.com "
+                + "     https://kit.fontsawesome.com; "
+                + "style-src 'self' 'unsafe-inline' "
+                + "     fonts.gstatic.com "
+                + "     fonts.googleapis.com "
+                + "     *.fontawesome.com; "
+                + "img-src 'self' fonts.gstatic.com microprofile.io; "
+                + "font-src 'self' fonts.gstatic.com fonts.googleapis.com *.fontsawesome.com; "
+                + "connect-src 'self' fonts.gstatic.com fonts.googleapis.com *.fontsawesome.com; "
+        );
         chain.doFilter(request, response);
     }
 

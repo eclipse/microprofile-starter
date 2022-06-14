@@ -40,6 +40,7 @@ import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
 import org.eclipse.microprofile.starter.core.model.ModelManager;
 import org.eclipse.microprofile.starter.core.model.OptionValue;
 import org.eclipse.microprofile.starter.core.validation.PackageNameValidator;
+import org.eclipse.microprofile.starter.log.AppContext;
 import org.eclipse.microprofile.starter.log.ErrorLogger;
 import org.eclipse.microprofile.starter.log.LoggingTask;
 import org.eclipse.microprofile.starter.rest.model.MPOptionsAvailable;
@@ -204,7 +205,8 @@ public class APIService {
     ZipFileCreator zipFileCreator;
 
     @Inject
-    ManagedExecutor executor;
+    @AppContext
+    transient ManagedExecutor executor;
 
     public Response readme(String ifNoneMatch) {
         if (ifNoneMatch != null) {
