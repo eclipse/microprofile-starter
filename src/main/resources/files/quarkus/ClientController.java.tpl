@@ -2,11 +2,11 @@ package [# th:text="${java_package}"/].client;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import [# th:text="${jakarta_ee_package}"/].enterprise.context.ApplicationScoped;
+import [# th:text="${jakarta_ee_package}"/].inject.Inject;
+import [# th:text="${jakarta_ee_package}"/].ws.rs.GET;
+import [# th:text="${jakarta_ee_package}"/].ws.rs.Path;
+import [# th:text="${jakarta_ee_package}"/].ws.rs.PathParam;
 
 @Path("/client")
 @ApplicationScoped

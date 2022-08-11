@@ -4,7 +4,7 @@ import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
 import org.eclipse.microprofile.health.Liveness;
 
-import javax.enterprise.context.ApplicationScoped;
+import [# th:text="${jakarta_ee_package}"/].enterprise.context.ApplicationScoped;
 
 @Liveness
 @ApplicationScoped

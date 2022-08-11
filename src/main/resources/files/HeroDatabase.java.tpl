@@ -3,11 +3,11 @@ package [# th:text="${java_package}"/].graphql.db;
 import [# th:text="${java_package}"/].graphql.model.SuperHero;
 import [# th:text="${java_package}"/].graphql.model.Team;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Initialized;
-import javax.enterprise.event.Observes;
-import javax.json.bind.Jsonb;
-import javax.json.bind.JsonbBuilder;
+import [# th:text="${jakarta_ee_package}"/].enterprise.context.ApplicationScoped;
+import [# th:text="${jakarta_ee_package}"/].enterprise.context.Initialized;
+import [# th:text="${jakarta_ee_package}"/].enterprise.event.Observes;
+import [# th:text="${jakarta_ee_package}"/].json.bind.Jsonb;
+import [# th:text="${jakarta_ee_package}"/].json.bind.JsonbBuilder;
 import java.util.*;
 
 @ApplicationScoped

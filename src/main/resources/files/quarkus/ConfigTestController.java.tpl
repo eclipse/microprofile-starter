@@ -4,10 +4,10 @@ import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import [# th:text="${jakarta_ee_package}"/].enterprise.context.RequestScoped;
+import [# th:text="${jakarta_ee_package}"/].inject.Inject;
+import [# th:text="${jakarta_ee_package}"/].ws.rs.GET;
+import [# th:text="${jakarta_ee_package}"/].ws.rs.Path;
 
 @Path("/config")
 @RequestScoped

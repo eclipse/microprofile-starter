@@ -97,7 +97,7 @@ public class LibertyServer extends AbstractMicroprofileAddon {
 
             case NONE:
                 break;
-            case MP40: case MP41:
+            case MP40: case MP41: case MP50:
                 jaegerClientVersion="1.5.0";
                 slf4jApiVersion="1.7.30";
                 slf4jJdkVersion="1.7.30";

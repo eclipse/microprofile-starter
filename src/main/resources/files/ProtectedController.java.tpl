@@ -3,11 +3,11 @@ package [# th:text="${java_package}"/].secure;
 import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.ClaimValue;
 
-import javax.annotation.security.RolesAllowed;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import [# th:text="${jakarta_ee_package}"/].annotation.security.RolesAllowed;
+import [# th:text="${jakarta_ee_package}"/].enterprise.context.RequestScoped;
+import [# th:text="${jakarta_ee_package}"/].inject.Inject;
+import [# th:text="${jakarta_ee_package}"/].ws.rs.GET;
+import [# th:text="${jakarta_ee_package}"/].ws.rs.Path;
 
 /**
  *

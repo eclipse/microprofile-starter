@@ -3,11 +3,11 @@ package [# th:text="${java_package}"/];
 [# th:if="${mp_JWT_auth}"]
 import org.eclipse.microprofile.auth.LoginConfig;
 
-import javax.annotation.security.DeclareRoles;
+import [# th:text="${jakarta_ee_package}"/].annotation.security.DeclareRoles;
 [/]
-import javax.enterprise.context.ApplicationScoped;
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import [# th:text="${jakarta_ee_package}"/].enterprise.context.ApplicationScoped;
+import [# th:text="${jakarta_ee_package}"/].ws.rs.ApplicationPath;
+import [# th:text="${jakarta_ee_package}"/].ws.rs.core.Application;
 
 /**
  *

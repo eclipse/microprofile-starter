@@ -1,7 +1,7 @@
 package [# th:text="${java_package}"/];
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import [# th:text="${jakarta_ee_package}"/].ws.rs.ApplicationPath;
+import [# th:text="${jakarta_ee_package}"/].ws.rs.core.Application;
 
 /**
  *

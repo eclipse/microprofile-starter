@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2019-2022 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -26,6 +26,7 @@ import org.apache.maven.model.Profile;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.MicroprofileSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.StandaloneMPSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
+import org.eclipse.microprofile.starter.addon.microprofile.servers.model.VersionStandaloneMatrix;
 import org.eclipse.microprofile.starter.core.artifacts.MavenCreator;
 import org.eclipse.microprofile.starter.core.exception.JessieConfigurationException;
 import org.eclipse.microprofile.starter.core.exception.JessieUnexpectedException;
@@ -38,10 +39,12 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.eclipse.microprofile.starter.core.model.JessieModel.Parameter.MICROPROFILESPECS;
 
@@ -112,6 +115,11 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
                 invalidSpecs.add(spec);
             } else {
                 model.addVariable("mp_" + standaloneMPSpec.getCode(), "true");
+                // For OpenLiberty feature we need the version
+                Map<StandaloneMPSpec, String> specData = VersionStandaloneMatrix.getInstance().
+                    getSpecData(model.getSpecification().getMicroProfileVersion());
+                model.addVariable("mp_" + standaloneMPSpec.getCode() + "_version", majorMinorVersion(specData.get(standaloneMPSpec)));
+
                 microprofileStandaloneSpecs.add(standaloneMPSpec);
             }
         }
@@ -121,6 +129,12 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
         }
 
         model.addParameter(MICROPROFILESPECS, microprofileSpecs);
+    }
+
+    private String majorMinorVersion(String version) {
+        String[] parts = version.split("\\.");
+        int neededParts = Math.min(parts.length, 2);  //We only need Major minor or just the version.
+        return Arrays.stream(parts).limit(neededParts).collect(Collectors.joining("."));
     }
 
     private void checkServerValue(JessieModel model) {
@@ -187,10 +201,14 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
         }
 
         if (microprofileStandaloneSpecs.contains(StandaloneMPSpec.GRAPHQL) && mainProject) {
+
+            Map<StandaloneMPSpec, String> specData = VersionStandaloneMatrix.getInstance()
+                    .getSpecData(model.getSpecification().getMicroProfileVersion());
+
             mavenHelper.addDependency(pomFile,
                     StandaloneMPSpec.GRAPHQL.getGroupId(),
                     StandaloneMPSpec.GRAPHQL.getArtifactId(),
-                    StandaloneMPSpec.GRAPHQL.getVersion(),
+                    specData.get(StandaloneMPSpec.GRAPHQL),
                     "provided");
         }
 
@@ -253,10 +271,12 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
             directoryCreator.createDirectory(healthDirectory);
 
             if (alternatives.contains(MicroProfileVersion.Constants.MP41_ALTERNATIVE)
-                    || alternatives.contains(MicroProfileVersion.Constants.MP3X_ALTERNATIVE)) {
+                    || alternatives.contains(MicroProfileVersion.Constants.MP3X_ALTERNATIVE) || 
+                    alternatives.contains(MicroProfileVersion.Constants.MP5X_ALTERNATIVE)) {
                 templateEngine.processTemplateFile(healthDirectory, "ServiceLiveHealthCheck.java", alternatives, variables);
                 templateEngine.processTemplateFile(healthDirectory, "ServiceReadyHealthCheck.java", alternatives, variables);
-                if (alternatives.contains(MicroProfileVersion.Constants.MP41_ALTERNATIVE)) {
+                if (alternatives.contains(MicroProfileVersion.Constants.MP41_ALTERNATIVE) || 
+                    alternatives.contains(MicroProfileVersion.Constants.MP5X_ALTERNATIVE)) {
                     templateEngine.processTemplateFile(healthDirectory, "ServiceStartupHealthCheck.java", alternatives, variables);
                 }
             } else {

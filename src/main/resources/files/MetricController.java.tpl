@@ -6,10 +6,10 @@ import org.eclipse.microprofile.metrics.annotation.Gauge;
 import org.eclipse.microprofile.metrics.annotation.Metric;
 import org.eclipse.microprofile.metrics.annotation.Timed;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import [# th:text="${jakarta_ee_package}"/].enterprise.context.ApplicationScoped;
+import [# th:text="${jakarta_ee_package}"/].inject.Inject;
+import [# th:text="${jakarta_ee_package}"/].ws.rs.GET;
+import [# th:text="${jakarta_ee_package}"/].ws.rs.Path;
 import java.util.Random;
 
 @Path("/metric")

@@ -1,8 +1,8 @@
 package [# th:text="${java_package}"/].client;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import [# th:text="${jakarta_ee_package}"/].ws.rs.GET;
+import [# th:text="${jakarta_ee_package}"/].ws.rs.Path;
+import [# th:text="${jakarta_ee_package}"/].ws.rs.PathParam;
 
 @Path("/client/service")
 public class ServiceController {
