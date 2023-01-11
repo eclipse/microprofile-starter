@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020-2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -82,22 +82,11 @@ public class JDKSelector {
         }
 
         for (MicroProfileVersion version : MicroProfileVersion.values()) {
-            if (minVersion == null && maxVersion == null) {  // No restriction on MPVersion, add always
+            // the checks <= and => seems inverted but that is because the newest MicroProfile versions
+            // are added first in the list of MicroProfileVersion.
+            if ((minVersion == null || version.ordinal() <= minVersion.ordinal())
+                    && (maxVersion == null || version.ordinal() >= maxVersion.ordinal())) {
                 specData.get(version).add(seVersion);
-            } else {
-                boolean addVersion = false;
-                // the checks <= and => seems inverted but that is because the newest MicroProfile versions
-                // are added first in the list of MicroProfileVersion.
-                if (minVersion != null && version.ordinal() <= minVersion.ordinal()) {
-                    addVersion = true;
-                }
-                if (maxVersion != null && version.ordinal() >= maxVersion.ordinal()) {
-                    addVersion = true;
-                }
-
-                if (addVersion) {
-                    specData.get(version).add(seVersion);
-                }
             }
         }
     }
