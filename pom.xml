@@ -397,9 +397,6 @@
                                     <goal>deploy</goal>
                                     <goal>package</goal>
                                 </goals>
-                                <configuration>
-                                    <outputDirectory>target/wlp-package</outputDirectory>
-                                </configuration>
                             </execution>
                         </executions>
                         <configuration>
