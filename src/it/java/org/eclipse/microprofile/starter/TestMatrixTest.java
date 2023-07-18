@@ -101,6 +101,9 @@ public class TestMatrixTest {
         File runLogA = null;
         File runLogB = null;
 
+        // Workaround https://github.com/OpenLiberty/ci.gradle/issues/841 by using a single-thread for Liberty + Gradle
+        int threadPoolSize = (supportedServer.equalsIgnoreCase("LIBERTY") && buildTool.equals(BuildTool.GRADLE)) ? 1 : 2;
+
         try {
             // Cleanup
             cleanWorkspace(artifactId);
@@ -134,7 +137,7 @@ public class TestMatrixTest {
             if (specSelection.hasServiceB) {
                 buildLogB = new File(directoryB.getAbsolutePath() + File.separator + directoryB.getName() + "-build.log");
             }
-            ExecutorService buildService = Executors.newFixedThreadPool(2);
+            ExecutorService buildService = Executors.newFixedThreadPool(threadPoolSize);  
             buildService.submit(new Commands.ProcessRunner(directoryA, buildLogA, buildCmdRunCmdWebAddr[0], 20));
             if (specSelection.hasServiceB) {
                 buildService.submit(new Commands.ProcessRunner(directoryB, buildLogB, buildCmdRunCmd[0], 20));
