@@ -21,7 +21,7 @@ package org.eclipse.microprofile.starter.core.artifacts;
 
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 public class BuildToolCreator {
 

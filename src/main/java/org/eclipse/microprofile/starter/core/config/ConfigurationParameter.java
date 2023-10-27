@@ -22,7 +22,7 @@
  */
 package org.eclipse.microprofile.starter.core.config;
 
-import javax.enterprise.inject.Vetoed;
+import jakarta.enterprise.inject.Vetoed;
 
 /**
  *

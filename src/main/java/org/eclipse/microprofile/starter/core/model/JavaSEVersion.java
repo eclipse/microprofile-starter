@@ -29,7 +29,9 @@ public enum JavaSEVersion implements ComboBoxItem {
     // @formatter:off
     NONE(null, ""),
     SE8("1.8", "Java 8"),
-    SE11("11", "Java 11");
+    SE11("11", "Java 11"),
+    SE17("17","Java 17"),
+    SE21("21","Java 21");
     // @formatter:on
 
     private String code;

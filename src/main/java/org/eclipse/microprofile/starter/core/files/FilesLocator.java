@@ -23,8 +23,8 @@
 package org.eclipse.microprofile.starter.core.files;
 
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;

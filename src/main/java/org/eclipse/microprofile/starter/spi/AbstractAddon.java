@@ -29,7 +29,7 @@ import org.eclipse.microprofile.starter.core.artifacts.TemplateEngine;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 import org.eclipse.microprofile.starter.core.model.OptionValue;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.util.Map;
 
 /**

@@ -24,7 +24,7 @@ package org.eclipse.microprofile.starter.core.artifacts;
 
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;

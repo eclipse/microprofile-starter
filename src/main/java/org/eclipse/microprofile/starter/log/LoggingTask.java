@@ -21,7 +21,7 @@ package org.eclipse.microprofile.starter.log;
 
 import org.eclipse.microprofile.starter.view.EngineData;
 
-import javax.enterprise.inject.spi.CDI;
+import jakarta.enterprise.inject.spi.CDI;
 
 public class LoggingTask implements Runnable {
 

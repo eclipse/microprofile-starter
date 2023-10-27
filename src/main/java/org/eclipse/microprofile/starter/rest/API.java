@@ -19,8 +19,8 @@
  */
 package org.eclipse.microprofile.starter.rest;
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
 
 /**
  * @author Michal Karm Babacek <karm@redhat.com>

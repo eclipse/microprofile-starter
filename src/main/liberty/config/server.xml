@@ -3,8 +3,8 @@
 
     <!-- Enable features -->
     <featureManager>
-        <feature>microprofile-3.3</feature>
-        <feature>webprofile-8.0</feature>
+        <feature>jakartaee-10.0</feature>
+        <feature>microProfile-6.0</feature>
     </featureManager>
 
     <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->

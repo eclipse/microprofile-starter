@@ -29,8 +29,8 @@ import org.eclipse.microprofile.starter.core.model.OptionValue;
 import org.eclipse.microprofile.starter.core.templates.TemplateModelLoader;
 import org.eclipse.microprofile.starter.spi.JessieAddon;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 

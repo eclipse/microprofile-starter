@@ -24,7 +24,7 @@ package org.eclipse.microprofile.starter.core.artifacts;
 
 import org.eclipse.microprofile.starter.core.files.ThymeleafEngine;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 /**
  *

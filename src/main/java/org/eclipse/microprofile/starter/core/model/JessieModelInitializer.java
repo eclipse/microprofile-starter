@@ -24,7 +24,7 @@ package org.eclipse.microprofile.starter.core.model;
 
 import org.eclipse.microprofile.starter.core.exception.TechnicalException;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.io.File;
 import java.io.IOException;
 
