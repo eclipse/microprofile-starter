@@ -75,37 +75,21 @@ public class PayaraMicroServer extends AbstractMicroprofileAddon {
     private String definePayaraVersion(JessieModel model) {
         String payaraVersion = "";
         switch (model.getSpecification().getMicroProfileVersion()) {
-
             case NONE:
                 break;
-            case MP40:
-                payaraVersion = "5.2021.1";
+            case MP61:
                 break;
-            case MP33:
-                payaraVersion = "5.2020.2";
+            case MP60:
+                payaraVersion = "6.0.0";
                 break;
-            case MP32:
-                payaraVersion = "5.194";
+            case MP50:
+                payaraVersion = "6.2022.1.Alpha2";
                 break;
-            case MP22:
-                payaraVersion = "5.192";
-                break;
-            case MP21:
-                payaraVersion = "5.191";
-                break;
-            case MP20:
-                payaraVersion = "5.183";
-                break;
-            case MP14:
-                payaraVersion = "5.183";
-                break;
-            case MP13:
-                payaraVersion = "5.182";
-                break;
-            case MP12:
-                payaraVersion = "5.181";
+            case MP41:
+                payaraVersion = "5.37.0";
                 break;
             default:
+                break;
         }
         return payaraVersion;
     }

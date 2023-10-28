@@ -94,17 +94,22 @@ public class LibertyServer extends AbstractMicroprofileAddon {
         String slf4jApiVersion="1.7.25";
         String slf4jJdkVersion="1.7.25";
         switch (model.getSpecification().getMicroProfileVersion()) {
-
             case NONE:
                 break;
-            case MP40: case MP41: case MP50:
-                jaegerClientVersion="1.5.0";
-                slf4jApiVersion="1.7.30";
-                slf4jJdkVersion="1.7.30";
+            case MP61:
                 break;
-            case MP33: case MP30: 
-            case MP22: case MP21: case MP20:
-            case MP14: case MP13: case MP12:
+            case MP60:
+                break;
+            case MP50:
+                jaegerClientVersion = "1.5.0";
+                slf4jApiVersion = "1.7.30";
+                slf4jJdkVersion = "1.7.30";
+                break;
+            case MP41:
+                jaegerClientVersion = "1.5.0";
+                slf4jApiVersion = "1.7.30";
+                slf4jJdkVersion = "1.7.30";
+                break;
             default:
                 break;
         }

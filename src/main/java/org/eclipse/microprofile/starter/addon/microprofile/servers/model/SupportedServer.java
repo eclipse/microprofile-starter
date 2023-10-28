@@ -25,13 +25,12 @@ package org.eclipse.microprofile.starter.addon.microprofile.servers.model;
 import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public enum SupportedServer {
     // @formatter:off
-    WILDFLY_SWARM("wildfly-swarm", "WildFly Swarm",
-            Collections.singletonList(MicroProfileVersion.MP12)
+    WILDFLY_SWARM("wildfly-swarm", "WildFly Swarm",Arrays.asList(MicroProfileVersion.MP41)
+
             , "%s-swarm.jar" //jarFileName
             , "-Dswarm.port.offset=100" //jarParameters
             , "8080" //portServiceA
@@ -39,16 +38,16 @@ public enum SupportedServer {
             ,"https://github.com/wildfly-swarm"
             , false)  // GradleSupport
     , THORNTAIL_V2("thorntail-v2", "Thorntail V2",
-            Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP21,
-                    MicroProfileVersion.MP22, MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33)
+            Arrays.asList(MicroProfileVersion.MP41)
             , "%s-thorntail.jar" //jarFileName
             , "-Dswarm.port.offset=100" //jarParameters
             , "8080" //portServiceA
             , "8180" //portServiceB
             ,"https://thorntail.io/"
             , false)  // GradleSupport
-    , QUARKUS("quarkus", "Quarkus",
-            Arrays.asList(MicroProfileVersion.MP32,MicroProfileVersion.MP33, MicroProfileVersion.MP40, MicroProfileVersion.MP41)
+    ,
+    QUARKUS("quarkus", "Quarkus",
+            Arrays.asList(MicroProfileVersion.MP41)
             , "%s-runner.jar" //jarFileName
             , "-Dquarkus.http.port=8180" //jarParameters; these are env props, e.g. java -D... or mvn -D...
             , "8080" //portServiceA
@@ -56,8 +55,7 @@ public enum SupportedServer {
             , "https://quarkus.io/"
             , true)  // GradleSupport
     , WILDFLY("wildfly", "WildFly",
-            Arrays.asList(MicroProfileVersion.MP32, MicroProfileVersion.MP33, MicroProfileVersion.MP40
-                    , MicroProfileVersion.MP41,MicroProfileVersion.MP50)
+            Arrays.asList(MicroProfileVersion.MP41,MicroProfileVersion.MP50)
             , "%s-bootable.jar" //jarFileName
             , "-Djboss.socket.binding.port-offset=100" //jarParameters
             , "8080" //portServiceA
@@ -65,10 +63,7 @@ public enum SupportedServer {
             , "https://www.wildfly.org/"
             , false)  // GradleSupport
     , LIBERTY("liberty", "Open Liberty",
-            Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
-                    MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22,
-                    MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33,
-                    MicroProfileVersion.MP40, MicroProfileVersion.MP41, MicroProfileVersion.MP50,MicroProfileVersion.MP60,MicroProfileVersion.MP61)
+            Arrays.asList( MicroProfileVersion.MP41, MicroProfileVersion.MP50,MicroProfileVersion.MP60,MicroProfileVersion.MP61)
             , "%s.jar" //jarFileName
             , "" //jarParameters // Hard coded in server.xml since no way of overriding a default.
             , "9080" //portServiceA
@@ -76,9 +71,7 @@ public enum SupportedServer {
             , "https://openliberty.io/"
             , true)  // GradleSupport
     , KUMULUZEE("kumuluzEE", "KumuluzEE",
-            Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
-                    MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22,
-                    MicroProfileVersion.MP30, MicroProfileVersion.MP32, MicroProfileVersion.MP33)
+            Arrays.asList(MicroProfileVersion.MP41)
             , "%s.jar" //jarFileName
             , "" //jarParameters // Hard coded in config.xml since we needed a specific version for secondary app.
             , "8080" //portServiceA
@@ -86,9 +79,7 @@ public enum SupportedServer {
             , "https://ee.kumuluz.com/"
             , false)  // GradleSupport
     , PAYARA_MICRO("payara-micro", "Payara Micro",
-            Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
-                    MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22
-                    , MicroProfileVersion.MP32, MicroProfileVersion.MP33, MicroProfileVersion.MP40, MicroProfileVersion.MP41)
+            Arrays.asList( MicroProfileVersion.MP41,MicroProfileVersion.MP50,MicroProfileVersion.MP60)
             , "%s-microbundle.jar" //jarFileName
             , "--port 8180" //jarParameters
             , "8080" //portServiceA
@@ -96,8 +87,7 @@ public enum SupportedServer {
             , "https://www.payara.fish/enterprise/enterprise-vs-community/payara-micro/"
             , true)  // GradleSupport
     , TOMEE("tomee", "Apache TomEE 8.0.0-M3",
-            Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
-                    MicroProfileVersion.MP20, MicroProfileVersion.MP21)
+            Arrays.asList(MicroProfileVersion.MP50)
             , "%s-exec.jar" //jarFileName
             , "" //jarParameters // Done by TomeeServer.adaptMavenModel
             , "8080" // portServiceA
@@ -105,8 +95,7 @@ public enum SupportedServer {
             , "https://tomee.apache.org/"
             , false)  // GradleSupport
     , HELIDON("helidon", "Helidon",
-            Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP22, MicroProfileVersion.MP30
-                    , MicroProfileVersion.MP32, MicroProfileVersion.MP33)
+            Arrays.asList(MicroProfileVersion.MP50)
             , "%s.jar" //jarFileName
             , "" //jarParameters // Done by secondary/helidon/microprofile-config.properties
             , "8080" //portServiceA

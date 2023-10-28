@@ -79,31 +79,6 @@ public class ThorntailServer extends AbstractMicroprofileAddon {
 
             case NONE:
                 break;
-            case MP33:
-                thorntailVersion = "2.7.0.Final";
-                break;
-            case MP32:
-                thorntailVersion = "2.7.0.Final";
-                break;
-            case MP30:
-                thorntailVersion = "2.5.0.Final";
-                break;
-            case MP22:
-                thorntailVersion = "2.4.0.Final";
-                break;
-            case MP21:
-                thorntailVersion = "2.3.0.Final";
-                break;
-            case MP20:
-                break;
-            case MP14:
-                break;
-            case MP13:
-                thorntailVersion = "2.1.0.Final";
-                break;
-            case MP12:
-                thorntailVersion = "2.0.0.Final";
-                break;
             default:
         }
         pomFile.addProperty("version.thorntail", thorntailVersion);
