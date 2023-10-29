@@ -62,22 +62,24 @@ public final class VersionSpecMatrix {
                 new EnumMapBuilder()
                         .add(MicroprofileSpec.CONFIG, "3.0")
                         .add(MicroprofileSpec.FAULT_TOLERANCE, "4.0")
-                        .add(MicroprofileSpec.JWT_AUTH, "2.0")
+                        .add(MicroprofileSpec.JWT_AUTH, "2.1")
                         .add(MicroprofileSpec.HEALTH_CHECKS, "4.0")
-                        .add(MicroprofileSpec.OPEN_API, "3.0")
+                        .add(MicroprofileSpec.OPEN_API, "3.1")
                         .add(MicroprofileSpec.REST_CLIENT, "3.0.0")
-                        .add(MicroprofileSpec.OPEN_TRACING, "3.0")
-                        .add(MicroprofileSpec.METRICS, "4.0"));
+                        .add(MicroprofileSpec.METRICS, "5.0")
+                        .add(MicroprofileSpec.OPEN_TELEMETRY,"1.0")
+        );
         data.put(MicroProfileVersion.MP61,
                 new EnumMapBuilder()
-                        .add(MicroprofileSpec.CONFIG, "3.0")
+                        .add(MicroprofileSpec.CONFIG, "3.1")
                         .add(MicroprofileSpec.FAULT_TOLERANCE, "4.0")
-                        .add(MicroprofileSpec.JWT_AUTH, "2.0")
+                        .add(MicroprofileSpec.JWT_AUTH, "2.1")
                         .add(MicroprofileSpec.HEALTH_CHECKS, "4.0")
-                        .add(MicroprofileSpec.OPEN_API, "3.0")
+                        .add(MicroprofileSpec.OPEN_API, "3.1")
                         .add(MicroprofileSpec.REST_CLIENT, "3.0.0")
-                        .add(MicroprofileSpec.OPEN_TRACING, "3.0")
-                        .add(MicroprofileSpec.METRICS, "4.0"));
+                        .add(MicroprofileSpec.METRICS, "5.1")
+                        .add(MicroprofileSpec.OPEN_TELEMETRY,"1.1")
+        );
     }
 
     public Map<MicroprofileSpec, String> getSpecData(MicroProfileVersion version) {

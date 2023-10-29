@@ -66,12 +66,16 @@ public enum MicroprofileSpec {
             "https://github.com/eclipse/microprofile-telemetry/releases/tag/$s", Arrays.asList(  MicroProfileVersion.MP60, MicroProfileVersion.MP61))
     ,REACTIVE_MESSAGING(
             "reactive_messaging","Reactive Messaging for MicroProfile",
-            "This specification provides asynchronous messaging support based on Reactive Streams for MicroProfile.",
-            "https://github.com/eclipse/microprofile-reactive-messaging/releases/tag/%s", Arrays.asList( MicroProfileVersion.MP60, MicroProfileVersion.MP61))
+            "This specification provides asynchronous " +
+                    "messaging support based on Reactive Streams for MicroProfile.",
+            "https://github.com/eclipse/microprofile-reactive-messaging/releases/tag/%s",
+            Arrays.asList( MicroProfileVersion.MP60, MicroProfileVersion.MP61))
     ,REACTIVE_STREAMS(
             "reactive_streams","MicroProfile Reactive Streams Operators",
-            "Reactive Streams is an integration SPI - it allows two different libraries that provide asynchronous streaming to be able to stream data to and from each other",
-            "https://github.com/eclipse/microprofile-reactive-messaging/releases/tag/%s", Arrays.asList(  MicroProfileVersion.MP60, MicroProfileVersion.MP61))
+            "Reactive Streams is an integration SPI - " +
+                    "it allows two different libraries that provide asynchronous streaming to be able to stream data to and from each other",
+            "https://github.com/eclipse/microprofile-reactive-messaging/releases/tag/%s",
+            Arrays.asList(  MicroProfileVersion.MP60, MicroProfileVersion.MP61))
 
     ;
     // @formatter:on
