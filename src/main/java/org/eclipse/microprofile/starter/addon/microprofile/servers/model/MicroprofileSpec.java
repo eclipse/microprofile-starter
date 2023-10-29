@@ -61,7 +61,18 @@ public enum MicroprofileSpec {
             "Rest Client - Invoke RESTful services in a type-safe manner",
             "https://github.com/eclipse/microprofile-rest-client/releases/tag/%s",
             Arrays.asList( MicroProfileVersion.MP41, MicroProfileVersion.MP50,MicroProfileVersion.MP60, MicroProfileVersion.MP61))
-    ,OPEN_TELEMETRY("","","","", Arrays.asList(  MicroProfileVersion.MP60, MicroProfileVersion.MP61))
+    ,OPEN_TELEMETRY("open_telemetry","Open Telemetry"
+            ,"OpenTelemetry consists of Tracing, Logging, Metrics and Baggage support",
+            "https://github.com/eclipse/microprofile-telemetry/releases/tag/$s", Arrays.asList(  MicroProfileVersion.MP60, MicroProfileVersion.MP61))
+    ,REACTIVE_MESSAGING(
+            "reactive_messaging","Reactive Messaging for MicroProfile",
+            "This specification provides asynchronous messaging support based on Reactive Streams for MicroProfile.",
+            "https://github.com/eclipse/microprofile-reactive-messaging/releases/tag/%s", Arrays.asList( MicroProfileVersion.MP60, MicroProfileVersion.MP61))
+    ,REACTIVE_STREAMS(
+            "reactive_streams","MicroProfile Reactive Streams Operators",
+            "Reactive Streams is an integration SPI - it allows two different libraries that provide asynchronous streaming to be able to stream data to and from each other",
+            "https://github.com/eclipse/microprofile-reactive-messaging/releases/tag/%s", Arrays.asList(  MicroProfileVersion.MP60, MicroProfileVersion.MP61))
+
     ;
     // @formatter:on
 
