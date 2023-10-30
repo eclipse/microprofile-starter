@@ -22,11 +22,11 @@
  */
 package org.eclipse.microprofile.starter.core.files;
 
+
 import com.google.common.io.ByteStreams;
 import org.eclipse.microprofile.starter.core.exception.TechnicalException;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;

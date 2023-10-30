@@ -23,8 +23,8 @@ import org.eclipse.microprofile.starter.addon.microprofile.servers.model.Micropr
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.StandaloneMPSpec;
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
 
-import javax.json.bind.annotation.JsonbProperty;
-import javax.json.bind.annotation.JsonbTransient;
+import jakarta.json.bind.annotation.JsonbProperty;
+import jakarta.json.bind.annotation.JsonbTransient;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;

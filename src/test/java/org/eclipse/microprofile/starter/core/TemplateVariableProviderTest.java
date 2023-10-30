@@ -38,7 +38,7 @@ public class TemplateVariableProviderTest {
         JessieModel model = new JessieModel();
         JessieMaven maven = new JessieMaven();
         JessieSpecification specification = new JessieSpecification();
-        specification.setMicroProfileVersion(MicroProfileVersion.MP22);
+        specification.setMicroProfileVersion(MicroProfileVersion.MP41);
         specification.setBuildTool(BuildTool.MAVEN);
         specification.setJavaSEVersion(JavaSEVersion.SE8);
         maven.setArtifactId("demo-service");
@@ -57,7 +57,7 @@ public class TemplateVariableProviderTest {
         JessieModel model = new JessieModel();
         JessieMaven maven = new JessieMaven();
         JessieSpecification specification = new JessieSpecification();
-        specification.setMicroProfileVersion(MicroProfileVersion.MP22);
+        specification.setMicroProfileVersion(MicroProfileVersion.MP41);
         specification.setBuildTool(BuildTool.GRADLE);
         specification.setJavaSEVersion(JavaSEVersion.SE8);
         maven.setArtifactId("demo-service");

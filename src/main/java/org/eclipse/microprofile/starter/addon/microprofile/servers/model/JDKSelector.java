@@ -22,8 +22,8 @@ package org.eclipse.microprofile.starter.addon.microprofile.servers.model;
 import org.eclipse.microprofile.starter.core.model.JavaSEVersion;
 import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
@@ -38,29 +38,33 @@ public class JDKSelector {
     public void init() {
         data = new EnumMap<>(SupportedServer.class);
 
-        fillJavaSEVersion(data, SupportedServer.WILDFLY_SWARM, JavaSEVersion.SE8, null, null);  // Supported for all MPVersions
+/*        fillJavaSEVersion(data, SupportedServer.WILDFLY_SWARM, JavaSEVersion.SE8, null, null);  // Supported for all MPVersions
 
         fillJavaSEVersion(data, SupportedServer.THORNTAIL_V2, JavaSEVersion.SE8, null, null);  // Supported for all MPVersions
-        fillJavaSEVersion(data, SupportedServer.THORNTAIL_V2, JavaSEVersion.SE11, MicroProfileVersion.MP22, null);  // Supported from MP 2.2
+        fillJavaSEVersion(data, SupportedServer.THORNTAIL_V2, JavaSEVersion.SE11, MicroProfileVersion.MP22, null);  // Supported from MP 2.2*/
 
-        fillJavaSEVersion(data, SupportedServer.QUARKUS, JavaSEVersion.SE8, null, MicroProfileVersion.MP40);  // Supported until MP 4.1
-        fillJavaSEVersion(data, SupportedServer.QUARKUS, JavaSEVersion.SE11,  MicroProfileVersion.MP32, null);  // Supported from MP 3.2
 
-        fillJavaSEVersion(data, SupportedServer.WILDFLY, JavaSEVersion.SE8, null, null);  // Supported for all MPVersions
-        fillJavaSEVersion(data, SupportedServer.WILDFLY, JavaSEVersion.SE11, MicroProfileVersion.MP32, null);  // Supported from MP 3.2
+        fillJavaSEVersion(data, SupportedServer.QUARKUS, JavaSEVersion.SE11,  MicroProfileVersion.MP41, null);  // Supported until MP 4.1
 
-        fillJavaSEVersion(data, SupportedServer.LIBERTY, JavaSEVersion.SE8, null, null);  // Supported for all MPVersions
-        fillJavaSEVersion(data, SupportedServer.LIBERTY, JavaSEVersion.SE11, MicroProfileVersion.MP12, null);  // Supported from MP 1.2
+        fillJavaSEVersion(data, SupportedServer.WILDFLY, JavaSEVersion.SE8, MicroProfileVersion.MP41,null  );  // Supported for all MPVersions
+        fillJavaSEVersion(data, SupportedServer.WILDFLY, JavaSEVersion.SE11, MicroProfileVersion.MP41, null);  // Supported from MP 3.2
+        fillJavaSEVersion(data, SupportedServer.WILDFLY, JavaSEVersion.SE17, MicroProfileVersion.MP41, null);
 
-        fillJavaSEVersion(data, SupportedServer.KUMULUZEE, JavaSEVersion.SE8, null, null);  // Supported for all MPVersions
+        fillJavaSEVersion(data, SupportedServer.LIBERTY, JavaSEVersion.SE8, MicroProfileVersion.MP41,
+                MicroProfileVersion.MP41);  // Supported for all MPVersions
+        fillJavaSEVersion(data, SupportedServer.LIBERTY, JavaSEVersion.SE11, MicroProfileVersion.MP41, null);  // Supported from MP 1.2
+        fillJavaSEVersion(data, SupportedServer.LIBERTY, JavaSEVersion.SE17, MicroProfileVersion.MP50, null);
 
-        fillJavaSEVersion(data, SupportedServer.PAYARA_MICRO, JavaSEVersion.SE8, null, null);  // Supported for all MPVersions
-        fillJavaSEVersion(data, SupportedServer.PAYARA_MICRO, JavaSEVersion.SE11, MicroProfileVersion.MP32, null);  // Supported from MP 3.2
+      //  fillJavaSEVersion(data, SupportedServer.KUMULUZEE, JavaSEVersion.SE8, null, null);  // Supported for all MPVersions
+
+        fillJavaSEVersion(data, SupportedServer.PAYARA_MICRO, JavaSEVersion.SE8, MicroProfileVersion.MP41, null);  // Supported for all MPVersions
+        fillJavaSEVersion(data, SupportedServer.PAYARA_MICRO, JavaSEVersion.SE11,MicroProfileVersion.MP50 , null);  // Supported from MP 5.0
 
         fillJavaSEVersion(data, SupportedServer.TOMEE, JavaSEVersion.SE8, null, null);  // Supported for all MPVersions
+        fillJavaSEVersion(data, SupportedServer.TOMEE, JavaSEVersion.SE11, MicroProfileVersion.MP50, null);
+        fillJavaSEVersion(data, SupportedServer.TOMEE, JavaSEVersion.SE17, MicroProfileVersion.MP50, null);
 
-        fillJavaSEVersion(data, SupportedServer.HELIDON, JavaSEVersion.SE8, null, MicroProfileVersion.MP30);  // Supported until MP 3.2
-        fillJavaSEVersion(data, SupportedServer.HELIDON, JavaSEVersion.SE11, MicroProfileVersion.MP32, null);  // Supported from MP 3.2
+        fillJavaSEVersion(data, SupportedServer.HELIDON, JavaSEVersion.SE17, MicroProfileVersion.MP50, null);  // Supported from MP 5.0
 
     }
 

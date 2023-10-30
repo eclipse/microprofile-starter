@@ -28,8 +28,8 @@ import org.eclipse.microprofile.starter.addon.microprofile.servers.model.Micropr
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -65,27 +65,19 @@ public class TomeeServer extends AbstractMicroprofileAddon {
     public void adaptMavenModel(Model pomFile, JessieModel model, boolean mainProject) {
         String tomeeVersion = "";
         switch (model.getSpecification().getMicroProfileVersion()) {
-
             case NONE:
                 break;
-            case MP22:
+            case MP61:
                 break;
-            case MP21:
-                tomeeVersion = "8.0.0-M3";
+            case MP60:
                 break;
-            case MP20:
-                tomeeVersion = "8.0.0-M3";
+            case MP50:
+                tomeeVersion = "TomEE 9.0.0.RC1";
                 break;
-            case MP14:
-                tomeeVersion = "8.0.0-M3";
-                break;
-            case MP13:
-                tomeeVersion = "8.0.0-M3";
-                break;
-            case MP12:
-                tomeeVersion = "8.0.0-M3";
+            case MP41:
                 break;
             default:
+                break;
         }
         pomFile.addProperty("tomee.version", tomeeVersion);
 

@@ -26,8 +26,8 @@ import org.eclipse.microprofile.starter.addon.microprofile.servers.model.Micropr
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -142,27 +142,16 @@ public class WildFlyServer extends AbstractMicroprofileAddon {
         switch (model.getSpecification().getMicroProfileVersion()) {
             case NONE:
                 break;
+            case MP61:
+                break;
+            case MP60:
+                break;
+            case MP50:
+                return "27.0.0.Final";
             case MP41:
-                return "25.0.0.Final";
-            case MP40:
-                return "23.0.2.Final";
-            case MP33:
-                return "20.0.0.Final";
-            case MP32:
-                return "20.0.0.Final";
-            case MP22:
-                break;
-            case MP21:
-                break;
-            case MP20:
-                break;
-            case MP14:
-                break;
-            case MP13:
-                break;
-            case MP12:
-                break;
+                return "26.1.2.Final";
             default:
+                break;
         }
         return null;
     }

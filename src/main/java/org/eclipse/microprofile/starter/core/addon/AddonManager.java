@@ -27,9 +27,9 @@ import org.eclipse.microprofile.starter.spi.JessieAlternativesProvider;
 import org.eclipse.microprofile.starter.spi.JessieGradleAdapter;
 import org.eclipse.microprofile.starter.spi.JessieMavenAdapter;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Instance;
+import jakarta.inject.Inject;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

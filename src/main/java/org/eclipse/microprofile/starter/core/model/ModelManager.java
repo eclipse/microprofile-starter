@@ -31,8 +31,8 @@ import org.eclipse.microprofile.starter.core.validation.ModelValidation;
 import org.eclipse.microprofile.starter.spi.JessieAddon;
 import org.eclipse.microprofile.starter.spi.JessieAlternativesProvider;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.util.*;
 import java.util.stream.Collectors;
 

@@ -26,8 +26,8 @@ import org.eclipse.microprofile.starter.addon.microprofile.servers.model.Support
 import org.eclipse.microprofile.starter.core.artifacts.MavenCreator;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -78,31 +78,6 @@ public class ThorntailServer extends AbstractMicroprofileAddon {
         switch (model.getSpecification().getMicroProfileVersion()) {
 
             case NONE:
-                break;
-            case MP33:
-                thorntailVersion = "2.7.0.Final";
-                break;
-            case MP32:
-                thorntailVersion = "2.7.0.Final";
-                break;
-            case MP30:
-                thorntailVersion = "2.5.0.Final";
-                break;
-            case MP22:
-                thorntailVersion = "2.4.0.Final";
-                break;
-            case MP21:
-                thorntailVersion = "2.3.0.Final";
-                break;
-            case MP20:
-                break;
-            case MP14:
-                break;
-            case MP13:
-                thorntailVersion = "2.1.0.Final";
-                break;
-            case MP12:
-                thorntailVersion = "2.0.0.Final";
                 break;
             default:
         }

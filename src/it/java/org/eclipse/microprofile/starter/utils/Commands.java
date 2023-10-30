@@ -24,8 +24,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.starter.core.model.BuildTool;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.core.Response;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;

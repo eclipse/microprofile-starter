@@ -24,7 +24,7 @@ package org.eclipse.microprofile.starter.core.validation;
 
 import org.eclipse.microprofile.starter.core.exception.JessieException;
 
-import javax.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolation;
 import java.util.Set;
 
 /**

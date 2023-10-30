@@ -19,7 +19,7 @@
  */
 package org.eclipse.microprofile.starter.rest;
 
-import javax.ws.rs.Path;
+import jakarta.ws.rs.Path;
 
 /**
  *

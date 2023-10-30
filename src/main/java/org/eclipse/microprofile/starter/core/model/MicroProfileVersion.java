@@ -32,18 +32,10 @@ public enum MicroProfileVersion {
     // Order is important as it determines the order in the Dropdown on the screen.
     // @formatter:off
     NONE(null, "")
+    ,MP61("6.1", "MP 6.1", Collections.singletonList(Constants.MP61_ALTERNATIVE))
+    , MP60("6.0", "MP 6.0", Collections.singletonList(Constants.MP6X_ALTERNATIVE))
     , MP50("5.0", "MP 5.0", Collections.singletonList(Constants.MP5X_ALTERNATIVE))
-    , MP41("4.1", "MP 4.1", Collections.singletonList(Constants.MP41_ALTERNATIVE))
-    , MP40("4.0", "MP 4.0", "4.0.1", Collections.singletonList(Constants.MP3X_ALTERNATIVE))
-    , MP33("3.3", "MP 3.3", Collections.singletonList(Constants.MP3X_ALTERNATIVE))
-    , MP32("3.2", "MP 3.2", Collections.singletonList(Constants.MP3X_ALTERNATIVE))
-    , MP30("3.0", "MP 3.0", Collections.singletonList(Constants.MP3X_ALTERNATIVE))
-    , MP22("2.2", "MP 2.2")
-    , MP21("2.1", "MP 2.1")
-    , MP20("2.0", "MP 2.0", "2.0.1")
-    , MP14("1.4", "MP 1.4")
-    , MP13("1.3", "MP 1.3")
-    , MP12("1.2", "MP 1.2");
+    , MP41("4.1", "MP 4.1", Collections.singletonList(Constants.MP41_ALTERNATIVE));
     // @formatter:on
 
     private String code;
@@ -101,5 +93,7 @@ public enum MicroProfileVersion {
         public static final String MP3X_ALTERNATIVE = "mp3_x";
         public static final String MP41_ALTERNATIVE = "mp4_1";
         public static final String MP5X_ALTERNATIVE = "mp5_x";
+        public static final String MP6X_ALTERNATIVE = "mp6_x";
+        public static final String MP61_ALTERNATIVE = "mp6_1";
     }
 }

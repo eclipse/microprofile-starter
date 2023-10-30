@@ -24,7 +24,7 @@ import org.eclipse.microprofile.starter.spi.AbstractAddon;
 import org.eclipse.microprofile.starter.spi.JessieAddon;
 import org.eclipse.microprofile.starter.spi.MavenHelper;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.util.*;
 
 public abstract class AbstractMicroprofileAddon extends AbstractAddon {

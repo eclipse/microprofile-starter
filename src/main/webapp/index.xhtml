@@ -23,13 +23,11 @@
          Initially authored in Atbash Jessie
 
 -->
-<!DOCTYPE html
-        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 >
@@ -245,7 +243,7 @@
                      styleClass="ui-panelgrid-blank ui-fluid">
 
             <h:panelGroup>
-                <p>&copy; 2019 Microprofile. Eclipse MicroProfile is an open source project under the Apache License 2.0.</p>
+                <p> 2019 Microprofile. Eclipse MicroProfile is an open source project under the Apache License 2.0.</p>
                 <p id="REST"></p>
                 <script src="resources/script/getHost.js"></script>
                 <p><h:outputText value="#{generatorDataBean.version.git}"/></p>

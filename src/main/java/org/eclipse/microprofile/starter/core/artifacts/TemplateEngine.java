@@ -22,8 +22,8 @@ package org.eclipse.microprofile.starter.core.artifacts;
 import org.eclipse.microprofile.starter.core.files.FileCopyEngine;
 import org.eclipse.microprofile.starter.core.files.ThymeleafEngine;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.util.Map;
 import java.util.Set;
 

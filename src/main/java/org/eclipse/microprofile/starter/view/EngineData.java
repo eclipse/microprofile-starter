@@ -28,7 +28,7 @@ public class EngineData {
 
     public static final String DEFAULT_GROUP_ID = "com.example";
     public static final String DEFAULT_ARTIFACT_ID = "demo";
-    public static final JavaSEVersion DEFAULT_JAVA_SE_VERSION = JavaSEVersion.SE8;
+    public static final JavaSEVersion DEFAULT_JAVA_SE_VERSION = JavaSEVersion.SE11;
 
     private JessieMaven mavenData;
     private String javaSEVersion = DEFAULT_JAVA_SE_VERSION.getCode();

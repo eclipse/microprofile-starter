@@ -26,8 +26,8 @@ import org.eclipse.microprofile.starter.addon.microprofile.servers.model.Support
 import org.eclipse.microprofile.starter.core.artifacts.MavenCreator;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -128,27 +128,16 @@ public class QuarkusServer extends AbstractMicroprofileAddon {
         switch (model.getSpecification().getMicroProfileVersion()) {
             case NONE:
                 break;
+            case MP61:
+                break;
+            case MP60:
+                break;
+            case MP50:
+                break;
             case MP41:
-                return "2.2.3.Final";
-            case MP40:
-                break;
-            case MP33:
-                break;
-            case MP32:
-                return "1.7.6.Final";
-            case MP22:
-                break;
-            case MP21:
-                break;
-            case MP20:
-                break;
-            case MP14:
-                break;
-            case MP13:
-                break;
-            case MP12:
-                break;
+                return "2.7.2.Final";
             default:
+                break;
         }
         return null;
     }

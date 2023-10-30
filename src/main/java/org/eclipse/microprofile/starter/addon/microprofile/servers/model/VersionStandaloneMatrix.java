@@ -37,7 +37,7 @@ public class VersionStandaloneMatrix {
     private void init() {
         data = new EnumMap<>(MicroProfileVersion.class);
 
-        data.put(MicroProfileVersion.MP12,
+     /*   data.put(MicroProfileVersion.MP12,
                 new VersionStandaloneMatrix.EnumMapBuilder()
                         .add(StandaloneMPSpec.GRAPHQL, "1.0.2"));
         data.put(MicroProfileVersion.MP13,
@@ -66,11 +66,17 @@ public class VersionStandaloneMatrix {
                         .add(StandaloneMPSpec.GRAPHQL, "1.0.2"));
         data.put(MicroProfileVersion.MP40,
                 new VersionStandaloneMatrix.EnumMapBuilder()
-                        .add(StandaloneMPSpec.GRAPHQL, "1.0.2"));
+                        .add(StandaloneMPSpec.GRAPHQL, "1.0.2"));*/
         data.put(MicroProfileVersion.MP41,
                 new VersionStandaloneMatrix.EnumMapBuilder()
                         .add(StandaloneMPSpec.GRAPHQL, "1.0.2"));
         data.put(MicroProfileVersion.MP50,
+                new VersionStandaloneMatrix.EnumMapBuilder()
+                        .add(StandaloneMPSpec.GRAPHQL, "2.0"));
+        data.put(MicroProfileVersion.MP60,
+                new VersionStandaloneMatrix.EnumMapBuilder()
+                        .add(StandaloneMPSpec.GRAPHQL, "2.0"));
+        data.put(MicroProfileVersion.MP61,
                 new VersionStandaloneMatrix.EnumMapBuilder()
                         .add(StandaloneMPSpec.GRAPHQL, "2.0"));
     }

@@ -45,7 +45,7 @@ public class DynamoDBLoggerTest {
         jessieMaven.setGroupId("com.example.hahah");
 
         EngineData engineData = new EngineData();
-        engineData.setMpVersion(MicroProfileVersion.MP20.getCode());
+        engineData.setMpVersion(MicroProfileVersion.MP41.getCode());
         engineData.setSupportedServer(SupportedServer.LIBERTY.getCode());
         engineData.setSelectedSpecs(
                 Stream.of(MicroprofileSpec.values()).map(MicroprofileSpec::getCode).collect(Collectors.toList()));

@@ -35,9 +35,9 @@ import org.eclipse.microprofile.starter.core.model.MicroProfileVersion;
 import org.eclipse.microprofile.starter.core.model.OptionValue;
 import org.eclipse.microprofile.starter.spi.MavenHelper;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -175,9 +175,10 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
         // From MP 3.2 on with Helidon, one of the Maven deps changed
         // So I created a new profile with correct naming.  The solution with the MP version in the profile name is not really useful in this case
         // since it will be for several MP releases.
-        if ("helidon".equals(serverName) && model.getSpecification().getMicroProfileVersion().ordinal() <= MicroProfileVersion.MP32.ordinal()) {
+        /*        if ("helidon".equals(serverName) &&
+        model.getSpecification().getMicroProfileVersion().ordinal() <= MicroProfileVersion.MP32.ordinal()) {
             serverName = "helidon2";
-        }
+        }*/
         String profileName = serverName + "-" + model.getSpecification().getMicroProfileVersion().getCode();
 
         Profile profile = findProfile(profileName);
@@ -364,7 +365,8 @@ public class MicroprofileServersAddon extends AbstractMicroprofileAddon {
 
         // With KumuluzEE, it properties are integrated within config.yaml
         // With Quarkus, its properties use application.properties
-        if (supportedServer != SupportedServer.KUMULUZEE &&
+        if (
+                //supportedServer != SupportedServer.KUMULUZEE &&
                 supportedServer != SupportedServer.QUARKUS &&
                 supportedServer != SupportedServer.WILDFLY) {
             String metaInfDirectory = getResourceDirectory(model, true) + "/META-INF";

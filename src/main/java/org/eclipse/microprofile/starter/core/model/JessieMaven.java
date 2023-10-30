@@ -22,7 +22,7 @@
  */
 package org.eclipse.microprofile.starter.core.model;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 /**
  *

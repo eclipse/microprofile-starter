@@ -25,8 +25,8 @@ package org.eclipse.microprofile.starter.core.templates;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 import org.eclipse.microprofile.starter.core.model.JessieSpecification;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.util.HashSet;
 import java.util.Set;
 

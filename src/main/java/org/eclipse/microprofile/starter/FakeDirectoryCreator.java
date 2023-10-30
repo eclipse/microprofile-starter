@@ -24,8 +24,8 @@ package org.eclipse.microprofile.starter;
 
 import org.eclipse.microprofile.starter.core.artifacts.DirectoryCreator;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class FakeDirectoryCreator extends DirectoryCreator {

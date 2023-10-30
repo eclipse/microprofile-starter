@@ -21,8 +21,8 @@ package org.eclipse.microprofile.starter;
 
 import org.eclipse.microprofile.starter.core.files.FilesLocator;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;

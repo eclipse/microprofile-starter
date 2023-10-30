@@ -25,8 +25,8 @@ import org.eclipse.microprofile.starter.addon.microprofile.servers.model.Micropr
 import org.eclipse.microprofile.starter.addon.microprofile.servers.model.SupportedServer;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,23 +88,29 @@ public class LibertyServer extends AbstractMicroprofileAddon {
 
     @Override
     public void adaptMavenModel(Model pomFile, JessieModel model, boolean mainProject) {
-        String openLibertyMavenVersion = "3.8.2";
+        String openLibertyMavenVersion = "3.9";
         pomFile.addProperty("openliberty.maven.version", openLibertyMavenVersion);
         String jaegerClientVersion="0.34.0";
         String slf4jApiVersion="1.7.25";
         String slf4jJdkVersion="1.7.25";
         switch (model.getSpecification().getMicroProfileVersion()) {
-
             case NONE:
                 break;
-            case MP40: case MP41: case MP50:
-                jaegerClientVersion="1.5.0";
-                slf4jApiVersion="1.7.30";
-                slf4jJdkVersion="1.7.30";
+            case MP61:
+                slf4jApiVersion ="2.0.9";
                 break;
-            case MP33: case MP30: 
-            case MP22: case MP21: case MP20:
-            case MP14: case MP13: case MP12:
+            case MP60:
+                break;
+            case MP50:
+                jaegerClientVersion = "1.5.0";
+                slf4jApiVersion = "1.7.30";
+                slf4jJdkVersion = "1.7.30";
+                break;
+            case MP41:
+                jaegerClientVersion = "1.5.0";
+                slf4jApiVersion = "1.7.30";
+                slf4jJdkVersion = "1.7.30";
+                break;
             default:
                 break;
         }

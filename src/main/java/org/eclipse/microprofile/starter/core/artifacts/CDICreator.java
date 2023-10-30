@@ -26,7 +26,7 @@ import org.eclipse.microprofile.starter.core.model.BeansXMLMode;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 import org.eclipse.microprofile.starter.core.model.OptionValue;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.util.Map;
 import java.util.Set;
 

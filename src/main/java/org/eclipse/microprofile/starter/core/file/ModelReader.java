@@ -24,8 +24,8 @@ package org.eclipse.microprofile.starter.core.file;
 
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.io.InputStream;
 
 /**

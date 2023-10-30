@@ -27,7 +27,7 @@ import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 import org.apache.commons.lang3.tuple.Pair;
 import org.eclipse.microprofile.starter.core.artifacts.FileCreator;
 
-import javax.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.SessionScoped;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;

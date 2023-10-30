@@ -26,9 +26,9 @@ import org.eclipse.microprofile.starter.core.artifacts.CDICreator;
 import org.eclipse.microprofile.starter.core.artifacts.MavenCreator;
 import org.eclipse.microprofile.starter.core.model.JessieModel;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -86,51 +86,6 @@ public class KumuluzeeServer extends AbstractMicroprofileAddon {
         switch (model.getSpecification().getMicroProfileVersion()) {
 
             case NONE:
-                break;
-            case MP33:
-                kumuluzVersion = "3.9.0";
-                kumuluzeeConfigVersion = "1.4.0";
-                artifactId = "kumuluzee-microProfile-3.3";
-                break;
-            case MP32:
-                kumuluzVersion = "3.7.0";
-                kumuluzeeConfigVersion = "1.3.0";
-                artifactId = "kumuluzee-microProfile-3.2";
-                break;
-            case MP30:
-                kumuluzVersion = "3.6.0";
-                kumuluzeeConfigVersion = "1.3.0";
-                artifactId = "kumuluzee-microProfile-3.0";
-                break;
-            case MP22:
-                kumuluzVersion = "3.5.0";
-                kumuluzeeConfigVersion = "1.3.0";
-                artifactId = "kumuluzee-microProfile-2.2";
-                break;
-            case MP21:
-                kumuluzVersion = "3.2.0";
-                kumuluzeeConfigVersion = "1.3.0";
-                artifactId = "kumuluzee-microProfile-2.1";
-                break;
-            case MP20:
-                kumuluzVersion = "3.2.0";
-                kumuluzeeConfigVersion = "1.3.0";
-                artifactId = "kumuluzee-microProfile-2.0";
-                break;
-            case MP14:
-                kumuluzVersion = "2.6.0";
-                kumuluzeeConfigVersion = "1.3.0";
-                artifactId = "kumuluzee-microProfile-1.4";
-                break;
-            case MP13:
-                kumuluzVersion = "2.6.0";
-                kumuluzeeConfigVersion = "1.3.0";
-                artifactId = "kumuluzee-microProfile-1.3";
-                break;
-            case MP12:
-                kumuluzVersion = "2.5.2";
-                kumuluzeeConfigVersion = "1.1.1";
-                artifactId = "kumuluzee-microProfile-1.2";
                 break;
             default:
         }
