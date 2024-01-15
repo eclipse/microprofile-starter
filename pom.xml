@@ -294,7 +294,78 @@
                 <script.extension>sh</script.extension>
             </properties>
         </profile>
+        <profile>
+            <id>thorntail</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>io.thorntail</groupId>
+                    <artifactId>jsf</artifactId>
+                </dependency>
 
+                <dependency>
+                    <groupId>io.thorntail</groupId>
+                    <artifactId>cdi</artifactId>
+                </dependency>
+
+                <dependency>
+                    <groupId>io.thorntail</groupId>
+                    <artifactId>jaxrs</artifactId>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.jboss.resteasy</groupId>
+                    <artifactId>resteasy-client</artifactId>
+                    <version>${resteasy.version}</version>
+                    <scope>test</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>io.thorntail</groupId>
+                    <artifactId>arquillian</artifactId>
+                    <scope>test</scope>
+                </dependency>
+
+            </dependencies>
+
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>io.thorntail</groupId>
+                        <artifactId>bom</artifactId>
+                        <version>${version.thorntail}</version>
+                        <type>pom</type>
+                        <scope>import</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+
+            <build>
+                <finalName>mp-starter</finalName>
+                <plugins>
+                    <plugin>
+                        <groupId>io.thorntail</groupId>
+                        <artifactId>thorntail-maven-plugin</artifactId>
+                        <version>${version.thorntail}</version>
+                        <configuration>
+                            <!-- Since Thorntail 4 https://docs.thorntail.io/4.0.0-SNAPSHOT/#_modes
+                            <mode>thin</mode>
+                            <format>dir</format>-->
+                            <hollow>true</hollow>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <profile>
             <id>liberty</id>
             <activation>
