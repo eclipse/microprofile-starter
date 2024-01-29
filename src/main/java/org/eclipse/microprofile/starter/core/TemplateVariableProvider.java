@@ -64,7 +64,7 @@ public class TemplateVariableProvider {
             result.put("se_version", seVersion.getCode());
         }
 
-        if (model.getSpecification().getMicroProfileVersion() == MicroProfileVersion.MP50) {
+        if (model.getSpecification().getMicroProfileVersion() == MicroProfileVersion.MP50||model.getSpecification().getMicroProfileVersion() == MicroProfileVersion.MP60) {
             result.put("jakarta_ee_package", "jakarta");
 
         } else {
