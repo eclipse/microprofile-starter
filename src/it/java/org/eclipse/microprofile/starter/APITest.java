@@ -51,6 +51,8 @@ import static org.junit.Assert.assertTrue;
     final Client client = ClientBuilder.newBuilder().build();
 
     private WebTarget target;
+    private File v7Matrix;
+    private File v7MatrixServers;
     private File v6Matrix;
     private File v6MatrixServers;
     private File v5Matrix;
@@ -63,6 +65,8 @@ import static org.junit.Assert.assertTrue;
     @Before
     public void before() {
         target = client.target(API_URL);
+        v7Matrix = new File(getClass().getClassLoader().getResource("json_examples/v7/supportMatrix.json.segments").getFile());
+        v7MatrixServers = new File(getClass().getClassLoader().getResource("json_examples/v7/supportMatrix_servers.json.segments").getFile());
         v6Matrix = new File(getClass().getClassLoader().getResource("json_examples/v6/supportMatrix.json.segments").getFile());
         v6MatrixServers = new File(getClass().getClassLoader().getResource("json_examples/v6/supportMatrix_servers.json.segments").getFile());
         v5Matrix = new File(getClass().getClassLoader().getResource("json_examples/v5/supportMatrix.json.segments").getFile());
@@ -87,6 +91,8 @@ import static org.junit.Assert.assertTrue;
     @Test
     @RunAsClient
     public void supportMatrix() throws FileNotFoundException {
+        test(v7Matrix, "/7/supportMatrix");
+        test(v7MatrixServers, "/7/supportMatrix/servers");
         test(v6Matrix, "/6/supportMatrix");
         test(v6MatrixServers, "/6/supportMatrix/servers");
         test(v5Matrix, "/5/supportMatrix");
