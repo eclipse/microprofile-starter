@@ -172,7 +172,6 @@ public final class VersionSpecMatrix {
                         .add(MicroprofileSpec.HEALTH_CHECKS, "4.0")
                         .add(MicroprofileSpec.OPEN_API, "3.1")
                         .add(MicroprofileSpec.REST_CLIENT, "3.0.0")
-                        .add(MicroprofileSpec.OPEN_TRACING, "3.0")
                         .add(MicroprofileSpec.METRICS, "5.0")
                         .add(MicroprofileSpec.TELEMETRY,"1.0"));
     }
