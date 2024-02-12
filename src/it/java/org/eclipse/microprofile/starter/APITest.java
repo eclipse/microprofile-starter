@@ -91,6 +91,8 @@ import static org.junit.Assert.assertTrue;
     @Test
     @RunAsClient
     public void supportMatrix() throws FileNotFoundException {
+        test(v7Matrix, "/7/supportMatrix");
+        test(v7MatrixServers, "/7/supportMatrix/servers");
         test(v6Matrix, "/6/supportMatrix");
         test(v6MatrixServers, "/6/supportMatrix/servers");
         test(v5Matrix, "/5/supportMatrix");
