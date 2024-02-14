@@ -35,6 +35,8 @@ public enum Whitelist {
     PAYARA_MICRO("payara", new Pattern[]{
             Pattern.compile(".*com.hazelcast.nio.tcp.TcpIpConnectionErrorHandler.*"),
             Pattern.compile(".*com.hazelcast.internal.server.tcp.TcpServerConnectionErrorHandler.*"),
+            Pattern.compile(".*error_prone_annotations.*"),
+            Pattern.compile(".*error_prone_parent.*"),
     }),
     LIBERTY("liberty", new Pattern[]{
             Pattern.compile(".*FrameworkEvent ERROR.*"),
