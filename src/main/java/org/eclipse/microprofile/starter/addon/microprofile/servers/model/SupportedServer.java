@@ -88,7 +88,8 @@ public enum SupportedServer {
     , PAYARA_MICRO("payara-micro", "Payara Micro",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP13, MicroProfileVersion.MP14,
                     MicroProfileVersion.MP20, MicroProfileVersion.MP21, MicroProfileVersion.MP22
-                    , MicroProfileVersion.MP32, MicroProfileVersion.MP33, MicroProfileVersion.MP40)
+                    , MicroProfileVersion.MP32, MicroProfileVersion.MP33, MicroProfileVersion.MP40,
+                    MicroProfileVersion.MP50)
             , "%s-microbundle.jar" //jarFileName
             , "--port 8180" //jarParameters
             , "8080" //portServiceA

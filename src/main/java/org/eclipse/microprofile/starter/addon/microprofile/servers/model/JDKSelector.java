@@ -54,7 +54,7 @@ public class JDKSelector {
 
         fillJavaSEVersion(data, SupportedServer.KUMULUZEE, JavaSEVersion.SE8, null, null);  // Supported for all MPVersions
 
-        fillJavaSEVersion(data, SupportedServer.PAYARA_MICRO, JavaSEVersion.SE8, null, null);  // Supported for all MPVersions
+        fillJavaSEVersion(data, SupportedServer.PAYARA_MICRO, JavaSEVersion.SE8, null, MicroProfileVersion.MP40);  // Supported for all MPVersions
         fillJavaSEVersion(data, SupportedServer.PAYARA_MICRO, JavaSEVersion.SE11, MicroProfileVersion.MP32, null);  // Supported from MP 3.2
 
         fillJavaSEVersion(data, SupportedServer.TOMEE, JavaSEVersion.SE8, null, null);  // Supported for all MPVersions
