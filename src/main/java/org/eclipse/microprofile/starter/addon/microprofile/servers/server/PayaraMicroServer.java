@@ -69,13 +69,18 @@ public class PayaraMicroServer extends AbstractMicroprofileAddon {
     @Override
     public void adaptMavenModel(Model pomFile, JessieModel model, boolean mainProject) {
         String payaraVersion = definePayaraVersion(model);
+        String payaraMavenPluginVersion = definePayaraMavenPluginVersion(payaraVersion);
         pomFile.addProperty("payaraVersion", payaraVersion);
+        pomFile.addProperty("payaraMavenPluginVersion", payaraMavenPluginVersion);
+    }
+
+    private String definePayaraMavenPluginVersion(String payaraVersion) {
+        return payaraVersion.startsWith("5") ? "1.4.0" : "2.1";
     }
 
     private String definePayaraVersion(JessieModel model) {
         String payaraVersion = "";
         switch (model.getSpecification().getMicroProfileVersion()) {
-
             case NONE:
                 break;
             case MP50:

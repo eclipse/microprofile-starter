@@ -330,7 +330,7 @@
                     <plugin>
                         <groupId>fish.payara.maven.plugins</groupId>
                         <artifactId>payara-micro-maven-plugin</artifactId>
-                        <version>2.1</version>
+                        <version>${payaraMavenPluginVersion}</version>
                         <executions>
                             <execution>
                                 <phase>package</phase>
