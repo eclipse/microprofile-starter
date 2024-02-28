@@ -9,7 +9,12 @@ The generation of the executable jar file can be performed by issuing the follow
     mvn clean package
 
 This will create an executable jar file **[# th:text="${jar_file}"/]** within the _target_ maven folder. This can be started by executing the following command
+[# th:if="${mp_servername} == 'payara-micro'"]
+    java -Djdk.util.zip.disableZip64ExtraFieldValidation=true -jar target/[# th:text="${jar_file}"/] [# th:text="${jar_parameters}"/]
+[/]
+[# th:unless="${mp_servername} == 'payara-micro'"]
     java -jar target/[# th:text="${jar_file}"/] [# th:text="${jar_parameters}"/]
+[/]
 [/]
 [# th:if="${build_tool} == 'GRADLE'"]
 [# th:if="${mp_servername} == 'payara-micro'"]
