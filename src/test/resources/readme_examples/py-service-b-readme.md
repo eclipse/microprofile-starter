@@ -10,7 +10,7 @@ The generation of the executable jar file can be performed by issuing the follow
 
 This will create an executable jar file **payara-microbundle.jar** within the _target_ maven folder. This can be started by executing the following command
 
-    java -jar target/payara-microbundle.jar --port 8180
+    java -Djdk.util.zip.disableZip64ExtraFieldValidation=true -jar target/payara-microbundle.jar --port 8180
 
 
 

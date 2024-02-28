@@ -14,6 +14,9 @@
 @rem limitations under the License.
 @rem
 
+@rem Add -Djdk.util.zip.disableZip64ExtraFieldValidation=true into ENV: JAVA_TOOL_OPTIONS
+set "JAVA_TOOL_OPTIONS=-Djdk.util.zip.disableZip64ExtraFieldValidation=true %JAVA_TOOL_OPTIONS%"
+
 @if "%DEBUG%"=="" @echo off
 @rem ##########################################################################
 @rem
