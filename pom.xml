@@ -46,7 +46,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <maven.model.builder.version>3.3.9</maven.model.builder.version>
-        <commons.compress.version>1.20</commons.compress.version>
+        <commons.compress.version>1.26.0</commons.compress.version>
         <jackson.dataformat.yaml.version>2.10.5</jackson.dataformat.yaml.version>
         <jackson.databind.version>2.12.7.1</jackson.databind.version>
         <primefaces.version>8.0</primefaces.version>
