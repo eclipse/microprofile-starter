@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -107,7 +107,7 @@ public enum SupportedServer {
             , false)  // GradleSupport
     , HELIDON("helidon", "Helidon",
             Arrays.asList(MicroProfileVersion.MP12, MicroProfileVersion.MP22, MicroProfileVersion.MP30
-                    , MicroProfileVersion.MP32, MicroProfileVersion.MP33)
+                    , MicroProfileVersion.MP32, MicroProfileVersion.MP33, MicroProfileVersion.MP50)
             , "%s.jar" //jarFileName
             , "" //jarParameters // Done by secondary/helidon/microprofile-config.properties
             , "8080" //portServiceA

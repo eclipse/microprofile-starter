@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2019-2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -123,8 +123,12 @@ public class HelidonServer extends AbstractMicroprofileAddon {
 
             case NONE:
                 break;
+            case MP50:
+                helidonVersion = "3.1.0";
+                mpVersion = "5.0";
+                break;
             case MP33:
-                helidonVersion = "2.4.2";
+                helidonVersion = "2.5.5";
                 mpVersion = "3.3";
                 break;
             case MP32:
