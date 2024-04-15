@@ -1,6 +1,6 @@
 package org.eclipse.microprofile.starter.rest;
 
-import jakarta.ws.rs.Path;
+import javax.ws.rs.Path;
 
 @Path("/7")
 public class APIEndpointV7 extends APIEndpointLatest {
