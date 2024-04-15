@@ -1,7 +1,6 @@
 package [# th:text="${java_package}"/].health;
 
- import org.eclipse.microprofile.health.Liveness;
-import org.eclipse.microprofile.health.Readiness;
+import org.eclipse.microprofile.health.[# th:text="${microprofile_health}"/];
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
 
@@ -9,7 +8,7 @@ import [# th:text="${jakarta_ee_package}"/].enterprise.context.ApplicationScoped
 
 
 
-@Liveness
+@[# th:text="${microprofile_health}"/]
 @ApplicationScoped
 public class ServiceHealthCheck implements HealthCheck {
 

@@ -72,6 +72,12 @@ public class TemplateVariableProvider {
             result.put("jakarta_ee_package", "javax");
 
         }
+        if (model.getSpecification().getMicroProfileVersion() == MicroProfileVersion.MP50
+                || model.getSpecification().getMicroProfileVersion() == MicroProfileVersion.MP60) {
+            result.put("microprofile_health", "Liveness");
+        } else {
+            result.put("microprofile_health", "Health");
+        }
         return result;
     }
 }
