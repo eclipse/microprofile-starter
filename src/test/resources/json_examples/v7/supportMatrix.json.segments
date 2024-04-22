@@ -1,6 +1,5 @@
 {"configs":{"
-MP50":{"supportedServers":["
-]},"MP60":{"supportedServers":[
+"MP60":{"supportedServers":[
 ]}},"descriptions":{"CONFIG":"Configuration - externalize and manage your configuration parameters outside your microservices",
 "OPEN_API":"Open API - Generate OpenAPI-compliant API documentation for your microservices",
 "HEALTH_CHECKS":"Health - Verify the health of your microservices with custom verifications",
