@@ -1,1 +1,2 @@
-"LIBERTY":[{"mpVersion":"MP60","mpSpecs":["CONFIG","FAULT_TOLERANCE","JWT_AUTH","METRICS","HEALTH_CHECKS","GRAPHQL","TELEMETRY"],"javaSEVersions":["SE8","SE11"],"buildTools":["MAVEN","GRADLE"]}]
+"LIBERTY":[
+{"mpVersion":"MP60","mpSpecs":["CONFIG","FAULT_TOLERANCE","JWT_AUTH","METRICS","HEALTH_CHECKS","OPEN_API","REST_CLIENT","TELEMETRY","GRAPHQL"],"javaSEVersions":["SE8","SE11"],"buildTools":["MAVEN","GRADLE"]}]
