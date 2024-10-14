@@ -78,7 +78,7 @@ public class TestMatrixTest {
     public static final String TMP = getWorkspaceDir();
 
     public static final String API_URL = "http://127.0.0.1:9090/api";
-    final Client client = ClientBuilder.newBuilder().build();
+    final Client client = ClientBuilder.newBuilder().connectTimeout(10, TimeUnit.MINUTES).readTimeout(10, TimeUnit.MINUTES).build();
 
     WebTarget target;
 
