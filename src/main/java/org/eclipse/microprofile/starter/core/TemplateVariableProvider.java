@@ -64,12 +64,19 @@ public class TemplateVariableProvider {
             result.put("se_version", seVersion.getCode());
         }
 
-        if (model.getSpecification().getMicroProfileVersion() == MicroProfileVersion.MP50) {
+        if (model.getSpecification().getMicroProfileVersion() == MicroProfileVersion.MP50
+                || model.getSpecification().getMicroProfileVersion() == MicroProfileVersion.MP60) {
             result.put("jakarta_ee_package", "jakarta");
 
         } else {
             result.put("jakarta_ee_package", "javax");
 
+        }
+        if (model.getSpecification().getMicroProfileVersion() == MicroProfileVersion.MP50
+                || model.getSpecification().getMicroProfileVersion() == MicroProfileVersion.MP60) {
+            result.put("microprofile_health", "Liveness");
+        } else {
+            result.put("microprofile_health", "Health");
         }
         return result;
     }

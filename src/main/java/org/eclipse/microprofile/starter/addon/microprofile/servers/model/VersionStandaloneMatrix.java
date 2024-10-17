@@ -73,6 +73,9 @@ public class VersionStandaloneMatrix {
         data.put(MicroProfileVersion.MP50,
                 new VersionStandaloneMatrix.EnumMapBuilder()
                         .add(StandaloneMPSpec.GRAPHQL, "2.0"));
+        data.put(MicroProfileVersion.MP60,
+                new VersionStandaloneMatrix.EnumMapBuilder()
+                        .add(StandaloneMPSpec.GRAPHQL, "2.0"));
     }
 
     public Map<StandaloneMPSpec, String> getSpecData(MicroProfileVersion version) {
